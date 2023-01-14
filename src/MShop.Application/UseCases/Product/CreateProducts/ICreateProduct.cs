@@ -1,0 +1,9 @@
+﻿using MShop.Application.Common;
+
+namespace MShop.Application.UseCases.Product.CreateProducts
+{
+    public interface ICreateProduct
+    {
+        public Task<ProductModelOutPut> Handle(CreateProductInPut categoryInput);
+    }
+}

@@ -1,0 +1,33 @@
+CREATE TABLE IF NOT EXISTS `__EFMigrationsHistory` (
+    `MigrationId` varchar(150) CHARACTER SET utf8mb4 NOT NULL,
+    `ProductVersion` varchar(32) CHARACTER SET utf8mb4 NOT NULL,
+    CONSTRAINT `PK___EFMigrationsHistory` PRIMARY KEY (`MigrationId`)
+) CHARACTER SET=utf8mb4;
+
+START TRANSACTION;
+
+ALTER DATABASE CHARACTER SET utf8mb4;
+
+CREATE TABLE `Categorys` (
+    `Id` char(36) COLLATE ascii_general_ci NOT NULL,
+    `Name` varchar(30) CHARACTER SET utf8mb4 NOT NULL,
+    `IsActive` tinyint(1) NOT NULL,
+    CONSTRAINT `PK_Categorys` PRIMARY KEY (`Id`)
+) CHARACTER SET=utf8mb4;
+
+CREATE TABLE `Products` (
+    `Id` char(36) COLLATE ascii_general_ci NOT NULL,
+    `Description` varchar(255) CHARACTER SET utf8mb4 NOT NULL,
+    `Name` varchar(30) CHARACTER SET utf8mb4 NOT NULL,
+    `Price` decimal(16,2) NOT NULL,
+    `Imagem` Varchar(100) CHARACTER SET utf8mb4 NULL,
+    `Stock` decimal(16,2) NOT NULL,
+    `IsActive` tinyint(1) NOT NULL,
+    `CategoryId` char(36) COLLATE ascii_general_ci NOT NULL,
+    CONSTRAINT `PK_Products` PRIMARY KEY (`Id`)
+) CHARACTER SET=utf8mb4;
+
+INSERT INTO `__EFMigrationsHistory` (`MigrationId`, `ProductVersion`)
+VALUES ('20230107124132_inicial', '6.0.8');
+
+COMMIT;

@@ -1,0 +1,39 @@
+para instalar o entity globalmente
+dotnet tool install --global dotnet-ef
+
+para atualizar o entity
+dotnet tool update --global dotnet-ef
+
+verificar se esta instalado 
+donet ef
+
+
+executar migration
+dotnet ef --startup-project ../MShop.ProductAPI/ migrations add inicial
+
+remover as migration
+dotnet ef --startup-project ../MShop.ProductAPI/ migrations remove
+
+
+gerar os scripts SQL
+dotnet ef --startup-project ../MShop.ProductAPI/ migrations script
+
+criar no banco de dados
+dotnet ef --startup-project ../MShop.ProductAPI/ database update
+
+
+
+
+
+para o projeto tem que estavar os pacotes 
+Microsoft.Entity.FrameworkCore versão 6.0.8
+Microsoft.Entity.FrameworkCore.Desing versão 6.0.8
+Microsoft.Entity.FrameworkCore.Tools versão 6.0.8
+Microsoft.Entity.FrameworkCore.Msql versão 6.0.8
+Microsoft.Entity.FrameworkCore.Msql.Desing versão 6.0.8
+
+
+
+
+
+
