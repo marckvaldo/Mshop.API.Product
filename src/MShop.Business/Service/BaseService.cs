@@ -15,21 +15,13 @@ namespace MShop.Business.Service
 
         protected void Notificar(string menssagem)
         {
-            _notification.HandleError(menssagem);
+            _notification.AddNotifications(menssagem);
         }
 
-        /*protected void Notificar(List<NotificationError> resultValidationError)
-        {
-            foreach(var error in resultValidationError)
-            {
-                Notificar(error.Message);
-            }
-        }*/
-
-        protected bool Validate(Validation.Validator validation)
+        protected bool Validate(Notification validation)
         {
             var result = validation.Validate();
-            if (result.HasErros()) return true;
+            if (result.HasErrors()) return true;
 
             //Notificar(result.Erros());
 

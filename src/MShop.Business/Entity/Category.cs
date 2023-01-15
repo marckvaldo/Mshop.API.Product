@@ -23,9 +23,9 @@ namespace MShop.Business.Entity
        
         public void IsValidade()
         {
-            ValidationDefault.NotNullOrEmpty(Name, nameof(Name));
-            ValidationDefault.MaxLength(Name, 30, nameof(Name));
-            ValidationDefault.MinLength(Name, 3, nameof(Name));
+            //ValidationDefault.NotNullOrEmpty(Name, nameof(Name));
+            //ValidationDefault.MaxLength(Name, 30, nameof(Name));
+            //ValidationDefault.MinLength(Name, 3, nameof(Name));
         }
 
         public void Active()

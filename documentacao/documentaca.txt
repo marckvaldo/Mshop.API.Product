@@ -7,6 +7,7 @@ dotnet tool update --global dotnet-ef
 verificar se esta instalado 
 donet ef
 
+para executar as migratino certifique de estar no deretorio do projeto Mshop.Repository
 
 executar migration
 dotnet ef --startup-project ../MShop.ProductAPI/ migrations add inicial

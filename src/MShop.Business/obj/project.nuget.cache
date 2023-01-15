@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "2J5slP6hXE463Lb9bkQu4MFLzDd9w7/+HVSuNs5H4hd+VtYFEsqp0fE25zTtgPjsFZZB4tMuxuill9CqZpXIwA==",
+  "dgSpecHash": "+MTVOEEpt5SRYxs6JbCnr1Uliqrv4HZeQPoWe3UwpAae6dLznSHrOnrEem2VAf/4vpzxlxt8me7KnpcPudq5Jg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\IQ SISTEMAS\\Documents\\mShopping\\mShopping\\src\\MShop.Business\\MShop.Business.csproj",
+  "projectFilePath": "C:\\projetos\\Mshop.API.Product\\src\\MShop.Business\\MShop.Business.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

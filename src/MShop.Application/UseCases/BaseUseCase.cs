@@ -3,7 +3,7 @@ using MShop.Business.Validation;
 
 namespace MShop.Application.UseCases
 {
-    public abstract class BaseUseCase
+    public abstract class BaseUseCase: Notifications
     {
         private readonly INotification _notifications;
 
@@ -16,14 +16,17 @@ namespace MShop.Application.UseCases
         {
             _notifications.AddNotifications(menssagem);
         }
-        protected bool Validate(Notification validation)
+
+        protected bool IsValid(Notification validation)
         {
             var result = validation.Validate();
-            if (result.HasErrors()) return true;
+            if (result.HasErrors()) return false;
 
             //Notificar(result.Erros());
 
-            return false;
+            return true;
         }
+
+   
     }
 }

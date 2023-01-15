@@ -21,7 +21,12 @@ namespace MShop.ProductAPI.Controllers
         private readonly IUpdateProduct _updateProduct;
         private readonly IDeleteProduct _deleteProduct;
 
-        public ProductsController(IGetProduct getProduct, ICreateProduct createProduct, IUpdateProduct updateProduct, IDeleteProduct deleteProduct, INotification notification) : base(notification)
+        public ProductsController(
+            IGetProduct getProduct, 
+            ICreateProduct createProduct, 
+            IUpdateProduct updateProduct, 
+            IDeleteProduct deleteProduct, 
+            INotification notification) : base(notification)
         {
             _getProduct = getProduct;
             _createProduct = createProduct;
@@ -38,11 +43,11 @@ namespace MShop.ProductAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<ProductModelOutPut>> Create(CreateProductInPut product)
+        public async Task<ActionResult<ProductModelOutPut>> Create([FromBody] CreateProductInPut product)
         {
-            if (ModelState.IsValid) return BadRequest();
+            if (!ModelState.IsValid) return CustomResponse(ModelState);
             var newProduct = await _createProduct.Handle(product);
-            if(newProduct == null) return NotFound();
+            //if(newProduct == null) return NotFound();
             return CustomResponse(newProduct);
         }
 

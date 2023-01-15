@@ -14,7 +14,7 @@ namespace MShop.Business.Validation
         public Notifications() 
         {
             _erros = new List<MessageError>();
-        }               
+        }              
 
         public void AddNotifications(string error)
         {

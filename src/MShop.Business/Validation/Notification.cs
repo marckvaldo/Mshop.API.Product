@@ -1,13 +1,15 @@
-﻿namespace MShop.Business.Validation
+﻿using MShop.Business.Interface;
+
+namespace MShop.Business.Validation
 {
     public abstract class Notification
     {
-        protected readonly Notifications _handler;
+        protected readonly INotification _notifications;
 
-        protected Notification()
+        protected Notification(INotification notifications)
         {
-            _handler = new Notifications();
+            _notifications = notifications;
         }
-        public abstract Notifications Validate();
+        public abstract INotification Validate();
     }
 }

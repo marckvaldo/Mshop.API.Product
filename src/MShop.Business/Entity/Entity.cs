@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MShop.Business.Interface;
+using MShop.Business.Validation;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +12,9 @@ namespace MShop.Business.Entity
     {
         public Guid Id { get; set; }
 
-        protected Entity() => Id = Guid.NewGuid();
-
+        protected Entity()
+        {
+            Id = Guid.NewGuid();
+        }
     }
 }

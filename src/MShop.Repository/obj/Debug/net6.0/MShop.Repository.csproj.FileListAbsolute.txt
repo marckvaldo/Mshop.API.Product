@@ -49,3 +49,20 @@ C:\Users\IQ SISTEMAS\Documents\mShopping\mShopping\src\MShop.Repository\obj\Debu
 C:\Users\IQ SISTEMAS\Documents\mShopping\mShopping\src\MShop.Repository\obj\Debug\net6.0\MShop.Repository.pdb
 C:\Users\IQ SISTEMAS\Documents\mShopping\mShopping\src\MShop.Repository\obj\Debug\net6.0\MShop.Repository.genruntimeconfig.cache
 C:\Users\IQ SISTEMAS\Documents\mShopping\mShopping\src\MShop.Repository\obj\Debug\net6.0\ref\MShop.Repository.dll
+C:\projetos\Mshop.API.Product\src\MShop.Repository\bin\Debug\net6.0\MShop.Repository.deps.json
+C:\projetos\Mshop.API.Product\src\MShop.Repository\bin\Debug\net6.0\MShop.Repository.runtimeconfig.json
+C:\projetos\Mshop.API.Product\src\MShop.Repository\bin\Debug\net6.0\MShop.Repository.dll
+C:\projetos\Mshop.API.Product\src\MShop.Repository\bin\Debug\net6.0\MShop.Repository.pdb
+C:\projetos\Mshop.API.Product\src\MShop.Repository\bin\Debug\net6.0\MShop.Business.dll
+C:\projetos\Mshop.API.Product\src\MShop.Repository\bin\Debug\net6.0\MShop.Business.pdb
+C:\projetos\Mshop.API.Product\src\MShop.Repository\obj\Debug\net6.0\MShop.Repository.csproj.AssemblyReference.cache
+C:\projetos\Mshop.API.Product\src\MShop.Repository\obj\Debug\net6.0\MShop.Repository.GeneratedMSBuildEditorConfig.editorconfig
+C:\projetos\Mshop.API.Product\src\MShop.Repository\obj\Debug\net6.0\MShop.Repository.AssemblyInfoInputs.cache
+C:\projetos\Mshop.API.Product\src\MShop.Repository\obj\Debug\net6.0\MShop.Repository.AssemblyInfo.cs
+C:\projetos\Mshop.API.Product\src\MShop.Repository\obj\Debug\net6.0\MShop.Repository.csproj.CoreCompileInputs.cache
+C:\projetos\Mshop.API.Product\src\MShop.Repository\obj\Debug\net6.0\MShop.Repository.csproj.CopyComplete
+C:\projetos\Mshop.API.Product\src\MShop.Repository\obj\Debug\net6.0\MShop.Repository.dll
+C:\projetos\Mshop.API.Product\src\MShop.Repository\obj\Debug\net6.0\refint\MShop.Repository.dll
+C:\projetos\Mshop.API.Product\src\MShop.Repository\obj\Debug\net6.0\MShop.Repository.pdb
+C:\projetos\Mshop.API.Product\src\MShop.Repository\obj\Debug\net6.0\MShop.Repository.genruntimeconfig.cache
+C:\projetos\Mshop.API.Product\src\MShop.Repository\obj\Debug\net6.0\ref\MShop.Repository.dll

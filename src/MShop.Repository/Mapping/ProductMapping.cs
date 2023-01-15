@@ -12,11 +12,11 @@ namespace MShop.Repository.Mapping
 
             builder.Property(x => x.Name)
                 .IsRequired()
-                .HasColumnType("varchar(30)");
+                .HasColumnType("varchar(255)");
 
             builder.Property(x => x.Description)
                 .IsRequired()
-                .HasColumnType("varchar(255)");
+                .HasColumnType("text");
 
             builder.Property(x => x.Price)
                 .IsRequired()

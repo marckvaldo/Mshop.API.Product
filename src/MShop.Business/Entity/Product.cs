@@ -1,4 +1,5 @@
-﻿using MShop.Business.Validation;
+﻿using MShop.Business.Interface;
+using MShop.Business.Validation;
 
 namespace MShop.Business.Entity
 {
@@ -18,6 +19,8 @@ namespace MShop.Business.Entity
         
         public Guid CategoryId { get; private set; }
 
+        private readonly INotification _notification;
+
         public Product(string description, string name, decimal price, string? imagem, Guid categoryId, decimal stock = 0, bool isActive = true)
         {
             Description = description;
@@ -27,13 +30,12 @@ namespace MShop.Business.Entity
             Stock = stock;
             IsActive = isActive;
             CategoryId = categoryId;
-            IsValid();
         }
 
         private void IsValid()
         {
             //Description
-            ValidationDefault.NotNullOrEmpty(Description, nameof(Description));
+            /*ValidationDefault.NotNullOrEmpty(Description, nameof(Description));
             ValidationDefault.MinLength(Description,10,nameof(Description));
             ValidationDefault.MaxLength(Description, 255 ,nameof(Description));
 
@@ -43,7 +45,7 @@ namespace MShop.Business.Entity
             ValidationDefault.MaxLength(Name, 30, nameof(Name));
 
             //Price
-            ValidationDefault.IsPositiveNumber(Price, nameof(Price));
+            ValidationDefault.IsPositiveNumber(Price, nameof(Price));*/
 
         }
 
