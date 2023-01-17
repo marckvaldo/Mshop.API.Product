@@ -1,7 +1,9 @@
 ﻿using MShop.Application.UseCases.Product.CreateProducts;
 using MShop.Application.UseCases.Product.DeleteProduct;
 using MShop.Application.UseCases.Product.GetProduct;
+using MShop.Application.UseCases.Product.ListProducts;
 using MShop.Application.UseCases.Product.UpdateProduct;
+using MShop.Application.UseCases.Product.UpdateStockProduct;
 using MShop.Business.Interface;
 using MShop.Business.Interface.Repository;
 using MShop.Business.Validation;
@@ -21,6 +23,8 @@ namespace MShop.ProductAPI.Configuration
             services.AddScoped<ICreateProduct, CreateProduct>();
             services.AddScoped<IUpdateProduct, UpdateProduct>();
             services.AddScoped<IDeleteProduct, DeleteProduct>();
+            services.AddScoped<IUpdateStockProduct, UpdateStockProducts>();
+            services.AddScoped<IListProducts, ListProducts>();  
 
 
             services.AddScoped<ICategoryRepository, CategoryRepository>();

@@ -33,11 +33,11 @@ namespace MShop.Business.Validator
             ValidationDefault.MaxLength(_product.Name, 255, nameof(_product.Name), _notifications);
 
             //Price
-            ValidationDefault.IsPositiveNumber(_product.Price, nameof(_product.Price), _notifications);
-            ValidationDefault.IsBiggerOrEqualThan(_product.Price,0, nameof(_product.Price), _notifications);
+            ValidationDefault.MustPositive(_product.Price, nameof(_product.Price), _notifications);
+            ValidationDefault.MustBiggerOrEqualThan(_product.Price,0_00, nameof(_product.Price), _notifications);
 
             //stok
-            ValidationDefault.IsLessThan(_product.Stock, 0, nameof(_product.Stock), _notifications);    
+            ValidationDefault.MustBiggerOrEqualThan(_product.Stock, 0_00, nameof(_product.Stock), _notifications);    
 
             return _notifications;
 

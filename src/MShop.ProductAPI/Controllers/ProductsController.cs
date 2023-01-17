@@ -9,6 +9,9 @@ using MShop.Application.Common;
 using MShop.Application.UseCases.Product.UpdateProducts;
 using MShop.Application.UseCases.Product.UpdateProduct;
 using MShop.Application.UseCases.Product.DeleteProduct;
+using MShop.Business.Exceptions;
+using MShop.Application.UseCases.Product.UpdateStockProduct;
+using MShop.Application.UseCases.Product.ListProducts;
 
 namespace MShop.ProductAPI.Controllers
 {
@@ -20,57 +23,153 @@ namespace MShop.ProductAPI.Controllers
         private readonly ICreateProduct _createProduct;
         private readonly IUpdateProduct _updateProduct;
         private readonly IDeleteProduct _deleteProduct;
+        private readonly IUpdateStockProduct _UpdateStoqueProduct;
+        private readonly IListProducts _ListProducts;
 
         public ProductsController(
             IGetProduct getProduct, 
             ICreateProduct createProduct, 
             IUpdateProduct updateProduct, 
-            IDeleteProduct deleteProduct, 
-            INotification notification) : base(notification)
+            IDeleteProduct deleteProduct,
+            IUpdateStockProduct updateStoqueProduct,
+            IListProducts listProducts,
+            INotification notification
+            ) : base(notification)
         {
             _getProduct = getProduct;
             _createProduct = createProduct;
             _updateProduct = updateProduct;
             _deleteProduct = deleteProduct;
+            _UpdateStoqueProduct = updateStoqueProduct;
+            _ListProducts = listProducts;
         }
 
         [HttpGet("{id:guid}")]
         public async Task<ActionResult<IEnumerable<ProductModelOutPut>>> Product(Guid id)
         {
-            var produtcs = await _getProduct.Handle(id);
-            if (produtcs == null) return NotFound();
-            return CustomResponse(produtcs);
+            try
+            {
+                return CustomResponse(await _getProduct.Handle(id));
+            }
+            catch(EntityValidationException error)
+            {
+                return CustomResponse(error.Errors);
+            }
+            catch (Exception error)
+            {
+                Notify(error.Message);
+                return CustomResponse(error);
+            }
+
+        }
+
+        [HttpGet("list-produtcs")]
+        public async Task<ActionResult<List<ProductModelOutPut>>> ListProdutcs()
+        {
+            try
+            {
+                return CustomResponse(await _ListProducts.Handle());
+            }
+            catch (EntityValidationException error)
+            {
+                return CustomResponse(error.Errors);
+            }
+            catch (Exception error)
+            {
+                Notify(error.Message);
+                return CustomResponse(error);
+            }
         }
 
         [HttpPost]
         public async Task<ActionResult<ProductModelOutPut>> Create([FromBody] CreateProductInPut product)
         {
-            if (!ModelState.IsValid) return CustomResponse(ModelState);
-            var newProduct = await _createProduct.Handle(product);
-            //if(newProduct == null) return NotFound();
-            return CustomResponse(newProduct);
+            try
+            {
+                if (!ModelState.IsValid) return CustomResponse(ModelState);
+                return CustomResponse(await _createProduct.Handle(product));
+            }
+            catch(EntityValidationException error)
+            {
+                return CustomResponse(error.Errors) ;
+            }
+            catch (Exception error)
+            {
+                Notify(error.Message);
+                return CustomResponse(error);
+            }
         }
 
         [HttpPut("{id:guid}")]
         public async Task<ActionResult<ProductModelOutPut>> Update(Guid Id, UpdateProductInPut product)
         {
-            if (Id != product.Id) return BadRequest();
-            var newProduct = await _updateProduct.Handle(product);
-            if (newProduct == null) return NotFound();
-            return CustomResponse(newProduct);
+            try
+            {
+                if (!ModelState.IsValid) return CustomResponse(ModelState);
+
+                if (Id != product.Id)
+                {
+                    Notify("O id informado não é o mesmo passado como parametro");
+                    return CustomResponse(product);
+                }
+
+                return CustomResponse(await _updateProduct.Handle(product));
+            }
+            catch(EntityValidationException error)
+            {
+                return CustomResponse(error.Errors);
+            }
+            catch (Exception error)
+            {
+                Notify(error.Message);
+                return CustomResponse(error);
+            }
         }
 
         [HttpDelete("{id:guid}")]
         public async Task<ActionResult<ProductModelOutPut>> Delete(Guid Id)
         {
-            var product = await _getProduct.Handle(Id);
-            if (product == null) return NotFound();
-            await _deleteProduct.Handle(Id);
-            return CustomResponse(product);
+            try
+            {
+                return CustomResponse(await _deleteProduct.Handle(Id));
+            }
+            catch(EntityValidationException error)
+            {
+                return CustomResponse(error.Errors);
+            }
+            catch(Exception error)
+            {
+                Notify(error.Message);
+                return CustomResponse(error);   
+            }
         }
 
 
+        [HttpPost("update-stock/{id:guid}")]
+        public async Task<ActionResult<ProductModelOutPut>> UpdateStock(Guid Id, [FromBody] UpdateStockProductInPut product)
+        {
+            try
+            {
+                if (!ModelState.IsValid) return CustomResponse(ModelState);
 
+                if (Id != product.Id)
+                {
+                    Notify("O id informado não é o mesmo passado como parametro");
+                    return CustomResponse(product);
+                }
+
+                return CustomResponse(await _UpdateStoqueProduct.Handle(product));
+            }
+            catch (EntityValidationException error)
+            {
+                return CustomResponse(error.Errors);
+            }
+            catch (Exception error)
+            {
+                Notify(error.Message);
+                return CustomResponse(error);
+            }
+        }
     }
 }
 

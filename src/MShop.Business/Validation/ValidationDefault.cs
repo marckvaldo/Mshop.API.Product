@@ -35,34 +35,34 @@ namespace MShop.Business.Validation
         }
 
         //Numbers
-        public static void IsPositive(decimal target, string fieldName, INotification notification)
+        public static void MustPositive(decimal target, string fieldName, INotification notification)
         {
             if (target < 0)
-                notification.AddNotifications($"O {fieldName} não é um numero positivo");
+                notification.AddNotifications($"O {fieldName} deve ser um numero positivo");
         }
 
-        public static void IsBiggerThan(decimal target, decimal value, string fieldName, INotification notification)
+        public static void MustBiggerThan(decimal target, decimal value, string fieldName, INotification notification)
         {
             if (target < value)
-                notification.AddNotifications($"O {fieldName} não pode ser menor que {value}");
+                notification.AddNotifications($"O {fieldName} deve ser maior {value}");
         }
 
-        public static void IsBiggerOrEqualThan(decimal target, decimal value, string fieldName, INotification notification)
+        public static void MustBiggerOrEqualThan(decimal target, decimal value, string fieldName, INotification notification)
         {
-            if (target <= value)
-                notification.AddNotifications($"O {fieldName} não pode ser menor ou igual {value}");
+            if (target < value)
+                notification.AddNotifications($"O {fieldName} deve ser igual ou maior que {value}");
         }
 
-        public static void IsLessThan(decimal target, decimal value, string fieldName, INotification notification)
+        public static void MustBeLessThan(decimal target, decimal value, string fieldName, INotification notification)
         {
             if (target > value)
-                notification.AddNotifications($"O {fieldName} não pode ser maior que {value}");
+                notification.AddNotifications($"O {fieldName} dever ser menor que {value}");
         }
 
-        public static void IsLessOrEqualThan(decimal target, decimal value, string fieldName, INotification notification)
+        public static void MustLessOrEqualThan(decimal target, decimal value, string fieldName, INotification notification)
         {
             if (target >= value)
-                notification.AddNotifications($"O {fieldName} não pode ser maior o igual a {value}");
+                notification.AddNotifications($"O {fieldName} dever ser igual ou menor que {value}");
         }
 
         public static void NotEqual(decimal target, decimal value, string fieldName, INotification notification, string? messagem=null)

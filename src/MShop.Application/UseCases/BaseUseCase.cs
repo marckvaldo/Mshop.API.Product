@@ -5,7 +5,7 @@ namespace MShop.Application.UseCases
 {
     public abstract class BaseUseCase: Notifications
     {
-        private readonly INotification _notifications;
+        protected readonly INotification _notifications;
 
         protected BaseUseCase(INotification notification)
         {

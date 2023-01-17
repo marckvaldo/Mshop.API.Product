@@ -1,5 +1,7 @@
-﻿using MShop.Business.Interface;
+﻿using MShop.Business.Exceptions;
+using MShop.Business.Interface;
 using MShop.Business.Validation;
+using MShop.Business.Validator;
 
 namespace MShop.Business.Entity
 {
@@ -19,8 +21,6 @@ namespace MShop.Business.Entity
         
         public Guid CategoryId { get; private set; }
 
-        private readonly INotification _notification;
-
         public Product(string description, string name, decimal price, string? imagem, Guid categoryId, decimal stock = 0, bool isActive = true)
         {
             Description = description;
@@ -32,33 +32,25 @@ namespace MShop.Business.Entity
             CategoryId = categoryId;
         }
 
-        private void IsValid()
+        public void IsValid(INotification _notification)
         {
-            //Description
-            /*ValidationDefault.NotNullOrEmpty(Description, nameof(Description));
-            ValidationDefault.MinLength(Description,10,nameof(Description));
-            ValidationDefault.MaxLength(Description, 255 ,nameof(Description));
-
-            //Name
-            ValidationDefault.NotNullOrEmpty(Name, nameof(Name));
-            ValidationDefault.MinLength(Name,3,nameof(Name));   
-            ValidationDefault.MaxLength(Name, 30, nameof(Name));
-
-            //Price
-            ValidationDefault.IsPositiveNumber(Price, nameof(Price));*/
-
+            var productValidador = new ProductValidador(this, _notification);
+            productValidador.Validate();
+            if(_notification.HasErrors())
+            {
+                throw new EntityValidationException("Validation errors", _notification.Errors());
+            }
+           
         }
 
         public void Activate()
         {
            IsActive= true;
-           IsValid();
         }
 
         public void Deactive()
         {
             IsActive= false; 
-            IsValid(); 
         }
 
         public void Update(string description, string name, decimal price)
@@ -66,31 +58,26 @@ namespace MShop.Business.Entity
             Name = name;
             Description = description;   
             Price = price;  
-            IsValid();  
         }
 
         public void AddQuantityStock(decimal stock)
         {
             Stock += stock;
-            IsValid();
         }
 
         public void RemoveQuantityStock(decimal stock)
         {
             Stock -= stock;
-            IsValid();
         }
 
         public void UpdateQuantityStock(decimal stock)
         {
             Stock = stock;
-            IsValid();
         }
 
-        public void updateImage(string image)
+        public void UpdateImage(string image)
         {
             Imagem= image;
-            IsValid();
         }
         
     }
