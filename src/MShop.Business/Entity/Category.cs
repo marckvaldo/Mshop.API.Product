@@ -1,4 +1,7 @@
-﻿using MShop.Business.Validation;
+﻿using MShop.Business.Exceptions;
+using MShop.Business.Interface;
+using MShop.Business.Validation;
+using MShop.Business.Validator;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,32 +21,33 @@ namespace MShop.Business.Entity
         {
             Name = name;
             IsActive = isActive;
-            IsValidade();
+           
         }
        
-        public void IsValidade()
+        public void IsValid(INotification _notification)
         {
-            //ValidationDefault.NotNullOrEmpty(Name, nameof(Name));
-            //ValidationDefault.MaxLength(Name, 30, nameof(Name));
-            //ValidationDefault.MinLength(Name, 3, nameof(Name));
+            var categoryValidador = new CategoryValidador(this,_notification);
+            categoryValidador.Validate();
+            if(_notification.HasErrors())
+            {
+                throw new EntityValidationException("Validation errors");
+            }
+
         }
 
         public void Active()
         {
             IsActive= true;
-            IsValidade();
         }
 
         public void Deactive()
         {
             IsActive = false;
-            IsValidade();
         }
 
         public void Update(string name)
         {
             Name = name;
-            IsValidade();
         }
     }
 }

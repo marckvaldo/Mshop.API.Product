@@ -28,7 +28,7 @@ namespace MShop.Application.UseCases.Product.GetProduct
             if (product == null)
             {
                 Notify("Não possivel localizar produto na base de dados");
-                throw new EntityValidationException("There are erros", Errors());
+                throw new EntityValidationException("There are erros");
             }
 
             return new ProductModelOutPut(

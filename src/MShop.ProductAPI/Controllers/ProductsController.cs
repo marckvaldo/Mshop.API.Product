@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using MShop.Business.Entity;
 using MShop.Business.Interface;
-using MShop.Business.Interface.Repository;
 using MShop.Application.UseCases.Product.CreateProducts;
 using MShop.Application.UseCases.Product.GetProduct;
 using MShop.Application.Common;
@@ -51,14 +49,14 @@ namespace MShop.ProductAPI.Controllers
             {
                 return CustomResponse(await _getProduct.Handle(id));
             }
-            catch(EntityValidationException error)
+            catch(EntityValidationException)
             {
-                return CustomResponse(error.Errors);
+                return CustomResponse();
             }
             catch (Exception error)
             {
                 Notify(error.Message);
-                return CustomResponse(error);
+                return CustomResponse();
             }
 
         }
@@ -70,14 +68,14 @@ namespace MShop.ProductAPI.Controllers
             {
                 return CustomResponse(await _ListProducts.Handle());
             }
-            catch (EntityValidationException error)
+            catch (EntityValidationException)
             {
-                return CustomResponse(error.Errors);
+                return CustomResponse();
             }
             catch (Exception error)
             {
                 Notify(error.Message);
-                return CustomResponse(error);
+                return CustomResponse();
             }
         }
 
@@ -89,14 +87,14 @@ namespace MShop.ProductAPI.Controllers
                 if (!ModelState.IsValid) return CustomResponse(ModelState);
                 return CustomResponse(await _createProduct.Handle(product));
             }
-            catch(EntityValidationException error)
+            catch(EntityValidationException)
             {
-                return CustomResponse(error.Errors) ;
+                return CustomResponse() ;
             }
             catch (Exception error)
             {
                 Notify(error.Message);
-                return CustomResponse(error);
+                return CustomResponse();
             }
         }
 
@@ -115,14 +113,14 @@ namespace MShop.ProductAPI.Controllers
 
                 return CustomResponse(await _updateProduct.Handle(product));
             }
-            catch(EntityValidationException error)
+            catch(EntityValidationException)
             {
-                return CustomResponse(error.Errors);
+                return CustomResponse();
             }
             catch (Exception error)
             {
                 Notify(error.Message);
-                return CustomResponse(error);
+                return CustomResponse();
             }
         }
 
@@ -133,9 +131,9 @@ namespace MShop.ProductAPI.Controllers
             {
                 return CustomResponse(await _deleteProduct.Handle(Id));
             }
-            catch(EntityValidationException error)
+            catch(EntityValidationException)
             {
-                return CustomResponse(error.Errors);
+                return CustomResponse();
             }
             catch(Exception error)
             {
@@ -160,9 +158,9 @@ namespace MShop.ProductAPI.Controllers
 
                 return CustomResponse(await _UpdateStoqueProduct.Handle(product));
             }
-            catch (EntityValidationException error)
+            catch (EntityValidationException)
             {
-                return CustomResponse(error.Errors);
+                return CustomResponse();
             }
             catch (Exception error)
             {

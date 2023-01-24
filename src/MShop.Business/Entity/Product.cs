@@ -38,7 +38,7 @@ namespace MShop.Business.Entity
             productValidador.Validate();
             if(_notification.HasErrors())
             {
-                throw new EntityValidationException("Validation errors", _notification.Errors());
+                throw new EntityValidationException("Validation errors");
             }
            
         }

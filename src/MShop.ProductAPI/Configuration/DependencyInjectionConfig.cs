@@ -1,4 +1,9 @@
-﻿using MShop.Application.UseCases.Product.CreateProducts;
+﻿using MShop.Application.UseCases.Category.CreateCategory;
+using MShop.Application.UseCases.Category.DeleteCategory;
+using MShop.Application.UseCases.Category.GetCatetory;
+using MShop.Application.UseCases.Category.ListCategorys;
+using MShop.Application.UseCases.Category.UpdateCategory;
+using MShop.Application.UseCases.Product.CreateProducts;
 using MShop.Application.UseCases.Product.DeleteProduct;
 using MShop.Application.UseCases.Product.GetProduct;
 using MShop.Application.UseCases.Product.ListProducts;
@@ -24,10 +29,16 @@ namespace MShop.ProductAPI.Configuration
             services.AddScoped<IUpdateProduct, UpdateProduct>();
             services.AddScoped<IDeleteProduct, DeleteProduct>();
             services.AddScoped<IUpdateStockProduct, UpdateStockProducts>();
-            services.AddScoped<IListProducts, ListProducts>();  
+            services.AddScoped<IListProducts, ListProducts>();
 
 
             services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IGetCategory, GetCategory>();
+            services.AddScoped<ICreateCategory, CreateCategory>();
+            services.AddScoped<IUpdateCategory, UpdateCategory>();
+            services.AddScoped<IDeleteCategory, DeleteCategory>();
+            services.AddScoped<IListCategory, ListCategory>();
+            
             services.AddScoped<INotification, Notifications>();
 
 
