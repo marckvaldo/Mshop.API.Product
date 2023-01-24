@@ -23,7 +23,7 @@ namespace MShop.Application.UseCases.Product.UpdateProduct
             if(product == null)
             {
                 Notify("Não foi possivel localizar o produto na base de dados");
-                throw new EntityValidationException("There are erros");
+                throw new ApplicationValidationException("");
             }
 
 

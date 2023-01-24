@@ -2,10 +2,10 @@
 
 namespace MShop.Business.Exceptions
 {
-    public class EntityValidationException: Exception
+    public class ApplicationValidationException : Exception
     {
        
-        public EntityValidationException(
+        public ApplicationValidationException(
             string message
             ):base(message) 
         {

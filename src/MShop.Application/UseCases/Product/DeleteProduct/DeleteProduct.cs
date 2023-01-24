@@ -21,7 +21,7 @@ namespace MShop.Application.UseCases.Product.DeleteProduct
             if(product == null)
             {
                 Notify("Não foi possivel localizar o produto no base de dados");
-                throw new EntityValidationException("There are erros");
+                throw new ApplicationValidationException("");
             }
 
             await _productRespository.DeleteById(product);

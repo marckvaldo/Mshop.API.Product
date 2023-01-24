@@ -24,7 +24,7 @@ namespace MShop.Application.UseCases.Category.UpdateCategory
             if(category == null)
             {
                 Notify("Não foi possivel localizar a categoria na base de dados");
-                throw new EntityValidationException("There are erros");
+                throw new ApplicationValidationException("");
             }
 
             category.Update(request.Name);

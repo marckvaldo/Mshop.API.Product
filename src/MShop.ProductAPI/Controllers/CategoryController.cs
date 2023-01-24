@@ -42,10 +42,6 @@ namespace MShop.ProductAPI.Controllers
             {
                 return CustomResponse(await _getCategory.Handler(id));
             }
-            catch (EntityValidationException)
-            {
-                return CustomResponse();
-            }
             catch (Exception erro)
             {
                 Notify(erro.Message);
@@ -60,10 +56,6 @@ namespace MShop.ProductAPI.Controllers
             try
             {
                 return CustomResponse(await _listCategory.Handler());
-            }
-            catch(EntityValidationException)
-            {
-                return CustomResponse();
             }
             catch(Exception erro)
             {
@@ -80,10 +72,6 @@ namespace MShop.ProductAPI.Controllers
             {
                 if (!ModelState.IsValid) return CustomResponse(ModelState);
                 return CustomResponse(await _createCategory.Handler(request));
-            }
-            catch(EntityValidationException)
-            {
-                return CustomResponse();
             }
             catch(Exception erro)
             {
@@ -106,10 +94,6 @@ namespace MShop.ProductAPI.Controllers
                 }
                 return CustomResponse(await _updateCategory.Handler(request));
             }
-            catch(EntityValidationException)
-            {
-                return CustomResponse();
-            }
             catch(Exception erro)
             {
                 Notify(erro.Message);
@@ -123,10 +107,6 @@ namespace MShop.ProductAPI.Controllers
             try
             {
                 return CustomResponse(await _deleteCategory.Handler(Id));
-            }
-            catch(EntityValidationException erro)
-            {
-                return CustomResponse();
             }
             catch(Exception erro)
             {

@@ -49,10 +49,6 @@ namespace MShop.ProductAPI.Controllers
             {
                 return CustomResponse(await _getProduct.Handle(id));
             }
-            catch(EntityValidationException)
-            {
-                return CustomResponse();
-            }
             catch (Exception error)
             {
                 Notify(error.Message);
@@ -68,10 +64,6 @@ namespace MShop.ProductAPI.Controllers
             {
                 return CustomResponse(await _ListProducts.Handle());
             }
-            catch (EntityValidationException)
-            {
-                return CustomResponse();
-            }
             catch (Exception error)
             {
                 Notify(error.Message);
@@ -86,10 +78,6 @@ namespace MShop.ProductAPI.Controllers
             {
                 if (!ModelState.IsValid) return CustomResponse(ModelState);
                 return CustomResponse(await _createProduct.Handle(product));
-            }
-            catch(EntityValidationException)
-            {
-                return CustomResponse() ;
             }
             catch (Exception error)
             {
@@ -113,10 +101,6 @@ namespace MShop.ProductAPI.Controllers
 
                 return CustomResponse(await _updateProduct.Handle(product));
             }
-            catch(EntityValidationException)
-            {
-                return CustomResponse();
-            }
             catch (Exception error)
             {
                 Notify(error.Message);
@@ -130,10 +114,6 @@ namespace MShop.ProductAPI.Controllers
             try
             {
                 return CustomResponse(await _deleteProduct.Handle(Id));
-            }
-            catch(EntityValidationException)
-            {
-                return CustomResponse();
             }
             catch(Exception error)
             {
@@ -157,10 +137,6 @@ namespace MShop.ProductAPI.Controllers
                 }
 
                 return CustomResponse(await _UpdateStoqueProduct.Handle(product));
-            }
-            catch (EntityValidationException)
-            {
-                return CustomResponse();
             }
             catch (Exception error)
             {

@@ -57,7 +57,8 @@ namespace MShop.ProductAPI.Controllers
 
         protected void Notify(string messagem)
         {
-            _notification.AddNotifications(messagem);
+            if(messagem.Length > 0)
+                _notification.AddNotifications(messagem);
         }
     }
 }

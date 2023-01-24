@@ -25,7 +25,7 @@ namespace MShop.Application.UseCases.Product.UpdateStockProduct
             if(product is null)
             {
                 Notify("Não foi possivel localizar o produto na base de dados");
-                throw new EntityValidationException("thre are Errors");
+                throw new ApplicationValidationException("");
             }
             product.UpdateQuantityStock(request.Stock);
             product.IsValid(_notifications);

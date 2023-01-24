@@ -25,7 +25,7 @@ namespace MShop.Application.UseCases.Category.GetCatetory
             if(category == null)
             {
                 Notify("não foi possivel localizar a categoria da base de dados!");
-                throw new EntityValidationException("There are erros");
+                throw new ApplicationValidationException("");
             }
             category.IsValid(_notifications);
             return new CategoryModelOutPut(id, category.Name, category.IsActive);

@@ -25,7 +25,7 @@ namespace MShop.Application.UseCases.Category.DeleteCategory
             if(category == null)
             {
                 Notify("Não foi possivel localizar a categoria na base de dados");
-                throw new EntityValidationException("There are erros");
+                throw new ApplicationValidationException("");
             }
 
             await _categoryRepository.DeleteById(category);
