@@ -1,4 +1,5 @@
-﻿using MShop.Business.Entity;
+﻿using Microsoft.EntityFrameworkCore;
+using MShop.Business.Entity;
 using MShop.Business.Interface.Repository;
 using MShop.Repository.Context;
 using System;
@@ -11,14 +12,14 @@ namespace MShop.Repository.Repository
 {
     public class CategoryRepository : Repository<Category>, ICategoryRepository
     {
-        public CategoryRepository(RepositoryDbContext db) : base(db)
+         public CategoryRepository(RepositoryDbContext db) : base(db)
         {
 
         }
 
-        public Task<Category> GetCategoryProducts(Guid id)
+        public async Task<Category> GetCategoryProducts(Guid id)
         {
-            throw new NotImplementedException();
+            return await _db.Categorys.Where(c => c.Id == id).Include(c => c.products).FirstAsync();
         }
     }
 }

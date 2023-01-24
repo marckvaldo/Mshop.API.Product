@@ -17,5 +17,10 @@ namespace MShop.Repository.Repository
 
         }
 
+        public async Task<Product> getProductWithCategory(Guid id)
+        {
+          return await  _db.Products.Where(p => p.Id == id).Include(c => c.CategoryId).FirstAsync();
+        }
+
     }
 }

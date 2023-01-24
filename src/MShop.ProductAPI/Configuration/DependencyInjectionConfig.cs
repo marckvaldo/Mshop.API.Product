@@ -3,6 +3,7 @@ using MShop.Application.UseCases.Category.DeleteCategory;
 using MShop.Application.UseCases.Category.GetCatetory;
 using MShop.Application.UseCases.Category.ListCategorys;
 using MShop.Application.UseCases.Category.UpdateCategory;
+using MShop.Application.UseCases.GetCatetoryWithProducts.GetCatetory;
 using MShop.Application.UseCases.Product.CreateProducts;
 using MShop.Application.UseCases.Product.DeleteProduct;
 using MShop.Application.UseCases.Product.GetProduct;
@@ -38,6 +39,7 @@ namespace MShop.ProductAPI.Configuration
             services.AddScoped<IUpdateCategory, UpdateCategory>();
             services.AddScoped<IDeleteCategory, DeleteCategory>();
             services.AddScoped<IListCategory, ListCategory>();
+            services.AddScoped<IGetCategoryWithProducts, GetCategoryWithProducts>();
             
             services.AddScoped<INotification, Notifications>();
 

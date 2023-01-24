@@ -17,6 +17,8 @@ namespace MShop.Business.Entity
 
         public bool IsActive { get; set; }
 
+        public List<Product> products { get; set; } 
+
         public Category(string name, bool isActive)
         {
             Name = name;

@@ -21,6 +21,8 @@ namespace MShop.Business.Entity
         
         public Guid CategoryId { get; private set; }
 
+        public Category Category { get; private set; }
+
         public Product(string description, string name, decimal price, string? imagem, Guid categoryId, decimal stock = 0, bool isActive = true)
         {
             Description = description;

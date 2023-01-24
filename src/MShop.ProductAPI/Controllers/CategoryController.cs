@@ -5,6 +5,7 @@ using MShop.Application.UseCases.Category.DeleteCategory;
 using MShop.Application.UseCases.Category.GetCatetory;
 using MShop.Application.UseCases.Category.ListCategorys;
 using MShop.Application.UseCases.Category.UpdateCategory;
+using MShop.Application.UseCases.GetCatetoryWithProducts.GetCatetory;
 using MShop.Business.Exceptions;
 using MShop.Business.Interface;
 
@@ -20,19 +21,22 @@ namespace MShop.ProductAPI.Controllers
         private readonly ICreateCategory _createCategory;
         private readonly IUpdateCategory _updateCategory;
         private readonly IDeleteCategory _deleteCategory;
+        private readonly IGetCategoryWithProducts _getCatetoryWithProducts;
         public CategoryController(
             IGetCategory getCategory,
             IListCategory listCategory,
             ICreateCategory createCategory,
             IUpdateCategory updateCategory,
             IDeleteCategory deleteCategory,
+            IGetCategoryWithProducts getCatetoryWithProducts,
             INotification notification) : base(notification)
         {
             _getCategory = getCategory;
             _listCategory = listCategory;
             _createCategory = createCategory;
             _updateCategory = updateCategory;
-            _deleteCategory = deleteCategory;   
+            _deleteCategory = deleteCategory;  
+            _getCatetoryWithProducts = getCatetoryWithProducts; 
         }
 
         [HttpGet("{id:Guid}")]
@@ -51,13 +55,28 @@ namespace MShop.ProductAPI.Controllers
         }
 
         [HttpGet("list-category")]
-        public async Task<ActionResult<List<CategoryModelOutPut>>> ListProdutcs()
+        public async Task<ActionResult<List<CategoryModelOutPut>>> ListCategory()
         {
             try
             {
                 return CustomResponse(await _listCategory.Handler());
             }
             catch(Exception erro)
+            {
+                Notify(erro.Message);
+                return CustomResponse();
+            }
+        }
+
+
+        [HttpGet("list-category-products/{id:Guid}")]
+        public async Task<ActionResult<List<GetCategoryWithProductsOutPut>>> ListCategoryProdutcs(Guid Id)
+        {
+            try
+            {
+                return CustomResponse(await _getCatetoryWithProducts.Handler(Id));
+            }
+            catch (Exception erro)
             {
                 Notify(erro.Message);
                 return CustomResponse();
@@ -114,6 +133,7 @@ namespace MShop.ProductAPI.Controllers
                 return CustomResponse();
             }
         }
-       
+
+
     }
 }
