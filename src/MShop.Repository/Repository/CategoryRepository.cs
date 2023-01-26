@@ -19,7 +19,12 @@ namespace MShop.Repository.Repository
 
         public async Task<Category> GetCategoryProducts(Guid id)
         {
-            return await _db.Categorys.Where(c => c.Id == id).Include(c => c.products).FirstAsync();
+            return await _dbSet.Where(c => c.Id == id).Include(c => c.products).FirstAsync();
+        }
+
+        public async Task<bool> GetThereAreProduct(Guid id)
+        {
+            return _dbSet.Where(c => c.Id == id).Include(c => c.products).Count() > 0;
         }
     }
 }

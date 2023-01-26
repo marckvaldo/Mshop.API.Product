@@ -28,6 +28,13 @@ namespace MShop.Application.UseCases.Category.DeleteCategory
                 throw new ApplicationValidationException("");
             }
 
+            var hasProducts = await _categoryRepository.GetThereAreProduct(id);
+            if(hasProducts)
+            {
+                Notify("Não é possivel excluir um categoria quando a mesma ja está relacionada com produtos");
+                throw new ApplicationValidationException("");
+            }
+
             await _categoryRepository.DeleteById(category);
 
             return new CategoryModelOutPut(category.Id, category.Name, category.IsActive);

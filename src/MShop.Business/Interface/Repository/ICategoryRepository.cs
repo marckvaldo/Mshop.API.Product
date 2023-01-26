@@ -10,5 +10,7 @@ namespace MShop.Business.Interface.Repository
     public  interface ICategoryRepository : IRepository<Category>
     {
         Task<Category> GetCategoryProducts(Guid id);
+
+        Task<bool> GetThereAreProduct(Guid id);
     }
 }
