@@ -22,7 +22,7 @@ namespace MShop.Business.Validation
         {
             NotNull(target, fieldName, notification);
 
-            if (target.Length < minLength)
+            if (target is not null && target.Length < minLength)
                 notification.AddNotifications($"O {fieldName} não pode ser menor que {minLength} characters");
         }
 
@@ -30,7 +30,7 @@ namespace MShop.Business.Validation
         {
             NotNull(target, fieldName, notification);
 
-            if (target.Length > maxLength)
+            if (target is not null && target.Length > maxLength)
                 notification.AddNotifications($"O {fieldName} não pode ser maior que {maxLength} characters");
         }
 
