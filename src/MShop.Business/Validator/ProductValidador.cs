@@ -22,7 +22,7 @@ namespace MShop.Business.Validator
 
         public override INotification Validate()
         {
-
+            //Description
             ValidationDefault.NotNullOrEmpty(_product.Description, nameof(_product.Description), _notifications);
             ValidationDefault.MinLength(_product.Description, 10, nameof(_product.Description), _notifications);
             ValidationDefault.MaxLength(_product.Description, 1000, nameof(_product.Description), _notifications);
@@ -34,10 +34,10 @@ namespace MShop.Business.Validator
 
             //Price
             ValidationDefault.MustPositive(_product.Price, nameof(_product.Price), _notifications);
-            ValidationDefault.MustBiggerOrEqualThan(_product.Price,0_00, nameof(_product.Price), _notifications);
+            ValidationDefault.MustBiggerOrEqualThan(_product.Price,0_01, nameof(_product.Price), _notifications);
 
             //stok
-            ValidationDefault.MustBiggerOrEqualThan(_product.Stock, 0_00, nameof(_product.Stock), _notifications);    
+            //ValidationDefault.MustBiggerOrEqualThan(_product.Stock, 0_00, nameof(_product.Stock), _notifications);    
 
             return _notifications;
 

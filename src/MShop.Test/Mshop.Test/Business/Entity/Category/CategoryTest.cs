@@ -44,6 +44,7 @@ namespace Mshop.Test.Business.Entity.Category
         [InlineData(" ")]
         [InlineData("T")]
         [InlineData("TV")]
+        [InlineData("TVTVTVTVTVTVTVTVTVTVTVTVTVTVTVTVTVTVTVTV")]
         public void SholdReturnErroWhenNameIsInvalid(string? name)
         {
             var notification = new Notifications();

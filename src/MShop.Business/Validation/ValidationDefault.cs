@@ -49,7 +49,7 @@ namespace MShop.Business.Validation
 
         public static void MustBiggerOrEqualThan(decimal target, decimal value, string fieldName, INotification notification)
         {
-            if (target < value)
+            if (target <= value)
                 notification.AddNotifications($"O {fieldName} deve ser igual ou maior que {value}");
         }
 

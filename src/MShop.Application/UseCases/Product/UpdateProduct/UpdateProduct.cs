@@ -27,7 +27,7 @@ namespace MShop.Application.UseCases.Product.UpdateProduct
             }
 
 
-            product.Update(request.Description, request.Name, request.Price);
+            product.Update(request.Description, request.Name, request.Price, request.CategoryId);
             
             if (request.IsActive)
                 product.Activate();

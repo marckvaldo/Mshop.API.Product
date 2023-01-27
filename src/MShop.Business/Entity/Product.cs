@@ -55,11 +55,12 @@ namespace MShop.Business.Entity
             IsActive= false; 
         }
 
-        public void Update(string description, string name, decimal price)
+        public void Update(string description, string name, decimal price, Guid categoryId)
         {
             Name = name;
             Description = description;   
-            Price = price;  
+            Price = price;
+            CategoryId = categoryId;
         }
 
         public void AddQuantityStock(decimal stock)
