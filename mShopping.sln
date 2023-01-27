@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MShop.Repository", "src\MSh
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MShop.ProductAPI", "src\MShop.ProductAPI\MShop.ProductAPI.csproj", "{9260A4FD-47AA-426A-AE11-AE82E0C196C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MShop.Application", "src\MShop.Application\MShop.Application.csproj", "{0EEC2E49-C962-483D-9B0F-C8649C2AA2B2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MShop.Application", "src\MShop.Application\MShop.Application.csproj", "{0EEC2E49-C962-483D-9B0F-C8649C2AA2B2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mshop.Test", "src\MShop.Test\Mshop.Test\Mshop.Test.csproj", "{C4C60E33-2BF5-4359-9304-A7FEA969DABC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{0EEC2E49-C962-483D-9B0F-C8649C2AA2B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0EEC2E49-C962-483D-9B0F-C8649C2AA2B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0EEC2E49-C962-483D-9B0F-C8649C2AA2B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4C60E33-2BF5-4359-9304-A7FEA969DABC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4C60E33-2BF5-4359-9304-A7FEA969DABC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4C60E33-2BF5-4359-9304-A7FEA969DABC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4C60E33-2BF5-4359-9304-A7FEA969DABC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
