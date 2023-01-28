@@ -11,28 +11,23 @@ using MShop.Business.Entity;
 
 namespace Mshop.Test.Business.Entity.Category
 {
-    public class CategoryTest
-    {
+    public class CategoryTest : CategoryTestFixture
+    { 
+
+
         [Fact(DisplayName = nameof(Instantiate))]
         [Trait("Business","Category")]
         public void Instantiate()
         {
             var notification = new Notifications();
 
-            var validate = new
-            {
-                Name = "Category Name",
-                isActive = true,
-                isValid = true
-            };
-
-            var category = new BusinessEntity.Category(validate.Name, validate.isActive);
+            var category = GetCategoryValid();
             category.IsValid(notification);
 
             Assert.False(notification.HasErrors());
             Assert.NotNull(category);
-            Assert.Equal(validate.Name, category.Name);
-            Assert.Equal(validate.isActive, category.IsActive);
+            Assert.Equal(Fake().Name, category.Name);
+            Assert.Equal(Fake().isActive, category.IsActive);
             Assert.NotEqual(Guid.Empty, category.Id);
 
         }
@@ -49,14 +44,7 @@ namespace Mshop.Test.Business.Entity.Category
         {
             var notification = new Notifications();
             
-            var validate = new
-            {
-                Name = "Category Name",
-                isActive = true,
-                isValid = false
-            };
-
-            var category = new BusinessEntity.Category(name);
+            var category = GetCategoryValid(name);
             Action action =
                 () => category.IsValid(notification);
 
@@ -73,19 +61,12 @@ namespace Mshop.Test.Business.Entity.Category
         {
             var notification = new Notifications();
 
-            var validate = new
-            {
-                Name = "Category Name",
-                isActive = true,
-                isValid = true
-            };
-
-            var category = new BusinessEntity.Category(validate.Name, false);
+            var category = GetCategoryValid(Fake().Name, false);
             category.Active();
             category.IsValid(notification);
 
             
-            Assert.Equal(validate.isActive, category.IsActive);
+            Assert.True(category.IsActive);
             Assert.False(notification.HasErrors());
 
         }
@@ -96,18 +77,11 @@ namespace Mshop.Test.Business.Entity.Category
         {
             var notification = new Notifications();
 
-            var validate = new
-            {
-                Name = "Category Name",
-                isActive = false,
-                isValid = true
-            };
-
-            var category = new BusinessEntity.Category(validate.Name, true);
+            var category = GetCategoryValid(Fake().Name, true);
             category.Deactive();
             category.IsValid(notification);
 
-            Assert.Equal(validate.isActive, category.IsActive);
+            Assert.False(category.IsActive);
             Assert.False(notification.HasErrors());
 
         }
@@ -119,19 +93,12 @@ namespace Mshop.Test.Business.Entity.Category
         {
             var notification = new Notifications();
 
-            var validade = new
-            {
-                Name = "Category Name",
-                isActive = true,
-                isValid = true
-            };
-
             var newValidade = new
             {
                 Name = "Category New"
             };
 
-            var category = new BusinessEntity.Category(validade.Name);
+            var category = GetCategoryValid(); //new BusinessEntity.Category(validade.Name);
             category.Update(newValidade.Name);
             category.IsValid(notification);
 
