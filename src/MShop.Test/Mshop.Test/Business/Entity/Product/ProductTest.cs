@@ -1,10 +1,12 @@
 ﻿using MShop.Business.Exceptions;
 using MShop.Business.Validation;
+using System.Diagnostics;
+using System.Xml.Linq;
 using BusinessEntity = MShop.Business.Entity;
 
 namespace Mshop.Test.Business.Entity.Product
 {
-    public class ProductTest
+    public class ProductTest : ProductTestFixture
     {
         [Fact(DisplayName = nameof(Instantiate))]
         [Trait("Business","Products")]
@@ -12,37 +14,19 @@ namespace Mshop.Test.Business.Entity.Product
         {
             var notification = new Notifications();
 
-            var validade = new
-            {
-                Name = "Product Name",
-                Description = "Product Name Product Name",
-                Price = 10,
-                Imagem = "",
-                CategoryId = Guid.NewGuid(),
-                stock = 2,
-                isActive = true
-            };
-
-            var product = new BusinessEntity.Product(
-                validade.Description,
-                validade.Name,
-                validade.Price,
-                validade.Imagem,
-                validade.CategoryId,
-                validade.stock,
-                validade.isActive);
+            var product = GetProductValid();
 
             product.IsValid(notification);
 
             Assert.NotNull(product);
             Assert.False(notification.HasErrors());
-            Assert.Equal(product.Name, validade.Name);
-            Assert.Equal(product.Description, validade.Description);
-            Assert.Equal(product.Price, validade.Price);
-            Assert.Equal(product.Imagem, validade.Imagem);
-            Assert.Equal(product.CategoryId, validade.CategoryId);
-            Assert.Equal(product.Stock, validade.stock);
-            Assert.Equal(product.IsActive, validade.isActive);  
+            Assert.Equal(product.Name, Fake().Name);
+            Assert.Equal(product.Description, Fake().Description);
+            Assert.Equal(product.Price, Fake().Price);
+            Assert.Equal(product.Imagem, Fake().Imagem);
+            Assert.Equal(product.CategoryId, Fake().CategoryId);
+            Assert.Equal(product.Stock, Fake().Stock);
+            Assert.Equal(product.IsActive, Fake().IsActive);  
 
         }
         
@@ -57,25 +41,16 @@ namespace Mshop.Test.Business.Entity.Product
         {
             var notification = new Notifications();
 
-            var validade = new
-            {
-                Name = "Product Name",
-                Description = "Product Name Product Name",
-                Price = 10,
-                Imagem = "",
-                CategoryId = Guid.NewGuid(),
-                stock = 2,
-                isActive = true
-            };
+            var validade = Fake(
+                description,
+                "Product Name",
+                10,
+                "",
+                Guid.NewGuid(),
+                2,
+                true);
 
-            var product = new BusinessEntity.Product(
-               description,
-               validade.Name,
-               validade.Price,
-               validade.Imagem,
-               validade.CategoryId,
-               validade.stock,
-               validade.isActive);
+            var product = GetProductValid(validade);
 
             Action action = () => product.IsValid(notification);
 
@@ -89,8 +64,8 @@ namespace Mshop.Test.Business.Entity.Product
             Assert.Equal(product.Price, validade.Price);
             Assert.Equal(product.Imagem, validade.Imagem);
             Assert.Equal(product.CategoryId, validade.CategoryId);
-            Assert.Equal(product.Stock, validade.stock);
-            Assert.Equal(product.IsActive, validade.isActive);
+            Assert.Equal(product.Stock, validade.Stock);
+            Assert.Equal(product.IsActive, validade.IsActive);
         }
 
 
@@ -105,25 +80,17 @@ namespace Mshop.Test.Business.Entity.Product
         {
             var notification = new Notifications();
 
-            var validade = new
-            {
-                Name = "Product Name",
-                Description = "Product Name Product Name",
-                Price = 10,
-                Imagem = "",
-                CategoryId = Guid.NewGuid(),
-                stock = 2,
-                isActive = true
-            };
+            var validade = Fake(
+                "Product Name Product Name",
+                name,
+                10,
+                "",
+                Guid.NewGuid(),
+                2,
+                true
+            );
 
-            var product = new BusinessEntity.Product(
-               validade.Description,
-               name,
-               validade.Price,
-               validade.Imagem,
-               validade.CategoryId,
-               validade.stock,
-               validade.isActive);
+            var product = GetProductValid(validade);
 
             Action action = () => product.IsValid(notification);
 
@@ -137,8 +104,8 @@ namespace Mshop.Test.Business.Entity.Product
             Assert.Equal(product.Price, validade.Price);
             Assert.Equal(product.Imagem, validade.Imagem);
             Assert.Equal(product.CategoryId, validade.CategoryId);
-            Assert.Equal(product.Stock, validade.stock);
-            Assert.Equal(product.IsActive, validade.isActive);
+            Assert.Equal(product.Stock, validade.Stock);
+            Assert.Equal(product.IsActive, validade.IsActive);
         }
 
         [Theory(DisplayName = nameof(SholdReturnErrorWhenDescriptionInvalid))]
@@ -151,25 +118,17 @@ namespace Mshop.Test.Business.Entity.Product
         {
             var notification = new Notifications();
 
-            var validade = new
-            {
-                Name = "Product Name",
-                Description = "Product Name Product Name",
-                Price = 10,
-                Imagem = "",
-                CategoryId = Guid.NewGuid(),
-                stock = 2,
-                isActive = true
-            };
+            var validade = Fake(
+                "Product Name Product Name",
+                "Product Name",
+                price,
+                "",
+                Guid.NewGuid(),
+                2,
+                true
+            );
 
-            var product = new BusinessEntity.Product(
-               validade.Description,
-               validade.Name,
-               price,
-               validade.Imagem,
-               validade.CategoryId,
-               validade.stock,
-               validade.isActive);
+            var product = GetProductValid(validade);
 
             Action action = () => product.IsValid(notification);
 
@@ -183,8 +142,8 @@ namespace Mshop.Test.Business.Entity.Product
             Assert.Equal(product.Price, price);
             Assert.Equal(product.Imagem, validade.Imagem);
             Assert.Equal(product.CategoryId, validade.CategoryId);
-            Assert.Equal(product.Stock, validade.stock);
-            Assert.Equal(product.IsActive, validade.isActive);
+            Assert.Equal(product.Stock, validade.Stock);
+            Assert.Equal(product.IsActive, validade.IsActive);
         }
 
         
@@ -196,25 +155,17 @@ namespace Mshop.Test.Business.Entity.Product
         {
             var notification = new Notifications();
 
-            var validade = new
-            {
-                Name = "Product Name",
-                Description = "Product Name Product Name",
-                Price = 10,
-                Imagem = "",
-                CategoryId = Guid.NewGuid(),
-                stock = 2,
-                isActive = false
-            };
+            var validade = Fake(
+               "Product Name Product Name",
+               "Product Name",
+               10,
+               "",
+               Guid.NewGuid(),
+               2,
+               status
+           );
 
-            var product = new BusinessEntity.Product(
-               validade.Description,
-               validade.Name,
-               validade.Price,
-               validade.Imagem,
-               validade.CategoryId,
-               validade.stock,
-               status);
+            var product = GetProductValid(validade);
 
             if (status)
                 product.Activate();
@@ -232,7 +183,7 @@ namespace Mshop.Test.Business.Entity.Product
             Assert.Equal(product.Price, validade.Price);
             Assert.Equal(product.Imagem, validade.Imagem);
             Assert.Equal(product.CategoryId, validade.CategoryId);
-            Assert.Equal(product.Stock, validade.stock);
+            Assert.Equal(product.Stock, validade.Stock);
            
 
         }
@@ -243,17 +194,6 @@ namespace Mshop.Test.Business.Entity.Product
         public void SholdUpdateProduct()
         {
             var notification = new Notifications();
-
-            var validade = new
-            {
-                Name = "Product Name",
-                Description = "Product Name Product Name",
-                Price = 10,
-                Imagem = "",
-                CategoryId = Guid.NewGuid(),
-                stock = 2,
-                isActive = false
-            };
 
             var newValidade = new
             {
@@ -266,20 +206,13 @@ namespace Mshop.Test.Business.Entity.Product
                 isActive = true
             };
 
-            var product = new BusinessEntity.Product(
-               validade.Description,
-               validade.Name,
-               validade.Price,
-               validade.Imagem,
-               validade.CategoryId,
-               validade.stock,
-               validade.isActive);
+            var product = GetProductValid();
 
             product.Update(newValidade.Description, newValidade.Name, newValidade.Price, newValidade.CategoryId);
 
             product.IsValid(notification);
 
-            Assert.False(product.IsActive);
+            Assert.True(product.IsActive);
             Assert.False(notification.HasErrors());
 
             Assert.Equal(product.Name, newValidade.Name);
@@ -295,35 +228,19 @@ namespace Mshop.Test.Business.Entity.Product
         {
             var notification = new Notifications();
 
-            var validade = new
-            {
-                Name = "Product Name",
-                Description = "Product Name Product Name",
-                Price = 10,
-                Imagem = "",
-                CategoryId = Guid.NewGuid(),
-                stock = 2,
-                isActive = false
-            };
+
 
             var newStoque = 10;
 
-            var product = new BusinessEntity.Product(
-               validade.Description,
-               validade.Name,
-               validade.Price,
-               validade.Imagem,
-               validade.CategoryId,
-               validade.stock,
-               validade.isActive);
+            var product = GetProductValid();
 
             product.AddQuantityStock(newStoque);
             product.IsValid(notification);
 
-            Assert.False(product.IsActive);
+            Assert.True(product.IsActive);
             Assert.False(notification.HasErrors());
 
-            Assert.Equal(product.Stock, (newStoque+ validade.stock));
+            Assert.Equal(product.Stock, (newStoque+ Fake().Stock));
         }
 
 
@@ -333,32 +250,15 @@ namespace Mshop.Test.Business.Entity.Product
         {
             var notification = new Notifications();
 
-            var validade = new
-            {
-                Name = "Product Name",
-                Description = "Product Name Product Name",
-                Price = 10,
-                Imagem = "",
-                CategoryId = Guid.NewGuid(),
-                stock = 2,
-                isActive = false
-            };
 
             var newStoque = 10;
 
-            var product = new BusinessEntity.Product(
-               validade.Description,
-               validade.Name,
-               validade.Price,
-               validade.Imagem,
-               validade.CategoryId,
-               validade.stock,
-               validade.isActive);
+            var product = GetProductValid();
 
             product.RemoveQuantityStock(newStoque);
             product.IsValid(notification);
 
-            Assert.Equal(product.Stock, (validade.stock- newStoque));
+            Assert.Equal(product.Stock, (Fake().Stock- newStoque));
             Assert.False(notification.HasErrors());
         }
 
@@ -369,27 +269,10 @@ namespace Mshop.Test.Business.Entity.Product
         {
             var notification = new Notifications();
 
-            var validade = new
-            {
-                Name = "Product Name",
-                Description = "Product Name Product Name",
-                Price = 10,
-                Imagem = "",
-                CategoryId = Guid.NewGuid(),
-                stock = 2,
-                isActive = false
-            };
 
             var newStoque = 1;
 
-            var product = new BusinessEntity.Product(
-               validade.Description,
-               validade.Name,
-               validade.Price,
-               validade.Imagem,
-               validade.CategoryId,
-               validade.stock,
-               validade.isActive);
+            var product = GetProductValid();
 
             product.UpdateQuantityStock(newStoque);
             product.IsValid(notification);
@@ -406,27 +289,10 @@ namespace Mshop.Test.Business.Entity.Product
         {
             var notification = new Notifications();
 
-            var validade = new
-            {
-                Name = "Product Name",
-                Description = "Product Name Product Name",
-                Price = 10,
-                Imagem = "product.git",
-                CategoryId = Guid.NewGuid(),
-                stock = 2,
-                isActive = false
-            };
 
             var newImagem = "product.jpg";
 
-            var product = new BusinessEntity.Product(
-               validade.Description,
-               validade.Name,
-               validade.Price,
-               validade.Imagem,
-               validade.CategoryId,
-               validade.stock,
-               validade.isActive);
+            var product = GetProductValid();
 
             product.UpdateImage(newImagem);
             product.IsValid(notification);

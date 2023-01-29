@@ -9,19 +9,19 @@ namespace Mshop.Test.Business.Entity.Category
 {
     public abstract class CategoryTestFixture
     {
-        public BusinessEntity.Category GetCategoryValid()
+        protected BusinessEntity.Category GetCategoryValid()
         {
             
             return new (Fake().Name, Fake().isActive);
         }
 
-        public BusinessEntity.Category GetCategoryValid(string name , bool isActive = true)
+        protected BusinessEntity.Category GetCategoryValid(string name , bool isActive = true)
         {
 
             return new(name, isActive);
         }
 
-        public CategoryFake Fake()
+        protected CategoryFake Fake()
         {
            return new CategoryFake 
                     {
