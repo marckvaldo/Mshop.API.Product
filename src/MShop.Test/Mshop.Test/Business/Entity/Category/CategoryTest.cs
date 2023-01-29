@@ -1,13 +1,7 @@
-﻿using BusinessEntity = MShop.Business.Entity;
-using BusinessExceptions = MShop.Business.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BusinessExceptions = MShop.Business.Exceptions;
 using MShop.Business.Validation;
-using System.Diagnostics;
 using MShop.Business.Entity;
+
 
 namespace Mshop.Test.Business.Entity.Category
 {
@@ -21,25 +15,22 @@ namespace Mshop.Test.Business.Entity.Category
         {
             var notification = new Notifications();
 
-            var category = GetCategoryValid();
+            var valid = GetCategoryValid();
+
+            var category = GetCategoryValid(valid.Name, valid.IsActive); ;
             category.IsValid(notification);
 
             Assert.False(notification.HasErrors());
             Assert.NotNull(category);
-            Assert.Equal(Fake().Name, category.Name);
-            Assert.Equal(Fake().isActive, category.IsActive);
+            Assert.Equal(valid.Name, category.Name);
+            Assert.Equal(valid.IsActive, category.IsActive);
             Assert.NotEqual(Guid.Empty, category.Id);
 
         }
 
         [Theory(DisplayName = nameof(SholdReturnErroWhenNameIsInvalid))]
         [Trait("Business","Category")]
-        [InlineData("")]
-        [InlineData(null)]
-        [InlineData(" ")]
-        [InlineData("T")]
-        [InlineData("TV")]
-        [InlineData("TVTVTVTVTVTVTVTVTVTVTVTVTVTVTVTVTVTVTVTV")]
+        [MemberData(nameof(GetNamesCategoryInvalid))]
         public void SholdReturnErroWhenNameIsInvalid(string? name)
         {
             var notification = new Notifications();
@@ -54,6 +45,7 @@ namespace Mshop.Test.Business.Entity.Category
             Assert.True(notification.HasErrors());
 
         }
+
 
         [Fact(DisplayName = nameof(SholdActivateCategory))]
         [Trait("Business","Category")]

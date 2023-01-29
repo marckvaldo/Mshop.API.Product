@@ -100,3 +100,4 @@ C:\projetos\Mshop.API.Product\src\MShop.Test\Mshop.Test\obj\Debug\net6.0\refint\
 C:\projetos\Mshop.API.Product\src\MShop.Test\Mshop.Test\obj\Debug\net6.0\Mshop.Test.pdb
 C:\projetos\Mshop.API.Product\src\MShop.Test\Mshop.Test\obj\Debug\net6.0\Mshop.Test.genruntimeconfig.cache
 C:\projetos\Mshop.API.Product\src\MShop.Test\Mshop.Test\obj\Debug\net6.0\ref\Mshop.Test.dll
+C:\projetos\Mshop.API.Product\src\MShop.Test\Mshop.Test\bin\Debug\net6.0\Bogus.dll

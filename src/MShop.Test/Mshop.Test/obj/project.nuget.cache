@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "PwMNcoPIPwOQtifXVqmimRtygaEAbSHru4jj9nlALZ23zBO5fkfPdF6O0obTcX1qzA1P8Pt+QpAksbM8T540rQ==",
+  "dgSpecHash": "hBMvEQsPGOQ/ABinDtL/MSnneOV4H4h161NQ9MHifrN/Hs9NkdQKF3lP6j0T38vfIFFGn/Ad0gYVRJJfRlX/rA==",
   "success": true,
   "projectFilePath": "C:\\projetos\\Mshop.API.Product\\src\\MShop.Test\\Mshop.Test\\Mshop.Test.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\IQ\\.nuget\\packages\\bogus\\34.0.2\\bogus.34.0.2.nupkg.sha512",
     "C:\\Users\\IQ\\.nuget\\packages\\coverlet.collector\\3.1.2\\coverlet.collector.3.1.2.nupkg.sha512",
     "C:\\Users\\IQ\\.nuget\\packages\\microsoft.codecoverage\\17.1.0\\microsoft.codecoverage.17.1.0.nupkg.sha512",
     "C:\\Users\\IQ\\.nuget\\packages\\microsoft.csharp\\4.0.1\\microsoft.csharp.4.0.1.nupkg.sha512",
