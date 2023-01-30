@@ -106,9 +106,9 @@ namespace Mshop.Test.Business.Entity.Product
         }
         private static string GetNameProductLessThan3CharactersInvalid()
         {
-            string category = fakerStatic.Commerce.ProductName();
-            category = category[..2];
-            return category;
+            string product = fakerStatic.Commerce.ProductName();
+            product = product[..2];
+            return product;
         }
     }
 

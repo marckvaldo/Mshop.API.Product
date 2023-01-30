@@ -35,7 +35,11 @@ Microsoft.Entity.FrameworkCore.Msql.Desing versão 6.0.8
 
 
 
+pakage about tests
 criar dados fakes para os teste tempo que instalar o Bogus
+
+criar mocks nos testes precisa instalar o Moq
+#Built from https://github.com/moq/moq4/tree/042a2ebbe
 
 
 

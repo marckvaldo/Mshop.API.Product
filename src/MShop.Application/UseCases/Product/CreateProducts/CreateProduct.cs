@@ -27,18 +27,18 @@ namespace MShop.Application.UseCases.Product.CreateProducts
             product.IsValid(_notifications);
 
             await _productRepository.Create(product);
-            var newProduct = await _productRepository.GetLastRegister(x=>x.Name == request.Name);
+            //var newProduct = await _productRepository.GetLastRegister(x=>x.Name == request.Name);
             
 
             return new ProductModelOutPut(
-                    newProduct.Id,
-                    request.Description,
-                    request.Name,
-                    request.Price,
-                    request.Imagem,
-                    request.Stock,
-                    request.IsActive,
-                    request.CategoryId
+                    product.Id,
+                    product.Description,
+                    product.Name,
+                    product.Price,
+                    product.Imagem,
+                    product.Stock,
+                    product.IsActive,
+                    product.CategoryId
                 );
         }
     }

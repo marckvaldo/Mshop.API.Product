@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MShop.ProductAPI", "src\MSh
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MShop.Application", "src\MShop.Application\MShop.Application.csproj", "{0EEC2E49-C962-483D-9B0F-C8649C2AA2B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mshop.Test", "src\MShop.Test\Mshop.Test\Mshop.Test.csproj", "{C4C60E33-2BF5-4359-9304-A7FEA969DABC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mshop.Tests", "src\MShop.Test\Mshop.Test\Mshop.Tests.csproj", "{C4C60E33-2BF5-4359-9304-A7FEA969DABC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
