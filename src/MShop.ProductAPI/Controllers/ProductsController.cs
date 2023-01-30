@@ -3,13 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 using MShop.Business.Interface;
 using MShop.Application.UseCases.Product.CreateProducts;
 using MShop.Application.UseCases.Product.GetProduct;
-using MShop.Application.Common;
 using MShop.Application.UseCases.Product.UpdateProducts;
 using MShop.Application.UseCases.Product.UpdateProduct;
 using MShop.Application.UseCases.Product.DeleteProduct;
 using MShop.Business.Exceptions;
 using MShop.Application.UseCases.Product.UpdateStockProduct;
 using MShop.Application.UseCases.Product.ListProducts;
+using MShop.Application.UseCases.Product.Common;
 
 namespace MShop.ProductAPI.Controllers
 {
@@ -58,11 +58,11 @@ namespace MShop.ProductAPI.Controllers
         }
 
         [HttpGet("list-produtcs")]
-        public async Task<ActionResult<List<ProductModelOutPut>>> ListProdutcs()
+        public async Task<ActionResult<List<ProductModelOutPut>>> ListProdutcs(ListProductInPut request)
         {
             try
             {
-                return CustomResponse(await _ListProducts.Handle());
+                return CustomResponse(await _ListProducts.Handle(request));
             }
             catch (Exception error)
             {

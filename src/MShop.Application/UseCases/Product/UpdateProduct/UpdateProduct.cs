@@ -1,4 +1,4 @@
-﻿using MShop.Application.Common;
+﻿using MShop.Application.UseCases.Product.Common;
 using MShop.Application.UseCases.Product.UpdateProducts;
 using MShop.Business.Entity;
 using MShop.Business.Exceptions;

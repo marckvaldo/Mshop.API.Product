@@ -1,4 +1,4 @@
-﻿using MShop.Application.Common;
+﻿using MShop.Application.UseCases.Category.Common;
 using MShop.Business.Interface;
 using MShop.Business.Interface.Repository;
 using MShop.Repository.Repository;

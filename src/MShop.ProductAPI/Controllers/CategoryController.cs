@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MShop.Application.Common;
+using MShop.Application.UseCases.Category.Common;
 using MShop.Application.UseCases.Category.CreateCategory;
 using MShop.Application.UseCases.Category.DeleteCategory;
 using MShop.Application.UseCases.Category.GetCatetory;

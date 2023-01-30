@@ -1,4 +1,4 @@
-﻿using MShop.Application.Common;
+﻿using MShop.Application.UseCases.Product.Common;
 using MShop.Application.UseCases.Product.UpdateProducts;
 using System;
 using System.Collections.Generic;
@@ -10,6 +10,6 @@ namespace MShop.Application.UseCases.Product.ListProducts
 {
     public interface IListProducts
     {
-        public Task<List<ProductModelOutPut>> Handle();
+        public Task<ListProductsOutPut> Handle(ListProductInPut request);
     }
 }

@@ -1,11 +1,7 @@
-﻿using MShop.Application.Common;
+﻿using MShop.Application.UseCases.Product.Common;
 using MShop.Business.Interface;
 using MShop.Business.Interface.Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MShop.Business.Paginated;
 
 namespace MShop.Application.UseCases.Product.ListProducts
 {
@@ -18,25 +14,37 @@ namespace MShop.Application.UseCases.Product.ListProducts
             _productRepostory = productRepostory;   
         }
 
-        public async Task<List<ProductModelOutPut>> Handle()
+        public async Task<ListProductsOutPut> Handle(ListProductInPut request)
         {
-            var products = await _productRepostory.GetValuesList();
 
-            List<ProductModelOutPut>  ListProducts = new List<ProductModelOutPut>();
-            foreach(var item in products)
-            {
-               ListProducts.Add(new ProductModelOutPut( 
-                   item.Id, 
-                   item.Description, 
-                   item.Name, 
-                   item.Price, 
-                   item.Imagem, 
-                   item.Stock, 
-                   item.IsActive, 
-                   item.CategoryId));
-            }
+            var paginatedInPut = new PaginatedInPut(
+                request.Page,
+                request.PerPage,
+                request.Search,
+                request.Sort,
+                request.Dir
+                );
 
-            return ListProducts;
+            var paginateOutPut = await _productRepostory.FilterPaginated(paginatedInPut);
+
+            return new ListProductsOutPut(
+                paginateOutPut.CurrentPage,
+                paginateOutPut.PerPage,
+                paginateOutPut.Total,
+                paginateOutPut.Itens.Select(x => new ProductModelOutPut
+                (
+                    x.Id,
+                    x.Description,
+                    x.Name,
+                    x.Price,
+                    x.Imagem,
+                    x.Stock,
+                    x.IsActive,
+                    x.CategoryId
+                )).ToList()
+                );
+
+            
         }
     }
 }

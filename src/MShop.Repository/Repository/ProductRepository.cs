@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MShop.Business.Entity;
+using MShop.Business.Interface.Paginated;
 using MShop.Business.Interface.Repository;
+using MShop.Business.Paginated;
 using MShop.Repository.Context;
 using System;
 using System.Collections.Generic;
@@ -22,5 +24,9 @@ namespace MShop.Repository.Repository
           return await  _db.Products.Where(p => p.Id == id).Include(c => c.CategoryId).FirstAsync();
         }
 
+        public Task<PaginatedOutPut<Product>> FilterPaginated(PaginatedInPut input)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

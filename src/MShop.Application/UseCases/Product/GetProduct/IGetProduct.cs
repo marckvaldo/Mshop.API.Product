@@ -1,4 +1,4 @@
-﻿using MShop.Application.Common;
+﻿using MShop.Application.UseCases.Product.Common;
 using MShop.Application.UseCases.Product.CreateProducts;
 using System;
 using System.Collections.Generic;

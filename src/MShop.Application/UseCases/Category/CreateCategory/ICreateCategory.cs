@@ -1,4 +1,4 @@
-﻿using MShop.Application.Common;
+﻿using MShop.Application.UseCases.Category.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,4 +1,4 @@
-﻿using MShop.Application.Common;
+﻿using MShop.Application.UseCases.Product.Common;
 using MShop.Application.UseCases.Product.CreateProducts;
 using MShop.Business.Entity;
 using MShop.Business.Exceptions;
@@ -21,7 +21,7 @@ namespace MShop.Application.UseCases.Product.GetProduct
             _productRepository = productRepository;
         }
 
-        public async Task<ProductModelOutPut?> Handle(Guid Id)
+        public async Task<ProductModelOutPut> Handle(Guid Id)
         {
             var product = await _productRepository.GetById(Id);
 

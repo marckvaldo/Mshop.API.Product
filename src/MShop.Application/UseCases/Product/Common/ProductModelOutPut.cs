@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MShop.Application.Common
+namespace MShop.Application.UseCases.Product.Common
 {
     public class ProductModelOutPut
     {

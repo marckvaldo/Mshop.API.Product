@@ -1,4 +1,5 @@
 ﻿using MShop.Business.Entity;
+using MShop.Business.Interface.Paginated;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MShop.Business.Interface.Repository
 {
-    public interface IProductRepository : IRepository<Product>
+    public interface IProductRepository : IRepository<Product>, IPaginated<Product>
     {
 
     }

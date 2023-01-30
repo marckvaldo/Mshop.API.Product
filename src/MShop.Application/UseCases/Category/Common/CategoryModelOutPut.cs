@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MShop.Application.Common
+namespace MShop.Application.UseCases.Category.Common
 {
     public class CategoryModelOutPut
     {
@@ -20,7 +20,7 @@ namespace MShop.Application.Common
 
         [Required(ErrorMessage = "O Campo {0} Obrigatório")]
         [StringLength(30, ErrorMessage = "O Campo {0} precisa ter no minimo {2} caracter e no maximo {1}", MinimumLength = 2)]
-        public string Name { get; private set; }    
+        public string Name { get; private set; }
 
         public bool IsActive { get; private set; }
     }

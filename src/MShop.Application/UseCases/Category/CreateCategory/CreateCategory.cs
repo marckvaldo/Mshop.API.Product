@@ -1,5 +1,4 @@
-﻿using MShop.Application.Common;
-using Business = MShop.Business.Entity;
+﻿using Business = MShop.Business.Entity;
 using MShop.Business.Interface;
 using MShop.Business.Interface.Repository;
 using System;
@@ -7,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MShop.Application.UseCases.Category.Common;
 
 namespace MShop.Application.UseCases.Category.CreateCategory
 {
