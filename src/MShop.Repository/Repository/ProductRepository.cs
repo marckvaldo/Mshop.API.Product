@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MShop.Business.Entity;
+using MShop.Business.Exception;
 using MShop.Business.Interface.Paginated;
 using MShop.Business.Interface.Repository;
 using MShop.Business.Paginated;
@@ -21,12 +22,17 @@ namespace MShop.Repository.Repository
 
         public async Task<Product> getProductWithCategory(Guid id)
         {
-          return await  _db.Products.Where(p => p.Id == id).Include(c => c.CategoryId).FirstAsync();
+            return await  _db.Products.Where(p => p.Id == id).Include(c => c.CategoryId).FirstAsync();
         }
 
-        public Task<PaginatedOutPut<Product>> FilterPaginated(PaginatedInPut input)
+        public async Task<PaginatedOutPut<Product>> FilterPaginated(PaginatedInPut input)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+
+            var product = await _db.Products.Where(p => p.Name == input.Search).ToListAsync();
+            NotFoundException.ThrowIfnull(product);
+            return new PaginatedOutPut<Product>(input.Page, input.PerPage, product.Count(), product);
+
         }
     }
 }
