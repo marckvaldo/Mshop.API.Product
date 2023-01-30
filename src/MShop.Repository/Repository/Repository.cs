@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MShop.Business.Entity;
+using MShop.Business.Exception;
 using MShop.Business.Interface;
 using MShop.Business.Interface.Repository;
 using MShop.Repository.Context;
@@ -25,22 +26,30 @@ namespace MShop.Repository.Repository
 
         public async Task<List<TEntity>> Filter(Expression<Func<TEntity, bool>> predicate)
         {
-            return await _dbSet.AsNoTracking().Where(predicate).ToListAsync();
+            var result = await _dbSet.AsNoTracking().Where(predicate).ToListAsync();
+            NotFoundException.ThrowIfnull(result, "your search returned null");
+            return result;
         }
 
         public virtual async Task<TEntity> GetById(Guid Id)
         {
-            return await _dbSet.FindAsync(Id);
+            var result = await _dbSet.FindAsync(Id);
+            NotFoundException.ThrowIfnull(result, "your search returned null");
+            return result;
         }
 
         public virtual async Task<List<TEntity>> GetValuesList()
         {
-            return await _dbSet.ToListAsync();
+            var result =  await _dbSet.ToListAsync();
+            NotFoundException.ThrowIfnull(result, "your search returned null");
+            return result;
         }
 
         public virtual async Task<TEntity> GetLastRegister(Expression<Func<TEntity, bool>> predicate)
         {
-            return await _dbSet.AsNoTracking().Where(predicate).OrderByDescending(x=>x.Id).FirstAsync();
+            var result =  await _dbSet.AsNoTracking().Where(predicate).OrderByDescending(x=>x.Id).FirstAsync();
+            NotFoundException.ThrowIfnull(result, "your search returned null");
+            return result;
         }
 
         public virtual async Task Create(TEntity entity)

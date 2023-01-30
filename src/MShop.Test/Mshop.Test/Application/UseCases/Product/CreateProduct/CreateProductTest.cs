@@ -4,6 +4,7 @@ using MShop.Business.Interface;
 using ApplicationUseCase = MShop.Application.UseCases.Product.CreateProducts;
 using BusinessRepository = MShop.Business.Interface.Repository;
 using BusinessEntity = MShop.Business.Entity;
+using MShop.Business.Exception;
 
 
 namespace Mshop.Tests.Application.UseCases.Product.CreateProduct
@@ -41,19 +42,16 @@ namespace Mshop.Tests.Application.UseCases.Product.CreateProduct
             
         }
 
-        [Theory(DisplayName = nameof(ThrowWhenCantCreateProduct))]
+        [Theory(DisplayName = nameof(SholdReturnErrorWhenCantCreateProduct))]
         [Trait("Application-UseCase", "Create Products")]
         [MemberData(nameof(GetCreateProductInPutInvalid))]
-        public async void ThrowWhenCantCreateProduct(CreateProductInPut request)
+        public async void SholdReturnErrorWhenCantCreateProduct(CreateProductInPut request)
         {
 
             var repository = new Mock<BusinessRepository.IProductRepository>();
             var notification = new Mock<INotification>();
 
-
             var productUseCase = new ApplicationUseCase.CreateProduct(repository.Object, notification.Object);
-
-           
 
             var outPut = await productUseCase.Handle(request);
 

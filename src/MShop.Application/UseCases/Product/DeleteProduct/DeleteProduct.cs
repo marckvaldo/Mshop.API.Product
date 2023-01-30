@@ -18,11 +18,6 @@ namespace MShop.Application.UseCases.Product.DeleteProduct
         public async Task<ProductModelOutPut> Handle(Guid request)
         {
             var product = await _productRespository.GetById(request);
-            if(product == null)
-            {
-                Notify("Não foi possivel localizar o produto no base de dados");
-                throw new ApplicationValidationException("");
-            }
 
             await _productRespository.DeleteById(product);
             return new ProductModelOutPut(

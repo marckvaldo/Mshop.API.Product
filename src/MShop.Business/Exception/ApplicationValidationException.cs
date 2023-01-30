@@ -2,7 +2,7 @@
 
 namespace MShop.Business.Exceptions
 {
-    public class ApplicationValidationException : Exception
+    public class ApplicationValidationException : ApplicationException
     {
        
         public ApplicationValidationException(

@@ -26,9 +26,7 @@ namespace MShop.Application.UseCases.Product.CreateProducts
 
             product.IsValid(_notifications);
 
-            await _productRepository.Create(product);
-            //var newProduct = await _productRepository.GetLastRegister(x=>x.Name == request.Name);
-            
+            await _productRepository.Create(product);          
 
             return new ProductModelOutPut(
                     product.Id,
