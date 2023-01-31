@@ -5,3 +5,9 @@ src/MShop.Repository/obj/*.*
 src/MShop.Test/Mshop.Test/obj/*.*
 .vs/*.*
 src/MShop.Test/Mshop.Test/bin/*.*
+
+
+src/MShop.Application/bin/*.*
+src/MShop.Business/bin/*.*
+src/MShop.ProductAPI/bin/*.*
+src/MShop.Repository/bin/*.*

@@ -60,18 +60,9 @@ namespace Mshop.Tests.Application.UseCases.Product.ListProducts
             Assert.NotNull(outPut);
             Assert.Equal(productsFake.Count, outPut.Total);
             Assert.Equal(request.Page, outPut.Page);
-            Assert.Equal(request.PerPage, outPut.PerPage);  
-
-           
-
-
-            /*Assert.Equal(outPut.Name, productFake.Name);
-            Assert.Equal(outPut.Description, productFake.Description);
-            Assert.Equal(outPut.Price, productFake.Price);
-            Assert.Equal(outPut.Imagem, productFake.Imagem);
-            Assert.Equal(outPut.CategoryId, productFake.CategoryId);
-            Assert.Equal(outPut.Stock, productFake.Stock);
-            Assert.Equal(outPut.IsActive, productFake.IsActive);*/
+            Assert.Equal(request.PerPage, outPut.PerPage);
+            Assert.NotNull(outPut.Itens);
+            Assert.True(outPut.Itens.Any());
 
 
         }
