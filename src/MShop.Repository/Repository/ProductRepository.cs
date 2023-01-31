@@ -29,7 +29,6 @@ namespace MShop.Repository.Repository
 
         public async Task<PaginatedOutPut<Product>> FilterPaginated(PaginatedInPut input)
         {
-            //throw new NotImplementedException();
             var toSkip = (input.Page - 1) * input.PerPage;
             var query = _db.Products.AsNoTracking();
 
