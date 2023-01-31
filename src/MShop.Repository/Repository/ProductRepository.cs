@@ -28,10 +28,19 @@ namespace MShop.Repository.Repository
         public async Task<PaginatedOutPut<Product>> FilterPaginated(PaginatedInPut input)
         {
             //throw new NotImplementedException();
+            var toSkip = (input.Page - 1) * input.PerPage;
+            var query = _db.Products.AsNoTracking();
 
-            var product = await _db.Products.Where(p => p.Name == input.Search).ToListAsync();
+            if(!string.IsNullOrWhiteSpace(input.Search))
+            {
+                query.Where(p => p.Name.Contains(input.Search));
+            }
+
+            var product = await query.Skip(toSkip).Take(input.PerPage)
+                         .ToListAsync();
+
             NotFoundException.ThrowIfnull(product);
-            return new PaginatedOutPut<Product>(input.Page, input.PerPage, product.Count(), product);
+            return new PaginatedOutPut<Product>(input.Page, input.PerPage, query.Count(), product);
 
         }
     }

@@ -27,10 +27,12 @@ namespace Mshop.Tests.Application.UseCases.Product.ListProducts
 
             var useCase = new ApplicationUseCase.ListProducts(repository.Object, notification.Object);
 
+            var random = new Random();
+
             var request = new ListProductInPut(
-                            page:2,
-                            perPage:10,
-                            search: "search-exemple",
+                            page: random.Next(1,10),
+                            perPage: random.Next(10,20),
+                            search: faker.Commerce.ProductName(),
                             sort:"name",
                             dir:SearchOrder.Asc
                             );

@@ -17,6 +17,8 @@ namespace MShop.Business.Paginated
 
         public int Total { get; set; }
 
+        public int TotalPages { get; set; }
+
         public IReadOnlyList<TEntity> Itens { get; set; }
 
         public PaginatedOutPut(int currentPage, int perPage, int total, IReadOnlyList<TEntity> itens)
@@ -25,6 +27,7 @@ namespace MShop.Business.Paginated
             PerPage = perPage;
             Total = total;
             Itens = itens;
+            TotalPages = (int)(total / perPage);
         }
        
 
