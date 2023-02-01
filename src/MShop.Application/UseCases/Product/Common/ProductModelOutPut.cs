@@ -24,20 +24,20 @@ namespace MShop.Application.UseCases.Product.Common
 
         [Required(ErrorMessage = "O Campo {0} Obrigatório")]
         [StringLength(100, ErrorMessage = "O Campo {0} precisa ter no minimo {2} caracter e no maximo {1}", MinimumLength = 2)]
-        public string Description { get; private set; }
+        public string Description { get; set; }
 
         [Required(ErrorMessage = "O Campo {0} Obrigatório")]
         [StringLength(30, ErrorMessage = "O Campo {0} precisa ter no minimo {2} caracter e no maximo {1}", MinimumLength = 2)]
-        public string Name { get; private set; }
+        public string Name { get; set; }
 
-        public decimal Price { get; private set; }
+        public decimal Price { get; set; }
 
-        public string? Imagem { get; private set; }
+        public string? Imagem { get; set; }
 
-        public decimal Stock { get; private set; }
+        public decimal Stock { get;  set; }
 
-        public bool IsActive { get; private set; }
+        public bool IsActive { get; set; }
 
-        public Guid CategoryId { get; private set; }
+        public Guid CategoryId { get; set; }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using MShop.Application.UseCases.Product.Common;
-using MShop.Application.UseCases.Product.UpdateProducts;
 
 namespace MShop.Application.UseCases.Product.UpdateProduct
 {

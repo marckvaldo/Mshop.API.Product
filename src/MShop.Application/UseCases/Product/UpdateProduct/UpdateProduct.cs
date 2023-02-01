@@ -1,5 +1,4 @@
 ﻿using MShop.Application.UseCases.Product.Common;
-using MShop.Application.UseCases.Product.UpdateProducts;
 using MShop.Business.Entity;
 using MShop.Business.Exceptions;
 using MShop.Business.Interface;
@@ -33,6 +32,8 @@ namespace MShop.Application.UseCases.Product.UpdateProduct
                 product.Activate();
             else
                 product.Deactive();
+
+            product.UpdateImage(request.Imagem);
 
             product.IsValid(_notifications);
 

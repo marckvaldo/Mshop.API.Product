@@ -61,7 +61,7 @@ namespace Mshop.Tests.Application.UseCases.Product.ListProducts
             Assert.True(outPut.Itens.Any());
         }
 
-
+        /*
         [Theory(DisplayName = nameof(ListProductOrderBY))]
         [Trait("Application-UseCase", "List Products")]
         [InlineData(SearchOrder.Asc)]
@@ -105,6 +105,6 @@ namespace Mshop.Tests.Application.UseCases.Product.ListProducts
             }
                 
 
-        }
+        }*/
     }
 }

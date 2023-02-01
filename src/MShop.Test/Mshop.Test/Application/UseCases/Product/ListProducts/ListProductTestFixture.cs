@@ -51,7 +51,7 @@ namespace Mshop.Tests.Application.UseCases.Product.ListProducts
             return products;
         }
 
-        protected IReadOnlyList<BusinessEntity.Product> GetListProdutsConstant()
+        protected IReadOnlyList<BusinessEntity.Product> GetListProdutsConstant(Se)
         {
             var products = GetListProduts(4);
 
@@ -62,6 +62,7 @@ namespace Mshop.Tests.Application.UseCases.Product.ListProducts
                 i++;
             }
             
+
             return products;    
         }
     }

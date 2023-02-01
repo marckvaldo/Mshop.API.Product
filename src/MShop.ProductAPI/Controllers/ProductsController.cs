@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using MShop.Business.Interface;
 using MShop.Application.UseCases.Product.CreateProducts;
 using MShop.Application.UseCases.Product.GetProduct;
-using MShop.Application.UseCases.Product.UpdateProducts;
 using MShop.Application.UseCases.Product.UpdateProduct;
 using MShop.Application.UseCases.Product.DeleteProduct;
 using MShop.Business.Exceptions;

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MShop.Application.UseCases.Product.UpdateProducts
+namespace MShop.Application.UseCases.Product.UpdateProduct
 {
     public class UpdateProductInPut
     {
