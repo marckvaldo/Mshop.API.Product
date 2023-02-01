@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using MShop.Business.Entity;
 using MShop.Application.UseCases.Product.UpdateProduct;
 using MShop.Business.Exception;
+using MShop.Business.Exceptions;
 
 namespace Mshop.Tests.Application.UseCases.Product.UpdateProduct
 {
@@ -47,9 +48,9 @@ namespace Mshop.Tests.Application.UseCases.Product.UpdateProduct
 
 
 
-        [Fact(DisplayName = nameof(ShoulReturnErroWhenCantUpdateProduct))]
+        [Fact(DisplayName = nameof(ShoulReturnErroWhenNotFoundUpdateProduct))]
         [Trait("Application-UseCase", "Update Product")]
-        public async void ShoulReturnErroWhenCantUpdateProduct()
+        public void ShoulReturnErroWhenNotFoundUpdateProduct()
         {
             var repository = new Mock<IProductRepository>();
             var notification = new Mock<INotification>();
@@ -67,6 +68,28 @@ namespace Mshop.Tests.Application.UseCases.Product.UpdateProduct
 
             repository.Verify(r => r.Update(It.IsAny<BusinessEntity.Product>()), Times.Never);
             notification.Verify(n => n.AddNotifications(It.IsAny<string>()), Times.Never);
+
+        }
+
+
+        [Theory(DisplayName = nameof(ShoulReturnErroWhenRequestUpdateProduct))]
+        [Trait("Application-UseCase", "Update Product")]
+        [MemberData(nameof(GetUpdateProductInPutInvalid))]
+        public void ShoulReturnErroWhenRequestUpdateProduct(UpdateProductInPut request)
+        {
+            var repository = new Mock<IProductRepository>();
+            var notification = new Mock<INotification>();
+
+            //var request = ProductInPut();
+            var productRepository = ProductModelOutPut();
+
+            var useCase = new ApplicationUseCase.UpdateProduct(repository.Object, notification.Object);
+            var outPut = async () => await useCase.Handle(request);
+
+            var exception = Assert.ThrowsAsync<ApplicationValidationException>(outPut);
+
+            repository.Verify(r => r.Update(It.IsAny<BusinessEntity.Product>()), Times.Never);
+            notification.Verify(n => n.AddNotifications(It.IsAny<string>()), Times.Once);
 
         }
 

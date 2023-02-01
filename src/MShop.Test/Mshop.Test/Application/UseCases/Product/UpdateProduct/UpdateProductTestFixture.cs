@@ -54,7 +54,6 @@ namespace Mshop.Tests.Application.UseCases.Product.UpdateProduct
 
         }
 
-
         protected BusinessEntity.Product Faker()
         {
             return (new BusinessEntity.Product
@@ -68,5 +67,96 @@ namespace Mshop.Tests.Application.UseCases.Product.UpdateProduct
                 true
             ));
         }
+
+
+
+
+
+        public static IEnumerable<object[]> GetUpdateProductInPutInvalid()
+        {
+            yield return new object[] { GetDescriptionProductGreaterThan1000CharactersInvalid() };
+            yield return new object[] { GetDescriptionProductLessThan10CharactersInvalid() };
+            yield return new object[] { GetNameProductGreaterThan255CharactersInvalid() };
+            yield return new object[] { GetNameProductLessThan3CharactersInvalid() };
+        }
+
+        protected static ApplicationUseCase.UpdateProductInPut GetDescriptionProductGreaterThan1000CharactersInvalid()
+        {
+            string description = fakerStatic.Commerce.ProductDescription();
+            while (description.Length < 1001)
+            {
+                description += fakerStatic.Commerce.ProductDescription();
+            }
+
+
+            return new ApplicationUseCase.UpdateProductInPut
+            {
+                Name = fakerStatic.Commerce.ProductName(),
+                Description = description,
+                Price = Convert.ToDecimal(fakerStatic.Commerce.Price()),
+                Imagem = fakerStatic.Image.LoremPixelUrl(),
+                CategoryId = Guid.NewGuid(),
+                IsActive = true
+            };
+
+        }
+
+        protected static ApplicationUseCase.UpdateProductInPut GetDescriptionProductLessThan10CharactersInvalid()
+        {
+            string description = fakerStatic.Commerce.ProductDescription();
+            description = description[..9];
+
+
+            return new ApplicationUseCase.UpdateProductInPut
+            {
+                Name = fakerStatic.Commerce.ProductName(),
+                Description = description,
+                Price = Convert.ToDecimal(fakerStatic.Commerce.Price()),
+                Imagem = fakerStatic.Image.LoremPixelUrl(),
+                CategoryId = Guid.NewGuid(),
+                IsActive = true
+            };
+
+        }
+
+        protected static ApplicationUseCase.UpdateProductInPut GetNameProductGreaterThan255CharactersInvalid()
+        {
+            string name = fakerStatic.Commerce.ProductName();
+            while (name.Length < 255)
+            {
+                name += fakerStatic.Commerce.ProductName();
+            }
+
+
+            return new ApplicationUseCase.UpdateProductInPut
+            {
+                Name = name,
+                Description = fakerStatic.Commerce.ProductDescription(),
+                Price = Convert.ToDecimal(fakerStatic.Commerce.Price()),
+                Imagem = fakerStatic.Image.LoremPixelUrl(),
+                CategoryId = Guid.NewGuid(),
+                IsActive = true
+            };
+
+        }
+
+        protected static ApplicationUseCase.UpdateProductInPut GetNameProductLessThan3CharactersInvalid()
+        {
+            string name = fakerStatic.Commerce.ProductDescription();
+            name = name[..2];
+
+
+            return new ApplicationUseCase.UpdateProductInPut
+            {
+                Name = name,
+                Description = fakerStatic.Commerce.ProductDescription(),
+                Price = Convert.ToDecimal(fakerStatic.Commerce.Price()),
+                Imagem = fakerStatic.Image.LoremPixelUrl(),
+                CategoryId = Guid.NewGuid(),
+                IsActive = true
+            };
+
+        }
+
     }
 }
