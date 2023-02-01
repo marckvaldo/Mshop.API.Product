@@ -2,16 +2,10 @@
 using MShop.Business.Entity;
 using MShop.Business.Enum.Paginated;
 using MShop.Business.Exception;
-using MShop.Business.Interface.Paginated;
 using MShop.Business.Interface.Repository;
 using MShop.Business.Paginated;
 using MShop.Repository.Context;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
+
 
 namespace MShop.Repository.Repository
 {

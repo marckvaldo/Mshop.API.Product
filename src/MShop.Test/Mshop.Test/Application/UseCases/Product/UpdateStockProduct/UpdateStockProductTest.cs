@@ -36,7 +36,7 @@ namespace Mshop.Tests.Application.UseCases.Product.UpdateStockProduct
 
         [Fact(DisplayName = nameof(SholdReturnErrorCantUpdateStockProduct))]
         [Trait("Application-UseCase", "Update Stock Product")]
-        public async void SholdReturnErrorCantUpdateStockProduct()
+        public void SholdReturnErrorCantUpdateStockProduct()
         {
             var repository = new Mock<IProductRepository>();
             var notification = new Mock<INotification>();
