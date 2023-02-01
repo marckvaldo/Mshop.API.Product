@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MShop.Business.Entity;
+using MShop.Business.Enum.Paginated;
 using MShop.Business.Exception;
 using MShop.Business.Interface.Paginated;
 using MShop.Business.Interface.Repository;
@@ -10,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace MShop.Repository.Repository
 {
@@ -27,21 +29,35 @@ namespace MShop.Repository.Repository
 
         public async Task<PaginatedOutPut<Product>> FilterPaginated(PaginatedInPut input)
         {
-            //throw new NotImplementedException();
             var toSkip = (input.Page - 1) * input.PerPage;
             var query = _db.Products.AsNoTracking();
 
-            if(!string.IsNullOrWhiteSpace(input.Search))
-            {
-                query.Where(p => p.Name.Contains(input.Search));
-            }
+            query = AddOrderToQuery(query, input.OrderBy, input.Order);
 
+            if (!string.IsNullOrWhiteSpace(input.Search))
+                query.Where(p => p.Name.Contains(input.Search));
+
+            var total = await query.CountAsync();
             var product = await query.Skip(toSkip).Take(input.PerPage)
                          .ToListAsync();
 
             NotFoundException.ThrowIfnull(product);
-            return new PaginatedOutPut<Product>(input.Page, input.PerPage, query.Count(), product);
+            return new PaginatedOutPut<Product>(input.Page, input.PerPage, total, product);
 
+        }
+
+        private IQueryable<Product> AddOrderToQuery(IQueryable<Product> query, string orderBay, SearchOrder order)
+        {
+            return (orderBay.ToLower(), order) switch
+            {
+                ("name", SearchOrder.Asc) => query.OrderBy(x => x.Name),
+                ("name", SearchOrder.Desc) => query.OrderByDescending(x => x.Name),
+                ("id", SearchOrder.Asc) => query.OrderBy(x=>x.Id),
+                ("id", SearchOrder.Desc) => query.OrderByDescending(x=>x.Id),
+                ("price", SearchOrder.Asc) => query.OrderBy(x=>x.Price),
+                ("price", SearchOrder.Desc) => query.OrderByDescending(x=>x.Price),
+                _ => query.OrderBy(x => x.Name)
+            };
         }
     }
 }
