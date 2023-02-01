@@ -10,12 +10,13 @@ using System.Text;
 using System.Threading.Tasks;
 using MShop.Business.Entity;
 using MShop.Application.UseCases.Product.UpdateProduct;
+using MShop.Business.Exception;
 
 namespace Mshop.Tests.Application.UseCases.Product.UpdateProduct
 {
     public class UpdateProductTest : UpdateProductTestFixture
     {
-        [Fact(DisplayName = "Update Products")]
+        [Fact(DisplayName = nameof(UpdateProduct))]
         [Trait("Application-UseCase", "Update Product")]
         public async void UpdateProduct()
         {
@@ -43,5 +44,31 @@ namespace Mshop.Tests.Application.UseCases.Product.UpdateProduct
             Assert.Equal(outPut.CategoryId, request.CategoryId);
 
         }
+
+
+
+        [Fact(DisplayName = nameof(ShoulReturnErroWhenCantUpdateProduct))]
+        [Trait("Application-UseCase", "Update Product")]
+        public async void ShoulReturnErroWhenCantUpdateProduct()
+        {
+            var repository = new Mock<IProductRepository>();
+            var notification = new Mock<INotification>();
+
+            var request = ProductInPut();
+            var productRepository = ProductModelOutPut();
+
+            repository.Setup(r => r.GetById(It.IsAny<Guid>()))
+                .ThrowsAsync(new NotFoundException(""));
+
+            var useCase = new ApplicationUseCase.UpdateProduct(repository.Object, notification.Object);
+            var outPut = async () => await useCase.Handle(request);
+
+            var exception = Assert.ThrowsAsync<NotFoundException>(outPut); 
+
+            repository.Verify(r => r.Update(It.IsAny<BusinessEntity.Product>()), Times.Never);
+            notification.Verify(n => n.AddNotifications(It.IsAny<string>()), Times.Never);
+
+        }
+
     }
 }

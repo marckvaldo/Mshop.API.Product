@@ -13,7 +13,7 @@ namespace Mshop.Tests.Application.UseCases.Product.DeleteProduct
     public class DeleteProductTest : DeleteProductTestFixture
     {
         [Fact(DisplayName = nameof(DeleteProduct))]
-        [Trait("Application-UseCase", "Create Products")]
+        [Trait("Application-UseCase", "Delete Products")]
 
         public async void DeleteProduct()
         {
@@ -38,7 +38,7 @@ namespace Mshop.Tests.Application.UseCases.Product.DeleteProduct
         }
 
         [Fact(DisplayName = nameof(SholdReturnErrorWhenCantDeleteProduct))]
-        [Trait("Application-UseCase", "Create Products")]
+        [Trait("Application-UseCase", "Delete Products")]
         public async void SholdReturnErrorWhenCantDeleteProduct()
         {
             var repository = new Mock<IProductRepository>();

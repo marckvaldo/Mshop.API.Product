@@ -15,7 +15,7 @@ namespace Mshop.Tests.Application.UseCases.Product.GetProduts
     public class GetProdutctTest : GetProductTestFixture
     {
         [Fact(DisplayName = nameof(GetProduct))]
-        [Trait("Application-UseCase", "Create Products")]
+        [Trait("Application-UseCase", "Get Products")]
         public async void GetProduct()
         {
             var repository = new Mock<IProductRepository>();
@@ -44,7 +44,7 @@ namespace Mshop.Tests.Application.UseCases.Product.GetProduts
 
 
         [Fact(DisplayName = nameof(SholdReturnErrorWhenCantGetProduct))]
-        [Trait("Application-UseCase", "Create Products")]
+        [Trait("Application-UseCase", "Get Products")]
         public async void SholdReturnErrorWhenCantGetProduct()
         {
             var repository = new Mock<IProductRepository>();

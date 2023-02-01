@@ -51,7 +51,7 @@ namespace Mshop.Tests.Application.UseCases.Product.ListProducts
             return products;
         }
 
-        protected IReadOnlyList<BusinessEntity.Product> GetListProdutsConstant(Se)
+        protected IReadOnlyList<BusinessEntity.Product> GetListProdutsConstant()
         {
             var products = GetListProduts(4);
 

@@ -33,7 +33,8 @@ namespace MShop.Application.UseCases.Product.UpdateProduct
             else
                 product.Deactive();
 
-            product.UpdateImage(request.Imagem);
+            if (request.Imagem is not null && !string.IsNullOrWhiteSpace(request.Imagem))
+                product.UpdateImage(request.Imagem);
 
             product.IsValid(_notifications);
 
