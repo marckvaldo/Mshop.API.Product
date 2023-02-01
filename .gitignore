@@ -3,8 +3,12 @@ src/MShop.Business/obj/
 src/MShop.ProductAPI/obj/
 src/MShop.Repository/obj/
 src/MShop.Test/Mshop.Test/obj/
+src/MShop.IntegrationTest/MShop.IntegrationTests/obj/
 .vs/
 src/MShop.Test/Mshop.Test/bin/
+src/MShop.IntegrationTest/bin/
+
+
 
 
 src/MShop.Application/bin/

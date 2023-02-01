@@ -22,8 +22,4 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Repository\ProductRepository\" />
-  </ItemGroup>
-
 </Project>
