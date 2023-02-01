@@ -33,7 +33,7 @@ namespace MShop.Application.UseCases.GetCatetoryWithProducts.GetCatetory
 
             List<ProductModelOutPut> listProdutos = new List<ProductModelOutPut>();
 
-            foreach(var item in category.products)
+            foreach(var item in category.Products)
             {
                 listProdutos.Add(new ProductModelOutPut(
                     item.Id,

@@ -13,11 +13,11 @@ namespace MShop.Business.Entity
     public class Category : Entity
     {
 
-        public string Name { get; set; }
+        public string Name { get; private set; }
 
-        public bool IsActive { get; set; }
+        public bool IsActive { get; private set; }
 
-        public List<Product> products { get; set; } 
+        public List<Product> Products { get; private set; } 
 
         public Category(string name, bool isActive = true)
         {
