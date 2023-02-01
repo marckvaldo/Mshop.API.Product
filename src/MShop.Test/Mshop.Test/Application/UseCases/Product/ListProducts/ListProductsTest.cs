@@ -1,13 +1,9 @@
 ﻿using Moq;
 using MShop.Business.Interface.Repository;
 using MShop.Business.Interface;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ApplicationUseCase = MShop.Application.UseCases.Product.ListProducts;
 using BusinessEntity = MShop.Business.Entity;
+using BusinessInterface = MShop.Business.Interface;
 using MShop.Application.UseCases.Product.ListProducts;
 using MShop.Business.Enum.Paginated;
 using MShop.Business.Paginated;
@@ -17,7 +13,7 @@ namespace Mshop.Tests.Application.UseCases.Product.ListProducts
     public class ListProductsTest : ListProductTestFixture
     {
         [Fact(DisplayName = nameof(ListProducts))]
-        [Trait("Application-UseCase", "Create Products")]
+        [Trait("Application-UseCase", "List Products")]
         public async void ListProducts()
         {
             var repository = new Mock<IProductRepository>();
@@ -63,7 +59,51 @@ namespace Mshop.Tests.Application.UseCases.Product.ListProducts
             Assert.Equal(request.PerPage, outPut.PerPage);
             Assert.NotNull(outPut.Itens);
             Assert.True(outPut.Itens.Any());
+        }
 
+
+        [Theory(DisplayName = nameof(ListProductOrderBY))]
+        [Trait("Application-UseCase", "List Products")]
+        [InlineData(SearchOrder.Asc)]
+        [InlineData(SearchOrder.Desc)]
+        public async void ListProductOrderBY( SearchOrder order)
+        {
+            var repository = new Mock<BusinessInterface.Repository.IProductRepository>();
+            var notification = new Mock<BusinessInterface.INotification>();
+
+            var productsFake = GetListProdutsConstant();
+
+            var page = 1;
+            var perPage = 2;
+            var sort = "Name";
+
+            var request = new ListProductInPut(page, perPage, "", sort, order);
+
+            repository.Setup(r => r.FilterPaginated(It.IsAny<PaginatedInPut>()))
+                .ReturnsAsync(new PaginatedOutPut<BusinessEntity.Product>(page, perPage, productsFake.Count(),productsFake));
+
+            var useCase = new ApplicationUseCase.ListProducts(repository.Object, notification.Object);
+            var outPut = await useCase.Handle(request);
+
+            repository.Verify(r => r.FilterPaginated(It.IsAny<PaginatedInPut>()), Times.Once);
+            notification.Verify(n => n.AddNotifications(It.IsAny<string>()), Times.Never);
+
+            Assert.NotNull(outPut);
+
+            Assert.Equal(outPut.Page, page);
+            Assert.Equal(outPut.PerPage, perPage);
+            
+            if (order == SearchOrder.Desc)
+            {
+                Assert.True(outPut.Itens.First().Name == fakeContantsNames.First());
+                Assert.True(outPut.Itens.Last().Name == fakeContantsNames.Last());
+            }
+            else
+            {
+                Assert.True(outPut.Itens.First().Name == fakeContantsNames.Last());
+                Assert.True(outPut.Itens.Last().Name == fakeContantsNames.First());
+            }
+                
 
         }
     }
