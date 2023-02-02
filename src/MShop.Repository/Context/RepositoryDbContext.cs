@@ -10,7 +10,7 @@ namespace MShop.Repository.Context
 {
     public class RepositoryDbContext : DbContext
     {
-        public RepositoryDbContext(DbContextOptions options) : base(options)
+        public RepositoryDbContext(DbContextOptions<RepositoryDbContext> options) : base(options)
         {
 
         }
