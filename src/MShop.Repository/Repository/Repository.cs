@@ -79,10 +79,6 @@ namespace MShop.Repository.Repository
             _db?.Dispose();
         }
 
-        public Task DeleteById(Guid Id)
-        {
-            throw new NotImplementedException();
-        }
 
     }
 }

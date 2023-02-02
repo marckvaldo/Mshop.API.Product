@@ -33,14 +33,40 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
             );
         }
 
-        protected RepositoryDbContext CreateDBContext()
+        protected RepositoryDbContext CreateDBContext(bool preserveData = false)
         {
-            return new RepositoryDbContext(
+
+            var context =  new RepositoryDbContext(
                 new DbContextOptionsBuilder<RepositoryDbContext>()
                 .UseInMemoryDatabase("integration-test-db")
                 .Options
                 );
+
+            if (!preserveData)
+                context.Database.EnsureDeleted();
+
+            return context;
+
         }
+
+        protected void CleanInMemoryDatabase()
+        {
+            CreateDBContext().Database.EnsureDeleted();
+        }
+
+
+        protected List<Product> FakerList(int length = 5) 
+        {
+            List<Product> listProduct = new List<Product>();
+            
+            for(int i = 0;i<length; i++)
+                listProduct.Add(Faker());
+
+            return listProduct;
+        }
+
+
+        
 
     }
 }
