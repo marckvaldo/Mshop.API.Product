@@ -36,6 +36,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.GetProduct
             var outPut = await useCase.Handle(guid);
 
 
+            Assert.False(notification.HasErrors());
             Assert.NotNull(outPut);
             Assert.Equal(outPut.Name, productFake.Name);
             Assert.Equal(outPut.Description, productFake.Description);
@@ -66,6 +67,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.GetProduct
 
             var exception = await Assert.ThrowsAsync<NotFoundException>(outPut);
             Assert.Equal(exception.Message, "your search returned null");
+            Assert.False(notification.HasErrors());
 
         }
     }
