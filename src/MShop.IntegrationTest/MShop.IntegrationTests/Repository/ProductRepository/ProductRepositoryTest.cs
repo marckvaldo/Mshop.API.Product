@@ -18,7 +18,7 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
     public class ProductRepositoryTest: ProductRespositoryTesteFixture, IDisposable
     {
         [Fact(DisplayName = nameof(CreateProduct))]
-        [Trait("Intagration - Infra.Data", "Product Repositorio")]
+        [Trait("Integration - Infra.Data", "Product Repositorio")]
 
         public async void CreateProduct()
         {
@@ -43,7 +43,7 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
         }
 
         [Fact(DisplayName = nameof(GetByIdProduct))]
-        [Trait("Intagration - Infra.Data", "Product Repositorio")]
+        [Trait("Integration - Infra.Data", "Product Repositorio")]
 
         public async void GetByIdProduct()
         {
@@ -70,7 +70,7 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
         }
 
         [Fact(DisplayName = nameof(UpdateProduct))]
-        [Trait("Intagration - Infra.Data", "Product Repositorio")]
+        [Trait("Integration - Infra.Data", "Product Repositorio")]
 
         public async void UpdateProduct()
         {
@@ -109,7 +109,7 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
 
 
         [Fact(DisplayName = nameof(DeleteProduct))]
-        [Trait("Intagration - Infra.Data", "Product Repositorio")]
+        [Trait("Integration - Infra.Data", "Product Repositorio")]
 
         public async void DeleteProduct()
         {
@@ -133,7 +133,7 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
 
 
         [Fact(DisplayName = nameof(SerachRestusListAndTotal))]
-        [Trait("Intagration - Infra.Data", "Product Repositorio")]
+        [Trait("Integration - Infra.Data", "Product Repositorio")]
 
         public async void SerachRestusListAndTotal()
         {
@@ -169,7 +169,7 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
 
 
         [Fact(DisplayName = nameof(SholdSerachRestusListEmpty))]
-        [Trait("Intagration - Infra.Data", "Product Repositorio")]
+        [Trait("Integration - Infra.Data", "Product Repositorio")]
 
         public async void SholdSerachRestusListEmpty()
         {
@@ -191,7 +191,7 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
 
 
         [Theory(DisplayName = nameof(SerachRestusPaginated))]
-        [Trait("Intagration - Infra.Data", "Product Repositorio")]
+        [Trait("Integration - Infra.Data", "Product Repositorio")]
         [InlineData(10,1,10,10)]
         [InlineData(17, 2, 10,7)]
         [InlineData(17, 3, 10, 0)]

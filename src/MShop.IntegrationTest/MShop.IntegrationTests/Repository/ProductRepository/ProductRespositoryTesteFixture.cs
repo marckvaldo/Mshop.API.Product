@@ -33,6 +33,7 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
             );
         }
 
+        /*
         protected RepositoryDbContext CreateDBContext(bool preserveData = false)
         {
 
@@ -53,6 +54,7 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
         {
             CreateDBContext().Database.EnsureDeleted();
         }
+        */
 
 
         protected List<Product> FakerList(int length = 5) 

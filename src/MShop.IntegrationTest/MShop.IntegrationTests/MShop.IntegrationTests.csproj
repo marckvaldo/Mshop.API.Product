@@ -25,6 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\MShop.Application\MShop.Application.csproj" />
     <ProjectReference Include="..\..\MShop.Business\MShop.Business.csproj" />
     <ProjectReference Include="..\..\MShop.Repository\MShop.Repository.csproj" />
   </ItemGroup>
