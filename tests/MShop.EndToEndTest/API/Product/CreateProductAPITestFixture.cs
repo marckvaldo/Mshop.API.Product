@@ -1,4 +1,6 @@
-﻿using MShop.EndToEndTest.Common;
+﻿using BusinessEntity = MShop.Business.Entity;
+using UseCase = MShop.Application.UseCases.Product.CreateProducts;
+using MShop.EndToEndTest.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +19,7 @@ namespace MShop.EndToEndTest.API.Product
             _id = Guid.NewGuid();
         }
 
-       /* protected BusinessEntity.Product Faker()
+        protected BusinessEntity.Product Faker()
         {
             var product = (new BusinessEntity.Product
             (
@@ -30,6 +32,20 @@ namespace MShop.EndToEndTest.API.Product
                 true
             ));
             return product;
-        }*/
+        }
+
+        protected UseCase.CreateProductInPut Request()
+        {
+            return new UseCase.CreateProductInPut
+            {
+                Name = Faker().Name,
+                CategoryId = _categoryId,
+                Imagem = Faker().Imagem,
+                IsActive = true,
+                Description = Faker().Description,
+                Price = Faker().Price,
+                Stock = Faker().Stock
+            };
+        }
     }
 }

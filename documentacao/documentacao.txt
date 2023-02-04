@@ -46,4 +46,6 @@ criar mocks nos testes precisa instalar o Moq
 no projeto de teste de integration precisamos do entity em memoria para isso instalamos o 
 Microsoft.EntityFrameworkCore.InMemor
 
+no projeto de teste end2end precisamos
+Microsoft.AspNetCore.Mvc.Testing
 
