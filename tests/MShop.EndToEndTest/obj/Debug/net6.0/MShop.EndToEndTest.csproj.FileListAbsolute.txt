@@ -1,6 +1,0 @@
-C:\Users\IQ SISTEMAS\Documents\mShopping\Mshop.API.Product\tests\MShop.EndToEndTest\obj\Debug\net6.0\MShop.EndToEndTest.csproj.AssemblyReference.cache
-C:\Users\IQ SISTEMAS\Documents\mShopping\Mshop.API.Product\tests\MShop.EndToEndTest\obj\Debug\net6.0\MShop.EndToEndTest.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\IQ SISTEMAS\Documents\mShopping\Mshop.API.Product\tests\MShop.EndToEndTest\obj\Debug\net6.0\MShop.EndToEndTest.AssemblyInfoInputs.cache
-C:\Users\IQ SISTEMAS\Documents\mShopping\Mshop.API.Product\tests\MShop.EndToEndTest\obj\Debug\net6.0\MShop.EndToEndTest.AssemblyInfo.cs
-C:\Users\IQ SISTEMAS\Documents\mShopping\Mshop.API.Product\tests\MShop.EndToEndTest\obj\Debug\net6.0\MShop.EndToEndTest.csproj.CoreCompileInputs.cache
-C:\Users\IQ SISTEMAS\Documents\mShopping\Mshop.API.Product\tests\MShop.EndToEndTest\bin\Debug\net6.0\CoverletSourceRootsMapping

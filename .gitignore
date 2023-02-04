@@ -5,6 +5,7 @@ src/MShop.Repository/obj/
 
 tests/MShop.UnitTest/obj/
 tests/MShop.IntegrationTest/obj/
+tests/MShop.EndToEndTest/obj/
 .vs/
 
 
@@ -17,3 +18,4 @@ src/MShop.Repository/bin/
 
 tests/MShop.UnitTest/bin/
 tests/MShop.IntegrationTest/bin/
+tests/MShop.EndToEndTest/bin/

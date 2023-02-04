@@ -17,7 +17,7 @@ namespace MShop.EndToEndTest.API.Product
             _id = Guid.NewGuid();
         }
 
-        protected BusinessEntity.Product Faker()
+       /* protected BusinessEntity.Product Faker()
         {
             var product = (new BusinessEntity.Product
             (
@@ -30,6 +30,6 @@ namespace MShop.EndToEndTest.API.Product
                 true
             ));
             return product;
-        }
+        }*/
     }
 }
