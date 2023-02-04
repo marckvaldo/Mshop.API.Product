@@ -2,11 +2,11 @@ src/MShop.Application/obj/
 src/MShop.Business/obj/
 src/MShop.ProductAPI/obj/
 src/MShop.Repository/obj/
-src/MShop.Test/Mshop.Test/obj/
-src/MShop.IntegrationTest/MShop.IntegrationTests/obj/
+
+tests/MShop.UnitTest/obj/
+tests/MShop.IntegrationTest/obj/
 .vs/
-src/MShop.Test/Mshop.Test/bin/
-src/MShop.IntegrationTest/MShop.IntegrationTests/bin/
+
 
 
 
@@ -14,3 +14,6 @@ src/MShop.Application/bin/
 src/MShop.Business/bin/
 src/MShop.ProductAPI/bin/
 src/MShop.Repository/bin/
+
+tests/MShop.UnitTest/bin/
+tests/MShop.IntegrationTest/bin/
