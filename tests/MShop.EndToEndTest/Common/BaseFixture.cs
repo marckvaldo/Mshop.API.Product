@@ -13,9 +13,21 @@ namespace MShop.EndToEndTest.Common
     {
         protected readonly Faker faker;
         protected static readonly Faker fakerStatic = new Faker("pt_BR");
+
+        protected APIClient _apiClient;
+
+        protected CustomWebApplicationFactory<Program> _WebApp;
+
+        protected HttpClient HttpClient;
+
         protected BaseFixture()
         {
-            faker = new Faker("pt_BR"); 
+            faker = new Faker("pt_BR");
+
+            _WebApp = new CustomWebApplicationFactory<Program>();
+            HttpClient = _WebApp.CreateClient();
+
+            _apiClient = new APIClient(HttpClient);
         }
 
         protected RepositoryDbContext CreateDBContext(bool preserveData = false)
@@ -23,7 +35,7 @@ namespace MShop.EndToEndTest.Common
 
             var context = new RepositoryDbContext(
                 new DbContextOptionsBuilder<RepositoryDbContext>()
-                .UseInMemoryDatabase("end2end-test-db")
+                .UseInMemoryDatabase(Configuration.NameDataBase)
                 .Options
                 );
 

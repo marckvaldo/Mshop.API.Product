@@ -13,10 +13,17 @@ namespace MShop.EndToEndTest.API.Product
     {
         private readonly Guid _categoryId;
         private readonly Guid _id;
+
+        public ProductPersistence Persistence;
+
         public CreateProductAPITestFixture() : base()
         {
             _categoryId = Guid.NewGuid();
             _id = Guid.NewGuid();
+
+            Persistence = new ProductPersistence(
+                CreateDBContext()
+                );
         }
 
         protected BusinessEntity.Product Faker()
@@ -47,5 +54,7 @@ namespace MShop.EndToEndTest.API.Product
                 Stock = Faker().Stock
             };
         }
+
+ 
     }
 }

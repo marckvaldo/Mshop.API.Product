@@ -12,19 +12,20 @@ using System.Threading.Tasks;
 
 namespace MShop.EndToEndTest.Common
 {
-    public class CustomWebApplicationFactory<TStartup> : WebApplicationFactory<TStartup> where TStartup :class
+    public class CustomWebApplicationFactory<TStartup> : WebApplicationFactory<TStartup> where TStartup : class
     {
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
             builder.ConfigureServices(Services =>
             {
                 var dbOption  = Services.FirstOrDefault(x => x.ServiceType == typeof(DbContextOptions<RepositoryDbContext>));
+
                 if(dbOption is not null)
                     Services.Remove(dbOption);
 
                 Services.AddDbContext<RepositoryDbContext>(Options =>
                 {
-                    Options.UseInMemoryDatabase("end2end-test-db");
+                    Options.UseInMemoryDatabase(Configuration.NameDataBase);
                 });
 
             });

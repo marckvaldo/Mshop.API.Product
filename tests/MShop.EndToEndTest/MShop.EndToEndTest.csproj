@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <PackageReference Include="Bogus" Version="34.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.13" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.2" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.2" />
     <PackageReference Include="xunit" Version="2.4.2" />
@@ -24,7 +25,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\MShop.Repository\MShop.Repository.csproj" />
+    <ProjectReference Include="..\..\src\MShop.Application\MShop.Application.csproj" />
+    <ProjectReference Include="..\..\src\MShop.Business\MShop.Business.csproj" />
+    <ProjectReference Include="..\..\src\MShop.ProductAPI\MShop.ProductAPI.csproj" />
   </ItemGroup>
 
 </Project>

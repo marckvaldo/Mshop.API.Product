@@ -5,7 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Microsoft.AspNetCore.Http;
+using MShop.Application.UseCases.Product.Common;
 
 namespace MShop.EndToEndTest.API.Product
 {
@@ -16,10 +17,12 @@ namespace MShop.EndToEndTest.API.Product
 
         public async Task CreateProductAPI()
         {
-            /*var request = Request();
+            var request = Request();
 
-            UseCase.ProductModelOutPut outPut = await APIClient.Post<UseCase.ProductModelOutPut>("/product", request);
+            var (respose, outPut) = await _apiClient.Post<ProductModelOutPut>("/product", request);
 
+            Assert.NotNull(respose);
+            Assert.Equal(respose!.StatusCode.ToString(), StatusCodes.Status200OK.ToString());
             Assert.NotNull(outPut);
             Assert.Equal(outPut.Name, request.Name);
             Assert.Equal(outPut.Imagem, request.Imagem);   
@@ -34,7 +37,7 @@ namespace MShop.EndToEndTest.API.Product
             Assert.Equal(dbProduct.Imagem, request.Imagem);
             Assert.Equal(dbProduct.Description, request.Description);
             Assert.Equal(dbProduct.Price, request.Price);
-            Assert.Equal(dbProduct.IsActive, request.IsActive);*/
+            Assert.Equal(dbProduct.IsActive, request.IsActive);
 
         }
     }
