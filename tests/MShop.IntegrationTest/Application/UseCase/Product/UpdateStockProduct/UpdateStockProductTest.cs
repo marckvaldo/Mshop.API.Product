@@ -13,15 +13,20 @@ using MShop.Repository.Context;
 using Microsoft.EntityFrameworkCore;
 using ApplicationUseCase = MShop.Application.UseCases.Product.UpdateStockProduct;
 
+
+
 namespace MShop.IntegrationTests.Application.UseCase.Product.UpdateStockProduct
 {
     public class UpdateStockProductTest : UpdateStockProductTestFixture, IDisposable
     {
 
         private readonly RepositoryDbContext _DbContext;
+        private readonly ProductRepository _repository;
+
         public UpdateStockProductTest()
         {
-            _DbContext = CreateDBContext();
+            _DbContext = CreateDBContext(false, "UpdateStockProductTest");
+            _repository = new ProductRepository(_DbContext);
         }
 
         [Fact(DisplayName = nameof(UpdateStockProduct))]
@@ -29,9 +34,6 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.UpdateStockProduct
 
         public async Task UpdateStockProduct()
         {
-            //RepositoryDbContext DbContext = CreateDBContext();
-
-            var repository = new ProductRepository(_DbContext);
             var notification = new Notifications();
 
             var product = Faker();
@@ -40,10 +42,10 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.UpdateStockProduct
             await _DbContext.AddAsync(product);
             await _DbContext.SaveChangesAsync();
 
-            var useCase = new ApplicationUseCase.UpdateStockProducts(repository, notification);
+            var useCase = new ApplicationUseCase.UpdateStockProducts(_repository, notification);
             var outPut = await useCase.Handle(request);
 
-            var productDb = await CreateDBContext(true).Products.Where(x => x.Id == product.Id).FirstAsync();
+            var productDb = await _DbContext.Products.AsNoTracking().Where(x => x.Id == product.Id).FirstAsync();
 
             Assert.NotNull(outPut);
             Assert.Equal(request.Stock, outPut.Stock);
@@ -52,7 +54,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.UpdateStockProduct
 
         public void Dispose()
         {
-            CleanInMemoryDatabase();
+            CleanInMemoryDatabase(_DbContext);
         }
     }
 }

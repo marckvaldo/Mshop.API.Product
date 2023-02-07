@@ -7,6 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using MShop.Application.UseCases.Product.Common;
+using Microsoft.AspNetCore.Mvc;
+using MShop.EndToEndTest.API.Product.Common;
 
 namespace MShop.EndToEndTest.API.Product
 {
@@ -19,10 +21,10 @@ namespace MShop.EndToEndTest.API.Product
         {
             var request = Request();
 
-            var (respose, outPut) = await apiClient.Post<ProductModelOutPut>("/product", request);
+            var (respose, outPut) = await apiClient.Post<CustomResponse<ProductModelOutPut>("/api/products", request);
 
             Assert.NotNull(respose);
-            Assert.Equal(respose!.StatusCode.ToString(), StatusCodes.Status200OK.ToString());
+            Assert.Equal(System.Net.HttpStatusCode.OK, respose!.StatusCode) ;
             Assert.NotNull(outPut);
             Assert.Equal(outPut.Name, request.Name);
             Assert.Equal(outPut.Imagem, request.Imagem);   
@@ -39,6 +41,18 @@ namespace MShop.EndToEndTest.API.Product
             Assert.Equal(dbProduct.Price, request.Price);
             Assert.Equal(dbProduct.IsActive, request.IsActive);
 
+            /*
+             
+             {
+              "description": "string",
+              "name": "string",
+              "price": 0,
+              "imagem": "string",
+              "stock": 0,
+              "isActive": true,
+              "categoryId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+            }
+             */
         }
     }
 }

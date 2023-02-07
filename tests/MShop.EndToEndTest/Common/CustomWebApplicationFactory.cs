@@ -29,8 +29,6 @@ namespace MShop.EndToEndTest.Common
                 });
 
             });
-
-            
         }
     }
 }

@@ -54,7 +54,6 @@ namespace MShop.Repository.Repository
 
         public virtual async Task Create(TEntity entity)
         {
-            //_db.Set<TEntity>(entity);
             _dbSet.Add(entity);
             await SaveChanges();
         }

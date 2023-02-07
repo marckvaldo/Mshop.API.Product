@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using MShop.Business.Interface;
+using MShop.Business.Interface.Repository;
 using MShop.Business.Validation;
 using MShop.Repository.Context;
 using MShop.Repository.Repository;
@@ -18,10 +19,12 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.CreateProduct
     {
 
         private readonly RepositoryDbContext _DbContext;
+        private readonly ProductRepository _repository;
 
         public CreateProductTest()
         {
-            _DbContext = CreateDBContext();
+            _DbContext = CreateDBContext(false, "CreateProductTest");
+            _repository = new ProductRepository(_DbContext);
         }
 
         [Fact(DisplayName = nameof(CreateProduct))]
@@ -29,16 +32,13 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.CreateProduct
         public async Task CreateProduct()
         {
 
-            //RepositoryDbContext dbContext =  CreateDBContext();
-
-            var repository = new ProductRepository(_DbContext);
             var notification = new Notifications();
 
             var request = Faker();
-            var productUseCase = new ApplicationUseCase.CreateProduct(repository, notification);
+            var productUseCase = new ApplicationUseCase.CreateProduct(_repository, notification);
             var outPut = await productUseCase.Handle(request);
 
-            var newProduct = await CreateDBContext(true).Products.FindAsync(outPut.Id);
+            var newProduct = await _DbContext.Products.FindAsync(outPut.Id);
             
             Assert.False(notification.HasErrors());
             Assert.NotNull(outPut);
@@ -66,7 +66,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.CreateProduct
 
         public void Dispose()
         {
-            CleanInMemoryDatabase();
+            CleanInMemoryDatabase(_DbContext);
         }
     }
 }

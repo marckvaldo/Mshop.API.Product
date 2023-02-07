@@ -1,4 +1,6 @@
-﻿using MShop.Business.Validation;
+﻿using Microsoft.EntityFrameworkCore;
+using MShop.Business.Interface.Repository;
+using MShop.Business.Validation;
 using MShop.Repository.Context;
 using MShop.Repository.Repository;
 using System;
@@ -13,10 +15,12 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.DeleteProduct
     public class DeleteProductTest : DeleteProductTestFixture, IDisposable
     {
         private readonly RepositoryDbContext _DbContext;
+        private readonly ProductRepository _repository;
 
         public DeleteProductTest()
         {
-            _DbContext = CreateDBContext();
+            _DbContext = CreateDBContext(false, "DeleteProductTest");
+            _repository = new ProductRepository(_DbContext);
         }
 
         [Fact(DisplayName = nameof(DeleteProduct))]
@@ -24,16 +28,14 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.DeleteProduct
 
         public async Task DeleteProduct()
         {
-            //RepositoryDbContext dbContext = CreateDBContext();
-
-            var repository = new ProductRepository(_DbContext);
+          
             var notification = new Notifications();
 
             var product = Faker();
             _DbContext.Add(product);
             await _DbContext.SaveChangesAsync();
 
-            var useCase = new ApplicationUseCase.DeleteProduct(repository,notification);
+            var useCase = new ApplicationUseCase.DeleteProduct(_repository,notification);
             await useCase.Handle(product.Id);
 
             var productDbDelete = await CreateDBContext(true).Products.FindAsync(product.Id);
@@ -44,7 +46,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.DeleteProduct
 
         public void Dispose()
         {
-            CleanInMemoryDatabase();
+            CleanInMemoryDatabase(_DbContext);
         }
     }
 }

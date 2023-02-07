@@ -17,21 +17,24 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
 {
     public class ProductRepositoryTest: ProductRespositoryTesteFixture, IDisposable
     {
+        private readonly RepositoryDbContext _DbContext;
+        private readonly InfraRepository.ProductRepository _repository;
+        public ProductRepositoryTest()
+        {
+            _DbContext = CreateDBContext();
+            _repository = new InfraRepository.ProductRepository(_DbContext);
+        }
+
         [Fact(DisplayName = nameof(CreateProduct))]
         [Trait("Integration - Infra.Data", "Product Repositorio")]
 
         public async Task CreateProduct()
         {
-            
-            RepositoryDbContext dbContext = CreateDBContext();
-
-            var repository = new InfraRepository.ProductRepository(dbContext);
-
             var product = Faker();
 
-            await repository.Create(product);
+            await _repository.Create(product);
 
-            var newProduct = await dbContext.Products.FindAsync(product.Id);
+            var newProduct = await _DbContext.Products.FindAsync(product.Id);
 
             Assert.NotNull(newProduct);
             Assert.Equal(product.Id, newProduct.Id);
@@ -48,17 +51,14 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
         public async Task GetByIdProduct()
         {
 
-            RepositoryDbContext dbContext = CreateDBContext();
-
-            var repository = new InfraRepository.ProductRepository(dbContext);
             var product = Faker();
             var productList = FakerList(20);
             productList.Add(product);
-            await dbContext.AddRangeAsync(productList);
-            await dbContext.SaveChangesAsync();
+            await _DbContext.AddRangeAsync(productList);
+            await _DbContext.SaveChangesAsync();
 
 
-            var outPut = await repository.GetById(product.Id);
+            var outPut = await _repository.GetById(product.Id);
 
             Assert.NotNull(outPut);
             Assert.Equal(product.Id, outPut.Id);
@@ -74,20 +74,18 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
 
         public async Task UpdateProduct()
         {
-
-            RepositoryDbContext dbContext = CreateDBContext();
             var notification = new Notifications() ;
 
-            var repository = new InfraRepository.ProductRepository(dbContext);
+            var repository = new InfraRepository.ProductRepository(_DbContext);
             var request = Faker();
             var productList = FakerList(20);
             
-            await dbContext.AddRangeAsync(productList);
-            await dbContext.SaveChangesAsync();
+            await _DbContext.AddRangeAsync(productList);
+            await _DbContext.SaveChangesAsync();
 
             Guid id = productList.First().Id;
 
-            var product = await repository.GetById(id);
+            var product = await _repository.GetById(id);
             
             product.Update(request.Description, request.Name, request.Price, request.CategoryId);
             product.UpdateImage(request.Imagem);
@@ -113,19 +111,15 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
 
         public async Task DeleteProduct()
         {
-
-            RepositoryDbContext dbContext = CreateDBContext();
             var notification = new Notifications();
-
-            var repository = new InfraRepository.ProductRepository(dbContext);
             var productList = FakerList(20);
 
-            await dbContext.AddRangeAsync(productList);
-            await dbContext.SaveChangesAsync();
+            await _DbContext.AddRangeAsync(productList);
+            await _DbContext.SaveChangesAsync();
 
             var request = productList.First();
 
-            await repository.DeleteById(request);
+            await _repository.DeleteById(request);
             var productUpdate = await (CreateDBContext(true)).Products.FindAsync(request.Id);
 
             Assert.Null(productUpdate);
@@ -138,23 +132,19 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
         public async Task SerachRestusListAndTotal()
         {
              
-            RepositoryDbContext dbContext = CreateDBContext();
-
-            var repository = new InfraRepository.ProductRepository(dbContext);
             var productList = FakerList(20);
-            await dbContext.AddRangeAsync(productList);
-            await dbContext.SaveChangesAsync();
+            await _DbContext.AddRangeAsync(productList);
+            await _DbContext.SaveChangesAsync();
 
             var perPage = 10;
 
             var input = new PaginatedInPut(1, perPage, "","",SearchOrder.Asc);
 
-            var outPut = await repository.FilterPaginated(input);
+            var outPut = await _repository.FilterPaginated(input);
 
             Assert.NotNull(outPut);
             Assert.NotNull(outPut.Itens);
             Assert.True(outPut.Itens.Count == perPage);
-            //Assert.True(outPut.Itens.Count == outPut.Total);
             Assert.Equal(input.PerPage, outPut.PerPage);
 
             foreach(Product item in outPut.Itens)
@@ -175,13 +165,11 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
         public async Task SholdSearchResultListEmpty()
         {
 
-            RepositoryDbContext dbContext = CreateDBContext();
-            var repository = new InfraRepository.ProductRepository(dbContext);
             var perPage = 20;
 
             var input = new PaginatedInPut(1, perPage, "", "", SearchOrder.Asc);
 
-            var outPut = await repository.FilterPaginated(input);
+            var outPut = await _repository.FilterPaginated(input);
 
             Assert.NotNull(outPut);
             Assert.True(outPut.Itens.Count() == 0);
@@ -198,16 +186,13 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
         public async Task SerachRestusPaginated(int quantityProduct, int page, int perPage, int expectedQuantityItems)
         {
 
-            RepositoryDbContext dbContext = CreateDBContext();
-
-            var repository = new InfraRepository.ProductRepository(dbContext);
             var productList = FakerList(quantityProduct);
-            await dbContext.AddRangeAsync(productList);
-            await dbContext.SaveChangesAsync();
+            await _DbContext.AddRangeAsync(productList);
+            await _DbContext.SaveChangesAsync();
 
             var input = new PaginatedInPut(page, perPage, "", "", SearchOrder.Asc);
 
-            var outPut = await repository.FilterPaginated(input);
+            var outPut = await _repository.FilterPaginated(input);
 
             Assert.NotNull(outPut);
             Assert.NotNull(outPut.Itens);
@@ -230,54 +215,7 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
 
         public void Dispose()
         {
-            CleanInMemoryDatabase();
+            CleanInMemoryDatabase(_DbContext);
         }
-
-
-
-        /*[Theory(DisplayName = nameof(ListProductOrderBY))]
-        [Trait("Application-UseCase", "List Products")]
-        [InlineData(SearchOrder.Asc)]
-        [InlineData(SearchOrder.Desc)]
-        public async void ListProductOrderBY(SearchOrder order)
-        {
-            var repository = new Mock<BusinessInterface.Repository.IProductRepository>();
-            var notification = new Mock<BusinessInterface.INotification>();
-
-            var productsFake = GetListProdutsConstant();
-
-            var page = 1;
-            var perPage = 2;
-            var sort = "Name";
-
-            var request = new ListProductInPut(page, perPage, "", sort, order);
-
-            repository.Setup(r => r.FilterPaginated(It.IsAny<PaginatedInPut>()))
-                .ReturnsAsync(new PaginatedOutPut<BusinessEntity.Product>(page, perPage, productsFake.Count(), productsFake));
-
-            var useCase = new ApplicationUseCase.ListProducts(repository.Object, notification.Object);
-            var outPut = await useCase.Handle(request);
-
-            repository.Verify(r => r.FilterPaginated(It.IsAny<PaginatedInPut>()), Times.Once);
-            notification.Verify(n => n.AddNotifications(It.IsAny<string>()), Times.Never);
-
-            Assert.NotNull(outPut);
-
-            Assert.Equal(outPut.Page, page);
-            Assert.Equal(outPut.PerPage, perPage);
-
-            if (order == SearchOrder.Desc)
-            {
-                Assert.True(outPut.Itens.First().Name == fakeContantsNames.First());
-                Assert.True(outPut.Itens.Last().Name == fakeContantsNames.Last());
-            }
-            else
-            {
-                Assert.True(outPut.Itens.First().Name == fakeContantsNames.Last());
-                Assert.True(outPut.Itens.Last().Name == fakeContantsNames.First());
-            }
-
-
-        }*/
     }
 }

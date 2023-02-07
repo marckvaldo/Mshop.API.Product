@@ -18,14 +18,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MShop.IntegrationTests.Application.UseCase.Product.ListProduct
 {
-    public class ListProductTest : ListProductTestFixture
+    public class ListProductTest : ListProductTestFixture, IDisposable
     {
 
         private readonly RepositoryDbContext _DbContext;
+        private readonly ProductRepository _repository;
 
         public ListProductTest()
         {
-            _DbContext = CreateDBContext();
+            _DbContext = CreateDBContext(false, "ListProductTest");
+            _repository = new ProductRepository(_DbContext);
         }
 
         [Fact(DisplayName = nameof(ListProduct))]
@@ -33,9 +35,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.ListProduct
 
         public async Task ListProducts()
         {
-            //_DbContext = CreateDBContext();
-
-            var repository = new ProductRepository(_DbContext);
+           
             var notification = new Notifications();
 
 
@@ -45,7 +45,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.ListProduct
 
           
 
-            var useCase = new ListProducts(repository, notification);
+            var useCase = new ListProducts(_repository, notification);
 
             var request = new ListProductInPut(
                             page: 1,
@@ -65,5 +65,9 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.ListProduct
             Assert.True(outPut.Itens.Any());
         }
 
+        public void Dispose()
+        {
+            CleanInMemoryDatabase(_DbContext);
+        }
     }
 }

@@ -11,25 +11,25 @@ using MShop.Repository.Context;
 using ApplicationUseCase = MShop.Application.UseCases.Product.GetProduct;
 using MShop.Business.Validation;
 using MShop.Business.Exception;
+using Microsoft.EntityFrameworkCore;
 
 namespace MShop.IntegrationTests.Application.UseCase.Product.GetProduct
 {
     public class GetProductTest:GetProductTestFixture, IDisposable
     {
         private readonly RepositoryDbContext _DbContext;
+        private readonly ProductRepository _repository;
 
         public GetProductTest()
         {
-            _DbContext = CreateDBContext();
+            _DbContext = CreateDBContext(false, "GetProductTest");
+            _repository = new ProductRepository(_DbContext);
         }
 
         [Fact(DisplayName = nameof(GetProduct))]
         [Trait("Integration-Infra.Data", "Product Use Case")]
         public async Task GetProduct()
         {
-            //RepositoryDbContext dbContext = CreateDBContext();  
-
-            var repository = new ProductRepository(_DbContext);
             var notification = new Notifications();
 
             var productFake = Faker();
@@ -39,7 +39,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.GetProduct
             var guid = productFake.Id;
 
           
-            var useCase = new ApplicationUseCase.GetProduct(repository, notification);
+            var useCase = new ApplicationUseCase.GetProduct(_repository, notification);
             var outPut = await useCase.Handle(guid);
 
 
@@ -60,16 +60,14 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.GetProduct
         [Trait("Application-UseCase", "Product Use Case")]
         public async Task SholdReturnErrorWhenCantGetProduct()
         {
-            //RepositoryDbContext dbContext = CreateDBContext();
-
-            var repository = new ProductRepository(_DbContext);
+           
             var notification = new Notifications();
 
             var productFake = Faker();
             _DbContext.Products.Add(productFake);
             await _DbContext.SaveChangesAsync();
 
-            var useCase = new ApplicationUseCase.GetProduct(repository, notification);
+            var useCase = new ApplicationUseCase.GetProduct(_repository, notification);
             var outPut = async () => await useCase.Handle(Guid.NewGuid());
 
             var exception = await Assert.ThrowsAsync<NotFoundException>(outPut);
@@ -81,7 +79,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.GetProduct
 
         public void Dispose()
         {
-            CleanInMemoryDatabase();    
+            CleanInMemoryDatabase(_DbContext);
         }
     }
 }

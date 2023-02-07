@@ -18,25 +18,39 @@ namespace MShop.IntegrationTests.Common
             faker = new Faker("pt_BR"); 
         }
 
-        protected RepositoryDbContext CreateDBContext(bool preserveData = false)
+        protected RepositoryDbContext CreateDBContext(bool preserveData = false, string dataBase = null)
         {
+            if (dataBase == null)
+                dataBase = Configuration.NameDataBase;
 
             var context = new RepositoryDbContext(
                 new DbContextOptionsBuilder<RepositoryDbContext>()
-                .UseInMemoryDatabase("integration-test-db")
+                .UseInMemoryDatabase(dataBase)
                 .Options
                 );
 
             if (!preserveData)
                 context.Database.EnsureDeleted();
 
+            context.Database.EnsureCreated();
+
             return context;
 
         }
 
-        protected void CleanInMemoryDatabase()
+        protected void CleanInMemoryDatabase(RepositoryDbContext context = null)
         {
-            //CreateDBContext().Database.EnsureDeleted();
+
+            if(context is null)
+            {
+                CreateDBContext().Database.EnsureDeleted();
+            }
+            else
+            {
+                context.Database.EnsureDeleted();
+            }
+            
+            
         }
     }
 }

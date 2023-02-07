@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using MShop.Business.Interface.Repository;
 using MShop.Business.Validation;
 using MShop.Repository.Context;
 using MShop.Repository.Repository;
@@ -15,10 +16,12 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.UpdateProduct
     {
 
         private readonly RepositoryDbContext _DbContext;
+        private readonly ProductRepository _repository;
 
         public UpdateProductTest()
         {
-            _DbContext = CreateDBContext();
+            _DbContext = CreateDBContext(false, "UpdateProductTest");
+            _repository = new ProductRepository(_DbContext);
         }
 
         [Fact(DisplayName = nameof(UpdateProduct))]
@@ -26,9 +29,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.UpdateProduct
 
         public async Task UpdateProduct()
         {
-            //RepositoryDbContext DbContext = CreateDBContext();
-
-            var repository = new ProductRepository(_DbContext);
+           
             var notificacao = new Notifications();
 
             var product = Faker();
@@ -38,10 +39,10 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.UpdateProduct
             await _DbContext.AddAsync(product);
             await _DbContext.SaveChangesAsync();
 
-            var useCase = new ApplicationUseCase.UpdateProduct(repository, notificacao);
+            var useCase = new ApplicationUseCase.UpdateProduct(_repository, notificacao);
             var outPut = await useCase.Handle(request);
 
-            var productDb = await CreateDBContext(true).Products.Where(x=>x.Id == product.Id).FirstAsync();
+            var productDb = await _DbContext.Products.Where(x=>x.Id == product.Id).FirstAsync();
 
             Assert.NotNull(outPut);
             Assert.NotNull(productDb);
@@ -55,7 +56,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.UpdateProduct
 
         public void Dispose()
         {
-            CleanInMemoryDatabase();    
+            CleanInMemoryDatabase(_DbContext);
         }
     }
 }

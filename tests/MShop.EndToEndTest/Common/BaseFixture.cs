@@ -13,21 +13,18 @@ namespace MShop.EndToEndTest.Common
     {
         protected readonly Faker faker;
         protected static readonly Faker fakerStatic = new Faker("pt_BR");
-
         protected APIClient apiClient;
-
         protected CustomWebApplicationFactory<Program> webApp;
-
-        protected HttpClient HttpClient;
+        protected HttpClient httpClient;
 
         protected BaseFixture()
         {
             faker = new Faker("pt_BR");
 
             webApp = new CustomWebApplicationFactory<Program>();
-            HttpClient = webApp.CreateClient();
+            httpClient = webApp.CreateClient();
 
-            apiClient = new APIClient(HttpClient);
+            apiClient = new APIClient(httpClient);
         }
 
         protected RepositoryDbContext CreateDBContext(bool preserveData = false)

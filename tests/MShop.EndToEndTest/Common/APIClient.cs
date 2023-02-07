@@ -16,7 +16,7 @@ namespace MShop.EndToEndTest.Common
             _httpCliente = httpCliente;
         }
 
-        public async Task<(HttpResponseMessage?, TOutPut?)> Post<TOutPut>( string route, object payload) where TOutPut : class // aqui estou falando que TOutPut é do tipo class sendo asim é perminido retornar null 
+        public async Task<(HttpResponseMessage?, TOutPut?)> Post<TOutPut>(string route, object payload) where TOutPut : class // aqui estou falando que TOutPut é do tipo class sendo asim é perminido retornar null 
         {
             var response = await _httpCliente.PostAsync(
                 route,
@@ -33,9 +33,10 @@ namespace MShop.EndToEndTest.Common
                 outputString,
                 new JsonSerializerOptions
                 {
-                    PropertyNameCaseInsensitive = true,  
+                    PropertyNameCaseInsensitive = false,
                 }
                 ); 
+
             return (response, outPut);
         }
 
