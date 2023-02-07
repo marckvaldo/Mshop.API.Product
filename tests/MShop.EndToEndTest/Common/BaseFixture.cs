@@ -14,9 +14,9 @@ namespace MShop.EndToEndTest.Common
         protected readonly Faker faker;
         protected static readonly Faker fakerStatic = new Faker("pt_BR");
 
-        protected APIClient _apiClient;
+        protected APIClient apiClient;
 
-        protected CustomWebApplicationFactory<Program> _WebApp;
+        protected CustomWebApplicationFactory<Program> webApp;
 
         protected HttpClient HttpClient;
 
@@ -24,10 +24,10 @@ namespace MShop.EndToEndTest.Common
         {
             faker = new Faker("pt_BR");
 
-            _WebApp = new CustomWebApplicationFactory<Program>();
-            HttpClient = _WebApp.CreateClient();
+            webApp = new CustomWebApplicationFactory<Program>();
+            HttpClient = webApp.CreateClient();
 
-            _apiClient = new APIClient(HttpClient);
+            apiClient = new APIClient(HttpClient);
         }
 
         protected RepositoryDbContext CreateDBContext(bool preserveData = false)

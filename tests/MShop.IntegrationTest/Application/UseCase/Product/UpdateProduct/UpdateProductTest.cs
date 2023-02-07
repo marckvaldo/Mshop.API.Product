@@ -13,24 +13,30 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.UpdateProduct
 {
     public class UpdateProductTest : UpdateProdutTestFixture, IDisposable
     {
-        
+
+        private readonly RepositoryDbContext _DbContext;
+
+        public UpdateProductTest()
+        {
+            _DbContext = CreateDBContext();
+        }
 
         [Fact(DisplayName = nameof(UpdateProduct))]
         [Trait("Integration-Infra.Data", "Product Use Case")]
 
-        public async void UpdateProduct()
+        public async Task UpdateProduct()
         {
-            RepositoryDbContext DbContext = CreateDBContext();
+            //RepositoryDbContext DbContext = CreateDBContext();
 
-            var repository = new ProductRepository(DbContext);
+            var repository = new ProductRepository(_DbContext);
             var notificacao = new Notifications();
 
             var product = Faker();
             var request = RequestFake();
             
 
-            DbContext.Add(product);
-            await DbContext.SaveChangesAsync();
+            await _DbContext.AddAsync(product);
+            await _DbContext.SaveChangesAsync();
 
             var useCase = new ApplicationUseCase.UpdateProduct(repository, notificacao);
             var outPut = await useCase.Handle(request);

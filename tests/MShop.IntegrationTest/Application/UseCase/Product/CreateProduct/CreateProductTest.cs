@@ -16,14 +16,22 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.CreateProduct
 {
     public class CreateProductTest : CreateProductTestFixture, IDisposable
     {
+
+        private readonly RepositoryDbContext _DbContext;
+
+        public CreateProductTest()
+        {
+            _DbContext = CreateDBContext();
+        }
+
         [Fact(DisplayName = nameof(CreateProduct))]
         [Trait("Integration-Infra.Data", "Product Use Case")]
-        public async void CreateProduct()
+        public async Task CreateProduct()
         {
 
-            RepositoryDbContext dbContext = CreateDBContext();
+            //RepositoryDbContext dbContext =  CreateDBContext();
 
-            var repository = new ProductRepository(dbContext);
+            var repository = new ProductRepository(_DbContext);
             var notification = new Notifications();
 
             var request = Faker();

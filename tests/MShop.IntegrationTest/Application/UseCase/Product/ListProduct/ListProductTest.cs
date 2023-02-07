@@ -14,28 +14,38 @@ using MShop.Repository.Context;
 using MShop.Repository.Repository;
 using ApplicationUseCase = MShop.Application.UseCases.Product.ListProducts;
 using BusinessEntity = MShop.Business.Entity;
+using Microsoft.EntityFrameworkCore;
 
 namespace MShop.IntegrationTests.Application.UseCase.Product.ListProduct
 {
     public class ListProductTest : ListProductTestFixture
     {
+
+        private readonly RepositoryDbContext _DbContext;
+
+        public ListProductTest()
+        {
+            _DbContext = CreateDBContext();
+        }
+
         [Fact(DisplayName = nameof(ListProduct))]
         [Trait("Integration-Infra.Data", "Product Use Case")]
 
-        public async void ListProducts()
+        public async Task ListProducts()
         {
-            RepositoryDbContext DbContext = CreateDBContext();
+            //_DbContext = CreateDBContext();
 
-            var repository = new ProductRepository(DbContext);
+            var repository = new ProductRepository(_DbContext);
             var notification = new Notifications();
 
+
             var productsFake = ListFake(20);
-            await DbContext.Products.AddRangeAsync(productsFake);
-            await DbContext.SaveChangesAsync();
+            await _DbContext.Products.AddRangeAsync(productsFake);
+            await _DbContext.SaveChangesAsync();
+
+          
 
             var useCase = new ListProducts(repository, notification);
-
-            var random = new Random();
 
             var request = new ListProductInPut(
                             page: 1,

@@ -16,19 +16,25 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.GetProduct
 {
     public class GetProductTest:GetProductTestFixture, IDisposable
     {
-       
+        private readonly RepositoryDbContext _DbContext;
+
+        public GetProductTest()
+        {
+            _DbContext = CreateDBContext();
+        }
+
         [Fact(DisplayName = nameof(GetProduct))]
         [Trait("Integration-Infra.Data", "Product Use Case")]
-        public async void GetProduct()
+        public async Task GetProduct()
         {
-            RepositoryDbContext dbContext = CreateDBContext();  
+            //RepositoryDbContext dbContext = CreateDBContext();  
 
-            var repository = new ProductRepository(dbContext);
+            var repository = new ProductRepository(_DbContext);
             var notification = new Notifications();
 
             var productFake = Faker();
-            dbContext.Products.Add(productFake);
-            await dbContext.SaveChangesAsync();
+            await _DbContext.Products.AddAsync(productFake);
+            await _DbContext.SaveChangesAsync();
 
             var guid = productFake.Id;
 
@@ -52,16 +58,16 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.GetProduct
 
         [Fact(DisplayName = nameof(SholdReturnErrorWhenCantGetProduct))]
         [Trait("Application-UseCase", "Product Use Case")]
-        public async void SholdReturnErrorWhenCantGetProduct()
+        public async Task SholdReturnErrorWhenCantGetProduct()
         {
-            RepositoryDbContext dbContext = CreateDBContext();
+            //RepositoryDbContext dbContext = CreateDBContext();
 
-            var repository = new ProductRepository(dbContext);
+            var repository = new ProductRepository(_DbContext);
             var notification = new Notifications();
 
             var productFake = Faker();
-            dbContext.Products.Add(productFake);
-            await dbContext.SaveChangesAsync();
+            _DbContext.Products.Add(productFake);
+            await _DbContext.SaveChangesAsync();
 
             var useCase = new ApplicationUseCase.GetProduct(repository, notification);
             var outPut = async () => await useCase.Handle(Guid.NewGuid());

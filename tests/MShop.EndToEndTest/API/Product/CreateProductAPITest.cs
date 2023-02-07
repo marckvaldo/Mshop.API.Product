@@ -19,7 +19,7 @@ namespace MShop.EndToEndTest.API.Product
         {
             var request = Request();
 
-            var (respose, outPut) = await _apiClient.Post<ProductModelOutPut>("/product", request);
+            var (respose, outPut) = await apiClient.Post<ProductModelOutPut>("/product", request);
 
             Assert.NotNull(respose);
             Assert.Equal(respose!.StatusCode.ToString(), StatusCodes.Status200OK.ToString());

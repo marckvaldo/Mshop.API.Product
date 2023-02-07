@@ -12,19 +12,26 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.DeleteProduct
 {
     public class DeleteProductTest : DeleteProductTestFixture, IDisposable
     {
+        private readonly RepositoryDbContext _DbContext;
+
+        public DeleteProductTest()
+        {
+            _DbContext = CreateDBContext();
+        }
+
         [Fact(DisplayName = nameof(DeleteProduct))]
         [Trait("Integration-Infra.Data", "Product Use Case")]
 
-        public async void DeleteProduct()
+        public async Task DeleteProduct()
         {
-            RepositoryDbContext dbContext = CreateDBContext();
+            //RepositoryDbContext dbContext = CreateDBContext();
 
-            var repository = new ProductRepository(dbContext);
+            var repository = new ProductRepository(_DbContext);
             var notification = new Notifications();
 
             var product = Faker();
-            dbContext.Add(product);
-            await dbContext.SaveChangesAsync();
+            _DbContext.Add(product);
+            await _DbContext.SaveChangesAsync();
 
             var useCase = new ApplicationUseCase.DeleteProduct(repository,notification);
             await useCase.Handle(product.Id);

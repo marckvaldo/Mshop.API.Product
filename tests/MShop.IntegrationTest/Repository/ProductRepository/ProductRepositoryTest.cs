@@ -20,7 +20,7 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
         [Fact(DisplayName = nameof(CreateProduct))]
         [Trait("Integration - Infra.Data", "Product Repositorio")]
 
-        public async void CreateProduct()
+        public async Task CreateProduct()
         {
             
             RepositoryDbContext dbContext = CreateDBContext();
@@ -45,7 +45,7 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
         [Fact(DisplayName = nameof(GetByIdProduct))]
         [Trait("Integration - Infra.Data", "Product Repositorio")]
 
-        public async void GetByIdProduct()
+        public async Task GetByIdProduct()
         {
 
             RepositoryDbContext dbContext = CreateDBContext();
@@ -72,7 +72,7 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
         [Fact(DisplayName = nameof(UpdateProduct))]
         [Trait("Integration - Infra.Data", "Product Repositorio")]
 
-        public async void UpdateProduct()
+        public async Task UpdateProduct()
         {
 
             RepositoryDbContext dbContext = CreateDBContext();
@@ -111,7 +111,7 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
         [Fact(DisplayName = nameof(DeleteProduct))]
         [Trait("Integration - Infra.Data", "Product Repositorio")]
 
-        public async void DeleteProduct()
+        public async Task DeleteProduct()
         {
 
             RepositoryDbContext dbContext = CreateDBContext();
@@ -135,7 +135,7 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
         [Fact(DisplayName = nameof(SerachRestusListAndTotal))]
         [Trait("Integration - Infra.Data", "Product Repositorio")]
 
-        public async void SerachRestusListAndTotal()
+        public async Task SerachRestusListAndTotal()
         {
              
             RepositoryDbContext dbContext = CreateDBContext();
@@ -172,7 +172,7 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
         [Fact(DisplayName = nameof(SholdSearchResultListEmpty))]
         [Trait("Integration - Infra.Data", "Product Repositorio")]
 
-        public async void SholdSearchResultListEmpty()
+        public async Task SholdSearchResultListEmpty()
         {
 
             RepositoryDbContext dbContext = CreateDBContext();
@@ -195,7 +195,7 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
         [InlineData(17, 2, 10,7)]
         [InlineData(17, 3, 10, 0)]
 
-        public async void SerachRestusPaginated(int quantityProduct, int page, int perPage, int expectedQuantityItems)
+        public async Task SerachRestusPaginated(int quantityProduct, int page, int perPage, int expectedQuantityItems)
         {
 
             RepositoryDbContext dbContext = CreateDBContext();

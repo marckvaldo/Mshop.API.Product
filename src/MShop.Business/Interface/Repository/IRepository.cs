@@ -13,7 +13,7 @@ namespace MShop.Business.Interface.Repository
         Task Create(TEntity entity);
         Task Update(TEntity entity);
         Task DeleteById(TEntity entity);
-        Task<TEntity> GetById(Guid Id);
+        Task<TEntity?> GetById(Guid Id);
         Task<List<TEntity>> GetValuesList();
         Task<List<TEntity>> Filter(Expression<Func<TEntity, bool>> predicate);
         Task<TEntity> GetLastRegister(Expression<Func<TEntity, bool>> predicate);

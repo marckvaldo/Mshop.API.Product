@@ -15,23 +15,30 @@ using ApplicationUseCase = MShop.Application.UseCases.Product.UpdateStockProduct
 
 namespace MShop.IntegrationTests.Application.UseCase.Product.UpdateStockProduct
 {
-    public class UpdateStockProductTest : UpdateStockProductTestFixture
+    public class UpdateStockProductTest : UpdateStockProductTestFixture, IDisposable
     {
+
+        private readonly RepositoryDbContext _DbContext;
+        public UpdateStockProductTest()
+        {
+            _DbContext = CreateDBContext();
+        }
+
         [Fact(DisplayName = nameof(UpdateStockProduct))]
         [Trait("Integration-Infra.Data", "Product Use Case")]
 
-        public async void UpdateStockProduct()
+        public async Task UpdateStockProduct()
         {
-            RepositoryDbContext DbContext = CreateDBContext();
+            //RepositoryDbContext DbContext = CreateDBContext();
 
-            var repository = new ProductRepository(DbContext);
+            var repository = new ProductRepository(_DbContext);
             var notification = new Notifications();
 
             var product = Faker();
             var request = RequestFake();
 
-            DbContext.Add(product);
-            await DbContext.SaveChangesAsync();
+            await _DbContext.AddAsync(product);
+            await _DbContext.SaveChangesAsync();
 
             var useCase = new ApplicationUseCase.UpdateStockProducts(repository, notification);
             var outPut = await useCase.Handle(request);
@@ -41,6 +48,11 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.UpdateStockProduct
             Assert.NotNull(outPut);
             Assert.Equal(request.Stock, outPut.Stock);
 
+        }
+
+        public void Dispose()
+        {
+            CleanInMemoryDatabase();
         }
     }
 }

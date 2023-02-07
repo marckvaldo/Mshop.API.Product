@@ -31,7 +31,7 @@ namespace MShop.Repository.Repository
             return result;
         }
 
-        public virtual async Task<TEntity> GetById(Guid Id)
+        public virtual async Task<TEntity?> GetById(Guid Id)
         {
             var result = await _dbSet.FindAsync(Id);
             NotFoundException.ThrowIfnull(result, "your search returned null");
