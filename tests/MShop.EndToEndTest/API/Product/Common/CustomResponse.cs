@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MShop.Application.UseCases.Product.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,15 +10,12 @@ namespace MShop.EndToEndTest.API.Product.Common
     public class CustomResponse<TResult>
     {
 
-        public TResult Result { get; set; }
+        public TResult Data { get; set; }
 
-        public string Data { get; set; }
+        public bool Success { get; set; }
 
-        public string Success { get; set; }
-
-        public CustomResponse(TResult result, string data, string success)
+        public CustomResponse(TResult data, bool success)
         {
-            Result = result;
             Data = data;
             Success = success;
         }

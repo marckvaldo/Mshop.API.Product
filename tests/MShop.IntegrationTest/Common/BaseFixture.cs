@@ -18,10 +18,10 @@ namespace MShop.IntegrationTests.Common
             faker = new Faker("pt_BR"); 
         }
 
-        protected RepositoryDbContext CreateDBContext(bool preserveData = false, string dataBase = null)
+        protected RepositoryDbContext CreateDBContext(bool preserveData = false, string? dataBase = null)
         {
-            if (dataBase == null)
-                dataBase = Configuration.NameDataBase;
+            if(dataBase is null)
+               dataBase = Configuration.NameDataBase;
 
             var context = new RepositoryDbContext(
                 new DbContextOptionsBuilder<RepositoryDbContext>()

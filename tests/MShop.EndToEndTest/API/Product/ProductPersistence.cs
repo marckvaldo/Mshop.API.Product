@@ -25,5 +25,11 @@ namespace MShop.EndToEndTest.API.Product
                 AsNoTracking().
                 FirstOrDefaultAsync(x => x.Id == id);
         }
+
+        public async void Create(BusinessEntity.Product request)
+        {
+            await _context.AddAsync(request);
+            await _context.SaveChangesAsync();  
+        }
     }
 }

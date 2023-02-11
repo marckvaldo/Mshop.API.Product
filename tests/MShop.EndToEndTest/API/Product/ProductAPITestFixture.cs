@@ -1,5 +1,5 @@
 ﻿using BusinessEntity = MShop.Business.Entity;
-using UseCase = MShop.Application.UseCases.Product.CreateProducts;
+using UseCase = MShop.Application.UseCases.Product;
 using MShop.EndToEndTest.Common;
 using System;
 using System.Collections.Generic;
@@ -9,29 +9,29 @@ using System.Threading.Tasks;
 
 namespace MShop.EndToEndTest.API.Product
 {
-    public class CreateProductAPITestFixture : BaseFixture
+    public class ProductAPITestFixture : BaseFixture
     {
         private readonly Guid _categoryId;
         private readonly Guid _id;
 
         public ProductPersistence Persistence;
 
-        public CreateProductAPITestFixture() : base()
+        public ProductAPITestFixture() : base()
         {
             _categoryId = Guid.NewGuid();
             _id = Guid.NewGuid();
 
             Persistence = new ProductPersistence(
                 CreateDBContext()
-                );
+            );
         }
 
         protected BusinessEntity.Product Faker()
         {
             var product = (new BusinessEntity.Product
             (
-                faker.Commerce.ProductName(),
                 faker.Commerce.ProductDescription(),
+                faker.Commerce.ProductName(),
                 Convert.ToDecimal(faker.Commerce.Price()),
                 faker.Image.LoremPixelUrl(),
                 _categoryId,
@@ -41,9 +41,9 @@ namespace MShop.EndToEndTest.API.Product
             return product;
         }
 
-        protected UseCase.CreateProductInPut Request()
+        protected UseCase.CreateProducts.CreateProductInPut RequestCreate()
         {
-            return new UseCase.CreateProductInPut
+            return new UseCase.CreateProducts.CreateProductInPut
             {
                 Name = Faker().Name,
                 CategoryId = _categoryId,
@@ -55,6 +55,21 @@ namespace MShop.EndToEndTest.API.Product
             };
         }
 
- 
+
+        protected UseCase.UpdateProduct.UpdateProductInPut RequestUpdate()
+        {
+            return new UseCase.UpdateProduct.UpdateProductInPut
+            {
+                Name = Faker().Name,
+                CategoryId = _categoryId,
+                Imagem = Faker().Imagem,
+                IsActive = true,
+                Description = Faker().Description,
+                Price = Faker().Price,
+                Id = _id
+            };
+        }
+
+
     }
 }
