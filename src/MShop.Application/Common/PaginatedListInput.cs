@@ -18,7 +18,7 @@ namespace MShop.Application.Common
         public string Sort { get;set;}
 
         public SearchOrder Dir { get; set; }
-        protected PaginatedListInput(int page, int perPage, string search, string sort, SearchOrder dir)
+        protected PaginatedListInput(int page, int perPage, string search, string sort = "", SearchOrder dir = SearchOrder.Asc)
         {
             Page = page;
             PerPage = perPage;

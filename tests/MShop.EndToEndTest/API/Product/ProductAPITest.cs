@@ -1,18 +1,11 @@
 ﻿using UseCase = MShop.Application.UseCases.Product.Common;
 using MShop.EndToEndTest.Common;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using MShop.Application.UseCases.Product.Common;
-using Microsoft.AspNetCore.Mvc;
+using MShop.Application.UseCases.Product.ListProducts;
 using MShop.EndToEndTest.API.Product.Common;
 using MShop.Repository.Context;
-using Microsoft.EntityFrameworkCore;
-using Bogus;
-using Microsoft.VisualStudio.TestPlatform.Utilities;
+using MShop.Business.Enum.Paginated;
 
 namespace MShop.EndToEndTest.API.Product
 {
@@ -130,8 +123,152 @@ namespace MShop.EndToEndTest.API.Product
             Assert.Equal(product.Description, outPut.Data.Description);
             Assert.Equal(product.Price, outPut.Data.Price);
             Assert.Equal(product.Imagem, outPut.Data.Imagem);
-            Assert.Equal(product.Stock, stock);
+            Assert.Equal(productDb.Stock, stock);
 
+        }
+
+
+        [Theory(DisplayName = nameof(SholdReturnErrorWhenCreatePoduct))]
+        [Trait("EndToEnd/API", "Product - Endpoints")]
+        [InlineData(0)]
+        [InlineData(-1)]
+        public async Task SholdReturnErrorWhenCreatePoduct(decimal price)
+        {
+            var request = RequestCreate();
+            request.Price = price;
+
+            var (response, outPut) = await apiClient.Post<CustomResponseErro> ("/api/products", request);
+
+            Assert.NotNull(response);
+            Assert.Equal(System.Net.HttpStatusCode.BadRequest, response!.StatusCode);
+            Assert.NotNull(outPut);
+            Assert.True(outPut.Errors.Count() > 0);
+        }
+
+
+
+        [Theory(DisplayName = nameof(SholdReturnErrorWhenUpdatePoduct))]
+        [Trait("EndToEnd/API", "Product - Endpoints")]
+        [InlineData(0)]
+        [InlineData(-1)]
+        public async Task SholdReturnErrorWhenUpdatePoduct(decimal price)
+        {
+            var request = RequestUpdate();
+            request.Price = price;
+
+            var (response, outPut) = await apiClient.Post<CustomResponseErro>("/api/products", request);
+
+            Assert.NotNull(response);
+            Assert.Equal(System.Net.HttpStatusCode.BadRequest, response!.StatusCode);
+            Assert.NotNull(outPut);
+            Assert.True(outPut.Errors.Count() > 0);
+        }
+
+
+        [Fact(DisplayName = nameof(GetProductById))]
+        [Trait("EndToEnd/API", "Product - Endpoints")]
+
+        public async void GetProductById()
+        {
+            var products = GetProducts(20);
+            Persistence.CreateList(products);
+            var product = products[3];
+
+            var (response, outPut) = await apiClient.Get<CustomResponse<ProductModelOutPut>>($"/api/products/{product.Id}");
+
+            Assert.NotNull(response);
+            Assert.Equal(System.Net.HttpStatusCode.OK, response!.StatusCode);
+            Assert.NotNull(outPut);
+            Assert.True(outPut.Success);
+            Assert.True(outPut.Data.Id == product.Id);  
+        }
+
+
+        [Fact(DisplayName = nameof(ListProduct))]
+        [Trait("EndToEnd/API", "Product - Endpoints")]
+
+        public async void ListProduct()
+        {
+            var products = GetProducts(20);
+            Persistence.CreateList(products);
+
+            var productDbBefore = await Persistence.List();
+
+            //var request = new ListProductInPut(1, 5, "", "", SearchOrder.Desc);
+           
+            var (response, outPut) = await apiClient.Get<CustomResponsePaginated<ProductModelOutPut>>($"/api/products/list-products/");
+
+            Assert.NotNull(response);
+            Assert.Equal(System.Net.HttpStatusCode.OK, response!.StatusCode);
+            Assert.NotNull(outPut);
+            Assert.True(outPut.Success);
+            Assert.True(productDbBefore.Count() == outPut.Data.Total);
+            Assert.True(outPut.Data.PerPage == 15);
+            Assert.True(outPut.Data.Page == 1);
+
+            foreach (var item in outPut.Data.Itens)
+            {
+                var expectItem = products.FirstOrDefault(x => x.Id == item.Id);
+
+                Assert.NotNull(expectItem);
+                Assert.Equal(expectItem.Name, item.Name);
+                Assert.Equal(expectItem.Description, item.Description);
+                Assert.Equal(expectItem.Price, item.Price);
+                Assert.Equal(expectItem.Imagem, item.Imagem);
+            }
+
+        }
+
+
+        [Fact(DisplayName = nameof(ListProductWhenItemsEmptyDefault))]
+        [Trait("EndToEnd/API", "Product - Endpoints")]
+        public async void ListProductWhenItemsEmptyDefault()
+        {
+            var (response, outPut) = await apiClient.Get<CustomResponsePaginated<ProductModelOutPut>>($"/api/products/list-products/");
+
+            Assert.NotNull(response);
+            Assert.Equal(System.Net.HttpStatusCode.OK, response!.StatusCode);
+            Assert.NotNull(outPut);
+            Assert.True(outPut.Success);
+            Assert.True(outPut.Data.PerPage == 15);
+            Assert.True(outPut.Data.Page == 1);
+            Assert.True(outPut.Data.Itens.Count() == 0);
+        }
+
+
+        [Theory(DisplayName = nameof(ListProductWithPaginated))]
+        [Trait("EndToEnd/API", "Product - Endpoints")]
+        [InlineData(10, 1, 10, 10)]
+        [InlineData(17, 2, 10, 7)]
+        [InlineData(17, 3, 10, 0)]
+        public async void ListProductWithPaginated(
+            int quantityProduct, int page, int perPage, int expectedQuantityItems
+            )
+        {
+            var products = GetProducts(quantityProduct);
+            Persistence.CreateList(products);
+
+            var request = new ListProductInPut(page, perPage, "", "", SearchOrder.Desc);
+            var (response, outPut) = await apiClient.Get<CustomResponsePaginated<ProductModelOutPut>>($"/api/products/list-products/", request);
+
+            Assert.NotNull(response);
+            Assert.Equal(System.Net.HttpStatusCode.OK, response!.StatusCode);
+            Assert.NotNull(outPut);
+            Assert.True(outPut.Success);
+            Assert.True(outPut.Data.PerPage == perPage);
+            Assert.True(outPut.Data.Page == page);
+            Assert.True(outPut.Data.Itens.Count() == expectedQuantityItems);
+
+            foreach (var item in outPut.Data.Itens)
+            {
+                var expectItem = products.FirstOrDefault(x => x.Id == item.Id);
+
+                Assert.NotNull(expectItem);
+                Assert.Equal(expectItem.Name, item.Name);
+                Assert.Equal(expectItem.Description, item.Description);
+                Assert.Equal(expectItem.Price, item.Price);
+                Assert.Equal(expectItem.Imagem, item.Imagem);
+            }
         }
     }
 }

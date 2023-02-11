@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MShop.Application.UseCases.Product.CreateProducts;
 
 namespace MShop.EndToEndTest.API.Product
 {
@@ -41,7 +42,7 @@ namespace MShop.EndToEndTest.API.Product
             return product;
         }
 
-        protected UseCase.CreateProducts.CreateProductInPut RequestCreate()
+        public UseCase.CreateProducts.CreateProductInPut RequestCreate()
         {
             return new UseCase.CreateProducts.CreateProductInPut
             {
@@ -55,8 +56,7 @@ namespace MShop.EndToEndTest.API.Product
             };
         }
 
-
-        protected UseCase.UpdateProduct.UpdateProductInPut RequestUpdate()
+        public UseCase.UpdateProduct.UpdateProductInPut RequestUpdate()
         {
             return new UseCase.UpdateProduct.UpdateProductInPut
             {
@@ -70,6 +70,38 @@ namespace MShop.EndToEndTest.API.Product
             };
         }
 
+
+        public List<BusinessEntity.Product> GetProducts(int length = 10)
+        {
+            List<BusinessEntity.Product> products = new List<BusinessEntity.Product>();
+            for (int i = 0; i < length; i++)
+                products.Add(Faker());
+
+            return products;
+
+        }
+
+        public string GetDescriptionProductGreaterThan1000CharactersInvalid()
+        {
+            string description = fakerStatic.Commerce.ProductDescription();
+            while (description.Length < 1001)
+            {
+                description += fakerStatic.Commerce.ProductDescription();
+            }
+
+            return description;
+        }
+
+        public string GetNameProductGreaterThan255CharactersInvalid()
+        {
+            string description = fakerStatic.Commerce.ProductName();
+            while (description.Length < 256)
+            {
+                description += fakerStatic.Commerce.ProductName();
+            }
+
+            return description;
+        }
 
     }
 }

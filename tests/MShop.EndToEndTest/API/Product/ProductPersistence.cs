@@ -26,10 +26,21 @@ namespace MShop.EndToEndTest.API.Product
                 FirstOrDefaultAsync(x => x.Id == id);
         }
 
+        public async Task<List<BusinessEntity.Product?>> List()
+        {
+            return await _context.Products.ToListAsync();
+        }
+
         public async void Create(BusinessEntity.Product request)
         {
             await _context.AddAsync(request);
             await _context.SaveChangesAsync();  
+        }
+
+        public async void CreateList(List<BusinessEntity.Product> request)
+        {
+            await _context.AddRangeAsync(request);
+            await _context.SaveChangesAsync();
         }
     }
 }

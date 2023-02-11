@@ -66,6 +66,7 @@ namespace Mshop.Test.Business.Entity.Product
             yield return new object[] { " " };
             yield return new object[] { null };
         }
+       
         private static string GetDescriptionProductGreaterThan1000CharactersInvalid()
         {
             string description = fakerStatic.Commerce.ProductDescription();

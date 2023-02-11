@@ -1,4 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Bogus;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Microsoft.VisualStudio.TestPlatform.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -82,8 +87,40 @@ namespace MShop.EndToEndTest.Common
                 outputString,
                 new JsonSerializerOptions { PropertyNameCaseInsensitive = true}
             );
-
             return (response, output);
+        }
+
+
+        public async Task<(HttpResponseMessage?, TOutPut?)> Get<TOutPut>(string route, object? queryStringParameters = null) where TOutPut: class
+        {
+
+            var url = PrepareGetRote(route, queryStringParameters);
+            var response = await _httpCliente.GetAsync(url);
+            var outPutString = await response.Content.ReadAsStringAsync();
+            if (string.IsNullOrWhiteSpace(outPutString))
+            {
+                return (response, null);
+            }
+
+            var outPut = JsonSerializer.Deserialize<TOutPut>(
+                outPutString,
+                new JsonSerializerOptions { 
+                    PropertyNameCaseInsensitive = true
+                });
+
+            return (response, outPut);
+
+        }
+
+        private string PrepareGetRote(string route, object? queryStringParameters)
+        {
+            if (queryStringParameters is null) 
+                return route;
+
+            var parametersJson = JsonSerializer.Serialize(queryStringParameters);
+            var parametersDictionary = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, string>>(parametersJson);
+            return QueryHelpers.AddQueryString(route, parametersDictionary!);
+
         }
     }
 }

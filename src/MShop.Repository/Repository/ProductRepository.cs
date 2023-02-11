@@ -42,6 +42,10 @@ namespace MShop.Repository.Repository
 
         private IQueryable<Product> AddOrderToQuery(IQueryable<Product> query, string orderBay, SearchOrder order)
         {
+            if (string.IsNullOrWhiteSpace(orderBay))
+                return query;
+                
+
             return (orderBay.ToLower(), order) switch
             {
                 ("name", SearchOrder.Asc) => query.OrderBy(x => x.Name),

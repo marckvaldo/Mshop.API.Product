@@ -56,8 +56,8 @@ namespace MShop.ProductAPI.Controllers
 
         }
 
-        [HttpGet("list-produtcs")]
-        public async Task<ActionResult<List<ProductModelOutPut>>> ListProdutcs(ListProductInPut request)
+        [HttpGet("list-products")]
+        public async Task<ActionResult<List<ProductModelOutPut>>> ListProdutcs([FromQuery] ListProductInPut request)
         {
             try
             {
