@@ -1,11 +1,5 @@
 ﻿using Mshop.Test.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
+using MShop.UnitTests.Common;
 using BusinessEntity = MShop.Business.Entity;
 
 namespace Mshop.Test.Business.Entity.Product
@@ -57,60 +51,25 @@ namespace Mshop.Test.Business.Entity.Product
         }
 
 
-        //Description Invalid
-        public static IEnumerable<object[]> GetDescriptionProductInvalid()
+        public static IEnumerable<object[]> ListNameProductInvalid()
         {
-            yield return new object[] { GetDescriptionProductGreaterThan1000CharactersInvalid() };
-            yield return new object[] { GetDescriptionProductLessThan10CharactersInvalid() };
+            yield return new object[] { InvalidData.GetNameProductGreaterThan255CharactersInvalid() };
+            yield return new object[] { InvalidData.GetNameProductLessThan3CharactersInvalid() };
             yield return new object[] { "" };
             yield return new object[] { " " };
             yield return new object[] { null };
         }
-       
-        private static string GetDescriptionProductGreaterThan1000CharactersInvalid()
+
+        public static IEnumerable<object[]> ListDescriptionProductInvalid()
         {
-            string description = fakerStatic.Commerce.ProductDescription();
-            while (description.Length < 1001)
-            {
-                description += fakerStatic.Commerce.ProductDescription();
-            }
-
-            return description;
-        }
-
-        private static string GetDescriptionProductLessThan10CharactersInvalid()
-        {
-            string category = fakerStatic.Commerce.ProductDescription();
-            category = category[..9];
-            return category;
-        }
-
-
-        //Name Invalid
-        public static IEnumerable<object[]> GetNameProductInvalid()
-        {
-            yield return new object[] { GetNameProductGreaterThan255CharactersInvalid() };
-            yield return new object[] { GetNameProductLessThan3CharactersInvalid() };
+            yield return new object[] { InvalidData.GetDescriptionProductGreaterThan1000CharactersInvalid() };
+            yield return new object[] { InvalidData.GetDescriptionProductLessThan10CharactersInvalid() };
             yield return new object[] { "" };
             yield return new object[] { " " };
             yield return new object[] { null };
         }
-        private static string GetNameProductGreaterThan255CharactersInvalid()
-        {
-            string description = fakerStatic.Commerce.ProductName();
-            while (description.Length < 256)
-            {
-                description += fakerStatic.Commerce.ProductName();
-            }
 
-            return description;
-        }
-        private static string GetNameProductLessThan3CharactersInvalid()
-        {
-            string product = fakerStatic.Commerce.ProductName();
-            product = product[..2];
-            return product;
-        }
+
     }
 
     public class ProductFake

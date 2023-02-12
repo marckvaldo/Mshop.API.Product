@@ -1,13 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MShop.Business.Interface.Repository;
-using MShop.Business.Validation;
+﻿using MShop.Business.Validation;
 using MShop.Repository.Context;
 using MShop.Repository.Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ApplicationUseCase = MShop.Application.UseCases.Product.DeleteProduct;
 
 namespace MShop.IntegrationTests.Application.UseCase.Product.DeleteProduct

@@ -1,16 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Moq;
-using MShop.Business.Entity;
+﻿using MShop.Business.Entity;
 using MShop.Business.Enum.Paginated;
-using MShop.Business.Interface;
 using MShop.Business.Paginated;
 using MShop.Business.Validation;
 using MShop.Repository.Context;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using InfraRepository = MShop.Repository.Repository;
 
 namespace MShop.IntegrationTests.Repository.ProductRepository
@@ -33,9 +25,7 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
         public async Task CreateProduct()
         {
             var product = Faker();
-
             await _repository.Create(product);
-
             var newProduct = await CreateDBContext(true).Products.FindAsync(product.Id);
 
             Assert.NotNull(newProduct);
@@ -77,7 +67,6 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
         public async Task UpdateProduct()
         {
             var notification = new Notifications() ;
-
             var repository = new InfraRepository.ProductRepository(_DbContext);
             var request = Faker();
             var productList = FakerList(20);
@@ -86,7 +75,6 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
             await _DbContext.SaveChangesAsync();
 
             Guid id = productList.First().Id;
-
             var product = await _repository.GetById(id);
 
             Assert.NotNull(product);
@@ -97,7 +85,6 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
             product.IsValid(notification);
 
             await repository.Update(product);
-
             var productUpdate = await (CreateDBContext(true)).Products.FindAsync(id);   
 
             Assert.NotNull(productUpdate);
@@ -115,14 +102,12 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
 
         public async Task DeleteProduct()
         {
-            var notification = new Notifications();
             var productList = FakerList(20);
 
             await _DbContext.AddRangeAsync(productList);
             await _DbContext.SaveChangesAsync();
 
             var request = productList.First();
-
             await _repository.DeleteById(request);
             var productUpdate = await (CreateDBContext(true)).Products.FindAsync(request.Id);
 
@@ -141,9 +126,7 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
             await _DbContext.SaveChangesAsync();
 
             var perPage = 10;
-
             var input = new PaginatedInPut(1, perPage, "","",SearchOrder.Asc);
-
             var outPut = await _repository.FilterPaginated(input);
 
             Assert.NotNull(outPut);
@@ -170,9 +153,7 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
         {
 
             var perPage = 20;
-
             var input = new PaginatedInPut(1, perPage, "", "", SearchOrder.Asc);
-
             var outPut = await _repository.FilterPaginated(input);
 
             Assert.NotNull(outPut);
@@ -195,7 +176,6 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
             await _DbContext.SaveChangesAsync();
 
             var input = new PaginatedInPut(page, perPage, "", "", SearchOrder.Asc);
-
             var outPut = await _repository.FilterPaginated(input);
 
             Assert.NotNull(outPut);
@@ -215,7 +195,6 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
             }
 
         }
-
 
         public void Dispose()
         {

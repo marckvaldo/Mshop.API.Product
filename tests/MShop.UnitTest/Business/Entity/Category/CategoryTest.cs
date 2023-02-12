@@ -1,20 +1,16 @@
 ﻿using BusinessExceptions = MShop.Business.Exceptions;
 using MShop.Business.Validation;
-using MShop.Business.Entity;
-
+using MShop.UnitTests.Common;
 
 namespace Mshop.Test.Business.Entity.Category
 {
     public class CategoryTest : CategoryTestFixture
     { 
-
-
         [Fact(DisplayName = nameof(Instantiate))]
         [Trait("Business","Category")]
         public void Instantiate()
         {
             var notification = new Notifications();
-
             var valid = GetCategoryValid();
 
             var category = GetCategoryValid(valid.Name, valid.IsActive); ;
@@ -30,11 +26,10 @@ namespace Mshop.Test.Business.Entity.Category
 
         [Theory(DisplayName = nameof(SholdReturnErroWhenNameIsInvalid))]
         [Trait("Business","Category")]
-        [MemberData(nameof(GetNamesCategoryInvalid))]
+        [MemberData(nameof(ListNamesCategoryInvalid))]
         public void SholdReturnErroWhenNameIsInvalid(string? name)
         {
             var notification = new Notifications();
-            
             var category = GetCategoryValid(name);
             Action action =
                 () => category.IsValid(notification);
@@ -52,15 +47,12 @@ namespace Mshop.Test.Business.Entity.Category
         public void SholdActivateCategory()
         {
             var notification = new Notifications();
-
             var category = GetCategoryValid(Fake().Name, false);
             category.Active();
             category.IsValid(notification);
 
-            
             Assert.True(category.IsActive);
             Assert.False(notification.HasErrors());
-
         }
 
         [Fact(DisplayName = nameof(SholdDeactiveCategory))]
@@ -68,14 +60,12 @@ namespace Mshop.Test.Business.Entity.Category
         public void SholdDeactiveCategory()
         {
             var notification = new Notifications();
-
             var category = GetCategoryValid(Fake().Name, true);
             category.Deactive();
             category.IsValid(notification);
 
             Assert.False(category.IsActive);
             Assert.False(notification.HasErrors());
-
         }
 
 
@@ -84,7 +74,6 @@ namespace Mshop.Test.Business.Entity.Category
         public void SholdUpdateCategory()
         {
             var notification = new Notifications();
-
             var newValidade = new
             {
                 Name = "Category New"

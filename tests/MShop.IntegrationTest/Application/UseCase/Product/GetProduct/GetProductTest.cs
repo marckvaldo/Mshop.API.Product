@@ -1,17 +1,8 @@
-﻿using Moq;
-using MShop.Business.Interface.Repository;
-using MShop.Business.Interface;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MShop.Repository.Repository;
+﻿using MShop.Repository.Repository;
 using MShop.Repository.Context;
 using ApplicationUseCase = MShop.Application.UseCases.Product.GetProduct;
 using MShop.Business.Validation;
 using MShop.Business.Exception;
-using Microsoft.EntityFrameworkCore;
 
 namespace MShop.IntegrationTests.Application.UseCase.Product.GetProduct
 {
@@ -40,8 +31,6 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.GetProduct
             await _DbContext.SaveChangesAsync();
 
             var guid = productFake.Id;
-
-          
             var useCase = new ApplicationUseCase.GetProduct(_repository, notification);
             var outPut = await useCase.Handle(guid);
 
@@ -78,7 +67,6 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.GetProduct
             Assert.False(notification.HasErrors());
 
         }
-
 
         public void Dispose()
         {

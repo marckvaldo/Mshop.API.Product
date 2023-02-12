@@ -1,13 +1,4 @@
-﻿using Moq;
-using MShop.Business.Interface.Repository;
-using MShop.Business.Interface;
-using MShop.IntegrationTests.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MShop.Repository.Repository;
+﻿using MShop.Repository.Repository;
 using MShop.Business.Validation;
 using MShop.Repository.Context;
 using Microsoft.EntityFrameworkCore;

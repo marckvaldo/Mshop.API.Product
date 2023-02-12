@@ -10,7 +10,7 @@ namespace Mshop.Test.Common
     public abstract class BaseFixture
     {
         protected readonly Faker faker;
-        protected static readonly Faker fakerStatic = new Faker("pt_BR");
+        public static readonly Faker fakerStatic = new Faker("pt_BR");
         protected BaseFixture()
         {
             faker = new Faker("pt_BR"); 
