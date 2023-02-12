@@ -20,25 +20,21 @@ namespace MShop.IntegrationTests.Common
 
         protected RepositoryDbContext CreateDBContext(bool preserveData = false, string? dataBase = null)
         {
-            if(dataBase is null)
-               dataBase = Configuration.NameDataBase;
-
+            dataBase ??= Configuration.NameDataBase;
             var context = new RepositoryDbContext(
-                new DbContextOptionsBuilder<RepositoryDbContext>()
-                .UseInMemoryDatabase(dataBase)
-                .Options
-                );
+            new DbContextOptionsBuilder<RepositoryDbContext>()
+            .UseInMemoryDatabase(dataBase)
+            .Options
+            );
 
-            if (!preserveData)
+            if (preserveData == false)
                 context.Database.EnsureDeleted();
-
-            context.Database.EnsureCreated();
 
             return context;
 
         }
 
-        protected void CleanInMemoryDatabase(RepositoryDbContext context = null)
+        protected void CleanInMemoryDatabase(RepositoryDbContext? context = null)
         {
 
             if(context is null)

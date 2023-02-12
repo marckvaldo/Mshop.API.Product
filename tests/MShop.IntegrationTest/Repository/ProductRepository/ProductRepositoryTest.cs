@@ -15,6 +15,8 @@ using InfraRepository = MShop.Repository.Repository;
 
 namespace MShop.IntegrationTests.Repository.ProductRepository
 {
+    [Collection("Repository Products Collection")]
+    [CollectionDefinition("Repository Products Collection", DisableParallelization = true)]
     public class ProductRepositoryTest: ProductRespositoryTesteFixture, IDisposable
     {
         private readonly RepositoryDbContext _DbContext;
@@ -34,7 +36,7 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
 
             await _repository.Create(product);
 
-            var newProduct = await _DbContext.Products.FindAsync(product.Id);
+            var newProduct = await CreateDBContext(true).Products.FindAsync(product.Id);
 
             Assert.NotNull(newProduct);
             Assert.Equal(product.Id, newProduct.Id);
@@ -86,7 +88,9 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
             Guid id = productList.First().Id;
 
             var product = await _repository.GetById(id);
-            
+
+            Assert.NotNull(product);
+
             product.Update(request.Description, request.Name, request.Price, request.CategoryId);
             product.UpdateImage(request.Imagem);
             product.UpdateQuantityStock(request.Stock);
@@ -172,7 +176,7 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
             var outPut = await _repository.FilterPaginated(input);
 
             Assert.NotNull(outPut);
-            Assert.True(outPut.Itens.Count() == 0);
+            Assert.True(outPut.Itens.Count == 0);
             Assert.True(outPut.Total == 0);
             Assert.Equal(input.PerPage, outPut.PerPage);
         }
@@ -196,7 +200,7 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
 
             Assert.NotNull(outPut);
             Assert.NotNull(outPut.Itens);
-            Assert.True(outPut.Itens.Count() == expectedQuantityItems);
+            Assert.True(outPut.Itens.Count == expectedQuantityItems);
             Assert.Equal(outPut.PerPage, perPage);   
             Assert.True(outPut.Total == quantityProduct);
             Assert.Equal(input.PerPage, outPut.PerPage);
@@ -215,7 +219,7 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
 
         public void Dispose()
         {
-            CleanInMemoryDatabase(_DbContext);
+            CleanInMemoryDatabase();
         }
     }
 }

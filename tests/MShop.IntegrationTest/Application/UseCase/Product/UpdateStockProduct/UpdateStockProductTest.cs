@@ -17,6 +17,8 @@ using ApplicationUseCase = MShop.Application.UseCases.Product.UpdateStockProduct
 
 namespace MShop.IntegrationTests.Application.UseCase.Product.UpdateStockProduct
 {
+    [Collection("Update stock Products Collection")]
+    [CollectionDefinition("Update stock Products Collection", DisableParallelization = true)]
     public class UpdateStockProductTest : UpdateStockProductTestFixture, IDisposable
     {
 
@@ -25,7 +27,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.UpdateStockProduct
 
         public UpdateStockProductTest()
         {
-            _DbContext = CreateDBContext(false, "UpdateStockProductTest");
+            _DbContext = CreateDBContext();
             _repository = new ProductRepository(_DbContext);
         }
 
@@ -45,7 +47,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.UpdateStockProduct
             var useCase = new ApplicationUseCase.UpdateStockProducts(_repository, notification);
             var outPut = await useCase.Handle(request);
 
-            var productDb = await _DbContext.Products.AsNoTracking().Where(x => x.Id == product.Id).FirstAsync();
+            var productDb = await CreateDBContext(true).Products.AsNoTracking().Where(x => x.Id == product.Id).FirstAsync();
 
             Assert.NotNull(outPut);
             Assert.Equal(request.Stock, outPut.Stock);
@@ -54,7 +56,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.UpdateStockProduct
 
         public void Dispose()
         {
-            CleanInMemoryDatabase(_DbContext);
+            CleanInMemoryDatabase();
         }
     }
 }

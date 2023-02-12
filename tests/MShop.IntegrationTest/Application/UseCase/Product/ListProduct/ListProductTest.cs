@@ -18,6 +18,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MShop.IntegrationTests.Application.UseCase.Product.ListProduct
 {
+    [Collection("List Products Collection")]
+    [CollectionDefinition("List Products Collection", DisableParallelization = true)]
     public class ListProductTest : ListProductTestFixture, IDisposable
     {
 
@@ -26,7 +28,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.ListProduct
 
         public ListProductTest()
         {
-            _DbContext = CreateDBContext(false, "ListProductTest");
+            _DbContext = CreateDBContext();
             _repository = new ProductRepository(_DbContext);
         }
 
@@ -67,7 +69,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.ListProduct
 
         public void Dispose()
         {
-            CleanInMemoryDatabase(_DbContext);
+            CleanInMemoryDatabase();
         }
     }
 }

@@ -15,6 +15,8 @@ using ApplicationUseCase = MShop.Application.UseCases.Product.CreateProducts;
 
 namespace MShop.IntegrationTests.Application.UseCase.Product.CreateProduct
 {
+    [Collection("Create Products Collection")]
+    [CollectionDefinition("Create Products Collection", DisableParallelization = true)]
     public class CreateProductTest : CreateProductTestFixture, IDisposable
     {
 
@@ -23,7 +25,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.CreateProduct
 
         public CreateProductTest()
         {
-            _DbContext = CreateDBContext(false, "CreateProductTest");
+            _DbContext = CreateDBContext();
             _repository = new ProductRepository(_DbContext);
         }
 
@@ -38,7 +40,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.CreateProduct
             var productUseCase = new ApplicationUseCase.CreateProduct(_repository, notification);
             var outPut = await productUseCase.Handle(request);
 
-            var newProduct = await _DbContext.Products.FindAsync(outPut.Id);
+            var newProduct = await CreateDBContext(true).Products.FindAsync(outPut.Id);
             
             Assert.False(notification.HasErrors());
             Assert.NotNull(outPut);
@@ -66,7 +68,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.CreateProduct
 
         public void Dispose()
         {
-            CleanInMemoryDatabase(_DbContext);
+            CleanInMemoryDatabase();
         }
     }
 }

@@ -15,6 +15,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MShop.IntegrationTests.Application.UseCase.Product.GetProduct
 {
+
+    [Collection("Get Products Collection")]
+    [CollectionDefinition("Get Products Collection", DisableParallelization = true)]
     public class GetProductTest:GetProductTestFixture, IDisposable
     {
         private readonly RepositoryDbContext _DbContext;
@@ -22,7 +25,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.GetProduct
 
         public GetProductTest()
         {
-            _DbContext = CreateDBContext(false, "GetProductTest");
+            _DbContext = CreateDBContext();
             _repository = new ProductRepository(_DbContext);
         }
 
@@ -57,21 +60,21 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.GetProduct
 
 
         [Fact(DisplayName = nameof(SholdReturnErrorWhenCantGetProduct))]
-        [Trait("Application-UseCase", "Product Use Case")]
+        [Trait("Integration-Infra.Data", "Product Use Case")]
         public async Task SholdReturnErrorWhenCantGetProduct()
         {
            
             var notification = new Notifications();
 
             var productFake = Faker();
-            _DbContext.Products.Add(productFake);
+            await _DbContext.Products.AddAsync(productFake);
             await _DbContext.SaveChangesAsync();
 
             var useCase = new ApplicationUseCase.GetProduct(_repository, notification);
             var outPut = async () => await useCase.Handle(Guid.NewGuid());
 
             var exception = await Assert.ThrowsAsync<NotFoundException>(outPut);
-            Assert.Equal(exception.Message, "your search returned null");
+            Assert.Equal("your search returned null", exception.Message);
             Assert.False(notification.HasErrors());
 
         }
@@ -79,7 +82,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.GetProduct
 
         public void Dispose()
         {
-            CleanInMemoryDatabase(_DbContext);
+            CleanInMemoryDatabase();
         }
     }
 }

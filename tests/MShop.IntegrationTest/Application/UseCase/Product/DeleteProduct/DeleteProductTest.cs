@@ -12,6 +12,8 @@ using ApplicationUseCase = MShop.Application.UseCases.Product.DeleteProduct;
 
 namespace MShop.IntegrationTests.Application.UseCase.Product.DeleteProduct
 {
+    [Collection("Delete Products Collection")]
+    [CollectionDefinition("Delete Products Collection", DisableParallelization = true)]
     public class DeleteProductTest : DeleteProductTestFixture, IDisposable
     {
         private readonly RepositoryDbContext _DbContext;
@@ -19,7 +21,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.DeleteProduct
 
         public DeleteProductTest()
         {
-            _DbContext = CreateDBContext(false, "DeleteProductTest");
+            _DbContext = CreateDBContext();
             _repository = new ProductRepository(_DbContext);
         }
 
@@ -32,7 +34,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.DeleteProduct
             var notification = new Notifications();
 
             var product = Faker();
-            _DbContext.Add(product);
+            await _DbContext.AddAsync(product);
             await _DbContext.SaveChangesAsync();
 
             var useCase = new ApplicationUseCase.DeleteProduct(_repository,notification);
@@ -46,7 +48,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.DeleteProduct
 
         public void Dispose()
         {
-            CleanInMemoryDatabase(_DbContext);
+            CleanInMemoryDatabase();
         }
     }
 }
