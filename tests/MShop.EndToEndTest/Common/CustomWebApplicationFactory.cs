@@ -25,7 +25,7 @@ namespace MShop.EndToEndTest.Common
 
                 Services.AddDbContext<RepositoryDbContext>(Options =>
                 {
-                    Options.UseInMemoryDatabase(Configuration.NameDataBase);
+                    Options.UseInMemoryDatabase(Configuration.NAME_DATA_BASE);
                 });
 
             });

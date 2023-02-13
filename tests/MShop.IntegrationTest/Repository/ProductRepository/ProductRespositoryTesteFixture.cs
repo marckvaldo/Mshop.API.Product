@@ -1,12 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MShop.IntegrationTests.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MShop.IntegrationTests.Common;
 using MShop.Business.Entity;
-using MShop.Repository.Context;
 
 namespace MShop.IntegrationTests.Repository.ProductRepository
 {
@@ -33,30 +26,6 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
             );
         }
 
-        /*
-        protected RepositoryDbContext CreateDBContext(bool preserveData = false)
-        {
-
-            var context =  new RepositoryDbContext(
-                new DbContextOptionsBuilder<RepositoryDbContext>()
-                .UseInMemoryDatabase("integration-test-db")
-                .Options
-                );
-
-            if (!preserveData)
-                context.Database.EnsureDeleted();
-
-            return context;
-
-        }
-
-        protected void CleanInMemoryDatabase()
-        {
-            CreateDBContext().Database.EnsureDeleted();
-        }
-        */
-
-
         protected List<Product> FakerList(int length = 5) 
         {
             List<Product> listProduct = new List<Product>();
@@ -66,9 +35,5 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
 
             return listProduct;
         }
-
-
-        
-
     }
 }

@@ -12,7 +12,7 @@ namespace MShop.IntegrationTests.Common
     public abstract class BaseFixture
     {
         protected readonly Faker faker;
-        protected static readonly Faker fakerStatic = new Faker("pt_BR");
+        public static readonly Faker fakerStatic = new Faker("pt_BR");
         protected BaseFixture()
         {
             faker = new Faker("pt_BR"); 
@@ -20,7 +20,7 @@ namespace MShop.IntegrationTests.Common
 
         protected RepositoryDbContext CreateDBContext(bool preserveData = false, string? dataBase = null)
         {
-            dataBase ??= Configuration.NameDataBase;
+            dataBase ??= Configuration.NAME_DATA_BASE;
             var context = new RepositoryDbContext(
             new DbContextOptionsBuilder<RepositoryDbContext>()
             .UseInMemoryDatabase(dataBase)

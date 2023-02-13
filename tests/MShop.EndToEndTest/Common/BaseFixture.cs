@@ -32,7 +32,7 @@ namespace MShop.EndToEndTest.Common
 
             var context = new RepositoryDbContext(
                 new DbContextOptionsBuilder<RepositoryDbContext>()
-                .UseInMemoryDatabase(Configuration.NameDataBase)
+                .UseInMemoryDatabase(Configuration.NAME_DATA_BASE)
                 .Options
                 );
 

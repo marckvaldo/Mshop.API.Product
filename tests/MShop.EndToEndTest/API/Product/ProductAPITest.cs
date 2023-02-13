@@ -25,7 +25,7 @@ namespace MShop.EndToEndTest.API.Product
         {
             var request = RequestCreate();
 
-            var (response, outPut) = await apiClient.Post<CustomResponse<ProductModelOutPut>>("/api/products", request);
+            var (response, outPut) = await apiClient.Post<CustomResponse<ProductModelOutPut>>(Configuration.URL_API_PRODUCT, request);
 
             Assert.NotNull(response);
             Assert.Equal(System.Net.HttpStatusCode.OK, response!.StatusCode) ;
@@ -59,7 +59,7 @@ namespace MShop.EndToEndTest.API.Product
 
             Persistence.Create(product);
 
-            var (response, output) = await apiClient.Put<CustomResponse<ProductModelOutPut>>($"/api/Products/{request.Id}", request);
+            var (response, output) = await apiClient.Put<CustomResponse<ProductModelOutPut>>($"{Configuration.URL_API_PRODUCT}{request.Id}", request);
 
             var persistence = await Persistence.GetById(product.Id);
 
@@ -84,7 +84,7 @@ namespace MShop.EndToEndTest.API.Product
             var product = Faker();
             Persistence.Create(product);
 
-            var (response, output) = await apiClient.Delete<CustomResponse<ProductModelOutPut>>($"/api/products/{product.Id}");
+            var (response, output) = await apiClient.Delete<CustomResponse<ProductModelOutPut>>($"{Configuration.URL_API_PRODUCT}{product.Id}");
 
             var dbProduct = await Persistence.GetById(product.Id);
 
@@ -111,7 +111,7 @@ namespace MShop.EndToEndTest.API.Product
             Persistence.Create(product);
             var stock = Faker().Stock;
 
-            var (response, outPut) = await apiClient.Post<CustomResponse<ProductModelOutPut>>($"/api/products/update-stock/{product.Id}",new {product.Id, stock });
+            var (response, outPut) = await apiClient.Post<CustomResponse<ProductModelOutPut>>($"{Configuration.URL_API_PRODUCT}update-stock/{product.Id}",new {product.Id, stock });
 
             var productDb = await Persistence.GetById(product.Id);
 
@@ -128,40 +128,40 @@ namespace MShop.EndToEndTest.API.Product
         }
 
 
-        [Theory(DisplayName = nameof(SholdReturnErrorWhenCreatePoduct))]
+        [Theory(DisplayName = nameof(SholdReturnErrorWhenCantCreatePoduct))]
         [Trait("EndToEnd/API", "Product - Endpoints")]
         [InlineData(0)]
         [InlineData(-1)]
-        public async Task SholdReturnErrorWhenCreatePoduct(decimal price)
+        public async Task SholdReturnErrorWhenCantCreatePoduct(decimal price)
         {
             var request = RequestCreate();
             request.Price = price;
 
-            var (response, outPut) = await apiClient.Post<CustomResponseErro> ("/api/products", request);
+            var (response, outPut) = await apiClient.Post<CustomResponseErro> (Configuration.URL_API_PRODUCT, request);
 
             Assert.NotNull(response);
             Assert.Equal(System.Net.HttpStatusCode.BadRequest, response!.StatusCode);
             Assert.NotNull(outPut);
-            Assert.True(outPut.Errors.Count() > 0);
+            Assert.True(outPut.Errors.Count > 0);
         }
 
 
 
-        [Theory(DisplayName = nameof(SholdReturnErrorWhenUpdatePoduct))]
+        [Theory(DisplayName = nameof(SholdReturnErrorWhenCantUpdatePoduct))]
         [Trait("EndToEnd/API", "Product - Endpoints")]
         [InlineData(0)]
         [InlineData(-1)]
-        public async Task SholdReturnErrorWhenUpdatePoduct(decimal price)
+        public async Task SholdReturnErrorWhenCantUpdatePoduct(decimal price)
         {
             var request = RequestUpdate();
             request.Price = price;
 
-            var (response, outPut) = await apiClient.Post<CustomResponseErro>("/api/products", request);
+            var (response, outPut) = await apiClient.Post<CustomResponseErro>(Configuration.URL_API_PRODUCT, request);
 
             Assert.NotNull(response);
             Assert.Equal(System.Net.HttpStatusCode.BadRequest, response!.StatusCode);
             Assert.NotNull(outPut);
-            Assert.True(outPut.Errors.Count() > 0);
+            Assert.True(outPut.Errors.Count > 0);
         }
 
 
@@ -174,7 +174,7 @@ namespace MShop.EndToEndTest.API.Product
             Persistence.CreateList(products);
             var product = products[3];
 
-            var (response, outPut) = await apiClient.Get<CustomResponse<ProductModelOutPut>>($"/api/products/{product.Id}");
+            var (response, outPut) = await apiClient.Get<CustomResponse<ProductModelOutPut>>($"{Configuration.URL_API_PRODUCT}{product.Id}");
 
             Assert.NotNull(response);
             Assert.Equal(System.Net.HttpStatusCode.OK, response!.StatusCode);
@@ -192,11 +192,8 @@ namespace MShop.EndToEndTest.API.Product
             var products = GetProducts(20);
             Persistence.CreateList(products);
 
-            var productDbBefore = await Persistence.List();
-
-            //var request = new ListProductInPut(1, 5, "", "", SearchOrder.Desc);
-           
-            var (response, outPut) = await apiClient.Get<CustomResponsePaginated<ProductModelOutPut>>($"/api/products/list-products/");
+            var productDbBefore = await Persistence.List();          
+            var (response, outPut) = await apiClient.Get<CustomResponsePaginated<ProductModelOutPut>>($"{Configuration.URL_API_PRODUCT}list-products/");
 
             Assert.NotNull(response);
             Assert.Equal(System.Net.HttpStatusCode.OK, response!.StatusCode);
@@ -224,7 +221,7 @@ namespace MShop.EndToEndTest.API.Product
         [Trait("EndToEnd/API", "Product - Endpoints")]
         public async void ListProductWhenItemsEmptyDefault()
         {
-            var (response, outPut) = await apiClient.Get<CustomResponsePaginated<ProductModelOutPut>>($"/api/products/list-products/");
+            var (response, outPut) = await apiClient.Get<CustomResponsePaginated<ProductModelOutPut>>($"{Configuration.URL_API_PRODUCT}list-products/");
 
             Assert.NotNull(response);
             Assert.Equal(System.Net.HttpStatusCode.OK, response!.StatusCode);
@@ -249,7 +246,7 @@ namespace MShop.EndToEndTest.API.Product
             Persistence.CreateList(products);
 
             var request = new ListProductInPut(page, perPage, "", "", SearchOrder.Desc);
-            var (response, outPut) = await apiClient.Get<CustomResponsePaginated<ProductModelOutPut>>($"/api/products/list-products/", request);
+            var (response, outPut) = await apiClient.Get<CustomResponsePaginated<ProductModelOutPut>>($"{Configuration.URL_API_PRODUCT}list-products/", request);
 
             Assert.NotNull(response);
             Assert.Equal(System.Net.HttpStatusCode.OK, response!.StatusCode);

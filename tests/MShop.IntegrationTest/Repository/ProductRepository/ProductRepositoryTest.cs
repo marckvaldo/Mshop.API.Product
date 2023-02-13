@@ -13,10 +13,12 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
     {
         private readonly RepositoryDbContext _DbContext;
         private readonly InfraRepository.ProductRepository _repository;
+        protected readonly ProductRepositoryPersistence _persistence; 
         public ProductRepositoryTest()
         {
             _DbContext = CreateDBContext();
             _repository = new InfraRepository.ProductRepository(_DbContext);
+            _persistence = new ProductRepositoryPersistence(_DbContext);
         }
 
         [Fact(DisplayName = nameof(CreateProduct))]
@@ -45,10 +47,9 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
 
             var product = Faker();
             var productList = FakerList(20);
+            
             productList.Add(product);
-            await _DbContext.AddRangeAsync(productList);
-            await _DbContext.SaveChangesAsync();
-
+            _persistence.CreateList(productList);
 
             var outPut = await _repository.GetById(product.Id);
 
@@ -70,10 +71,8 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
             var repository = new InfraRepository.ProductRepository(_DbContext);
             var request = Faker();
             var productList = FakerList(20);
+            _persistence.CreateList(productList);
             
-            await _DbContext.AddRangeAsync(productList);
-            await _DbContext.SaveChangesAsync();
-
             Guid id = productList.First().Id;
             var product = await _repository.GetById(id);
 
@@ -103,9 +102,7 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
         public async Task DeleteProduct()
         {
             var productList = FakerList(20);
-
-            await _DbContext.AddRangeAsync(productList);
-            await _DbContext.SaveChangesAsync();
+            _persistence.CreateList(productList);   
 
             var request = productList.First();
             await _repository.DeleteById(request);
@@ -115,15 +112,14 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
         }
 
 
-        [Fact(DisplayName = nameof(SerachRestusListAndTotal))]
+        [Fact(DisplayName = nameof(SearchResultListAndTotal))]
         [Trait("Integration - Infra.Data", "Product Repositorio")]
 
-        public async Task SerachRestusListAndTotal()
+        public async Task SearchResultListAndTotal()
         {
              
             var productList = FakerList(20);
-            await _DbContext.AddRangeAsync(productList);
-            await _DbContext.SaveChangesAsync();
+            _persistence.CreateList(productList);
 
             var perPage = 10;
             var input = new PaginatedInPut(1, perPage, "","",SearchOrder.Asc);
@@ -151,7 +147,6 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
 
         public async Task SholdSearchResultListEmpty()
         {
-
             var perPage = 20;
             var input = new PaginatedInPut(1, perPage, "", "", SearchOrder.Asc);
             var outPut = await _repository.FilterPaginated(input);
@@ -170,10 +165,8 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
 
         public async Task SerachRestusPaginated(int quantityProduct, int page, int perPage, int expectedQuantityItems)
         {
-
             var productList = FakerList(quantityProduct);
-            await _DbContext.AddRangeAsync(productList);
-            await _DbContext.SaveChangesAsync();
+            _persistence.CreateList(productList);
 
             var input = new PaginatedInPut(page, perPage, "", "", SearchOrder.Asc);
             var outPut = await _repository.FilterPaginated(input);
