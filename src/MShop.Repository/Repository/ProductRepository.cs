@@ -16,9 +16,11 @@ namespace MShop.Repository.Repository
 
         }
 
-        public async Task<Product> getProductWithCategory(Guid id)
+        public async Task<Product> GetProductWithCategory(Guid id)
         {
-            return await  _db.Products.Where(p => p.Id == id).Include(c => c.CategoryId).FirstAsync();
+            var result = await  _db.Products.Where(p => p.Id == id).Include(c => c.CategoryId).FirstAsync();
+            NotFoundException.ThrowIfnull(result, "your search returned null");
+            return result;
         }
 
         public async Task<PaginatedOutPut<Product>> FilterPaginated(PaginatedInPut input)
@@ -38,6 +40,13 @@ namespace MShop.Repository.Repository
             NotFoundException.ThrowIfnull(product);
             return new PaginatedOutPut<Product>(input.Page, input.PerPage, total, product);
 
+        }
+
+        public async Task<List<Product>> GetProductsPromotions()
+        {
+            var result = await _dbSet.ToListAsync();
+            NotFoundException.ThrowIfnull(result, "your search returned null");
+            return result;
         }
 
         private IQueryable<Product> AddOrderToQuery(IQueryable<Product> query, string orderBay, SearchOrder order)

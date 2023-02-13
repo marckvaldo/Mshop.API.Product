@@ -6,39 +6,64 @@ using MShop.Repository.Context;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
-builder.Services.AddControllers();
+// essas configurações eu migrei para ControllerCOnfiguration
+//builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
+/*builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();*/
 
 
 //desativa o modelStateInvalid na controller automatizado
-builder.Services.Configure<ApiBehaviorOptions>(options =>
+/*builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
     options.SuppressModelStateInvalidFilter = true;
-});
+});*/
 
 //configurando a conexao Mysql
-var ConnectionString = builder.Configuration.GetConnectionString("Repository");
+//var ConnectionString = builder.Configuration.GetConnectionString("RepositoryMysql");
 
-builder.Services.AddDbContext<RepositoryDbContext>(options =>
-    options.UseMySql(ConnectionString, ServerVersion.AutoDetect(ConnectionString)));
+//builder.Services.AddDbContext<RepositoryDbContext>(options =>
+//    options.UseMySql(ConnectionString, ServerVersion.AutoDetect(ConnectionString)));
 
 
-//carregando as configurações de DependencyInjection
-builder.Services.ResolveDepencies();
+
+
+
+//configurações de cache REDIS
+//var configuracao = builder.Configuration;
+//var redisPassword = configuracao["Redis:Password"];
+//var redisEndPoint = configuracao["Redis:Endpoint"];
+/*builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.InstanceName = "Redis";
+    options.Configuration = redisEndPoint;
+    options.ConfigurationOptions = new StackExchange.Redis.ConfigurationOptions { Password= redisPassword };
+    options.ConfigurationOptions.EndPoints.Add(redisPassword);
+
+});*/
+
+
+var ConnectionString = builder.Configuration.GetConnectionString("RepositoryMysql");
+var configuracao = builder.Configuration;
+var redisPassword = configuracao["Redis:Password"];
+var redisEndPoint = configuracao["Redis:Endpoint"];
+
+builder.Services.AddAndConfigureController()
+    .AddConfigurationModelState()
+    .AddDependencyInjection()
+    .AddConfigurationMySql(ConnectionString)
+    .AddConfigurationRedis(redisPassword,redisEndPoint);
 
 
 var app = builder.Build();
+app.UseDocumentation();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+/*if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+}*/
 
 app.UseHttpsRedirection();
 

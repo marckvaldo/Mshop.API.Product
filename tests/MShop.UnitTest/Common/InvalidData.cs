@@ -46,7 +46,7 @@ namespace MShop.UnitTests.Common
         public static string GetNameCategoryGreaterThan30CharactersInvalid()
         {
             string category = BaseFixture.fakerStatic.Commerce.Categories(1)[0];
-            while (category.Length < 30)
+            while (category.Length < 32)
             {
                 category += BaseFixture.fakerStatic.Commerce.Categories(1)[0];
             }

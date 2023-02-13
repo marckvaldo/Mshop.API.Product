@@ -20,7 +20,7 @@ namespace MShop.ProductAPI.Configuration
 {
     public static class DependencyInjectionConfig
     {
-        public static IServiceCollection ResolveDepencies(this IServiceCollection services) 
+        public static IServiceCollection AddDependencyInjection(this IServiceCollection services) 
         {
             services.AddScoped<RepositoryDbContext>();
             
@@ -42,8 +42,6 @@ namespace MShop.ProductAPI.Configuration
             services.AddScoped<IGetCategoryWithProducts, GetCategoryWithProducts>();
             
             services.AddScoped<INotification, Notifications>();
-
-
 
             return services;
         }

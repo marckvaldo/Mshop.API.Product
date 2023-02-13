@@ -10,6 +10,6 @@ namespace MShop.Business.Interface.Repository
 {
     public interface IProductRepository : IRepository<Product>, IPaginated<Product>
     {
-
+        Task<List<Product>> GetProductsPromotions();
     }
 }
