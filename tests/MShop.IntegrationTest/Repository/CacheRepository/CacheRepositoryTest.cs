@@ -34,7 +34,7 @@ namespace MShop.IntegrationTests.Repository.CacheRepository
         {
             var product = Faker();
 
-            _persistenceCache.SetKey("getProduct", product);
+            _persistenceCache.SetKey("getProduct", product, TimeSpan.FromSeconds(20));
             var cache = _redisRepository.GetKey<Product>("getProduct");
 
             Assert.NotNull(cache.Result);
@@ -53,7 +53,7 @@ namespace MShop.IntegrationTests.Repository.CacheRepository
         {
             var product = Faker();
 
-            await _redisRepository.SetKey("setProduct", product);
+            await _redisRepository.SetKey("setProduct", product, TimeSpan.FromSeconds(4));
             var cache = _persistenceCache.GetKey<Product>("setProduct");
 
             Assert.NotNull(cache.Result);
@@ -65,15 +65,13 @@ namespace MShop.IntegrationTests.Repository.CacheRepository
         }
 
 
-
-
         [Fact(DisplayName = nameof(GetCollection))]
         [Trait("integration-infra.Cache", "Chace")]
         public async void GetCollection()
         {
             var products = FakerList();
 
-            await _persistenceCache.SetKeyCollection("getCollectionProduct", products);
+            await _persistenceCache.SetKeyCollection("getCollectionProduct", products,TimeSpan.FromSeconds(20));
             var outPutCache = _redisRepository.GetKeyCollection<Product>("getCollectionProduct");
 
             Assert.NotNull(outPutCache.Result);
@@ -95,14 +93,13 @@ namespace MShop.IntegrationTests.Repository.CacheRepository
         }
 
 
-
-        [Fact(DisplayName = nameof(SetCollection))]
+        [Fact(DisplayName = nameof(SetKeyCollection))]
         [Trait("integration-infra.Cache", "Chace")]
-        public async void SetCollection()
+        public async void SetKeyCollection()
         {
             var products = FakerList();
 
-            await _redisRepository.SetKeyCollection("setCollectionProduct", products);
+            await _redisRepository.SetKeyCollection("setCollectionProduct", products, TimeSpan.FromSeconds(4));
             var outPutCache = _persistenceCache.GetKeyCollection<Product>("setCollectionProduct");
 
             Assert.NotNull(outPutCache.Result);
@@ -124,14 +121,13 @@ namespace MShop.IntegrationTests.Repository.CacheRepository
         }
 
 
-
         [Fact(DisplayName = nameof(DeleteCollection))]
         [Trait("integration-infra.Cache", "Chace")]
         public async void DeleteCollection()
         {
             var products = FakerList();
 
-            await _persistenceCache.SetKeyCollection("setCollectionProduct", products);
+            await _persistenceCache.SetKeyCollection("setCollectionProduct", products, TimeSpan.FromSeconds(20));
             await _redisRepository.DeleteKey("setCollectionProduct");
             var outPutCache = _persistenceCache.GetKeyCollection<Product>("setCollectionProduct");
 
@@ -140,21 +136,19 @@ namespace MShop.IntegrationTests.Repository.CacheRepository
         }
 
 
-
         [Fact(DisplayName = nameof(DeleteKey))]
         [Trait("integration-infra.Cache", "Chace")]
         public async void DeleteKey()
         {
             var product = Faker();
 
-            await _persistenceCache.SetKey("DeleteKey", product);
+            await _persistenceCache.SetKey("DeleteKey", product, TimeSpan.FromSeconds(20));
             await _redisRepository.DeleteKey("DeleteKey");
             var outPutCache = _persistenceCache.GetKey<Product>("DeleteKey");
 
             Assert.Null(outPutCache.Result);
 
         }
-
 
 
         [Fact(DisplayName = nameof(GetKeyEmpty))]
@@ -170,5 +164,31 @@ namespace MShop.IntegrationTests.Repository.CacheRepository
         }
 
 
+        [Fact(DisplayName = nameof(SetKeyExpiration))]
+        [Trait("integration-infra.Cache", "Chace")]
+        public async void SetKeyExpiration()
+        {
+            var product = Faker();
+
+            await _redisRepository.SetKey("setProduct", product,TimeSpan.FromSeconds(3));
+            Thread.Sleep(TimeSpan.FromSeconds(5)); 
+            var cache = _persistenceCache.GetKey<Product>("setProduct");
+
+            Assert.Null(cache.Result);
+        }
+
+
+        [Fact(DisplayName = nameof(SetKeyColletionExpiration))]
+        [Trait("integration-infra.Cache", "Chace")]
+        public async void SetKeyColletionExpiration()
+        {
+            var products = FakerList();
+
+            await _redisRepository.SetKey("setColletionProduct", products, TimeSpan.FromSeconds(3));
+            Thread.Sleep(TimeSpan.FromSeconds(5));
+            var cache = _persistenceCache.GetKeyCollection<Product>("setColletionProduct");
+
+            Assert.Null(cache.Result);
+        }
     }
 }

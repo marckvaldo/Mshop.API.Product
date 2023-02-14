@@ -20,7 +20,7 @@ namespace MShop.Application.UseCases.Product.Productspromotions
         public async Task<List<ProductModelOutPut>> Handle()
         {
             var productsCache = await _cacheRepository.GetKeyCollection<ProductModelOutPut>("promocao");
-            if (productsCache.ToList is not null)
+            if (productsCache != null)
             {
                 return productsCache;
             }
@@ -41,7 +41,7 @@ namespace MShop.Application.UseCases.Product.Productspromotions
                     item.CategoryId));
             }
 
-            await _cacheRepository.SetKeyCollection("promocao", listProducts);
+            await _cacheRepository.SetKeyCollection("promocao", listProducts, TimeSpan.FromMinutes(10));
                 
             return listProducts;
         }

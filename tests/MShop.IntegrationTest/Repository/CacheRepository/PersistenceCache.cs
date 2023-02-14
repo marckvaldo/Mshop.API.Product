@@ -17,15 +17,21 @@ namespace MShop.IntegrationTests.Repository.CacheRepository
             _distributedCache = distributedCache;
         }   
 
-        public async Task SetKey(string key,object value)
+        public async Task SetKey(string key,object value, TimeSpan TimeExpiration)
         {
+            var options = new DistributedCacheEntryOptions()
+                      .SetAbsoluteExpiration(TimeExpiration);
+
             var newValue = JsonSerializer.Serialize(value);
-            await _distributedCache.SetStringAsync(key.ToLower(), newValue);
+            await _distributedCache.SetStringAsync(key.ToLower(), newValue, options);
         }
-        public async Task SetKeyCollection(string key, object value)
+        public async Task SetKeyCollection(string key, object value, TimeSpan TimeExpiration)
         {
+            var options = new DistributedCacheEntryOptions()
+                      .SetAbsoluteExpiration(TimeExpiration);
+
             var newValue = JsonSerializer.Serialize(value);
-            await _distributedCache.SetStringAsync(key.ToLower(), newValue);
+            await _distributedCache.SetStringAsync(key.ToLower(), newValue, options);
         }
 
 
