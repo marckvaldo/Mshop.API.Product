@@ -20,7 +20,6 @@ namespace MShop.EndToEndTest.API.Product
 
         [Fact(DisplayName = nameof(CreateProductAPI))]
         [Trait("EndToEnd/API","Product - Endpoints")]
-
         public async Task CreateProductAPI()
         {
             var request = RequestCreate();
@@ -50,7 +49,6 @@ namespace MShop.EndToEndTest.API.Product
 
         [Fact(DisplayName = nameof(UpdateProduct))]
         [Trait("EndToEnd/API", "Product - Endpoints")]
-
         public async Task UpdateProduct()
         {
             var request = RequestUpdate();
@@ -78,7 +76,6 @@ namespace MShop.EndToEndTest.API.Product
         
         [Fact(DisplayName = nameof(DeleteProduct))]
         [Trait("EndToEnd/API", "Product - Endpoints")]
-
         public async Task DeleteProduct()
         {
             var product = Faker();
@@ -104,7 +101,6 @@ namespace MShop.EndToEndTest.API.Product
 
         [Fact(DisplayName = nameof(UpdateProductStock))]
         [Trait("EndToEnd/API", "Product - Endpoints")]
-
         public async Task UpdateProductStock()
         {
             var product = Faker();
@@ -146,7 +142,6 @@ namespace MShop.EndToEndTest.API.Product
         }
 
 
-
         [Theory(DisplayName = nameof(SholdReturnErrorWhenCantUpdatePoduct))]
         [Trait("EndToEnd/API", "Product - Endpoints")]
         [InlineData(0)]
@@ -167,7 +162,6 @@ namespace MShop.EndToEndTest.API.Product
 
         [Fact(DisplayName = nameof(GetProductById))]
         [Trait("EndToEnd/API", "Product - Endpoints")]
-
         public async void GetProductById()
         {
             var products = GetProducts(20);
@@ -186,7 +180,6 @@ namespace MShop.EndToEndTest.API.Product
 
         [Fact(DisplayName = nameof(ListProduct))]
         [Trait("EndToEnd/API", "Product - Endpoints")]
-
         public async void ListProduct()
         {
             var products = GetProducts(20);
@@ -267,10 +260,8 @@ namespace MShop.EndToEndTest.API.Product
         }
 
 
-
         [Fact(DisplayName = nameof(ListProductPromotions))]
         [Trait("EndToEnd/API", "Product - Endpoints")]
-
         public async void ListProductPromotions()
         {
             var products = GetProducts(5);
@@ -296,10 +287,8 @@ namespace MShop.EndToEndTest.API.Product
         }
 
 
-
         [Fact(DisplayName = nameof(SholdReturnErrorWhenCantGetProductPromotion))]
         [Trait("EndToEnd/API", "Product - Endpoints")]
-
         public async void SholdReturnErrorWhenCantGetProductPromotion()
         {
 
