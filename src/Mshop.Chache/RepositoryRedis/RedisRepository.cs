@@ -27,7 +27,7 @@ namespace Mshop.Cache.RepositoryRedis
             return JsonSerializer.Deserialize<List<TResult?>?>(result);
         }
 
-        public async Task SetKey<TResult>(string key, TResult value)
+        public async Task SetKey(string key, object value)
         {
             var newValue = JsonSerializer.Serialize(value); 
             await _distributedCache.SetStringAsync(key.ToLower(), newValue);
@@ -37,7 +37,7 @@ namespace Mshop.Cache.RepositoryRedis
             await _distributedCache.RemoveAsync(key.ToLower()); 
         }
 
-        public async Task SetKeyCollection<TResult>(string key, List<TResult> value)
+        public async Task SetKeyCollection(string key, object value)
         {
             var newValue = JsonSerializer.Serialize(value);
             await _distributedCache.SetStringAsync(key.ToLower(), newValue);

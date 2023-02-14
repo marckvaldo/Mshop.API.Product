@@ -1,8 +1,12 @@
 ﻿using Bogus;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.DependencyInjection;
 using MShop.Repository.Context;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -48,5 +52,16 @@ namespace MShop.IntegrationTests.Common
             
             
         }
+
+        protected IDistributedCache CreateCache()
+        {
+            var services = new ServiceCollection();
+            services.AddDistributedMemoryCache();
+            var provider = services.BuildServiceProvider();
+            var memoryCache = provider.GetService<IDistributedCache>();
+            return memoryCache;
+        }
+
+        
     }
 }

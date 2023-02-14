@@ -20,7 +20,7 @@ namespace MShop.Application.UseCases.Product.Productspromotions
         public async Task<List<ProductModelOutPut>> Handle()
         {
             var productsCache = await _cacheRepository.GetKeyCollection<ProductModelOutPut>("promocao");
-            if (productsCache is not null)
+            if (productsCache.ToList is not null)
             {
                 return productsCache;
             }
