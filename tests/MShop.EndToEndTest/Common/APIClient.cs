@@ -94,7 +94,7 @@ namespace MShop.EndToEndTest.Common
         public async Task<(HttpResponseMessage?, TOutPut?)> Get<TOutPut>(string route, object? queryStringParameters = null) where TOutPut: class
         {
 
-            var url = PrepareGetRote(route, queryStringParameters);
+            var url = PrepareParameteGetRote(route, queryStringParameters);
             var response = await _httpCliente.GetAsync(url);
             var outPutString = await response.Content.ReadAsStringAsync();
             if (string.IsNullOrWhiteSpace(outPutString))
@@ -112,7 +112,7 @@ namespace MShop.EndToEndTest.Common
 
         }
 
-        private string PrepareGetRote(string route, object? queryStringParameters)
+        private string PrepareParameteGetRote(string route, object? queryStringParameters)
         {
             if (queryStringParameters is null) 
                 return route;

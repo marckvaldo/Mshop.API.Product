@@ -11,11 +11,11 @@ namespace MShop.EndToEndTest.API.Product
 {
     public class ProductAPITest : ProductAPITestFixture
     {
-        private readonly RepositoryDbContext _dbContex;
+        //private readonly RepositoryDbContext _dbContex;
 
         public ProductAPITest()
         {
-            _dbContex = CreateDBContext();
+            //_dbContex = CreateDBContext();
         }
 
         [Fact(DisplayName = nameof(CreateProductAPI))]
@@ -238,9 +238,7 @@ namespace MShop.EndToEndTest.API.Product
         [InlineData(10, 1, 10, 10)]
         [InlineData(17, 2, 10, 7)]
         [InlineData(17, 3, 10, 0)]
-        public async void ListProductWithPaginated(
-            int quantityProduct, int page, int perPage, int expectedQuantityItems
-            )
+        public async void ListProductWithPaginated(int quantityProduct, int page, int perPage, int expectedQuantityItems)
         {
             var products = GetProducts(quantityProduct);
             Persistence.CreateList(products);
@@ -266,6 +264,53 @@ namespace MShop.EndToEndTest.API.Product
                 Assert.Equal(expectItem.Price, item.Price);
                 Assert.Equal(expectItem.Imagem, item.Imagem);
             }
+        }
+
+
+
+        [Fact(DisplayName = nameof(ListProductPromotions))]
+        [Trait("EndToEnd/API", "Product - Endpoints")]
+
+        public async void ListProductPromotions()
+        {
+            var products = GetProducts(5);
+            Persistence.CreateList(products);
+
+            var (response, outPut) = await apiClient.Get<CustomResponse<List<ProductModelOutPut>>>($"{Configuration.URL_API_PRODUCT}list-products-promotions");
+
+            Assert.NotNull(response);
+            Assert.Equal(System.Net.HttpStatusCode.OK, response!.StatusCode);
+            Assert.NotNull(outPut);
+            Assert.True(outPut.Success);
+
+            foreach(var item in outPut.Data)
+            {
+                var expectItem = products.FirstOrDefault(p=>p.Id == item.Id);
+                Assert.NotNull(expectItem);
+                Assert.Equal(expectItem.Name, item.Name);   
+                Assert.Equal(expectItem.Description,expectItem.Description);
+                Assert.Equal(expectItem.Imagem, expectItem.Imagem);
+                Assert.Equal(expectItem.Price, expectItem.Price);
+                Assert.Equal(expectItem.Activate, expectItem.Activate); 
+            }
+        }
+
+
+
+        [Fact(DisplayName = nameof(SholdReturnErrorWhenCantGetProductPromotion))]
+        [Trait("EndToEnd/API", "Product - Endpoints")]
+
+        public async void SholdReturnErrorWhenCantGetProductPromotion()
+        {
+
+            var (response, outPut) = await apiClient.Get<CustomResponseErro>($"{Configuration.URL_API_PRODUCT}list-products-promotions");
+
+            Assert.NotNull(response);
+            Assert.Equal(System.Net.HttpStatusCode.BadRequest, response!.StatusCode);
+            Assert.NotNull(outPut);
+            Assert.False(outPut.Success);
+
+            
         }
     }
 }

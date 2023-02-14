@@ -45,6 +45,7 @@ namespace MShop.Repository.Repository
         public async Task<List<Product>> GetProductsPromotions()
         {
             var result = await _dbSet.ToListAsync();
+            if(!result.Any()) result = null;
             NotFoundException.ThrowIfnull(result, "your search returned null");
             return result;
         }

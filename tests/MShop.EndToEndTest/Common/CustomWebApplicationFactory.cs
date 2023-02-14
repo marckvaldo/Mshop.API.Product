@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using MShop.Repository.Context;
@@ -27,6 +28,14 @@ namespace MShop.EndToEndTest.Common
                 {
                     Options.UseInMemoryDatabase(Configuration.NAME_DATA_BASE);
                 });
+
+
+                var cacheOption = Services.FirstOrDefault(x => x.ServiceType == typeof(IDistributedCache));
+
+                if(cacheOption is not null)
+                    Services.Remove(cacheOption);
+
+                Services.AddDistributedMemoryCache();
 
             });
         }

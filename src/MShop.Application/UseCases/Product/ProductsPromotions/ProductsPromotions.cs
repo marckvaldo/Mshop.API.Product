@@ -1,17 +1,18 @@
 ﻿using MShop.Application.UseCases.Product.Common;
 using MShop.Application.UseCases.Product.ProductsPromotions;
+using MShop.Business.Interface;
 using MShop.Business.Interface.Cache;
 using MShop.Business.Interface.Repository;
 
 
 namespace MShop.Application.UseCases.Product.Productspromotions
 {
-    public class ProductsPromotions : IProductsPromotions
+    public class ProductsPromotions : BaseUseCase, IProductsPromotions
     {
         private readonly ICacheRepository _cacheRepository;
         private readonly IProductRepository _productRepository;
 
-        public ProductsPromotions(ICacheRepository cacheRepository, IProductRepository productRepository)
+        public ProductsPromotions(ICacheRepository cacheRepository, IProductRepository productRepository, INotification notification) : base(notification)
         {
             _cacheRepository = cacheRepository;
             _productRepository = productRepository;

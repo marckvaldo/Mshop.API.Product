@@ -1,4 +1,5 @@
-﻿using MShop.Application.UseCases.Category.CreateCategory;
+﻿using Mshop.Cache.RepositoryRedis;
+using MShop.Application.UseCases.Category.CreateCategory;
 using MShop.Application.UseCases.Category.DeleteCategory;
 using MShop.Application.UseCases.Category.GetCatetory;
 using MShop.Application.UseCases.Category.ListCategorys;
@@ -8,9 +9,12 @@ using MShop.Application.UseCases.Product.CreateProducts;
 using MShop.Application.UseCases.Product.DeleteProduct;
 using MShop.Application.UseCases.Product.GetProduct;
 using MShop.Application.UseCases.Product.ListProducts;
+using MShop.Application.UseCases.Product.Productspromotions;
+using MShop.Application.UseCases.Product.ProductsPromotions;
 using MShop.Application.UseCases.Product.UpdateProduct;
 using MShop.Application.UseCases.Product.UpdateStockProduct;
 using MShop.Business.Interface;
+using MShop.Business.Interface.Cache;
 using MShop.Business.Interface.Repository;
 using MShop.Business.Validation;
 using MShop.Repository.Context;
@@ -31,6 +35,7 @@ namespace MShop.ProductAPI.Configuration
             services.AddScoped<IDeleteProduct, DeleteProduct>();
             services.AddScoped<IUpdateStockProduct, UpdateStockProducts>();
             services.AddScoped<IListProducts, ListProducts>();
+            services.AddScoped<IProductsPromotions, ProductsPromotions>();
 
 
             services.AddScoped<ICategoryRepository, CategoryRepository>();
@@ -42,6 +47,7 @@ namespace MShop.ProductAPI.Configuration
             services.AddScoped<IGetCategoryWithProducts, GetCategoryWithProducts>();
             
             services.AddScoped<INotification, Notifications>();
+            services.AddScoped<ICacheRepository, RedisRepository>();
 
             return services;
         }

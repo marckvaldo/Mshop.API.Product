@@ -13,13 +13,13 @@ namespace MShop.IntegrationTests.Repository.CacheRepository
 {
     [Collection("Repository Products Collection")]
     [CollectionDefinition("Repository Products Collection", DisableParallelization = true)]
-    public class CacheRepositoryTest: CacheRepositoryTestFixture
+    public class ProductPromotionsTest: ProductPromotionsTestFixture
     {
         private readonly Cache.RedisRepository _redisRepository;
         private readonly PersistenceCache _persistenceCache;
         private readonly IDistributedCache _cacheMemory;
 
-        public CacheRepositoryTest()
+        public ProductPromotionsTest()
         {
             
             _cacheMemory = CreateCache();

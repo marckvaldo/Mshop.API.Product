@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace MShop.IntegrationTests.Repository.CacheRepository
 {
-    public class CacheRepositoryTestFixture : BaseFixture
+    public class ProductPromotionsTestFixture : BaseFixture
     {
       
         private readonly Guid _categoryId;
-        public CacheRepositoryTestFixture() : base()
+        public ProductPromotionsTestFixture() : base()
         {
             _categoryId = Guid.NewGuid();
         }

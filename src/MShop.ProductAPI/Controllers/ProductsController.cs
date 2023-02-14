@@ -9,6 +9,7 @@ using MShop.Business.Exceptions;
 using MShop.Application.UseCases.Product.UpdateStockProduct;
 using MShop.Application.UseCases.Product.ListProducts;
 using MShop.Application.UseCases.Product.Common;
+using MShop.Application.UseCases.Product.ProductsPromotions;
 
 namespace MShop.ProductAPI.Controllers
 {
@@ -20,8 +21,9 @@ namespace MShop.ProductAPI.Controllers
         private readonly ICreateProduct _createProduct;
         private readonly IUpdateProduct _updateProduct;
         private readonly IDeleteProduct _deleteProduct;
-        private readonly IUpdateStockProduct _UpdateStoqueProduct;
-        private readonly IListProducts _ListProducts;
+        private readonly IUpdateStockProduct _updateStoqueProduct;
+        private readonly IListProducts _listProducts;
+        private readonly IProductsPromotions _productPromotions;
 
         public ProductsController(
             IGetProduct getProduct, 
@@ -30,15 +32,17 @@ namespace MShop.ProductAPI.Controllers
             IDeleteProduct deleteProduct,
             IUpdateStockProduct updateStoqueProduct,
             IListProducts listProducts,
-            INotification notification
+            INotification notification,
+            IProductsPromotions productPromotions
             ) : base(notification)
         {
             _getProduct = getProduct;
             _createProduct = createProduct;
             _updateProduct = updateProduct;
             _deleteProduct = deleteProduct;
-            _UpdateStoqueProduct = updateStoqueProduct;
-            _ListProducts = listProducts;
+            _updateStoqueProduct = updateStoqueProduct;
+            _listProducts = listProducts;
+            _productPromotions = productPromotions;
         }
 
         [HttpGet("{id:guid}")]
@@ -61,7 +65,21 @@ namespace MShop.ProductAPI.Controllers
         {
             try
             {
-                return CustomResponse(await _ListProducts.Handle(request));
+                return CustomResponse(await _listProducts.Handle(request));
+            }
+            catch (Exception error)
+            {
+                Notify(error.Message);
+                return CustomResponse();
+            }
+        }
+
+        [HttpGet("list-products-promotions")]
+        public async Task<ActionResult<List<ProductModelOutPut>>> ListProdutcsPromotions()
+        {
+            try
+            {
+                return CustomResponse(await _productPromotions.Handle());
             }
             catch (Exception error)
             {
@@ -135,7 +153,7 @@ namespace MShop.ProductAPI.Controllers
                     return CustomResponse(product);
                 }
 
-                return CustomResponse(await _UpdateStoqueProduct.Handle(product));
+                return CustomResponse(await _updateStoqueProduct.Handle(product));
             }
             catch (Exception error)
             {
