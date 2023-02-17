@@ -1,7 +1,6 @@
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MShop.ProductAPI.Configuration;
-using MShop.Repository.Context;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -43,16 +42,15 @@ builder.Services.AddSwaggerGen();*/
 });*/
 
 
-var ConnectionString = builder.Configuration.GetConnectionString("RepositoryMysql");
-var configuracao = builder.Configuration;
-var redisPassword = configuracao["Redis:Password"];
-var redisEndPoint = configuracao["Redis:Endpoint"];
+//var configuracao = builder.Configuration;
+//var redisPassword = configuracao["Redis:Password"];
+//var redisEndPoint = configuracao["Redis:Endpoint"];
 
 builder.Services.AddAndConfigureController()
     .AddConfigurationModelState()
     .AddDependencyInjection()
-    .AddConfigurationMySql(ConnectionString)
-    .AddConfigurationRedis(redisPassword,redisEndPoint);
+    .AddConfigurationMySql(builder.Configuration)
+    .AddConfigurationRedis(builder.Configuration);
 
 
 var app = builder.Build();

@@ -21,6 +21,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MShop.EndToEndTest", "tests
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MShop.Cache", "src\Mshop.Chache\MShop.Cache.csproj", "{E78F148B-2F82-4F21-A284-5DBAE002DCBB}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "env", "env", "{17F3E92E-0C73-4C1D-9C1D-F4B065377FEE}"
+	ProjectSection(SolutionItems) = preProject
+		env\docker-compose.yml = env\docker-compose.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "env", "env", "{65A103A3-4ECE-430E-A69F-4C17C03627E5}"
+	ProjectSection(SolutionItems) = preProject
+		tests\env\docker-compose.yml = tests\env\docker-compose.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,6 +77,7 @@ Global
 		{CB105446-D10F-4073-A786-C0E0F1CC6BC0} = {863D5521-F850-4B19-A277-03FB10D81645}
 		{C9DB5AD4-C1A7-4462-8C5A-0742755FF1AC} = {863D5521-F850-4B19-A277-03FB10D81645}
 		{6FAC9456-9826-421F-B881-68A7260403A0} = {863D5521-F850-4B19-A277-03FB10D81645}
+		{65A103A3-4ECE-430E-A69F-4C17C03627E5} = {863D5521-F850-4B19-A277-03FB10D81645}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FCD02D27-5334-4D3E-9D23-761CB4C50D74}
