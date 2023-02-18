@@ -1,12 +1,15 @@
 ﻿using Bogus;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using MShop.Repository.Context;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Xunit.Sdk;
 
 namespace MShop.EndToEndTest.Common
 {
@@ -18,6 +21,7 @@ namespace MShop.EndToEndTest.Common
         protected CustomWebApplicationFactory<Program> webApp;
         protected HttpClient httpClient;
         private readonly string _connectionString;
+        private readonly IConfiguration _configuration;
 
         protected BaseFixture()
         {
@@ -31,12 +35,12 @@ namespace MShop.EndToEndTest.Common
             //pegando o services alterado do CustomWebApplicationFactory e recuperando a connectString
             var configurationServer = webApp.Services.GetService(typeof(IConfiguration));
             ArgumentNullException.ThrowIfNull(configurationServer);
-            _connectionString = ((IConfiguration)configurationServer).GetConnectionString("RepositoryMysql");
+            _configuration = ((IConfiguration)configurationServer);
+            _connectionString = _configuration.GetConnectionString("RepositoryMysql");
         }
 
         protected RepositoryDbContext CreateDBContext(bool preserveData = false)
         {
-
             if(Configuration.DATABASE_MEMORY)
             {
                 var context = new RepositoryDbContext(
@@ -57,14 +61,46 @@ namespace MShop.EndToEndTest.Common
                    .UseMySql(_connectionString, ServerVersion.AutoDetect(_connectionString))
                    .Options);
 
-                if (!preserveData)
-                    context.Database.EnsureDeleted();
+                //if (!preserveData)
+                    //context.Database.EnsureDeleted();
 
                 return context;
             }
+        }
 
-           
+        protected IDistributedCache CreateCache()
+        {
+            if (Configuration.DATABASE_MEMORY)
+            {
+                var services = new ServiceCollection();
+                services.AddDistributedMemoryCache();
+                var provider = services.BuildServiceProvider();
+                var memoryCache = provider.GetService<IDistributedCache>();
+                ArgumentNullException.ThrowIfNull(memoryCache) ;
+                return memoryCache;
+            }
+            else
+            {
+                var redisPassword = _configuration["Redis:Password"];
+                var redisEndPoint = _configuration["Redis:Endpoint"];
 
+                var services = new ServiceCollection();
+                services.AddStackExchangeRedisCache(options =>
+                {
+                    options.InstanceName = "Redis";
+                    options.Configuration = redisEndPoint;
+                    if (!string.IsNullOrEmpty(redisPassword))
+                    {
+                        options.ConfigurationOptions = new StackExchange.Redis.ConfigurationOptions { Password = redisPassword };
+                        options.ConfigurationOptions.EndPoints.Add(redisPassword);
+                    }
+                });
+
+                var provider = services.BuildServiceProvider();
+                var memoryCache = provider.GetService<IDistributedCache>();
+                ArgumentNullException.ThrowIfNull(memoryCache) ;
+                return memoryCache;
+            }
         }
 
         protected void CleanInMemoryDatabase()

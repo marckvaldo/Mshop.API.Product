@@ -11,8 +11,12 @@
             {
                 options.InstanceName = "Redis";
                 options.Configuration = redisEndPoint;
-                options.ConfigurationOptions = new StackExchange.Redis.ConfigurationOptions { Password = redisPassword };
-                options.ConfigurationOptions.EndPoints.Add(redisPassword);
+                if (!string.IsNullOrEmpty(redisPassword))
+                {
+                    options.ConfigurationOptions = new StackExchange.Redis.ConfigurationOptions { Password = redisPassword };
+                    options.ConfigurationOptions.EndPoints.Add(redisPassword);
+                }
+                
 
             });
 

@@ -1,7 +1,7 @@
 version: "3.4"
 
 services:
-  MShop.catalago:
+  MShop.catalago.e2e:
     container_name: catalagoDb-e2e
     hostname: catalagoDb-e2e
     image: mariadb:10.6.3
@@ -13,9 +13,9 @@ services:
       MYSQL_PASSWORD: "mshop"
       MYSQL_DATABASE: "mshop"
   
-  MShop.Redis:
-    container_name: redis
-    hostname: redis
+  MShop.Redis.e2e:
+    container_name: redis-e2e
+    hostname: redis-e2e
     image: redis
     ports:
       - "8378:6379" 

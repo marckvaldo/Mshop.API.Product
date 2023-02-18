@@ -14,7 +14,7 @@ namespace MShop.EndToEndTest.Common
         {
 
             //aqui vai ler os dados de appsettings.EndToEndTest.json
-            builder.UseEnvironment("EndToEndTest");
+           
             builder.ConfigureServices(Services =>
             {
 
@@ -50,6 +50,20 @@ namespace MShop.EndToEndTest.Common
                     Services.AddDistributedMemoryCache();
 
                 }
+                else
+                {
+                    builder.UseEnvironment("EndToEndTest");
+                    var servicesProvides = Services.BuildServiceProvider();
+                    using (var scope = servicesProvides.CreateScope())
+                    {
+                        var context = scope.ServiceProvider.GetService<RepositoryDbContext>();
+                        ArgumentNullException.ThrowIfNull(context);
+                        context.Database.EnsureDeleted();
+                        context.Database.EnsureCreated();
+                    }
+
+                }
+
                 /*var dbOption  = Services.FirstOrDefault(x => x.ServiceType == typeof(DbContextOptions<RepositoryDbContext>));
 
                 if(dbOption is not null)

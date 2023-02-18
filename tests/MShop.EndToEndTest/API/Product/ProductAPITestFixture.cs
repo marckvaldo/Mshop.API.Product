@@ -7,29 +7,42 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MShop.Application.UseCases.Product.CreateProducts;
+using MShop.EndToEndTest.API.Category;
 
 namespace MShop.EndToEndTest.API.Product
 {
     public class ProductAPITestFixture : BaseFixture
     {
-        private readonly Guid _categoryId;
+        private Guid _categoryId;
         private readonly Guid _id;
 
-        public ProductPersistence Persistence;
+        protected readonly ProductPersistence Persistence;
+        protected readonly CategoryPersistence CategoryPersistence;
+        protected readonly ProductPersistenceCache ProductPersistenceCache;
 
         public ProductAPITestFixture() : base()
         {
-            _categoryId = Guid.NewGuid();
+            //_categoryId = Guid.NewGuid();
             _id = Guid.NewGuid();
 
             Persistence = new ProductPersistence(
                 CreateDBContext()
             );
+
+            CategoryPersistence = new CategoryPersistence(
+                CreateDBContext()
+            );
+
+
+            ProductPersistenceCache = new ProductPersistenceCache(
+                CreateCache()
+            );
         }
 
-        protected BusinessEntity.Product Faker()
+        protected async Task<BusinessEntity.Product> Faker()
         {
-            var product = (new BusinessEntity.Product
+            await BuildCategory();
+           var product = (new BusinessEntity.Product
             (
                 faker.Commerce.ProductDescription(),
                 faker.Commerce.ProductName(),
@@ -42,40 +55,41 @@ namespace MShop.EndToEndTest.API.Product
             return product;
         }
 
-        public UseCase.CreateProducts.CreateProductInPut RequestCreate()
+        public async Task<CreateProductInPut> RequestCreate()
         {
-            return new UseCase.CreateProducts.CreateProductInPut
+            var faker = await Faker();
+            return new CreateProductInPut
             {
-                Name = Faker().Name,
+                Name = faker.Name,
                 CategoryId = _categoryId,
-                Imagem = Faker().Imagem,
+                Imagem = faker.Imagem,
                 IsActive = true,
-                Description = Faker().Description,
-                Price = Faker().Price,
-                Stock = Faker().Stock
+                Description = faker.Description,
+                Price = faker.Price,
+                Stock = faker.Stock
             };
         }
 
-        public UseCase.UpdateProduct.UpdateProductInPut RequestUpdate()
+        public async Task<UseCase.UpdateProduct.UpdateProductInPut> RequestUpdate()
         {
+            var faker = await Faker();
             return new UseCase.UpdateProduct.UpdateProductInPut
             {
-                Name = Faker().Name,
+                Name = faker.Name,
                 CategoryId = _categoryId,
-                Imagem = Faker().Imagem,
+                Imagem = faker.Imagem,
                 IsActive = true,
-                Description = Faker().Description,
-                Price = Faker().Price,
+                Description = faker.Description,
+                Price = faker.Price,
                 Id = _id
             };
         }
 
-
-        public List<BusinessEntity.Product> GetProducts(int length = 10)
+        public async Task<List<BusinessEntity.Product>> GetProducts(int length = 10)
         {
             List<BusinessEntity.Product> products = new List<BusinessEntity.Product>();
             for (int i = 0; i < length; i++)
-                products.Add(Faker());
+                products.Add(await Faker());
 
             return products;
 
@@ -103,5 +117,14 @@ namespace MShop.EndToEndTest.API.Product
             return description;
         }
 
+        protected async Task BuildCategory()
+        {
+            var nameCategory = faker.Commerce.Categories(1)[0].ToString();
+
+            await CategoryPersistence.Create(new BusinessEntity.Category(nameCategory, true));
+            var category = await CategoryPersistence.GetByIdName(nameCategory);
+            if(category is not null)
+                _categoryId = category.Id;
+        }
     }
 }

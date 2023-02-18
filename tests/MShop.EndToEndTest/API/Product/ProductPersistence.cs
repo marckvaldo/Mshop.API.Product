@@ -37,10 +37,11 @@ namespace MShop.EndToEndTest.API.Product
             await _context.SaveChangesAsync();  
         }
 
-        public async void CreateList(List<BusinessEntity.Product> request)
+        public async Task CreateList(List<BusinessEntity.Product> request)
         {
             await _context.AddRangeAsync(request);
             await _context.SaveChangesAsync();
         }
+
     }
 }

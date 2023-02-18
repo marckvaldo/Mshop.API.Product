@@ -6,23 +6,26 @@ using MShop.Application.UseCases.Product.ListProducts;
 using MShop.EndToEndTest.API.Product.Common;
 using MShop.Repository.Context;
 using MShop.Business.Enum.Paginated;
+using MShop.EndToEndTest.API.Category;
+using MShop.Application.UseCases.Category.CreateCategory;
 
 namespace MShop.EndToEndTest.API.Product
 {
+    [Collection("Crud Products Collection")]
+    [CollectionDefinition("Crud Products Collection", DisableParallelization = true)]
+
     public class ProductAPITest : ProductAPITestFixture
     {
-        //private readonly RepositoryDbContext _dbContex;
-
         public ProductAPITest()
         {
-            //_dbContex = CreateDBContext();
+            
         }
 
         [Fact(DisplayName = nameof(CreateProductAPI))]
         [Trait("EndToEnd/API","Product - Endpoints")]
         public async Task CreateProductAPI()
         {
-            var request = RequestCreate();
+            var request = await RequestCreate();
 
             var (response, outPut) = await apiClient.Post<CustomResponse<ProductModelOutPut>>(Configuration.URL_API_PRODUCT, request);
 
@@ -51,10 +54,11 @@ namespace MShop.EndToEndTest.API.Product
         [Trait("EndToEnd/API", "Product - Endpoints")]
         public async Task UpdateProduct()
         {
-            var request = RequestUpdate();
-            var product = Faker();
+            var request = await RequestUpdate();
+            var product = await Faker();
             request.Id = product.Id;
 
+            
             Persistence.Create(product);
 
             var (response, output) = await apiClient.Put<CustomResponse<ProductModelOutPut>>($"{Configuration.URL_API_PRODUCT}{request.Id}", request);
@@ -78,7 +82,7 @@ namespace MShop.EndToEndTest.API.Product
         [Trait("EndToEnd/API", "Product - Endpoints")]
         public async Task DeleteProduct()
         {
-            var product = Faker();
+            var product = await Faker();
             Persistence.Create(product);
 
             var (response, output) = await apiClient.Delete<CustomResponse<ProductModelOutPut>>($"{Configuration.URL_API_PRODUCT}{product.Id}");
@@ -103,9 +107,10 @@ namespace MShop.EndToEndTest.API.Product
         [Trait("EndToEnd/API", "Product - Endpoints")]
         public async Task UpdateProductStock()
         {
-            var product = Faker();
+            var product = await Faker();
             Persistence.Create(product);
-            var stock = Faker().Stock;
+            var productStock = await Faker();
+            var stock = productStock.Stock;
 
             var (response, outPut) = await apiClient.Post<CustomResponse<ProductModelOutPut>>($"{Configuration.URL_API_PRODUCT}update-stock/{product.Id}",new {product.Id, stock });
 
@@ -130,7 +135,7 @@ namespace MShop.EndToEndTest.API.Product
         [InlineData(-1)]
         public async Task SholdReturnErrorWhenCantCreatePoduct(decimal price)
         {
-            var request = RequestCreate();
+            var request = await RequestCreate();
             request.Price = price;
 
             var (response, outPut) = await apiClient.Post<CustomResponseErro> (Configuration.URL_API_PRODUCT, request);
@@ -148,7 +153,7 @@ namespace MShop.EndToEndTest.API.Product
         [InlineData(-1)]
         public async Task SholdReturnErrorWhenCantUpdatePoduct(decimal price)
         {
-            var request = RequestUpdate();
+            var request =  await RequestUpdate();
             request.Price = price;
 
             var (response, outPut) = await apiClient.Post<CustomResponseErro>(Configuration.URL_API_PRODUCT, request);
@@ -164,8 +169,8 @@ namespace MShop.EndToEndTest.API.Product
         [Trait("EndToEnd/API", "Product - Endpoints")]
         public async void GetProductById()
         {
-            var products = GetProducts(20);
-            Persistence.CreateList(products);
+            var products = await GetProducts(20);
+            await Persistence.CreateList(products);
             var product = products[3];
 
             var (response, outPut) = await apiClient.Get<CustomResponse<ProductModelOutPut>>($"{Configuration.URL_API_PRODUCT}{product.Id}");
@@ -182,8 +187,8 @@ namespace MShop.EndToEndTest.API.Product
         [Trait("EndToEnd/API", "Product - Endpoints")]
         public async void ListProduct()
         {
-            var products = GetProducts(20);
-            Persistence.CreateList(products);
+            var products = await GetProducts(20);
+            await Persistence.CreateList(products);
 
             var productDbBefore = await Persistence.List();          
             var (response, outPut) = await apiClient.Get<CustomResponsePaginated<ProductModelOutPut>>($"{Configuration.URL_API_PRODUCT}list-products/");
@@ -233,8 +238,9 @@ namespace MShop.EndToEndTest.API.Product
         [InlineData(17, 3, 10, 0)]
         public async void ListProductWithPaginated(int quantityProduct, int page, int perPage, int expectedQuantityItems)
         {
-            var products = GetProducts(quantityProduct);
-            Persistence.CreateList(products);
+            await BuildCategory();
+            var products = await GetProducts(quantityProduct);
+            await Persistence.CreateList(products);
 
             var request = new ListProductInPut(page, perPage, "", "", SearchOrder.Desc);
             var (response, outPut) = await apiClient.Get<CustomResponsePaginated<ProductModelOutPut>>($"{Configuration.URL_API_PRODUCT}list-products/", request);
@@ -264,8 +270,8 @@ namespace MShop.EndToEndTest.API.Product
         [Trait("EndToEnd/API", "Product - Endpoints")]
         public async void ListProductPromotions()
         {
-            var products = GetProducts(5);
-            Persistence.CreateList(products);
+            var products = await GetProducts(5);
+            await Persistence.CreateList(products);
 
             var (response, outPut) = await apiClient.Get<CustomResponse<List<ProductModelOutPut>>>($"{Configuration.URL_API_PRODUCT}list-products-promotions");
 
@@ -291,7 +297,7 @@ namespace MShop.EndToEndTest.API.Product
         [Trait("EndToEnd/API", "Product - Endpoints")]
         public async void SholdReturnErrorWhenCantGetProductPromotion()
         {
-
+            await ProductPersistenceCache.DeleteKey("promocao");
             var (response, outPut) = await apiClient.Get<CustomResponseErro>($"{Configuration.URL_API_PRODUCT}list-products-promotions");
 
             Assert.NotNull(response);

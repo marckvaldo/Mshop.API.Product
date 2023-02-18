@@ -10,7 +10,7 @@ namespace MShop.EndToEndTest.Common
     {
         public static string NAME_DATA_BASE  = "end2end-test-db";
         public static string URL_API_PRODUCT = "/api/products/";
-        public static bool DATABASE_MEMORY = true;
+        public static bool DATABASE_MEMORY = false;
     }
 }
 
