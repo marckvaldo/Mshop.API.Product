@@ -11,7 +11,7 @@
             };
         }
 
-        public static object Error(object result)
+        public static object Error(List<string> result)
         {
             return new
             {

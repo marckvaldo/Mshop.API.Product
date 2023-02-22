@@ -57,7 +57,7 @@ namespace MShop.ProductAPI.Filter
             details.Type = "UnprocessableEntity";
 
             context.HttpContext.Response.StatusCode = (int) details.Status;
-            context.Result = new ObjectResult(ExtensionResponse.Error(details));  
+            context.Result = new ObjectResult(ExtensionResponse.Error(new List<string> { exception.Message }));  
             context.ExceptionHandled = true;
             
         }
