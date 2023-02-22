@@ -1,10 +1,12 @@
-﻿namespace MShop.ProductAPI.Configuration
+﻿using MShop.ProductAPI.Filter;
+
+namespace MShop.ProductAPI.Configuration
 {
     public static class ControllerConfiguration
     {
         public static IServiceCollection AddAndConfigureController(this IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers(options => options.Filters.Add(typeof(ApiGlobalExceptionFilter)));
             services.AddDocumentation();
             return services;
         }

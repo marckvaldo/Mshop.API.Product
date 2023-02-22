@@ -12,10 +12,17 @@ services:
       MYSQL_USER: "mshop"
       MYSQL_PASSWORD: "mshop"
       MYSQL_DATABASE: "mshop"
-  
+    networks:
+      - app-catalago
   MShop.Redis:
     container_name: redis
     hostname: redis
     image: redis
     ports:
       - "8379:6379" 
+    networks:
+      - app-catalago
+
+networks:
+  app-catalago:
+    driver: bridge

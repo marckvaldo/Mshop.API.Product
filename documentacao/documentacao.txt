@@ -7,9 +7,9 @@ dotnet tool update --global dotnet-ef
 verificar se esta instalado 
 donet ef
 
-para executar as migratino certifique de estar no deretorio do projeto Mshop.Repository
+para executar as migratino certifique de estar no diretorio do projeto Mshop.Repository
 
-executar migration
+criar as  migration
 dotnet ef --startup-project ../MShop.ProductAPI/ migrations add inicial
 
 remover as migration
@@ -21,6 +21,13 @@ dotnet ef --startup-project ../MShop.ProductAPI/ migrations script
 
 criar no banco de dados
 dotnet ef --startup-project ../MShop.ProductAPI/ database update
+
+
+para alterar o environmentVariables no terminal para rodar as migrations
+$env:ASPNETCORE_ENVIRONMENT='migrantions'
+
+com isso eu posso criar um appsettings.Migrations.json para rodar apenas a migrations
+
 
 
 
@@ -48,4 +55,7 @@ Microsoft.EntityFrameworkCore.InMemor
 
 no projeto de teste end2end precisamos
 Microsoft.AspNetCore.Mvc.Testing
+
+
+
 

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using MShop.Business.Interface;
 using MShop.Business.Validation;
+using MShop.ProductAPI.Extension;
 
 namespace MShop.ProductAPI.Controllers
 {
@@ -14,7 +15,8 @@ namespace MShop.ProductAPI.Controllers
         {
             _notification= notification;
         }
-        protected bool ValidOperation()
+
+        protected bool OperationIsValid()
         {
             return !_notification.HasErrors();
         }
@@ -28,20 +30,12 @@ namespace MShop.ProductAPI.Controllers
 
         protected ActionResult CustomResponse(object result = null)
         {
-            if(ValidOperation())
+            if(OperationIsValid())
             {
-                return Ok(new
-                {
-                    Success = true,
-                    data = result
-                });
+                return Ok(ExtensionResponse.Success(result));
             }
 
-            return BadRequest(new
-            {
-                success = false,
-                errors = _notification.Errors().Select(x => x.Message).ToList()
-            });
+            return BadRequest(ExtensionResponse.Error(_notification.Errors().Select(x => x.Message).ToList()));
         }
 
         protected void NotifyInvalidModelError(ModelStateDictionary modelState)

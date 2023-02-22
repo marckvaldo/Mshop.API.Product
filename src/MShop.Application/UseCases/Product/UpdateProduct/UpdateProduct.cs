@@ -3,6 +3,7 @@ using MShop.Business.Entity;
 using MShop.Business.Exceptions;
 using MShop.Business.Interface;
 using MShop.Business.Interface.Repository;
+using System.ComponentModel.DataAnnotations;
 
 namespace MShop.Application.UseCases.Product.UpdateProduct
 {

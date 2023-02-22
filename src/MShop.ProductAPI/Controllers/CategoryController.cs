@@ -57,81 +57,41 @@ namespace MShop.ProductAPI.Controllers
         [HttpGet("list-category")]
         public async Task<ActionResult<List<CategoryModelOutPut>>> ListCategory()
         {
-            try
-            {
-                return CustomResponse(await _listCategory.Handler());
-            }
-            catch(Exception erro)
-            {
-                Notify(erro.Message);
-                return CustomResponse();
-            }
+            return CustomResponse(await _listCategory.Handler());   
         }
 
 
         [HttpGet("list-category-products/{id:Guid}")]
         public async Task<ActionResult<List<GetCategoryWithProductsOutPut>>> ListCategoryProdutcs(Guid Id)
         {
-            try
-            {
-                return CustomResponse(await _getCatetoryWithProducts.Handler(Id));
-            }
-            catch (Exception erro)
-            {
-                Notify(erro.Message);
-                return CustomResponse();
-            }
+            return CustomResponse(await _getCatetoryWithProducts.Handler(Id));
         }
 
 
         [HttpPost]
         public async Task<ActionResult<CategoryModelOutPut>> Create(CreateCategoryInPut request)
         {
-            try
-            {
-                if (!ModelState.IsValid) return CustomResponse(ModelState);
-                return CustomResponse(await _createCategory.Handler(request));
-            }
-            catch(Exception erro)
-            {
-                Notify(erro.Message);
-                return CustomResponse();
-            }
+            if (!ModelState.IsValid) return CustomResponse(ModelState);
+            return CustomResponse(await _createCategory.Handler(request));
         }
 
         [HttpPut("{Id:Guid}")]
         public async Task<ActionResult<CategoryModelOutPut>> Update(Guid Id, UpdateCategoryInPut request)
         {
-            try
-            {
-                if (!ModelState.IsValid) return CustomResponse(ModelState);
+            if (!ModelState.IsValid) return CustomResponse(ModelState);
 
-                if (Id != request.Id)
-                {
-                    Notify("O id informado não é o mesmo passado como parametro");
-                    return CustomResponse(request);
-                }
-                return CustomResponse(await _updateCategory.Handler(request));
-            }
-            catch(Exception erro)
+            if (Id != request.Id)
             {
-                Notify(erro.Message);
-                return CustomResponse();
+                Notify("O id informado não é o mesmo passado como parametro");
+                return CustomResponse(request);
             }
+            return CustomResponse(await _updateCategory.Handler(request));
         }
 
         [HttpDelete("{Id:Guid}")]
         public async Task<ActionResult<CategoryModelOutPut>> Delete(Guid Id)
         {
-            try
-            {
-                return CustomResponse(await _deleteCategory.Handler(Id));
-            }
-            catch(Exception erro)
-            {
-                Notify(erro.Message);
-                return CustomResponse();
-            }
+            return CustomResponse(await _deleteCategory.Handler(Id));        
         }
 
 

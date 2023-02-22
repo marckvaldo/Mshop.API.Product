@@ -48,118 +48,73 @@ namespace MShop.ProductAPI.Controllers
         [HttpGet("{id:guid}")]
         public async Task<ActionResult<IEnumerable<ProductModelOutPut>>> Product(Guid id)
         {
-            try
-            {
-                return CustomResponse(await _getProduct.Handle(id));
-            }
-            catch (Exception error)
-            {
-                Notify(error.Message);
-                return CustomResponse();
-            }
 
+            return CustomResponse(await _getProduct.Handle(id));
+        
         }
 
         [HttpGet("list-products")]
         public async Task<ActionResult<List<ProductModelOutPut>>> ListProdutcs([FromQuery] ListProductInPut request)
         {
-            try
-            {
-                return CustomResponse(await _listProducts.Handle(request));
-            }
-            catch (Exception error)
-            {
-                Notify(error.Message);
-                return CustomResponse();
-            }
+            return CustomResponse(await _listProducts.Handle(request));
         }
 
         [HttpGet("list-products-promotions")]
         public async Task<ActionResult<List<ProductModelOutPut>>> ListProdutcsPromotions()
         {
-            try
-            {
-                return CustomResponse(await _productPromotions.Handle());
-            }
-            catch (Exception error)
-            {
-                Notify(error.Message);
-                return CustomResponse();
-            }
+ 
+            return CustomResponse(await _productPromotions.Handle());
+        
         }
 
         [HttpPost]
         public async Task<ActionResult<ProductModelOutPut>> Create([FromBody] CreateProductInPut product)
         {
-            try
-            {
-                if (!ModelState.IsValid) return CustomResponse(ModelState);
-                return CustomResponse(await _createProduct.Handle(product));
-            }
-            catch (Exception error)
-            {
-                Notify(error.Message);
-                return CustomResponse();
-            }
+ 
+            if (!ModelState.IsValid) return CustomResponse(ModelState);
+            return CustomResponse(await _createProduct.Handle(product));
+       
         }
 
         [HttpPut("{id:guid}")]
         public async Task<ActionResult<ProductModelOutPut>> Update(Guid Id, UpdateProductInPut product)
         {
-            try
-            {
-                if (!ModelState.IsValid) return CustomResponse(ModelState);
+        
+            if (!ModelState.IsValid) return CustomResponse(ModelState);
 
-                if (Id != product.Id)
-                {
-                    Notify("O id informado não é o mesmo passado como parametro");
-                    return CustomResponse(product);
-                }
-
-                return CustomResponse(await _updateProduct.Handle(product));
-            }
-            catch (Exception error)
+            if (Id != product.Id)
             {
-                Notify(error.Message);
-                return CustomResponse();
+                Notify("O id informado não é o mesmo passado como parametro");
+                return CustomResponse(product);
             }
+
+            return CustomResponse(await _updateProduct.Handle(product));
+        
         }
 
         [HttpDelete("{id:guid}")]
         public async Task<ActionResult<ProductModelOutPut>> Delete(Guid Id)
         {
-            try
-            {
-                return CustomResponse(await _deleteProduct.Handle(Id));
-            }
-            catch(Exception error)
-            {
-                Notify(error.Message);
-                return CustomResponse(error);   
-            }
+
+            return CustomResponse(await _deleteProduct.Handle(Id));
+        
         }
 
 
         [HttpPost("update-stock/{id:guid}")]
         public async Task<ActionResult<ProductModelOutPut>> UpdateStock(Guid Id, [FromBody] UpdateStockProductInPut product)
         {
-            try
-            {
-                if (!ModelState.IsValid) return CustomResponse(ModelState);
+       
+            if (!ModelState.IsValid) return CustomResponse(ModelState);
 
-                if (Id != product.Id)
-                {
-                    Notify("O id informado não é o mesmo passado como parametro");
-                    return CustomResponse(product);
-                }
-
-                return CustomResponse(await _updateStoqueProduct.Handle(product));
-            }
-            catch (Exception error)
+            if (Id != product.Id)
             {
-                Notify(error.Message);
-                return CustomResponse(error);
+                Notify("O id informado não é o mesmo passado como parametro");
+                return CustomResponse(product);
             }
+
+            return CustomResponse(await _updateStoqueProduct.Handle(product));
+        
         }
     }
 }

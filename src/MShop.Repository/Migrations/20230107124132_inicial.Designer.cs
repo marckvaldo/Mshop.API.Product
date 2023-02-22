@@ -12,7 +12,7 @@ namespace MShop.Repository.Migrations
 {
     [DbContext(typeof(RepositoryDbContext))]
     [Migration("20230107124132_inicial")]
-    partial class inicial
+    partial class Inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

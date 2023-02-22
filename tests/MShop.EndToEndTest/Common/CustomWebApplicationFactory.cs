@@ -14,19 +14,10 @@ namespace MShop.EndToEndTest.Common
         {
 
             //aqui vai ler os dados de appsettings.EndToEndTest.json
-           
+
+            builder.UseEnvironment("EndToEndTest");
             builder.ConfigureServices(Services =>
             {
-
-                /*var servicesProvides = Services.BuildServiceProvider();
-                using (var scope = servicesProvides.CreateScope())
-                {
-                    var context = scope.ServiceProvider.GetService<RepositoryDbContext>();
-                    ArgumentNullException.ThrowIfNull(context);
-                    context.Database.EnsureDeleted();
-                    context.Database.EnsureCreated();
-                }*/
-
 
                 if(Configuration.DATABASE_MEMORY)
                 {
@@ -52,8 +43,9 @@ namespace MShop.EndToEndTest.Common
                 }
                 else
                 {
-                    builder.UseEnvironment("EndToEndTest");
+                    
                     var servicesProvides = Services.BuildServiceProvider();
+                    
                     using (var scope = servicesProvides.CreateScope())
                     {
                         var context = scope.ServiceProvider.GetService<RepositoryDbContext>();
@@ -63,25 +55,6 @@ namespace MShop.EndToEndTest.Common
                     }
 
                 }
-
-                /*var dbOption  = Services.FirstOrDefault(x => x.ServiceType == typeof(DbContextOptions<RepositoryDbContext>));
-
-                if(dbOption is not null)
-                    Services.Remove(dbOption);
-
-                Services.AddDbContext<RepositoryDbContext>(Options =>
-                {
-                    Options.UseInMemoryDatabase(Configuration.NAME_DATA_BASE);
-                });
-
-
-                var cacheOption = Services.FirstOrDefault(x => x.ServiceType == typeof(IDistributedCache));
-
-                if(cacheOption is not null)
-                    Services.Remove(cacheOption);
-
-                Services.AddDistributedMemoryCache();*/
-
             });
 
             base.ConfigureWebHost(builder);

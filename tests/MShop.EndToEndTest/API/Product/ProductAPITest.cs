@@ -61,15 +61,17 @@ namespace MShop.EndToEndTest.API.Product
             
             Persistence.Create(product);
 
-            var (response, output) = await apiClient.Put<CustomResponse<ProductModelOutPut>>($"{Configuration.URL_API_PRODUCT}{request.Id}", request);
+            var (response, output) = await apiClient.Put<CustomResponse<ProductModelOutPut>>(
+                $"{Configuration.URL_API_PRODUCT}{request.Id}", 
+                request);
 
             var persistence = await Persistence.GetById(product.Id);
 
             Assert.NotNull(response);
             Assert.NotNull(persistence);
             Assert.NotNull(output);
-            Assert.True(output.Success);
             Assert.Equal(System.Net.HttpStatusCode.OK, response!.StatusCode);
+            Assert.True(output.Success);
             Assert.Equal(persistence.Name, output.Data.Name);
             Assert.Equal(persistence.Description, output.Data.Description);
             Assert.Equal(persistence.Id, output.Data.Id);
