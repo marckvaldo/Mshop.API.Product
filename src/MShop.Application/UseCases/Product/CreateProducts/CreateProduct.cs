@@ -1,6 +1,7 @@
 ﻿using MShop.Application.UseCases.Product.Common;
 using MShop.Business.Interface;
 using MShop.Business.Interface.Repository;
+using MShop.Business.ValueObject;
 using Business = MShop.Business.Entity;
 
 namespace MShop.Application.UseCases.Product.CreateProducts
@@ -15,14 +16,16 @@ namespace MShop.Application.UseCases.Product.CreateProducts
 
         public async Task<ProductModelOutPut> Handle(CreateProductInPut request)
         {
-            var product = new Business.Entity.Product(request.Description,
+            var product = new Business.Entity.Product(
+                    request.Description,
                     request.Name,
                     request.Price,
-                    request.Imagem,
                     request.CategoryId,
                     request.Stock,
                     request.IsActive
                 );
+
+            product.UpdateImage(request.Imagem);
 
             product.IsValid(_notifications);
 
@@ -33,7 +36,7 @@ namespace MShop.Application.UseCases.Product.CreateProducts
                     product.Description,
                     product.Name,
                     product.Price,
-                    product.Imagem,
+                    product.Imagem?.Path,
                     product.Stock,
                     product.IsActive,
                     product.CategoryId

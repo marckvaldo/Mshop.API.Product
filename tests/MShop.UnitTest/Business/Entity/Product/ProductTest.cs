@@ -1,5 +1,6 @@
 ﻿using MShop.Business.Exceptions;
 using MShop.Business.Validation;
+using MShop.Business.ValueObject;
 using MShop.UnitTests.Common;
 
 namespace Mshop.Test.Business.Entity.Product
@@ -54,7 +55,7 @@ namespace Mshop.Test.Business.Entity.Product
             Assert.Equal(product.Name, validade.Name);
             Assert.Equal(product.Description, description);
             Assert.Equal(product.Price, validade.Price);
-            Assert.Equal(product.Imagem, validade.Imagem);
+            Assert.Equal(product.Imagem, null);
             Assert.Equal(product.CategoryId, validade.CategoryId);
             Assert.Equal(product.Stock, validade.Stock);
             Assert.Equal(product.IsActive, validade.IsActive);
@@ -86,7 +87,7 @@ namespace Mshop.Test.Business.Entity.Product
             Assert.Equal(product.Name, name);
             Assert.Equal(product.Description, validade.Description);
             Assert.Equal(product.Price, validade.Price);
-            Assert.Equal(product.Imagem, validade.Imagem);
+            Assert.Equal(product.Imagem, null);
             Assert.Equal(product.CategoryId, validade.CategoryId);
             Assert.Equal(product.Stock, validade.Stock);
             Assert.Equal(product.IsActive, validade.IsActive);
@@ -119,7 +120,7 @@ namespace Mshop.Test.Business.Entity.Product
             Assert.Equal(product.Name, validade.Name);
             Assert.Equal(product.Description, validade.Description);
             Assert.Equal(product.Price, price);
-            Assert.Equal(product.Imagem, validade.Imagem);
+            Assert.Equal(product.Imagem, null);
             Assert.Equal(product.CategoryId, validade.CategoryId);
             Assert.Equal(product.Stock, validade.Stock);
             Assert.Equal(product.IsActive, validade.IsActive);
@@ -158,7 +159,7 @@ namespace Mshop.Test.Business.Entity.Product
             Assert.Equal(product.Name, validade.Name);
             Assert.Equal(product.Description, validade.Description);
             Assert.Equal(product.Price, validade.Price);
-            Assert.Equal(product.Imagem, validade.Imagem);
+            Assert.Equal(product.Imagem, null);
             Assert.Equal(product.CategoryId, validade.CategoryId);
             Assert.Equal(product.Stock, validade.Stock);
            
@@ -260,7 +261,7 @@ namespace Mshop.Test.Business.Entity.Product
             product.UpdateImage(newImagem);
             product.IsValid(notification);
 
-            Assert.Equal(product.Imagem, newImagem);
+            Assert.Equal(product.Imagem.Path, newImagem);
             Assert.False(notification.HasErrors());
         }
 

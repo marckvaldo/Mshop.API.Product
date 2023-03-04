@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BusinessEntity = MShop.Business.Entity;
+using MShop.Business.ValueObject;
 
 namespace Mshop.Tests.Application.UseCases.Product.GetProduct
 {
@@ -26,12 +27,12 @@ namespace Mshop.Tests.Application.UseCases.Product.GetProduct
                 faker.Commerce.ProductName(),
                 faker.Commerce.ProductDescription(),
                 Convert.ToDecimal(faker.Commerce.Price()),
-                faker.Image.LoremPixelUrl(),
                 _categoryId,
                 faker.Random.UInt(),
                 true
             ));
             product.Id = _id;
+            product.UpdateImage(faker.Image.LoremFlickrUrl());
             return product;
         }
     }

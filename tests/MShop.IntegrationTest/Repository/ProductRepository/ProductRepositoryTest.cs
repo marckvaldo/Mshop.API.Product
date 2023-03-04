@@ -79,7 +79,7 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
             Assert.NotNull(product);
 
             product.Update(request.Description, request.Name, request.Price, request.CategoryId);
-            product.UpdateImage(request.Imagem);
+            product.UpdateImage(request.Imagem.Path);
             product.UpdateQuantityStock(request.Stock);
             product.IsValid(notification);
 

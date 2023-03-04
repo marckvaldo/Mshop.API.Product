@@ -38,7 +38,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.CreateProduct
             Assert.Equal(outPut.Name, newProduct.Name);
             Assert.Equal(outPut.Description, newProduct.Description);
             Assert.Equal(outPut.Price, newProduct.Price);
-            Assert.Equal(outPut.Imagem, newProduct.Imagem);
+            Assert.Equal(outPut.Imagem, newProduct.Imagem.Path);
             Assert.Equal(outPut.CategoryId, newProduct.CategoryId);
             Assert.Equal(outPut.Stock, newProduct.Stock);
             Assert.Equal(outPut.IsActive, newProduct.IsActive);

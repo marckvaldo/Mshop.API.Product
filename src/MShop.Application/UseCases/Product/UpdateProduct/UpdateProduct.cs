@@ -4,6 +4,7 @@ using MShop.Business.Exceptions;
 using MShop.Business.Interface;
 using MShop.Business.Interface.Repository;
 using System.ComponentModel.DataAnnotations;
+using MShop.Business.ValueObject;
 
 namespace MShop.Application.UseCases.Product.UpdateProduct
 {
@@ -45,7 +46,7 @@ namespace MShop.Application.UseCases.Product.UpdateProduct
                 product.Description, 
                 product.Name, 
                 product.Price,
-                product.Imagem, 
+                product.Imagem?.Path, 
                 product.Stock, 
                 product.IsActive, 
                 product.CategoryId);

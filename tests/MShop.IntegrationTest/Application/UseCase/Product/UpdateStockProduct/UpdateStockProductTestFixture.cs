@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BusinessEntity = MShop.Business.Entity;
 using ApplicationUseCase = MShop.Application.UseCases.Product.UpdateStockProduct;
+using MShop.Business.ValueObject;
 
 namespace MShop.IntegrationTests.Application.UseCase.Product.UpdateStockProduct
 {
@@ -27,7 +28,6 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.UpdateStockProduct
                 faker.Commerce.ProductName(),
                 faker.Commerce.ProductDescription(),
                 Convert.ToDecimal(faker.Commerce.Price()),
-                faker.Image.LoremPixelUrl(),
                 _categoryId,
                 faker.Random.UInt(),
                 true

@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ApplicationUseCase = MShop.Application.UseCases.Product.CreateProducts;
 using BusinessEntity = MShop.Business.Entity;
+using MShop.Business.ValueObject;
 
 
 namespace Mshop.Tests.Application.UseCases.Product.DeleteProduct
@@ -29,7 +30,6 @@ namespace Mshop.Tests.Application.UseCases.Product.DeleteProduct
                 faker.Commerce.ProductName(),
                 faker.Commerce.ProductDescription(),
                 Convert.ToDecimal(faker.Commerce.Price()),
-                faker.Image.LoremPixelUrl(),
                 _categoryId,
                 faker.Random.UInt(),
                 true

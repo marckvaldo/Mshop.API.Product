@@ -1,4 +1,5 @@
 ﻿using Mshop.Test.Common;
+using MShop.Business.ValueObject;
 using MShop.UnitTests.Common;
 using BusinessEntity = MShop.Business.Entity;
 
@@ -15,11 +16,11 @@ namespace Mshop.Test.Business.Entity.Product
 
         protected BusinessEntity.Product GetProductValid()
         {
-            return new(Fake().Description, Fake().Name, Fake().Price, Fake().Imagem,Fake().CategoryId,Fake().Stock,Fake().IsActive);
+            return new(Fake().Description, Fake().Name, Fake().Price, Fake().CategoryId,Fake().Stock,Fake().IsActive);
         }
         protected BusinessEntity.Product GetProductValid(ProductFake fake)
         {
-            return new(fake.Description, fake.Name, fake.Price, fake.Imagem, fake.CategoryId, fake.Stock, fake.IsActive);
+            return new(fake.Description, fake.Name, fake.Price, fake.CategoryId, fake.Stock, fake.IsActive);
         }
 
         protected ProductFake Fake()
@@ -29,14 +30,14 @@ namespace Mshop.Test.Business.Entity.Product
                 Name = faker.Commerce.ProductName(),
                 Description = faker.Commerce.ProductDescription(),
                 Price = Convert.ToDecimal(faker.Commerce.Price()),
-                Imagem = faker.Image.LoremPixelUrl(),
+                Imagem = new Image(faker.Image.LoremPixelUrl()),
                 CategoryId = _categoryId,
                 Stock = faker.Random.UInt(),
                 IsActive = true
             };
         }
 
-        protected ProductFake Fake(string description, string name, decimal price, string imagem, Guid categoryId, decimal stock, bool isActive = true)
+        protected ProductFake Fake(string description, string name, decimal price, Image imagem, Guid categoryId, decimal stock, bool isActive = true)
         {
             return new ProductFake
             {
@@ -77,7 +78,7 @@ namespace Mshop.Test.Business.Entity.Product
         public string Name { get; set; }
         public string Description { get; set; }
         public decimal Price { get; set; }
-        public string Imagem { get; set; }
+        public Image Imagem { get; set; }
         public Guid CategoryId { get; set; }
         public decimal Stock { get; set; }
         public bool IsActive { get; set; }

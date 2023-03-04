@@ -1,4 +1,5 @@
 ﻿using Mshop.Test.Common;
+using MShop.Business.ValueObject;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,7 +35,6 @@ namespace Mshop.Tests.Application.UseCases.Product.ListProducts
                 faker.Commerce.ProductName(),
                 faker.Commerce.ProductDescription(),
                 Convert.ToDecimal(faker.Commerce.Price()),
-                faker.Image.LoremPixelUrl(),
                 _categoryId,
                 faker.Random.UInt(),
                 true

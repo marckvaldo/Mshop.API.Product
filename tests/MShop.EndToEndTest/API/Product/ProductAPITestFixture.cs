@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MShop.Application.UseCases.Product.CreateProducts;
 using MShop.EndToEndTest.API.Category;
+using MShop.Business.ValueObject;
 
 namespace MShop.EndToEndTest.API.Product
 {
@@ -47,7 +48,6 @@ namespace MShop.EndToEndTest.API.Product
                 faker.Commerce.ProductDescription(),
                 faker.Commerce.ProductName(),
                 Convert.ToDecimal(faker.Commerce.Price()),
-                faker.Image.LoremPixelUrl(),
                 _categoryId,
                 faker.Random.UInt(),
                 true
@@ -62,7 +62,7 @@ namespace MShop.EndToEndTest.API.Product
             {
                 Name = faker.Name,
                 CategoryId = _categoryId,
-                Imagem = faker.Imagem,
+                Imagem = faker.Imagem.Path,
                 IsActive = true,
                 Description = faker.Description,
                 Price = faker.Price,
@@ -77,7 +77,7 @@ namespace MShop.EndToEndTest.API.Product
             {
                 Name = faker.Name,
                 CategoryId = _categoryId,
-                Imagem = faker.Imagem,
+                Imagem = faker.Imagem.Path,
                 IsActive = true,
                 Description = faker.Description,
                 Price = faker.Price,

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BusinessEntity = MShop.Business.Entity;
+using MShop.Business.ValueObject;
 
 namespace MShop.IntegrationTests.Application.UseCase.Product.ProductsPromotions;
 
@@ -25,7 +26,6 @@ public class ProductPromotionsTestFixture : BaseFixture
             faker.Commerce.ProductDescription(),
             faker.Commerce.ProductName(),
             Convert.ToDecimal(faker.Commerce.Price()),
-            faker.Image.LoremPixelUrl(),
             _categoryId,
             faker.Random.UInt(),
             true

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using BusinessEntity = MShop.Business.Entity;
 using ApplicationUseCase = MShop.Application.UseCases.Product.UpdateProduct;
 using MShop.Application.UseCases.Product.Common;
+using MShop.Business.ValueObject;
 
 
 namespace Mshop.Tests.Application.UseCases.Product.UpdateProduct
@@ -30,7 +31,7 @@ namespace Mshop.Tests.Application.UseCases.Product.UpdateProduct
                 Name = Faker().Name,
                 Description = Faker().Description,
                 Price = Faker().Price,
-                Imagem = Faker().Imagem,
+                Imagem = Faker().Imagem.Path,
                 CategoryId = Faker().CategoryId,
                 IsActive = Faker().IsActive
             };
@@ -46,7 +47,7 @@ namespace Mshop.Tests.Application.UseCases.Product.UpdateProduct
                 Faker().Description,
                 Faker().Name,
                 Faker().Price,
-                Faker().Imagem,
+                Faker().Imagem.Path,
                 Faker().Stock,
                 Faker().IsActive,
                 Faker().CategoryId
@@ -56,16 +57,18 @@ namespace Mshop.Tests.Application.UseCases.Product.UpdateProduct
 
         protected BusinessEntity.Product Faker()
         {
-            return (new BusinessEntity.Product
+            BusinessEntity.Product product = (new BusinessEntity.Product
             (
                 faker.Commerce.ProductName(),
                 faker.Commerce.ProductDescription(),
                 Convert.ToDecimal(faker.Commerce.Price()),
-                faker.Image.LoremPixelUrl(),
                 _categoryId,
                 faker.Random.UInt(),
                 true
             ));
+
+            product.UpdateImage(faker.Image.LoremFlickrUrl());
+            return product;
         }
 
 

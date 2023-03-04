@@ -36,7 +36,7 @@ namespace MShop.Application.UseCases.Product.Productspromotions
                     item.Description, 
                     item.Name, 
                     item.Price, 
-                    item.Imagem, 
+                    item.Imagem?.Path, 
                     item.Stock, 
                     item.IsActive, 
                     item.CategoryId));

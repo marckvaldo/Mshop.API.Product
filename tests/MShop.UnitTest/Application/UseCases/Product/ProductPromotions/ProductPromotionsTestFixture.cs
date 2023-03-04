@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BusinessEntity = MShop.Business.Entity;
 using UseCaseCommon = MShop.Application.UseCases.Product.Common;
+using MShop.Business.ValueObject;
 
 namespace MShop.UnitTests.Application.UseCases.Product.ProductPromotions
 {
@@ -36,11 +37,11 @@ namespace MShop.UnitTests.Application.UseCases.Product.ProductPromotions
                 faker.Commerce.ProductName(),
                 faker.Commerce.ProductDescription(),
                 Convert.ToDecimal(faker.Commerce.Price()),
-                faker.Image.LoremPixelUrl(),
                 _categoryId,
                 faker.Random.UInt(),
                 true
             ));
+            product.UpdateImage(faker.Image.LoremFlickrUrl());
             return product;
         }
 

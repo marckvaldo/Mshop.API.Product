@@ -1,5 +1,6 @@
 ﻿using MShop.IntegrationTests.Common;
 using MShop.Business.Entity;
+using MShop.Business.ValueObject;
 
 namespace MShop.IntegrationTests.Repository.ProductRepository
 {
@@ -19,7 +20,6 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
                 faker.Commerce.ProductDescription(),
                 faker.Commerce.ProductName(),
                 Convert.ToDecimal(faker.Commerce.Price()),
-                faker.Image.LoremPixelUrl(),
                 _categoryId,
                 faker.Random.UInt(),
                 true
