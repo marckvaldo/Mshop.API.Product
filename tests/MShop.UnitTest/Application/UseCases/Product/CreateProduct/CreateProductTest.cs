@@ -39,6 +39,7 @@ namespace Mshop.Tests.Application.UseCases.Product.CreateProduct
             Assert.Equal(outPut.CategoryId, request.CategoryId);
             Assert.Equal(outPut.Stock, request.Stock);
             Assert.Equal(outPut.IsActive, request.IsActive);
+
             
         }
 
@@ -73,3 +74,4 @@ namespace Mshop.Tests.Application.UseCases.Product.CreateProduct
         }
     }
 }
+

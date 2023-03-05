@@ -27,7 +27,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.UpdateProduct
                 faker.Commerce.ProductName(),
                 faker.Commerce.ProductDescription(),
                 Convert.ToDecimal(faker.Commerce.Price()),
-                _categoryId,
+                _categoryId, 
                 faker.Random.UInt(),
                 true
             ));
@@ -43,7 +43,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.UpdateProduct
                 Description = Faker().Description,
                 Name = Faker().Name,
                 Price = Convert.ToDecimal(Faker().Price),
-                Imagem = Faker().Imagem.Path,
+                Imagem = faker.Image.LoremFlickrUrl(),
                 CategoryId = _categoryId,
                 IsActive = true,
                 Id = _id    

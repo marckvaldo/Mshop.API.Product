@@ -109,9 +109,9 @@ namespace MShop.EndToEndTest.API.Product
         [Trait("EndToEnd/API", "Product - Endpoints")]
         public async Task UpdateProductStock()
         {
-            var product = await Faker();
+            var product = await FakerImage();
             Persistence.Create(product);
-            var productStock = await Faker();
+            var productStock = await FakerImage();
             var stock = productStock.Stock;
 
             var (response, outPut) = await apiClient.Post<CustomResponse<ProductModelOutPut>>($"{Configuration.URL_API_PRODUCT}update-stock/{product.Id}",new {product.Id, stock });
@@ -211,7 +211,7 @@ namespace MShop.EndToEndTest.API.Product
                 Assert.Equal(expectItem.Name, item.Name);
                 Assert.Equal(expectItem.Description, item.Description);
                 Assert.Equal(expectItem.Price, item.Price);
-                Assert.Equal(expectItem.Imagem.Path, item.Imagem);
+                Assert.Equal(expectItem.Imagem?.Path, item.Imagem);
             }
 
         }

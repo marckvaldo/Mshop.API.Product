@@ -16,7 +16,7 @@ namespace Mshop.Test.Business.Entity.Product
 
         protected BusinessEntity.Product GetProductValid()
         {
-            return new(Fake().Description, Fake().Name, Fake().Price, Fake().CategoryId,Fake().Stock,Fake().IsActive);
+            return new(Fake().Description, Fake().Name, Fake().Price, Fake().CategoryId, Fake().Stock,Fake().IsActive);
         }
         protected BusinessEntity.Product GetProductValid(ProductFake fake)
         {
@@ -30,22 +30,37 @@ namespace Mshop.Test.Business.Entity.Product
                 Name = faker.Commerce.ProductName(),
                 Description = faker.Commerce.ProductDescription(),
                 Price = Convert.ToDecimal(faker.Commerce.Price()),
-                Imagem = new Image(faker.Image.LoremPixelUrl()),
                 CategoryId = _categoryId,
+                Imagem = new Image(faker.Image.LoremFlickrUrl()),
                 Stock = faker.Random.UInt(),
                 IsActive = true
             };
         }
 
-        protected ProductFake Fake(string description, string name, decimal price, Image imagem, Guid categoryId, decimal stock, bool isActive = true)
+        protected ProductFake FakeImage()
+        {
+            var product = new ProductFake
+            {
+                Name = faker.Commerce.ProductName(),
+                Description = faker.Commerce.ProductDescription(),
+                Price = Convert.ToDecimal(faker.Commerce.Price()),
+                CategoryId = _categoryId,
+                Stock = faker.Random.UInt(),
+                IsActive = true
+            };
+
+            return product;
+        }
+
+        protected ProductFake Fake(string description, string name, decimal price, Guid categoryId, Image imagem, decimal stock, bool isActive = true)
         {
             return new ProductFake
             {
                 Description = description,
                 Name = name,
                 Price = price,
-                Imagem = imagem,
                 CategoryId = categoryId,
+                Imagem= imagem, 
                 Stock = stock,
                 IsActive = isActive
             };
@@ -77,8 +92,8 @@ namespace Mshop.Test.Business.Entity.Product
     {
         public string Name { get; set; }
         public string Description { get; set; }
-        public decimal Price { get; set; }
         public Image Imagem { get; set; }
+        public decimal Price { get; set; }
         public Guid CategoryId { get; set; }
         public decimal Stock { get; set; }
         public bool IsActive { get; set; }

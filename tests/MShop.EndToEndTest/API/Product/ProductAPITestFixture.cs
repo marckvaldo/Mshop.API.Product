@@ -55,32 +55,48 @@ namespace MShop.EndToEndTest.API.Product
             return product;
         }
 
+        protected async Task<BusinessEntity.Product> FakerImage()
+        {
+            await BuildCategory();
+            var product = (new BusinessEntity.Product
+             (
+                 faker.Commerce.ProductDescription(),
+                 faker.Commerce.ProductName(),
+                 Convert.ToDecimal(faker.Commerce.Price()),
+                 _categoryId,   
+                 faker.Random.UInt(),
+                 true
+             ));
+            product.UpdateImage(faker.Image.LoremFlickrUrl());
+            return product;
+        }
+
         public async Task<CreateProductInPut> RequestCreate()
         {
-            var faker = await Faker();
+            var fakerProduct = await Faker();
             return new CreateProductInPut
             {
-                Name = faker.Name,
+                Name = fakerProduct.Name,
                 CategoryId = _categoryId,
-                Imagem = faker.Imagem.Path,
+                Imagem = faker.Image.LoremFlickrUrl(),
                 IsActive = true,
-                Description = faker.Description,
-                Price = faker.Price,
-                Stock = faker.Stock
+                Description = fakerProduct.Description,
+                Price = fakerProduct.Price,
+                Stock = fakerProduct.Stock
             };
         }
 
         public async Task<UseCase.UpdateProduct.UpdateProductInPut> RequestUpdate()
         {
-            var faker = await Faker();
+            var fakerProduct = await Faker();
             return new UseCase.UpdateProduct.UpdateProductInPut
             {
-                Name = faker.Name,
+                Name = fakerProduct.Name,
                 CategoryId = _categoryId,
-                Imagem = faker.Imagem.Path,
+                Imagem = faker.Image.LoremFlickrUrl(),
                 IsActive = true,
-                Description = faker.Description,
-                Price = faker.Price,
+                Description = fakerProduct.Description,
+                Price = fakerProduct.Price,
                 Id = _id
             };
         }
@@ -89,7 +105,7 @@ namespace MShop.EndToEndTest.API.Product
         {
             List<BusinessEntity.Product> products = new List<BusinessEntity.Product>();
             for (int i = 0; i < length; i++)
-                products.Add(await Faker());
+                products.Add(await FakerImage());
 
             return products;
 

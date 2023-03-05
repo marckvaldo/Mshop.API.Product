@@ -69,7 +69,7 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
         {
             var notification = new Notifications() ;
             var repository = new InfraRepository.ProductRepository(_DbContext);
-            var request = Faker();
+            var request = FakerImage();
             var productList = FakerList(20);
             _persistence.CreateList(productList);
             
@@ -89,7 +89,7 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
             Assert.NotNull(productUpdate);
             Assert.Equal(id, productUpdate.Id);
             Assert.Equal(request.Name, productUpdate.Name);
-            Assert.Equal(request.Imagem, productUpdate.Imagem);
+            Assert.Equal(request.Imagem.Path, productUpdate.Imagem.Path);
             Assert.Equal(request.Price, productUpdate.Price);
             Assert.Equal(request.Stock, productUpdate.Stock);
             Assert.Equal(request.CategoryId, productUpdate.CategoryId);

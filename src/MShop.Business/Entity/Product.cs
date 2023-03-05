@@ -3,6 +3,7 @@ using MShop.Business.Interface;
 using MShop.Business.Validation;
 using MShop.Business.Validator;
 using MShop.Business.ValueObject;
+using System.Net;
 
 namespace MShop.Business.Entity
 {
@@ -14,7 +15,7 @@ namespace MShop.Business.Entity
 
         public decimal Price { get; private set; }
 
-        public Image Imagem { get; private set; } 
+        public Image Imagem { get; private set; }
 
         public decimal Stock { get; private set; }
 
@@ -24,7 +25,7 @@ namespace MShop.Business.Entity
 
         public Category Category { get; private set; }
 
-        public Product(string description, string name, decimal price, Guid categoryId, decimal stock = 0, bool isActive = true)
+        public Product(string description, string name, decimal price, Guid categoryId, decimal stock = 0, bool isActive = false)
         {
             Description = description;
             Name = name;

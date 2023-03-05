@@ -20,10 +20,26 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
                 faker.Commerce.ProductDescription(),
                 faker.Commerce.ProductName(),
                 Convert.ToDecimal(faker.Commerce.Price()),
+                _categoryId,                
+                faker.Random.UInt(),
+                true
+            );
+        }
+
+        protected Product FakerImage()
+        {
+            var product = new Product
+            (
+                faker.Commerce.ProductDescription(),
+                faker.Commerce.ProductName(),
+                Convert.ToDecimal(faker.Commerce.Price()),
                 _categoryId,
                 faker.Random.UInt(),
                 true
             );
+
+            product.UpdateImage(faker.Image.LoremFlickrUrl());
+            return product;
         }
 
         protected List<Product> FakerList(int length = 5) 

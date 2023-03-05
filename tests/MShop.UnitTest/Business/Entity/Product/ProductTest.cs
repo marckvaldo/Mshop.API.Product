@@ -13,7 +13,7 @@ namespace Mshop.Test.Business.Entity.Product
         {
             var notification = new Notifications();
             var valid = GetProductValid();
-            var product = GetProductValid(Fake(valid.Description,valid.Name,valid.Price,valid.Imagem,valid.CategoryId,valid.Stock,valid.IsActive));
+            var product = GetProductValid(Fake(valid.Description,valid.Name,valid.Price, valid.CategoryId, valid.Imagem, valid.Stock,valid.IsActive));
             product.IsValid(notification);
 
             Assert.NotNull(product);
@@ -40,12 +40,15 @@ namespace Mshop.Test.Business.Entity.Product
                 description,
                 Fake().Name,
                 Fake().Price,
-                Fake().Imagem,
                 Fake().CategoryId,
+                Fake().Imagem,
                 Fake().Stock,
                 Fake().IsActive);
 
             var product = GetProductValid(validade);
+            product.UpdateImage(faker.Image.LoremFlickrUrl());
+            product.Activate();
+
             Action action = () => product.IsValid(notification);
             var exception = Assert.Throws<EntityValidationException>(action);
 
@@ -55,7 +58,7 @@ namespace Mshop.Test.Business.Entity.Product
             Assert.Equal(product.Name, validade.Name);
             Assert.Equal(product.Description, description);
             Assert.Equal(product.Price, validade.Price);
-            Assert.Equal(product.Imagem, null);
+            Assert.NotNull(product.Imagem);
             Assert.Equal(product.CategoryId, validade.CategoryId);
             Assert.Equal(product.Stock, validade.Stock);
             Assert.Equal(product.IsActive, validade.IsActive);
@@ -73,12 +76,15 @@ namespace Mshop.Test.Business.Entity.Product
                 Fake().Description,
                 name,
                 Fake().Price,
-                Fake().Imagem,
                 Fake().CategoryId,
+                Fake().Imagem,
                 Fake().Stock,
                 Fake().IsActive);
 
             var product = GetProductValid(validade);
+            product.UpdateImage(faker.Image.LoremFlickrUrl());
+            product.Activate();
+
             Action action = () => product.IsValid(notification);
             var exception = Assert.Throws<EntityValidationException>(action);
 
@@ -87,7 +93,7 @@ namespace Mshop.Test.Business.Entity.Product
             Assert.Equal(product.Name, name);
             Assert.Equal(product.Description, validade.Description);
             Assert.Equal(product.Price, validade.Price);
-            Assert.Equal(product.Imagem, null);
+            Assert.NotNull(product.Imagem);
             Assert.Equal(product.CategoryId, validade.CategoryId);
             Assert.Equal(product.Stock, validade.Stock);
             Assert.Equal(product.IsActive, validade.IsActive);
@@ -106,12 +112,15 @@ namespace Mshop.Test.Business.Entity.Product
                 Fake().Description,
                 Fake().Name,
                 price,
-                Fake().Imagem,
                 Fake().CategoryId,
+                Fake().Imagem,
                 Fake().Stock,
                 Fake().IsActive);
 
             var product = GetProductValid(validade);
+            product.UpdateImage(faker.Image.LoremFlickrUrl());
+            product.Activate();
+
             Action action = () => product.IsValid(notification);
             var exception = Assert.Throws<EntityValidationException>(action);
 
@@ -120,7 +129,7 @@ namespace Mshop.Test.Business.Entity.Product
             Assert.Equal(product.Name, validade.Name);
             Assert.Equal(product.Description, validade.Description);
             Assert.Equal(product.Price, price);
-            Assert.Equal(product.Imagem, null);
+            Assert.NotNull(product.Imagem);
             Assert.Equal(product.CategoryId, validade.CategoryId);
             Assert.Equal(product.Stock, validade.Stock);
             Assert.Equal(product.IsActive, validade.IsActive);
@@ -138,13 +147,14 @@ namespace Mshop.Test.Business.Entity.Product
                Fake().Description,
                Fake().Name,
                Fake().Price,
-               Fake().Imagem,
                Fake().CategoryId,
+               Fake().Imagem,
                Fake().Stock,
                status);
 
 
             var product = GetProductValid(validade);
+            product.UpdateImage(faker.Image.PlaceImgUrl());
 
             if (status)
                 product.Activate();
@@ -159,7 +169,7 @@ namespace Mshop.Test.Business.Entity.Product
             Assert.Equal(product.Name, validade.Name);
             Assert.Equal(product.Description, validade.Description);
             Assert.Equal(product.Price, validade.Price);
-            Assert.Equal(product.Imagem, null);
+            Assert.NotNull(product.Imagem);
             Assert.Equal(product.CategoryId, validade.CategoryId);
             Assert.Equal(product.Stock, validade.Stock);
            
@@ -208,6 +218,8 @@ namespace Mshop.Test.Business.Entity.Product
             var product = GetProductValid(validate);
 
             product.AddQuantityStock(newStoque);
+            product.UpdateImage(faker.Image.LoremFlickrUrl());
+            product.Activate();
             product.IsValid(notification);
 
             Assert.True(product.IsActive);
