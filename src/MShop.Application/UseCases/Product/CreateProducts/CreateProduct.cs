@@ -48,7 +48,7 @@ namespace MShop.Application.UseCases.Product.CreateProducts
                 throw new ApplicationValidationException("");
             }
 
-            await UpdateImages(request, product);
+            await UploadImages(request, product);
 
             await _productRepository.Create(product);
 
@@ -58,14 +58,14 @@ namespace MShop.Application.UseCases.Product.CreateProducts
                     product.Description,
                     product.Name,
                     product.Price,
-                    product.Thumb.Path,
+                    product.Thumb?.Path,
                     product.Stock,
                     product.IsActive,
                     product.CategoryId
                 );
         }
 
-        private async Task UpdateImages(CreateProductInPut request, Business.Entity.Product product)
+        private async Task UploadImages(CreateProductInPut request, Business.Entity.Product product)
         {
             if (request.Thumb is not null)
             {

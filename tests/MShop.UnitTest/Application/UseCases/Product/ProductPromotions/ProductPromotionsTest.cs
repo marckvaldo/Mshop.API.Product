@@ -39,7 +39,7 @@ namespace MShop.UnitTests.Application.UseCases.Product.ProductPromotions
                 var product = products.Where(x => x.Id == item.Id).First();
                 Assert.NotNull(product);
                 Assert.Equal(item.Name, product.Name);
-                Assert.Equal(item.Imagem, product.Thumb.Path);
+                Assert.Equal(item.Thumb, product.Thumb.Path);
                 Assert.Equal(item.Price, product.Price);
                 Assert.Equal(item.Description, product.Description);
                 Assert.Equal(item.CategoryId, product.CategoryId);
@@ -75,7 +75,7 @@ namespace MShop.UnitTests.Application.UseCases.Product.ProductPromotions
                 var product = productsFake.Where(x => x.Id == item.Id).First();
                 Assert.NotNull(product);
                 Assert.Equal(item.Name, product.Name);
-                Assert.Equal(item.Imagem, product.Imagem);
+                Assert.Equal(item.Thumb, product.Thumb);
                 Assert.Equal(item.Price, product.Price);
                 Assert.Equal(item.Description, product.Description);
                 Assert.Equal(item.CategoryId, product.CategoryId);

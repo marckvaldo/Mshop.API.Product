@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace MShop.Business.ValueObject
 {
-    public class Image
+    public class FileImage
     {
         public string Path { get; private set; }
-        public Image(string? path)
+        public FileImage(string? path)
         {
             Path = path;
         }

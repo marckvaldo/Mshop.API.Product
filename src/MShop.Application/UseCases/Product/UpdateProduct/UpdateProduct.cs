@@ -5,16 +5,22 @@ using MShop.Business.Interface;
 using MShop.Business.Interface.Repository;
 using System.ComponentModel.DataAnnotations;
 using MShop.Business.ValueObject;
+using MShop.Application.UseCases.Product.CreateProducts;
+using MShop.Business.Interface.Service;
 
 namespace MShop.Application.UseCases.Product.UpdateProduct
 {
     public class UpdateProduct : BaseUseCase, IUpdateProduct
     {
         private readonly IProductRepository _productRepository;
+        private readonly IStorageService _storageService;
 
-        public UpdateProduct(IProductRepository productRepository, INotification notification):base (notification)
+        public UpdateProduct(IProductRepository productRepository, 
+            INotification notification,
+            IStorageService storageService) :base (notification)
         {
             _productRepository = productRepository;
+            _storageService = storageService;
         }
 
         public async Task<ProductModelOutPut> Handle(UpdateProductInPut request)
@@ -35,8 +41,9 @@ namespace MShop.Application.UseCases.Product.UpdateProduct
             else
                 product.Deactive();
 
-
             product.IsValid(_notifications);
+
+            await UploadImages(request, product);
 
             await _productRepository.Update(product);
             return new ProductModelOutPut(
@@ -49,6 +56,15 @@ namespace MShop.Application.UseCases.Product.UpdateProduct
                 product.IsActive, 
                 product.CategoryId);
             
+        }
+
+        private async Task UploadImages(UpdateProductInPut request, Business.Entity.Product product)
+        {
+            if (request.Thumb is not null)
+            {
+                var urlThumb = await _storageService.Upload($"{product.Id}-thumb.{request.Thumb.Extension}", request.Thumb.FileStrem);
+                product.UpdateThumb(urlThumb);
+            }
         }
     }
 }

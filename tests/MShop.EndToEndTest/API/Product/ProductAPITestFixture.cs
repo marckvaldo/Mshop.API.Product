@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using MShop.Application.UseCases.Product.CreateProducts;
 using MShop.EndToEndTest.API.Category;
 using MShop.Business.ValueObject;
+using MShop.Application.Common;
 
 namespace MShop.EndToEndTest.API.Product
 {
@@ -71,6 +72,11 @@ namespace MShop.EndToEndTest.API.Product
             return product;
         }
 
+        protected static FileInput ImageFake()
+        {
+            return new FileInput("jpg", new MemoryStream(Encoding.ASCII.GetBytes(fakerStatic.Image.LoremPixelUrl())));
+        }
+
         public async Task<CreateProductInPut> RequestCreate()
         {
             var fakerProduct = await Faker();
@@ -78,7 +84,7 @@ namespace MShop.EndToEndTest.API.Product
             {
                 Name = fakerProduct.Name,
                 CategoryId = _categoryId,
-                Imagem = faker.Image.LoremFlickrUrl(),
+                Thumb = ImageFake(),
                 IsActive = true,
                 Description = fakerProduct.Description,
                 Price = fakerProduct.Price,
@@ -93,7 +99,7 @@ namespace MShop.EndToEndTest.API.Product
             {
                 Name = fakerProduct.Name,
                 CategoryId = _categoryId,
-                Imagem = faker.Image.LoremFlickrUrl(),
+                Thumb = ImageFake(),
                 IsActive = true,
                 Description = fakerProduct.Description,
                 Price = fakerProduct.Price,

@@ -13,7 +13,7 @@ namespace Mshop.Test.Business.Entity.Product
         {
             var notification = new Notifications();
             var valid = GetProductValid();
-            var product = GetProductValid(Fake(valid.Description,valid.Name,valid.Price, valid.CategoryId, valid.Thumb, valid.Stock,valid.IsActive));
+            var product = GetProductValid(Fake(valid.Description,valid.Name,valid.Price, valid.CategoryId, valid.Stock,valid.IsActive));
             product.IsValid(notification);
 
             Assert.NotNull(product);
@@ -24,7 +24,8 @@ namespace Mshop.Test.Business.Entity.Product
             Assert.Equal(product.Thumb, valid.Thumb);
             Assert.Equal(product.CategoryId, valid.CategoryId);
             Assert.Equal(product.Stock, valid.Stock);
-            Assert.Equal(product.IsActive, valid.IsActive);  
+            Assert.Equal(product.IsActive, valid.IsActive);
+            Assert.Null(product.Thumb);
 
         }
         
@@ -41,12 +42,10 @@ namespace Mshop.Test.Business.Entity.Product
                 Fake().Name,
                 Fake().Price,
                 Fake().CategoryId,
-                Fake().Imagem,
                 Fake().Stock,
                 Fake().IsActive);
 
             var product = GetProductValid(validade);
-            product.UpdateThumb(faker.Image.LoremFlickrUrl());
             product.Activate();
 
             Action action = () => product.IsValid(notification);
@@ -58,10 +57,10 @@ namespace Mshop.Test.Business.Entity.Product
             Assert.Equal(product.Name, validade.Name);
             Assert.Equal(product.Description, description);
             Assert.Equal(product.Price, validade.Price);
-            Assert.NotNull(product.Thumb);
             Assert.Equal(product.CategoryId, validade.CategoryId);
             Assert.Equal(product.Stock, validade.Stock);
             Assert.Equal(product.IsActive, validade.IsActive);
+            Assert.Null(product.Thumb);
         }
 
 
@@ -77,12 +76,10 @@ namespace Mshop.Test.Business.Entity.Product
                 name,
                 Fake().Price,
                 Fake().CategoryId,
-                Fake().Imagem,
                 Fake().Stock,
                 Fake().IsActive);
 
             var product = GetProductValid(validade);
-            product.UpdateThumb(faker.Image.LoremFlickrUrl());
             product.Activate();
 
             Action action = () => product.IsValid(notification);
@@ -93,10 +90,10 @@ namespace Mshop.Test.Business.Entity.Product
             Assert.Equal(product.Name, name);
             Assert.Equal(product.Description, validade.Description);
             Assert.Equal(product.Price, validade.Price);
-            Assert.NotNull(product.Thumb);
             Assert.Equal(product.CategoryId, validade.CategoryId);
             Assert.Equal(product.Stock, validade.Stock);
             Assert.Equal(product.IsActive, validade.IsActive);
+            Assert.Null(product.Thumb);
         }
 
         [Theory(DisplayName = nameof(SholdReturnErrorWhenPriceInvalid))]
@@ -113,12 +110,10 @@ namespace Mshop.Test.Business.Entity.Product
                 Fake().Name,
                 price,
                 Fake().CategoryId,
-                Fake().Imagem,
                 Fake().Stock,
                 Fake().IsActive);
 
             var product = GetProductValid(validade);
-            product.UpdateThumb(faker.Image.LoremFlickrUrl());
             product.Activate();
 
             Action action = () => product.IsValid(notification);
@@ -129,10 +124,10 @@ namespace Mshop.Test.Business.Entity.Product
             Assert.Equal(product.Name, validade.Name);
             Assert.Equal(product.Description, validade.Description);
             Assert.Equal(product.Price, price);
-            Assert.NotNull(product.Thumb);
             Assert.Equal(product.CategoryId, validade.CategoryId);
             Assert.Equal(product.Stock, validade.Stock);
             Assert.Equal(product.IsActive, validade.IsActive);
+            Assert.Null(product.Thumb);
         }
 
         
@@ -148,13 +143,11 @@ namespace Mshop.Test.Business.Entity.Product
                Fake().Name,
                Fake().Price,
                Fake().CategoryId,
-               Fake().Imagem,
                Fake().Stock,
                status);
 
 
             var product = GetProductValid(validade);
-            product.UpdateThumb(faker.Image.PlaceImgUrl());
 
             if (status)
                 product.Activate();
@@ -169,10 +162,10 @@ namespace Mshop.Test.Business.Entity.Product
             Assert.Equal(product.Name, validade.Name);
             Assert.Equal(product.Description, validade.Description);
             Assert.Equal(product.Price, validade.Price);
-            Assert.NotNull(product.Thumb);
             Assert.Equal(product.CategoryId, validade.CategoryId);
             Assert.Equal(product.Stock, validade.Stock);
-           
+            Assert.Null(product.Thumb);
+
         }
 
 
@@ -205,6 +198,7 @@ namespace Mshop.Test.Business.Entity.Product
             Assert.Equal(product.Description, newValidade.Description);
             Assert.Equal(product.Price, newValidade.Price);
             Assert.Equal(product.CategoryId, newValidade.CategoryId);
+            Assert.Null(product.Thumb);
         }
 
 
@@ -242,6 +236,7 @@ namespace Mshop.Test.Business.Entity.Product
 
             Assert.Equal(product.Stock, (validate.Stock- newStoque));
             Assert.False(notification.HasErrors());
+
         }
 
 
@@ -267,7 +262,7 @@ namespace Mshop.Test.Business.Entity.Product
         public void SholdUpdateImage()
         {
             var notification = new Notifications();
-            var newImagem = "product.jpg";
+            var newImagem = faker.Image.LoremFlickrUrl();
             var product = GetProductValid();
 
             product.UpdateThumb(newImagem);
@@ -275,6 +270,8 @@ namespace Mshop.Test.Business.Entity.Product
 
             Assert.Equal(product.Thumb.Path, newImagem);
             Assert.False(notification.HasErrors());
+
+            Assert.True(true);
         }
 
     }

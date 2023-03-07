@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using BusinessEntity = MShop.Business.Entity;
 using ApplicationUseCase = MShop.Application.UseCases.Product.UpdateProduct;
 using MShop.Business.ValueObject;
+using MShop.Application.Common;
 
 namespace MShop.IntegrationTests.Application.UseCase.Product.UpdateProduct
 {
@@ -19,6 +20,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.UpdateProduct
             _categoryId = Guid.NewGuid();
             _id = Guid.NewGuid();
         }
+
 
         protected BusinessEntity.Product Faker()
         {
@@ -35,6 +37,10 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.UpdateProduct
             return product;
         }
 
+        protected static FileInput ImageFake()
+        {
+            return new FileInput("jpg", new MemoryStream(Encoding.ASCII.GetBytes(fakerStatic.Image.LoremPixelUrl())));
+        }
 
         protected ApplicationUseCase.UpdateProductInPut RequestFake()
         {
@@ -43,7 +49,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.UpdateProduct
                 Description = Faker().Description,
                 Name = Faker().Name,
                 Price = Convert.ToDecimal(Faker().Price),
-                Imagem = faker.Image.LoremFlickrUrl(),
+                Thumb = ImageFake(),
                 CategoryId = _categoryId,
                 IsActive = true,
                 Id = _id    

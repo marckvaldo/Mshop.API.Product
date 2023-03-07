@@ -31,7 +31,6 @@ namespace Mshop.Test.Business.Entity.Product
                 Description = faker.Commerce.ProductDescription(),
                 Price = Convert.ToDecimal(faker.Commerce.Price()),
                 CategoryId = _categoryId,
-                Imagem = new Image(faker.Image.LoremFlickrUrl()),
                 Stock = faker.Random.UInt(),
                 IsActive = true
             };
@@ -52,7 +51,7 @@ namespace Mshop.Test.Business.Entity.Product
             return product;
         }
 
-        protected ProductFake Fake(string description, string name, decimal price, Guid categoryId, Image imagem, decimal stock, bool isActive = true)
+        protected ProductFake Fake(string description, string name, decimal price, Guid categoryId, decimal stock, bool isActive = true)
         {
             return new ProductFake
             {
@@ -60,7 +59,6 @@ namespace Mshop.Test.Business.Entity.Product
                 Name = name,
                 Price = price,
                 CategoryId = categoryId,
-                Imagem= imagem, 
                 Stock = stock,
                 IsActive = isActive
             };
@@ -92,7 +90,7 @@ namespace Mshop.Test.Business.Entity.Product
     {
         public string Name { get; set; }
         public string Description { get; set; }
-        public Image Imagem { get; set; }
+        public FileImage? Thumb { get; set; }
         public decimal Price { get; set; }
         public Guid CategoryId { get; set; }
         public decimal Stock { get; set; }

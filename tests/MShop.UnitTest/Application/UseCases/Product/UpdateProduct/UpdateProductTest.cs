@@ -12,6 +12,7 @@ using MShop.Business.Entity;
 using MShop.Application.UseCases.Product.UpdateProduct;
 using MShop.Business.Exception;
 using MShop.Business.Exceptions;
+using MShop.Business.Interface.Service;
 
 namespace Mshop.Tests.Application.UseCases.Product.UpdateProduct
 {
@@ -23,14 +24,18 @@ namespace Mshop.Tests.Application.UseCases.Product.UpdateProduct
         {
             var repository = new Mock<IProductRepository>();
             var notification = new Mock<INotification>();
+            var storageService = new Mock<IStorageService>();
 
             var request = ProductInPut();
             var productRepository = ProductModelOutPut();
 
+            var productFake = Faker();
             repository.Setup(r => r.GetById(It.IsAny<Guid>()))
-                .ReturnsAsync(Faker());
+                .ReturnsAsync(productFake);
 
-            var useCase = new ApplicationUseCase.UpdateProduct(repository.Object, notification.Object);
+            storageService.Setup(s => s.Upload(It.IsAny<string>(), It.IsAny<Stream>())).ReturnsAsync($"{productFake.Id}-thumb.jpg");
+
+            var useCase = new ApplicationUseCase.UpdateProduct(repository.Object, notification.Object,storageService.Object);
             var outPut = await useCase.Handle(request);
 
 
@@ -40,7 +45,7 @@ namespace Mshop.Tests.Application.UseCases.Product.UpdateProduct
             Assert.NotNull(outPut);
             Assert.Equal(outPut.Name, request.Name);
             Assert.Equal(outPut.Description, request.Description);
-            Assert.Equal(outPut.Imagem, request.Imagem);
+            Assert.Equal(outPut.Thumb, $"{outPut.Id}-thumb.{request.Thumb?.Extension}");
             Assert.Equal(outPut.Price, request.Price);
             Assert.Equal(outPut.CategoryId, request.CategoryId);
 
@@ -54,6 +59,7 @@ namespace Mshop.Tests.Application.UseCases.Product.UpdateProduct
         {
             var repository = new Mock<IProductRepository>();
             var notification = new Mock<INotification>();
+            var storageService = new Mock<IStorageService>();
 
             var request = ProductInPut();
             var productRepository = ProductModelOutPut();
@@ -61,7 +67,7 @@ namespace Mshop.Tests.Application.UseCases.Product.UpdateProduct
             repository.Setup(r => r.GetById(It.IsAny<Guid>()))
                 .ThrowsAsync(new NotFoundException(""));
 
-            var useCase = new ApplicationUseCase.UpdateProduct(repository.Object, notification.Object);
+            var useCase = new ApplicationUseCase.UpdateProduct(repository.Object, notification.Object, storageService.Object);
             var outPut = async () => await useCase.Handle(request);
 
             var exception = Assert.ThrowsAsync<NotFoundException>(outPut); 
@@ -79,11 +85,12 @@ namespace Mshop.Tests.Application.UseCases.Product.UpdateProduct
         {
             var repository = new Mock<IProductRepository>();
             var notification = new Mock<INotification>();
+            var storageService = new Mock<IStorageService>();
 
             //var request = ProductInPut();
             var productRepository = ProductModelOutPut();
 
-            var useCase = new ApplicationUseCase.UpdateProduct(repository.Object, notification.Object);
+            var useCase = new ApplicationUseCase.UpdateProduct(repository.Object, notification.Object, storageService.Object);
             var outPut = async () => await useCase.Handle(request);
 
             var exception = Assert.ThrowsAsync<ApplicationValidationException>(outPut);
