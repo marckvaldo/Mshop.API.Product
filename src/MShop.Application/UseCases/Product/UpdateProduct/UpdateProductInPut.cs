@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using MShop.Application.Common;
+using System.ComponentModel.DataAnnotations;
 
 namespace MShop.Application.UseCases.Product.UpdateProduct
 {
@@ -17,7 +18,7 @@ namespace MShop.Application.UseCases.Product.UpdateProduct
 
         public decimal Price { get; set; }
 
-        public string? Imagem { get; set; }
+        public FileInput? Thumb { get; set; }
 
         public bool IsActive { get; set; }
 

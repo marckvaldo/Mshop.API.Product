@@ -74,5 +74,11 @@ namespace MShop.Business.Validation
                 notification.AddNotifications(messagem);
         }
 
+        public static void NotNullGuid(Guid target, string fieldName, INotification notification)
+        {
+            if(target == Guid.Empty)
+                notification.AddNotifications($"O {fieldName} não deve ser null");
+        }
+
     }
 }

@@ -12,7 +12,7 @@ namespace MShop.Repository.Repository
 {
     public class CategoryRepository : Repository<Category>, ICategoryRepository
     {
-         public CategoryRepository(RepositoryDbContext db) : base(db)
+        public CategoryRepository(RepositoryDbContext db) : base(db)
         {
 
         }

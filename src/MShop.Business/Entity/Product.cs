@@ -2,8 +2,10 @@
 using MShop.Business.Interface;
 using MShop.Business.Validation;
 using MShop.Business.Validator;
-using MShop.Business.ValueObject;
+using ValueObject = MShop.Business.ValueObject;
+using System.Collections.ObjectModel;
 using System.Net;
+using System.Security.Cryptography.X509Certificates;
 
 namespace MShop.Business.Entity
 {
@@ -15,8 +17,6 @@ namespace MShop.Business.Entity
 
         public decimal Price { get; private set; }
 
-        public Image Imagem { get; private set; }
-
         public decimal Stock { get; private set; }
 
         public bool IsActive { get; private set; }  
@@ -24,6 +24,9 @@ namespace MShop.Business.Entity
         public Guid CategoryId { get; private set; }
 
         public Category Category { get; private set; }
+
+        public ValueObject.Image Thumb { get; private set; }
+       
 
         public Product(string description, string name, decimal price, Guid categoryId, decimal stock = 0, bool isActive = false)
         {
@@ -35,11 +38,11 @@ namespace MShop.Business.Entity
             CategoryId = categoryId;
         }
 
-        public void IsValid(INotification _notification)
+        public void IsValid(INotification notification)
         {
-            var productValidador = new ProductValidador(this, _notification);
+            var productValidador = new ProductValidador(this, notification);
             productValidador.Validate();
-            if(_notification.HasErrors())
+            if(notification.HasErrors())
             {
                 throw new EntityValidationException("Validation errors");
             }
@@ -79,9 +82,9 @@ namespace MShop.Business.Entity
             Stock = stock;
         }
 
-        public void UpdateImage(string image)
+        public void UpdateThumb(string thumb)
         {
-            Imagem= new Image(image);
+            Thumb = new ValueObject.Image(thumb);
         }
         
     }

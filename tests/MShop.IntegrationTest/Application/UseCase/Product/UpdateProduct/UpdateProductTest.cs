@@ -44,7 +44,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.UpdateProduct
             Assert.NotNull(productDb);
             Assert.Equal(outPut.Name, productDb.Name);  
             Assert.Equal(outPut.Description, productDb.Description);  
-            Assert.Equal(outPut.Imagem, productDb.Imagem?.Path);
+            Assert.Equal(outPut.Imagem, productDb.Thumb?.Path);
             Assert.Equal(outPut.Price, productDb.Price);  
             Assert.Equal(outPut.CategoryId, productDb.CategoryId);
             Assert.NotEmpty(outPut.Name);

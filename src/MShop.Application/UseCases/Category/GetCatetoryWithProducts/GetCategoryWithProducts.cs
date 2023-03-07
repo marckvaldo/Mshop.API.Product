@@ -40,7 +40,7 @@ namespace MShop.Application.UseCases.GetCatetoryWithProducts.GetCatetory
                     item.Description,
                     item.Name,
                     item.Price,
-                    item.Imagem.Path,
+                    item.Thumb.Path,
                     item.Stock,
                     item.IsActive,
                     item.CategoryId

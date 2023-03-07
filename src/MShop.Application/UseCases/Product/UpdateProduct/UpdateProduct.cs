@@ -35,8 +35,6 @@ namespace MShop.Application.UseCases.Product.UpdateProduct
             else
                 product.Deactive();
 
-            if (request.Imagem is not null && !string.IsNullOrWhiteSpace(request.Imagem))
-                product.UpdateImage(request.Imagem);
 
             product.IsValid(_notifications);
 
@@ -46,7 +44,7 @@ namespace MShop.Application.UseCases.Product.UpdateProduct
                 product.Description, 
                 product.Name, 
                 product.Price,
-                product.Imagem?.Path, 
+                product.Thumb?.Path, 
                 product.Stock, 
                 product.IsActive, 
                 product.CategoryId);

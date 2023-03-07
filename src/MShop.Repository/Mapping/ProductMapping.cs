@@ -26,8 +26,8 @@ namespace MShop.Repository.Mapping
                 .IsRequired()
                 .HasColumnType("decimal(16,2)");
 
-            builder.OwnsOne(x=>x.Imagem, 
-                x=>x.Property(x=>x.Path).HasColumnName("Imagem"));
+            builder.OwnsOne(x=>x.Thumb, 
+                x=>x.Property(x=>x.Path).HasColumnName("Thumb"));
 
             builder.ToTable("Products");
         }

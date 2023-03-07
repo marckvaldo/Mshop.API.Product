@@ -40,7 +40,7 @@ namespace MShop.IntegrationTests.Repository.CacheRepository
             Assert.NotNull(cache.Result);
             Assert.Equal(product.Name, cache.Result.Name);
             Assert.Equal(product.Description,cache.Result.Description);
-            Assert.Equal(product.Imagem, cache.Result.Imagem);  
+            Assert.Equal(product.Thumb, cache.Result.Thumb);  
             Assert.Equal(product.Price, cache.Result.Price);
             Assert.Equal(product.Id, cache.Result.Id);  
             
@@ -59,7 +59,7 @@ namespace MShop.IntegrationTests.Repository.CacheRepository
             Assert.NotNull(cache.Result);
             Assert.Equal(product.Name, cache.Result.Name);
             Assert.Equal(product.Description, cache.Result.Description);
-            Assert.Equal(product.Imagem, cache.Result.Imagem);
+            Assert.Equal(product.Thumb, cache.Result.Thumb);
             Assert.Equal(product.Price, cache.Result.Price);
             Assert.Equal(product.Id, cache.Result.Id);
         }
@@ -84,7 +84,7 @@ namespace MShop.IntegrationTests.Repository.CacheRepository
                 Assert.NotNull(product);
                 Assert.Equal(product.Name, Item.Name);
                 Assert.Equal(product.Description, Item.Description);
-                Assert.Equal(product.Imagem, Item.Imagem);
+                Assert.Equal(product.Thumb, Item.Thumb);
                 Assert.Equal(product.Price, Item.Price);
                 Assert.Equal(product.Id, Item.Id);
                 Assert.Equal(product.Stock, Item.Stock);
@@ -112,7 +112,7 @@ namespace MShop.IntegrationTests.Repository.CacheRepository
                 Assert.NotNull(product);
                 Assert.Equal(product.Name, Item.Name);
                 Assert.Equal(product.Description, Item.Description);
-                Assert.Equal(product.Imagem, Item.Imagem);
+                Assert.Equal(product.Thumb, Item.Thumb);
                 Assert.Equal(product.Price, Item.Price);
                 Assert.Equal(product.Id, Item.Id);
                 Assert.Equal(product.Stock, Item.Stock);

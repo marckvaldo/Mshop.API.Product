@@ -41,7 +41,7 @@ namespace MShop.UnitTests.Application.UseCases.Product.ProductPromotions
                 faker.Random.UInt(),
                 true
             ));
-            product.UpdateImage(faker.Image.LoremFlickrUrl());
+            product.UpdateThumb(faker.Image.LoremFlickrUrl());
             return product;
         }
 

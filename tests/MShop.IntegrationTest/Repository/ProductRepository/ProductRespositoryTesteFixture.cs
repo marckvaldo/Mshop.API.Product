@@ -38,7 +38,7 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
                 true
             );
 
-            product.UpdateImage(faker.Image.LoremFlickrUrl());
+            product.UpdateThumb(faker.Image.LoremFlickrUrl());
             return product;
         }
 

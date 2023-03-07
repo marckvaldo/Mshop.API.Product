@@ -33,7 +33,7 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
             Assert.NotNull(newProduct);
             Assert.Equal(product.Id, newProduct.Id);
             Assert.Equal(product.Name, newProduct.Name);
-            Assert.Equal(product.Imagem, newProduct.Imagem);
+            Assert.Equal(product.Thumb, newProduct.Thumb);
             Assert.Equal(product.Price, newProduct.Price);
             Assert.Equal(product.Stock, newProduct.Stock);
             Assert.Equal(product.CategoryId, newProduct.CategoryId);
@@ -56,7 +56,7 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
             Assert.NotNull(outPut);
             Assert.Equal(product.Id, outPut.Id);
             Assert.Equal(product.Name, outPut.Name);
-            Assert.Equal(product.Imagem, outPut.Imagem);
+            Assert.Equal(product.Thumb, outPut.Thumb);
             Assert.Equal(product.Price, outPut.Price);
             Assert.Equal(product.Stock, outPut.Stock);
             Assert.Equal(product.CategoryId, outPut.CategoryId);
@@ -79,7 +79,7 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
             Assert.NotNull(product);
 
             product.Update(request.Description, request.Name, request.Price, request.CategoryId);
-            product.UpdateImage(request.Imagem.Path);
+            product.UpdateThumb(request.Thumb.Path);
             product.UpdateQuantityStock(request.Stock);
             product.IsValid(notification);
 
@@ -89,7 +89,7 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
             Assert.NotNull(productUpdate);
             Assert.Equal(id, productUpdate.Id);
             Assert.Equal(request.Name, productUpdate.Name);
-            Assert.Equal(request.Imagem.Path, productUpdate.Imagem.Path);
+            Assert.Equal(request.Thumb.Path, productUpdate.Thumb.Path);
             Assert.Equal(request.Price, productUpdate.Price);
             Assert.Equal(request.Stock, productUpdate.Stock);
             Assert.Equal(request.CategoryId, productUpdate.CategoryId);

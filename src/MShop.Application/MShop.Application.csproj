@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="UseCases\images\ListImage\tlgxjizk.t4k~" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\MShop.Business\MShop.Business.csproj" />
     <ProjectReference Include="..\Mshop.Chache\MShop.Cache.csproj" />
     <ProjectReference Include="..\MShop.Repository\MShop.Repository.csproj" />

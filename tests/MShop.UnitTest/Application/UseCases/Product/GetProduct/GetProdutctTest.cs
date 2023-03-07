@@ -35,7 +35,7 @@ namespace Mshop.Tests.Application.UseCases.Product.GetProduts
             Assert.Equal(outPut.Name, productFake.Name);
             Assert.Equal(outPut.Description, productFake.Description);
             Assert.Equal(outPut.Price, productFake.Price);
-            Assert.Equal(outPut.Imagem, productFake.Imagem.Path);
+            Assert.Equal(outPut.Imagem, productFake.Thumb.Path);
             Assert.Equal(outPut.CategoryId, productFake.CategoryId);
             Assert.Equal(outPut.Stock, productFake.Stock);
             Assert.Equal(outPut.IsActive, productFake.IsActive);

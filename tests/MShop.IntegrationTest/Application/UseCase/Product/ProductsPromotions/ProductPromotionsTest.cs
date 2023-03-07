@@ -51,7 +51,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.ProductsPromotions
                 Assert.NotNull(expectItem);
                 Assert.Equal(expectItem.Name, item.Name);
                 Assert.Equal(expectItem.Description, expectItem.Description);
-                Assert.Equal(expectItem.Imagem, expectItem.Imagem);
+                Assert.Equal(expectItem.Thumb, expectItem.Thumb);
                 Assert.Equal(expectItem.Price, expectItem.Price);
                 Assert.Equal(expectItem.Activate, expectItem.Activate);
             }

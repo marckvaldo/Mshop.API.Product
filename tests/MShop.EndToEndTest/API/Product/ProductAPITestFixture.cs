@@ -67,7 +67,7 @@ namespace MShop.EndToEndTest.API.Product
                  faker.Random.UInt(),
                  true
              ));
-            product.UpdateImage(faker.Image.LoremFlickrUrl());
+            product.UpdateThumb(faker.Image.LoremFlickrUrl());
             return product;
         }
 

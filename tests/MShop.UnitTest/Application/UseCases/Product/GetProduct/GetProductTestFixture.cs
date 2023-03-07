@@ -32,7 +32,7 @@ namespace Mshop.Tests.Application.UseCases.Product.GetProduct
                 true
             ));
             product.Id = _id;
-            product.UpdateImage(faker.Image.LoremFlickrUrl());
+            product.UpdateThumb(faker.Image.LoremFlickrUrl());
             return product;
         }
     }

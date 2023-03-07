@@ -1,4 +1,5 @@
 ﻿using MShop.Application.UseCases.Product.Common;
+using MShop.Business.Exception;
 using MShop.Business.Exceptions;
 using MShop.Business.Interface;
 using MShop.Business.Interface.Repository;
@@ -19,13 +20,21 @@ namespace MShop.Application.UseCases.Product.DeleteProduct
         {
             var product = await _productRespository.GetById(request);
 
+            if (product is null)
+            {
+                Notify($"Produto com id {request} não encontrado");
+                throw new ApplicationValidationException("");
+            }
+
+            //implementar o delete images
+
             await _productRespository.DeleteById(product);
             return new ProductModelOutPut(
                 product.Id, 
                 product.Description,
                 product.Name, 
                 product.Price, 
-                product.Imagem?.Path, 
+                product.Thumb?.Path, 
                 product.Stock, 
                 product.IsActive, 
                 product.CategoryId);

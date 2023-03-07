@@ -9,16 +9,16 @@ namespace MShop.Application.UseCases.Product.Common
 {
     public class ProductModelOutPut
     {
-        public ProductModelOutPut(Guid id, string description, string name, decimal price, string? imagem, decimal stock, bool isActive, Guid categoryId)
+        public ProductModelOutPut(Guid id, string description, string name, decimal price, string? thumb, decimal stock, bool isActive, Guid categoryId)
         {
             Description = description;
             Name = name;
             Price = price;
-            Imagem = imagem;
             Stock = stock;
             IsActive = isActive;
             CategoryId = categoryId;
             Id = id;
+            Thumb = thumb;  
         }
         public Guid Id { get; set; }
 
@@ -32,12 +32,12 @@ namespace MShop.Application.UseCases.Product.Common
 
         public decimal Price { get; set; }
 
-        public string? Imagem { get; set; }
-
         public decimal Stock { get;  set; }
 
         public bool IsActive { get; set; }
 
         public Guid CategoryId { get; set; }
+
+        public string? Thumb { get; set; }
     }
 }

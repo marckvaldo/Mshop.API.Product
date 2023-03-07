@@ -19,10 +19,10 @@ namespace MShop.Repository.Context
 
         public DbSet<Category> Categorys { get; set; }
 
+        public DbSet<Image> Images { get; set; }
+
 
         //quando inicar a criação ele vai pegar todas as classes que herdam IEntityTypeConfiguration
-
-        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 

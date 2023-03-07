@@ -31,7 +31,7 @@ namespace Mshop.Tests.Application.UseCases.Product.UpdateProduct
                 Name = Faker().Name,
                 Description = Faker().Description,
                 Price = Faker().Price,
-                Imagem = Faker().Imagem.Path,
+                Imagem = Faker().Thumb.Path,
                 CategoryId = Faker().CategoryId,
                 IsActive = Faker().IsActive
             };
@@ -47,7 +47,7 @@ namespace Mshop.Tests.Application.UseCases.Product.UpdateProduct
                 Faker().Description,
                 Faker().Name,
                 Faker().Price,
-                Faker().Imagem.Path,
+                Faker().Thumb.Path,
                 Faker().Stock,
                 Faker().IsActive,
                 Faker().CategoryId
@@ -67,7 +67,7 @@ namespace Mshop.Tests.Application.UseCases.Product.UpdateProduct
                 true
             ));
 
-            product.UpdateImage(faker.Image.LoremFlickrUrl());
+            product.UpdateThumb(faker.Image.LoremFlickrUrl());
             return product;
         }
 

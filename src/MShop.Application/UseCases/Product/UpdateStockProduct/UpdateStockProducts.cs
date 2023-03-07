@@ -35,7 +35,7 @@ namespace MShop.Application.UseCases.Product.UpdateStockProduct
                 product.Description,
                 product.Name,
                 product.Price,
-                product.Imagem?.Path,
+                product.Thumb?.Path,
                 product.Stock,
                 product.IsActive,
                 product.CategoryId);

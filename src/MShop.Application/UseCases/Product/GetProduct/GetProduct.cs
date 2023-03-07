@@ -31,12 +31,14 @@ namespace MShop.Application.UseCases.Product.GetProduct
                 throw new ApplicationValidationException("");
             }
 
+            //implementar o delete de images
+
             return new ProductModelOutPut(
                 product.Id,
                 product.Description,
                 product.Name,
                 product.Price,
-                product.Imagem?.Path, 
+                product.Thumb?.Path, 
                 product.Stock, 
                 product.IsActive, 
                 product.CategoryId);

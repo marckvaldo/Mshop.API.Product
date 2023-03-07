@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using MShop.Application.Common;
+using System.ComponentModel.DataAnnotations;
 
 namespace MShop.Application.UseCases.Product.CreateProducts
 {
@@ -14,12 +15,13 @@ namespace MShop.Application.UseCases.Product.CreateProducts
 
         public decimal Price { get; set; }
 
-        public string? Imagem { get; set; }
-
         public decimal Stock { get; set; }
 
         public bool IsActive { get; set; }
 
         public Guid CategoryId { get; set; }
+
+        public FileInput? Thumb { get; set; }
+
     }
 }

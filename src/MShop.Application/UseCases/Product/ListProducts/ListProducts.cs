@@ -37,7 +37,7 @@ namespace MShop.Application.UseCases.Product.ListProducts
                     x.Description,
                     x.Name,
                     x.Price,
-                    x.Imagem?.Path,
+                    x.Thumb?.Path,
                     x.Stock,
                     x.IsActive,
                     x.CategoryId

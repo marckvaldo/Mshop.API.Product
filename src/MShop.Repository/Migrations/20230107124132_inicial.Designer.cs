@@ -52,7 +52,7 @@ namespace MShop.Repository.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(255)");
 
-                    b.Property<string>("Imagem")
+                    b.Property<string>("Thumb")
                         .HasColumnType("Varchar(100)");
 
                     b.Property<bool>("IsActive")
