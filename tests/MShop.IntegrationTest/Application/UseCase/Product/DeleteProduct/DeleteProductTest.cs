@@ -11,11 +11,13 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.DeleteProduct
     {
         private readonly RepositoryDbContext _DbContext;
         private readonly ProductRepository _repository;
+        private readonly ImagesRepository _imagesRepository;
 
         public DeleteProductTest()
         {
             _DbContext = CreateDBContext();
             _repository = new ProductRepository(_DbContext);
+            _imagesRepository = new ImagesRepository(_DbContext);   
         }
 
         [Fact(DisplayName = nameof(DeleteProduct))]
@@ -30,7 +32,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.DeleteProduct
             await _DbContext.AddAsync(product);
             await _DbContext.SaveChangesAsync();
 
-            var useCase = new ApplicationUseCase.DeleteProduct(_repository,notification);
+            var useCase = new ApplicationUseCase.DeleteProduct(_repository, _imagesRepository, notification);
             await useCase.Handle(product.Id);
 
             var productDbDelete = await CreateDBContext(true).Products.FindAsync(product.Id);

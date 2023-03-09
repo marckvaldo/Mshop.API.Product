@@ -48,7 +48,7 @@ namespace MShop.Application.UseCases.Product.CreateProducts
                 throw new ApplicationValidationException("");
             }
 
-            await UploadImages(request, product);
+            await UploadImage(request, product);
 
             await _productRepository.Create(product);
 
@@ -65,7 +65,7 @@ namespace MShop.Application.UseCases.Product.CreateProducts
                 );
         }
 
-        private async Task UploadImages(CreateProductInPut request, Business.Entity.Product product)
+        private async Task UploadImage(CreateProductInPut request, Business.Entity.Product product)
         {
             if (request.Thumb is not null)
             {

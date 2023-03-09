@@ -22,12 +22,8 @@ namespace MShop.Application.UseCases.Product.Common
         }
         public Guid Id { get; set; }
 
-        [Required(ErrorMessage = "O Campo {0} Obrigatório")]
-        [StringLength(100, ErrorMessage = "O Campo {0} precisa ter no minimo {2} caracter e no maximo {1}", MinimumLength = 2)]
         public string Description { get; set; }
 
-        [Required(ErrorMessage = "O Campo {0} Obrigatório")]
-        [StringLength(30, ErrorMessage = "O Campo {0} precisa ter no minimo {2} caracter e no maximo {1}", MinimumLength = 2)]
         public string Name { get; set; }
 
         public decimal Price { get; set; }

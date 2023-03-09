@@ -10,6 +10,6 @@ namespace MShop.Application.UseCases.Product.GetProduct
 {
     public interface IGetProduct
     {
-        public Task<ProductModelOutPut> Handle(Guid Id);
+        public Task<GetProductOutPut> Handle(Guid Id);
     }
 }

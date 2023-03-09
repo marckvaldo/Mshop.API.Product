@@ -9,6 +9,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MShop.Business.Exception;
+using System.Linq.Expressions;
+using MShop.Business.Entity;
 
 namespace Mshop.Tests.Application.UseCases.Product.GetProduts
 {
@@ -20,13 +22,16 @@ namespace Mshop.Tests.Application.UseCases.Product.GetProduts
         {
             var repository = new Mock<IProductRepository>();
             var notification = new Mock<INotification>();
+            var repositoryImage = new Mock<IImageRepository>();
 
             var productFake = Faker();
             var guid = productFake.Id;
+            var imagesFaker = ImageFake(guid);
 
             repository.Setup(r => r.GetById(It.IsAny<Guid>())).ReturnsAsync(productFake);
+            repositoryImage.Setup(r => r.Filter(It.IsAny<Expression<Func<Image, bool>>>())).ReturnsAsync(imagesFaker);
 
-            var useCase = new ApplicationUseCase.GetProduct(repository.Object, notification.Object);
+            var useCase = new ApplicationUseCase.GetProduct(repository.Object, repositoryImage.Object, notification.Object) ;
             var outPut = await useCase.Handle(guid);
 
             repository.Verify(r => r.GetById(It.IsAny<Guid>()), Times.Once);
@@ -35,10 +40,18 @@ namespace Mshop.Tests.Application.UseCases.Product.GetProduts
             Assert.Equal(outPut.Name, productFake.Name);
             Assert.Equal(outPut.Description, productFake.Description);
             Assert.Equal(outPut.Price, productFake.Price);
-            Assert.Equal(outPut.Thumb, productFake.Thumb.Path);
+            Assert.Equal(outPut.Thumb, productFake.Thumb?.Path);
             Assert.Equal(outPut.CategoryId, productFake.CategoryId);
             Assert.Equal(outPut.Stock, productFake.Stock);
             Assert.Equal(outPut.IsActive, productFake.IsActive);
+            Assert.NotNull(outPut.Images);
+            
+            foreach(var item in outPut.Images)
+            {
+                var image = imagesFaker.Where(i => i.FileName == item).FirstOrDefault();
+                Assert.NotNull(image);
+                Assert.Equal(image?.FileName,item);
+            }
 
         }
 
@@ -49,10 +62,12 @@ namespace Mshop.Tests.Application.UseCases.Product.GetProduts
         {
             var repository = new Mock<IProductRepository>();
             var notification = new Mock<INotification>();
+            var repositoryImage = new Mock<IImageRepository>();
+
 
             repository.Setup(r => r.GetById(It.IsAny<Guid>())).ThrowsAsync(new NotFoundException(""));
 
-            var caseUse = new ApplicationUseCase.GetProduct(repository.Object, notification.Object);
+            var caseUse = new ApplicationUseCase.GetProduct(repository.Object, repositoryImage.Object, notification.Object);
             var outPut = async () => await caseUse.Handle(Guid.NewGuid());
 
             var exception = Assert.ThrowsAsync<NotFoundException>(outPut);

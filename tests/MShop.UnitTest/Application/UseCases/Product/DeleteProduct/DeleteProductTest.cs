@@ -19,11 +19,12 @@ namespace Mshop.Tests.Application.UseCases.Product.DeleteProduct
         {
             var repository = new Mock<IProductRepository>();
             var notification = new Mock<INotification>();
+            var repositoryImage = new Mock<IImageRepository>();
 
             repository.Setup(repository => repository.GetById(It.IsAny<Guid>()))
                 .ReturnsAsync(Faker());
 
-            var product = new ApplicationUseCase.DeleteProduct(repository.Object, notification.Object);
+            var product = new ApplicationUseCase.DeleteProduct(repository.Object, repositoryImage.Object, notification.Object);
 
             var guid = Faker().Id;
             var outPut = await product.Handle(guid);
@@ -31,6 +32,7 @@ namespace Mshop.Tests.Application.UseCases.Product.DeleteProduct
             repository.Verify(r => r.DeleteById(It.IsAny<BusinessEntity.Product>()),Times.Once);
             repository.Verify(r => r.GetById(It.IsAny<Guid>()), Times.Once);
             notification.Verify(n => n.AddNotifications(It.IsAny<string>()), Times.Never);
+            repositoryImage.Verify(r => r.DeleteByIdProduct(It.IsAny<Guid>()), Times.Once);
 
             Assert.Equal(outPut.Id, guid);
             Assert.NotNull(outPut);
@@ -43,10 +45,11 @@ namespace Mshop.Tests.Application.UseCases.Product.DeleteProduct
         {
             var repository = new Mock<IProductRepository>();
             var notification = new Mock<INotification>();
+            var repositoryImage = new Mock<IImageRepository>();
 
             repository.Setup(r => r.GetById(It.IsAny<Guid>())).ThrowsAsync(new NotFoundException("your search returned null"));
 
-            var product = new ApplicationUseCase.DeleteProduct(repository.Object, notification.Object);
+            var product = new ApplicationUseCase.DeleteProduct(repository.Object, repositoryImage.Object, notification.Object);
             var guid = Faker().Id;
             var action = async () => await product.Handle(guid);
 
@@ -55,6 +58,7 @@ namespace Mshop.Tests.Application.UseCases.Product.DeleteProduct
             repository.Verify(r => r.DeleteById(It.IsAny<BusinessEntity.Product>()), Times.Never);
             repository.Verify(r => r.GetById(It.IsAny<Guid>()), Times.Once);
             notification.Verify(a => a.AddNotifications(It.IsAny<string>()), Times.Never);
+            repositoryImage.Verify(a => a.DeleteByIdProduct(It.IsAny<Guid>()), Times.Never);
         }
     }
 }

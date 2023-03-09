@@ -10,10 +10,14 @@ namespace MShop.Application.UseCases.Product.DeleteProduct
     public class DeleteProduct : BaseUseCase, IDeleteProduct
     {
         private readonly IProductRepository _productRespository;
+        private readonly IImageRepository _imageRepository;
  
-        public DeleteProduct(IProductRepository productRespository, INotification notification):base(notification)
+        public DeleteProduct(IProductRepository productRespository, 
+            IImageRepository imageRepository,
+            INotification notification):base(notification)
         {
             _productRespository = productRespository;
+            _imageRepository = imageRepository;
         }
 
         public async Task<ProductModelOutPut> Handle(Guid request)
@@ -29,6 +33,8 @@ namespace MShop.Application.UseCases.Product.DeleteProduct
             //implementar o delete images
 
             await _productRespository.DeleteById(product);
+            await _imageRepository.DeleteByIdProduct(product.Id);
+
             return new ProductModelOutPut(
                 product.Id, 
                 product.Description,

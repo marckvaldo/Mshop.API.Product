@@ -7,6 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using BusinessEntity = MShop.Business.Entity;
 using MShop.Business.ValueObject;
+using Mshop.Test.Business.Entity.Product;
+using MShop.Application.Common;
+using MShop.Business.Entity;
 
 namespace Mshop.Tests.Application.UseCases.Product.GetProduct
 {
@@ -35,5 +38,15 @@ namespace Mshop.Tests.Application.UseCases.Product.GetProduct
             product.UpdateThumb(faker.Image.LoremFlickrUrl());
             return product;
         }
+
+        protected static List<Image> ImageFake(Guid productId, int quantity=3)
+        {
+            List<Image> images = new();
+            for(int i=1; i<=quantity; i++)
+                images.Add(new Image(fakerStatic.Image.LoremFlickrUrl(), productId));
+
+            return images;
+        }
+
     }
 }

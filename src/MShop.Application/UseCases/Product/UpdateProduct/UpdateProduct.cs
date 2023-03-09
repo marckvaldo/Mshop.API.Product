@@ -43,7 +43,7 @@ namespace MShop.Application.UseCases.Product.UpdateProduct
 
             product.IsValid(_notifications);
 
-            await UploadImages(request, product);
+            await UploadImage(request, product);
 
             await _productRepository.Update(product);
             return new ProductModelOutPut(
@@ -58,7 +58,7 @@ namespace MShop.Application.UseCases.Product.UpdateProduct
             
         }
 
-        private async Task UploadImages(UpdateProductInPut request, Business.Entity.Product product)
+        private async Task UploadImage(UpdateProductInPut request, Business.Entity.Product product)
         {
             if (request.Thumb is not null)
             {

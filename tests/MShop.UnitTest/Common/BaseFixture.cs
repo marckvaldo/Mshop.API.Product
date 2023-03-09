@@ -1,4 +1,5 @@
 ﻿using Bogus;
+using MShop.Application.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,5 +16,7 @@ namespace Mshop.Test.Common
         {
             faker = new Faker("pt_BR"); 
         }
+
+        
     }
 }

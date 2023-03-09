@@ -10,5 +10,7 @@ namespace MShop.Business.Interface.Repository
     public interface IImageRepository: IRepository<Image>
     {
         Task CreateRange(List<Image> images);
+
+        Task DeleteByIdProduct(Guid productId);
     }
 }

@@ -29,10 +29,7 @@ namespace Mshop.Tests.Application.UseCases.Product.CreateProduct
             };
         }
 
-        protected static FileInput ImageFake()
-        {
-            return new FileInput("jpg", new MemoryStream(Encoding.ASCII.GetBytes(fakerStatic.Image.LoremPixelUrl())));
-        }
+       
 
         protected CreateProductInPut Faker(string description, string name, decimal price, string imagem, Guid categoryId, decimal stock, bool isActive = true)
         {
@@ -48,6 +45,10 @@ namespace Mshop.Tests.Application.UseCases.Product.CreateProduct
             };
         }
 
+        protected static FileInput ImageFake()
+        {
+            return new FileInput("jpg", new MemoryStream(Encoding.ASCII.GetBytes(fakerStatic.Image.LoremPixelUrl())));
+        }
 
         public static IEnumerable<object[]> GetCreateProductInPutInvalid()
         {
