@@ -14,9 +14,11 @@ namespace MShop.Application.UseCases.Category.DeleteCategory
     public class DeleteCategory : BaseUseCase, IDeleteCategory
     {
         private readonly ICategoryRepository _categoryRepository;
-        public DeleteCategory(ICategoryRepository categoryRepository, INotification notification) : base(notification)
+        private readonly IProductRepository _productRepository;
+        public DeleteCategory(ICategoryRepository categoryRepository, IProductRepository productRepository,INotification notification) : base(notification)
         {
             _categoryRepository = categoryRepository;
+            _productRepository= productRepository;
         }
 
         public async Task<CategoryModelOutPut> Handler(Guid id)
@@ -28,8 +30,8 @@ namespace MShop.Application.UseCases.Category.DeleteCategory
                 throw new ApplicationValidationException("");
             }
 
-            var hasProducts = await _categoryRepository.GetThereAreProduct(id);
-            if(hasProducts)
+            var products = await _productRepository.GetProductsByCategoryId(id);
+            if(products?.Count() > 0 )
             {
                 Notify("Não é possivel excluir um categoria quando a mesma ja está relacionada com produtos");
                 throw new ApplicationValidationException("");

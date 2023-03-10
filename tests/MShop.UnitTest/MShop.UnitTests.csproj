@@ -28,4 +28,8 @@
     <ProjectReference Include="..\..\src\MShop.Business\MShop.Business.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Application\UseCases\Image\" />
+  </ItemGroup>
+
 </Project>

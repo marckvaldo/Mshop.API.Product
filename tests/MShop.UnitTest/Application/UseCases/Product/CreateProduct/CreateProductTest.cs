@@ -6,6 +6,8 @@ using BusinessEntity = MShop.Business.Entity;
 using MShop.Business.Interface.Service;
 using MShop.Business.Interface.Repository;
 using MShop.Business.Entity;
+using MShop.Business.Exceptions;
+using MShop.Business.Validation;
 
 namespace Mshop.Tests.Application.UseCases.Product.CreateProduct
 {
@@ -16,7 +18,8 @@ namespace Mshop.Tests.Application.UseCases.Product.CreateProduct
         public async void CreateProduct()
         {
             var repository = new Mock<IProductRepository>();
-            var notification = new Mock<INotification>();
+            //var notification = new Mock<INotification>();
+            var notification = new Notifications();
             var storageService = new Mock<IStorageService>();
             var repositoryCategoria = new Mock<ICategoryRepository>();
             var repositoryImage = new Mock<IImageRepository>();
@@ -29,7 +32,7 @@ namespace Mshop.Tests.Application.UseCases.Product.CreateProduct
             repositoryCategoria.Setup(c => c.GetById(It.IsAny<Guid>())).ReturnsAsync(categoryFake);
 
             var productUseCase = new ApplicationUseCase.CreateProduct(repository.Object, 
-                notification.Object, 
+                notification, 
                 repositoryCategoria.Object, 
                 storageService.Object, 
                 repositoryImage.Object);
@@ -42,7 +45,7 @@ namespace Mshop.Tests.Application.UseCases.Product.CreateProduct
                 repository => repository.Create(It.IsAny<BusinessEntity.Product>()),
                 Times.Once);
 
-            notification.Verify(n=>n.AddNotifications(It.IsAny<string>()),Times.Never);
+            //notification.Verify(n=>n.AddNotifications(It.IsAny<string>()),Times.Never);
 
             Assert.NotNull(outPut);
             Assert.Equal(outPut.Name, request.Name);
@@ -52,18 +55,21 @@ namespace Mshop.Tests.Application.UseCases.Product.CreateProduct
             Assert.Equal(outPut.CategoryId, request.CategoryId);
             Assert.Equal(outPut.Stock, request.Stock);
             Assert.Equal(outPut.IsActive, request.IsActive);
+            Assert.False(notification.HasErrors());
 
-            
+
         }
 
+        
         [Theory(DisplayName = nameof(SholdReturnErrorWhenCantCreateProduct))]
         [Trait("Application-UseCase", "Create Products")]
         [MemberData(nameof(GetCreateProductInPutInvalid))]
-        public async void SholdReturnErrorWhenCantCreateProduct(CreateProductInPut request)
+        public void SholdReturnErrorWhenCantCreateProduct(CreateProductInPut request)
         {
 
             var repository = new Mock<IProductRepository>();
-            var notification = new Mock<INotification>();
+            //var notification = new Mock<INotification>();
+            var notification = new Notifications();
             var storageService = new Mock<IStorageService>();
             var repositoryCategoria = new Mock<ICategoryRepository>();
             var repositoryImage = new Mock<IImageRepository>();
@@ -77,27 +83,55 @@ namespace Mshop.Tests.Application.UseCases.Product.CreateProduct
 
             var productUseCase = new ApplicationUseCase.CreateProduct(
                 repository.Object, 
-                notification.Object, 
+                notification, 
                 repositoryCategoria.Object, 
                 storageService.Object, 
                 repositoryImage.Object);
 
-            var outPut = await productUseCase.Handle(request);
+            var action = async () => await productUseCase.Handle(request);
+
+            var exception =  Assert.ThrowsAsync<EntityValidationException>(action);
 
             repository.Verify(
                 repository => repository.Create(It.IsAny<BusinessEntity.Product>()),
-                Times.Once);
+                Times.Never);
 
-            notification.Verify(n => n.AddNotifications(It.IsAny<string>()), Times.Once);
+            Assert.True(notification.HasErrors());
+        }
 
-            Assert.NotNull(outPut);
-            Assert.Equal(outPut.Name, request.Name);
-            Assert.Equal(outPut.Description, request.Description);
-            Assert.Equal(outPut.Price, request.Price);
-            Assert.Equal(outPut.Thumb, nameImage);
-            Assert.Equal(outPut.CategoryId, request.CategoryId);
-            Assert.Equal(outPut.Stock, request.Stock);
-            Assert.Equal(outPut.IsActive, request.IsActive);
+
+        [Fact(DisplayName = nameof(ShoudReturnErroWhenCreateProductWhenThereIsNotCategory))]
+        [Trait("Application-UseCase", "Create Products")]
+        public void ShoudReturnErroWhenCreateProductWhenThereIsNotCategory()
+        {
+            var repository = new Mock<IProductRepository>();
+            var notification = new Notifications();
+            var storageService = new Mock<IStorageService>();
+            var repositoryCategoria = new Mock<ICategoryRepository>();
+            var repositoryImage = new Mock<IImageRepository>();
+
+            var request = Faker();
+            var categoryFake = new Category(faker.Commerce.Categories(1)[0], true);
+            var nameImage = $"{request.Name}-thumb.{request.Thumb?.Extension}";
+
+            storageService.Setup(s => s.Upload(It.IsAny<string>(), It.IsAny<Stream>())).ReturnsAsync(nameImage);            
+
+            var productUseCase = new ApplicationUseCase.CreateProduct(repository.Object,
+                notification,
+                repositoryCategoria.Object,
+                storageService.Object,
+                repositoryImage.Object);
+
+            var action = async () => await productUseCase.Handle(request);
+
+            var exception = Assert.ThrowsAsync<ApplicationException>(action);
+
+            repository.Verify(
+                repository => repository.Create(It.IsAny<BusinessEntity.Product>()),
+                Times.Never);
+
+            Assert.True(notification.HasErrors());
+
 
         }
     }

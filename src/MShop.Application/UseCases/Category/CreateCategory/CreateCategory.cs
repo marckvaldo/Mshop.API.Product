@@ -25,9 +25,8 @@ namespace MShop.Application.UseCases.Category.CreateCategory
             category.IsValid(_notifications);
 
             await _categoryRepository.Create(category);
-            var newCategory = await _categoryRepository.GetLastRegister(x => x.Name == category.Name);
-
-            return new CategoryModelOutPut(newCategory.Id, newCategory.Name, newCategory.IsActive);
+           
+            return new CategoryModelOutPut(category.Id, category.Name, category.IsActive);
 
         }
     }

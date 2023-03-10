@@ -18,8 +18,6 @@ namespace MShop.Application.UseCases.Category.Common
 
         public Guid Id { get; private set; }
 
-        [Required(ErrorMessage = "O Campo {0} Obrigatório")]
-        [StringLength(30, ErrorMessage = "O Campo {0} precisa ter no minimo {2} caracter e no maximo {1}", MinimumLength = 2)]
         public string Name { get; private set; }
 
         public bool IsActive { get; private set; }

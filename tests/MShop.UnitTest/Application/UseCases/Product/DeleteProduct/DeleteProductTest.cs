@@ -41,7 +41,7 @@ namespace Mshop.Tests.Application.UseCases.Product.DeleteProduct
 
         [Fact(DisplayName = nameof(SholdReturnErrorWhenCantDeleteProduct))]
         [Trait("Application-UseCase", "Delete Products")]
-        public async void SholdReturnErrorWhenCantDeleteProduct()
+        public void SholdReturnErrorWhenCantDeleteProduct()
         {
             var repository = new Mock<IProductRepository>();
             var notification = new Mock<INotification>();

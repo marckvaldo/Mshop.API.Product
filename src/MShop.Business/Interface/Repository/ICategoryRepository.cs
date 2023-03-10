@@ -11,6 +11,6 @@ namespace MShop.Business.Interface.Repository
     {
         Task<Category> GetCategoryProducts(Guid id);
 
-        Task<bool> GetThereAreProduct(Guid id);
+       
     }
 }

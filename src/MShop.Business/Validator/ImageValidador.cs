@@ -12,16 +12,22 @@ namespace MShop.Business.Validator
 {
     public class ImageValidador : Notification
     {
-        private readonly Entity.Image _images;
-        public ImageValidador(Entity.Image images, INotification notification) : base(notification)
+        private readonly Entity.Image _image;
+        public ImageValidador(Entity.Image image, INotification notification) : base(notification)
         {
-            _images = images;
+            _image = image;
         }
 
         public override INotification Validate()
         {
-            ValidationDefault.NotNullOrEmpty(_images.FileName, nameof(_images.FileName), _notifications);
-            ValidationDefault.NotNullGuid(_images.ProductId, nameof(_images.ProductId), _notifications);
+            ValidationDefault.NotNullOrEmpty(_image.FileName, nameof(_image.FileName), _notifications);
+            
+            ValidationDefault.NotNullGuid(_image.ProductId, nameof(_image.ProductId), _notifications);
+            ValidationDefault.IsValidGuid(_image.ProductId.ToString(), nameof(_image.ProductId), _notifications);
+
+            ValidationDefault.NotNullGuid(_image.Id, nameof(_image.Id), _notifications);
+            ValidationDefault.IsValidGuid(_image.Id.ToString(), nameof(_image.Id), _notifications);
+            
             return _notifications;
         }
     }

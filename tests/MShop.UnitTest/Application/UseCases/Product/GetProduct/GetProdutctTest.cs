@@ -32,9 +32,10 @@ namespace Mshop.Tests.Application.UseCases.Product.GetProduts
             repositoryImage.Setup(r => r.Filter(It.IsAny<Expression<Func<Image, bool>>>())).ReturnsAsync(imagesFaker);
 
             var useCase = new ApplicationUseCase.GetProduct(repository.Object, repositoryImage.Object, notification.Object) ;
-            var outPut = await useCase.Handle(guid);
+            var outPut = await useCase.Handler(guid);
 
             repository.Verify(r => r.GetById(It.IsAny<Guid>()), Times.Once);
+            notification.Verify(r => r.AddNotifications(It.IsAny<string>()), Times.Never);
 
             Assert.NotNull(outPut);
             Assert.Equal(outPut.Name, productFake.Name);
@@ -56,9 +57,42 @@ namespace Mshop.Tests.Application.UseCases.Product.GetProduts
         }
 
 
+        [Fact(DisplayName = nameof(GetProductWithOutImages))]
+        [Trait("Application-UseCase", "Get Products")]
+        public async void GetProductWithOutImages()
+        {
+            var repository = new Mock<IProductRepository>();
+            var notification = new Mock<INotification>();
+            var repositoryImage = new Mock<IImageRepository>();
+
+            var productFake = Faker();
+            var guid = productFake.Id;
+            var imagesFaker = ImageFake(guid);
+
+            repository.Setup(r => r.GetById(It.IsAny<Guid>())).ReturnsAsync(productFake);
+            repositoryImage.Setup(r => r.Filter(It.IsAny<Expression<Func<Image, bool>>>())).ReturnsAsync(new List<Image>());
+
+            var useCase = new ApplicationUseCase.GetProduct(repository.Object, repositoryImage.Object, notification.Object);
+            var outPut = await useCase.Handler(guid);
+
+            repository.Verify(r => r.GetById(It.IsAny<Guid>()), Times.Once);
+            notification.Verify(r => r.AddNotifications(It.IsAny<string>()), Times.Never);
+
+            Assert.NotNull(outPut);
+            Assert.Equal(outPut.Name, productFake.Name);
+            Assert.Equal(outPut.Description, productFake.Description);
+            Assert.Equal(outPut.Price, productFake.Price);
+            Assert.Equal(outPut.Thumb, productFake.Thumb?.Path);
+            Assert.Equal(outPut.CategoryId, productFake.CategoryId);
+            Assert.Equal(outPut.Stock, productFake.Stock);
+            Assert.Equal(outPut.IsActive, productFake.IsActive);
+            Assert.True(outPut.Images.Count == 0);
+        }
+
+
         [Fact(DisplayName = nameof(SholdReturnErrorWhenCantGetProduct))]
         [Trait("Application-UseCase", "Get Products")]
-        public async void SholdReturnErrorWhenCantGetProduct()
+        public void SholdReturnErrorWhenCantGetProduct()
         {
             var repository = new Mock<IProductRepository>();
             var notification = new Mock<INotification>();
@@ -68,11 +102,12 @@ namespace Mshop.Tests.Application.UseCases.Product.GetProduts
             repository.Setup(r => r.GetById(It.IsAny<Guid>())).ThrowsAsync(new NotFoundException(""));
 
             var caseUse = new ApplicationUseCase.GetProduct(repository.Object, repositoryImage.Object, notification.Object);
-            var outPut = async () => await caseUse.Handle(Guid.NewGuid());
+            var outPut = async () => await caseUse.Handler(Guid.NewGuid());
 
             var exception = Assert.ThrowsAsync<NotFoundException>(outPut);
 
             repository.Verify(r => r.GetById(It.IsAny<Guid>()), Times.Once);
+            notification.Verify(r => r.AddNotifications(It.IsAny<string>()), Times.Never);
         }
     }
 }

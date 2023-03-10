@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Caching.StackExchangeRedis;
 
 namespace MShop.UnitTests.Business.Entity.Image
 {
@@ -24,7 +25,17 @@ namespace MShop.UnitTests.Business.Entity.Image
 
         public BusinessEntity.Image Faker(Guid id, string FileName)
         {
-            return new BusinessEntity.Image(FileName, _id);
+            return new BusinessEntity.Image(FileName, id);
+        }
+
+
+        public IReadOnlyList<BusinessEntity.Image> FakerImages(Guid id, int quantity)
+        {
+            List<BusinessEntity.Image> images = new List<BusinessEntity.Image>();
+            for(int i = 0; i < quantity; i++)
+                images.Add(new BusinessEntity.Image(Faker().FileName, _id));
+
+            return images;
         }
     }
 }

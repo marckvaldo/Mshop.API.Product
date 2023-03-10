@@ -67,5 +67,11 @@ namespace MShop.Repository.Repository
                 _ => query.OrderBy(x => x.Name)
             };
         }
+
+
+        public async Task<List<Product>> GetProductsByCategoryId(Guid categoryId)
+        {
+            return await _dbSet.Where(c=>c.CategoryId == categoryId).ToListAsync();
+        }
     }
 }

@@ -1,4 +1,7 @@
 ﻿using Bogus;
+using MShop.Business.Entity;
+using MShop.Business.Exceptions;
+using MShop.Business.Interface;
 using MShop.Business.Validation;
 using System;
 using System.Collections.Generic;
@@ -17,11 +20,31 @@ namespace MShop.UnitTests.Business.Entity.Image
         {
             var notificacao = new Notifications();
             var FileName = Faker().FileName;
-            var product = Faker(Faker().Id, Faker().FileName);
-            product.IsValid(notificacao);
+            var image = Faker(Faker().Id, FileName);
+            image.IsValid(notificacao);
 
-            Assert.NotNull(product);
-            Assert.Equal(product.FileName, FileName);            
+            Assert.NotNull(image);
+            Assert.NotEqual(image.Id,Guid.Empty);
+            Assert.Equal(image.FileName, FileName);            
+        }
+
+
+        [Theory(DisplayName = nameof(ShoudReturErroInstantiate))]
+        [Trait("Business", "Image")]
+        [InlineData(null,"")]
+        [InlineData(null, "image")]
+        [InlineData(null,null)]
+        public void ShoudReturErroInstantiate(Guid productId, string fileName)
+        {
+            var notificacao = new Notifications();
+            var image = Faker(productId, fileName);
+            
+
+            Action action =
+                 () => image.IsValid(notificacao);
+
+            var exception = Assert.Throws<EntityValidationException>(action);
+            Assert.True(notificacao.HasErrors());
         }
     }
 }

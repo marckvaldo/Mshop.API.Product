@@ -23,7 +23,7 @@ namespace MShop.Application.UseCases.Product.GetProduct
             _imageRepository = imageRepository;
         }
 
-        public async Task<GetProductOutPut> Handle(Guid Id)
+        public async Task<GetProductOutPut> Handler(Guid Id)
         {
             var product = await _productRepository.GetById(Id);
 

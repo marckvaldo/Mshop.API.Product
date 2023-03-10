@@ -22,9 +22,6 @@ namespace MShop.Repository.Repository
             return await _dbSet.Where(c => c.Id == id).Include(c => c.Products).FirstAsync();
         }
 
-        public async Task<bool> GetThereAreProduct(Guid id)
-        {
-            return _dbSet.Where(c => c.Id == id).Include(c => c.Products).Count() > 0;
-        }
+        
     }
 }
