@@ -1,4 +1,5 @@
 ﻿using MShop.Business.Entity;
+using MShop.Business.Paginated;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,6 @@ namespace MShop.Business.Interface.Repository
     {
         Task<Category> GetCategoryProducts(Guid id);
 
-       
+        Task<PaginatedOutPut<Category>> FilterPaginated(PaginatedInPut input);
     }
 }

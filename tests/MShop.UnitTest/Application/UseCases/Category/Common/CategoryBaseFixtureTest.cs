@@ -27,6 +27,15 @@ namespace MShop.UnitTests.Application.UseCases.Category.common
             return new BusinessEntity.Category(faker.Commerce.Categories(1)[0]);
         }
 
+        public List<BusinessEntity.Category> FakerCategorys(int quantity)
+        {
+            List<BusinessEntity.Category> listCategory = new List<BusinessEntity.Category>();
+            for (int i = 1; i <= quantity; i++)
+                listCategory.Add(Faker());
+
+            return listCategory;
+        }
+
 
         public static IEnumerable<object[]> ListNamesCategoryInvalid()
         {

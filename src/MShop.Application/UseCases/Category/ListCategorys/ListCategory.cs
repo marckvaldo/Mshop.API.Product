@@ -1,10 +1,13 @@
-﻿using MShop.Application.UseCases.Category.Common;
+﻿using MShop.Application.Common;
+using MShop.Application.UseCases.Category.Common;
 using MShop.Business.Interface;
 using MShop.Business.Interface.Repository;
+using MShop.Business.Paginated;
 using MShop.Repository.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,15 +23,26 @@ namespace MShop.Application.UseCases.Category.ListCategorys
             _listCategory = new List<CategoryModelOutPut>();
         }
 
-        public async Task<List<CategoryModelOutPut>> Handler()
+        public async Task<ListCategoryOutPut> Handler(ListCategoryInPut request)
         {
-            var categorys = await _categoryRepositiry.GetValuesList();
-            foreach(var item in categorys)
-            {
-                _listCategory.Add(new CategoryModelOutPut(item.Id, item.Name, item.IsActive));
-            }
+            var paginate = new PaginatedInPut(
+                request.Page, 
+                request.PerPage, 
+                request.Search, 
+                request.OrderBy,
+                request.Order);
 
-            return _listCategory;  
+            var categorys = await _categoryRepositiry.FilterPaginated(paginate);
+
+            return new ListCategoryOutPut(
+                categorys.CurrentPage,
+                categorys.PerPage,
+                categorys.Total,
+                categorys.Itens.Select(x => new CategoryModelOutPut(
+                    x.Id, 
+                    x.Name, 
+                    x.IsActive
+                    )).ToList()); 
         }
     }
 }

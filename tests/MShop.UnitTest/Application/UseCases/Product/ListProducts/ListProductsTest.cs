@@ -61,50 +61,5 @@ namespace Mshop.Tests.Application.UseCases.Product.ListProducts
             Assert.True(outPut.Itens.Any());
         }
 
-        /*
-        [Theory(DisplayName = nameof(ListProductOrderBY))]
-        [Trait("Application-UseCase", "List Products")]
-        [InlineData(SearchOrder.Asc)]
-        [InlineData(SearchOrder.Desc)]
-        public async void ListProductOrderBY( SearchOrder order)
-        {
-            var repository = new Mock<BusinessInterface.Repository.IProductRepository>();
-            var notification = new Mock<BusinessInterface.INotification>();
-
-            var productsFake = GetListProdutsConstant();
-
-            var page = 1;
-            var perPage = 2;
-            var sort = "Name";
-
-            var request = new ListProductInPut(page, perPage, "", sort, order);
-
-            repository.Setup(r => r.FilterPaginated(It.IsAny<PaginatedInPut>()))
-                .ReturnsAsync(new PaginatedOutPut<BusinessEntity.Product>(page, perPage, productsFake.Count(),productsFake));
-
-            var useCase = new ApplicationUseCase.ListProducts(repository.Object, notification.Object);
-            var outPut = await useCase.Handle(request);
-
-            repository.Verify(r => r.FilterPaginated(It.IsAny<PaginatedInPut>()), Times.Once);
-            notification.Verify(n => n.AddNotifications(It.IsAny<string>()), Times.Never);
-
-            Assert.NotNull(outPut);
-
-            Assert.Equal(outPut.Page, page);
-            Assert.Equal(outPut.PerPage, perPage);
-            
-            if (order == SearchOrder.Desc)
-            {
-                Assert.True(outPut.Itens.First().Name == fakeContantsNames.First());
-                Assert.True(outPut.Itens.Last().Name == fakeContantsNames.Last());
-            }
-            else
-            {
-                Assert.True(outPut.Itens.First().Name == fakeContantsNames.Last());
-                Assert.True(outPut.Itens.Last().Name == fakeContantsNames.First());
-            }
-                
-
-        }*/
     }
 }
