@@ -47,7 +47,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.CreateProduct
             request.CategoryId = categoryDb.Id;
 
             var productUseCase = new ApplicationUseCase.CreateProduct(_repository, notification,_categoryRepository, _storageService, _imageRepository);
-            var outPut = await productUseCase.Handle(request);
+            var outPut = await productUseCase.Handler(request);
 
             var newProduct = await CreateDBContext(true).Products.FindAsync(outPut.Id);
             

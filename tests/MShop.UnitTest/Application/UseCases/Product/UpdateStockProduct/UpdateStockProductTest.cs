@@ -24,7 +24,7 @@ namespace Mshop.Tests.Application.UseCases.Product.UpdateStockProduct
                 .ReturnsAsync(Faker());
             
             var useCase = new ApplicationUseCase.UpdateStockProducts(repository.Object, notification.Object);
-            var outPut = await useCase.Handle(request);
+            var outPut = await useCase.Handler(request);
 
             repository.Verify(r => r.Update(It.IsAny<BusinessEntity.Product>()), Times.Once);
             notification.Verify(n=>n.AddNotifications(It.IsAny<string>()),Times.Never);
@@ -49,7 +49,7 @@ namespace Mshop.Tests.Application.UseCases.Product.UpdateStockProduct
                 .ReturnsAsync(Faker());
 
             var useCase = new ApplicationUseCase.UpdateStockProducts(repository.Object, notification.Object);
-            var outPut = async () => await useCase.Handle(request);
+            var outPut = async () => await useCase.Handler(request);
 
             var excption = Assert.ThrowsAsync<NotFoundException>(outPut);
 

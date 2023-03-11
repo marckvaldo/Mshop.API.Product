@@ -36,7 +36,7 @@ namespace Mshop.Tests.Application.UseCases.Product.UpdateProduct
             storageService.Setup(s => s.Upload(It.IsAny<string>(), It.IsAny<Stream>())).ReturnsAsync($"{productFake.Id}-thumb.jpg");
 
             var useCase = new ApplicationUseCase.UpdateProduct(repository.Object, notification.Object,storageService.Object);
-            var outPut = await useCase.Handle(request);
+            var outPut = await useCase.Handler(request);
 
 
             repository.Verify(r => r.Update(It.IsAny<BusinessEntity.Product>()),Times.Once);
@@ -68,7 +68,7 @@ namespace Mshop.Tests.Application.UseCases.Product.UpdateProduct
                 .ThrowsAsync(new NotFoundException(""));
 
             var useCase = new ApplicationUseCase.UpdateProduct(repository.Object, notification.Object, storageService.Object);
-            var outPut = async () => await useCase.Handle(request);
+            var outPut = async () => await useCase.Handler(request);
 
             var exception = Assert.ThrowsAsync<NotFoundException>(outPut); 
 
@@ -91,7 +91,7 @@ namespace Mshop.Tests.Application.UseCases.Product.UpdateProduct
             var productRepository = ProductModelOutPut();
 
             var useCase = new ApplicationUseCase.UpdateProduct(repository.Object, notification.Object, storageService.Object);
-            var outPut = async () => await useCase.Handle(request);
+            var outPut = async () => await useCase.Handler(request);
 
             var exception = Assert.ThrowsAsync<ApplicationValidationException>(outPut);
 

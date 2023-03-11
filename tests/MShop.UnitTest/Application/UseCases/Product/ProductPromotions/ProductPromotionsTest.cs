@@ -26,7 +26,7 @@ namespace MShop.UnitTests.Application.UseCases.Product.ProductPromotions
             cacheRepository.Setup(x => x.GetKeyCollection<UseCaseCommon.ProductModelOutPut>(It.IsAny<string>()));
 
             var useCase = new UseCase.ProductsPromotions(cacheRepository.Object,repository.Object,notification.Object);
-            var outPut = await useCase.Handle();
+            var outPut = await useCase.Handler();
 
             repository.Verify(x => x.GetProductsPromotions(), Times.Once);
             cacheRepository.Verify(x => x.GetKeyCollection<UseCaseCommon.ProductModelOutPut>(It.IsAny<string>()), Times.Once);
@@ -62,7 +62,7 @@ namespace MShop.UnitTests.Application.UseCases.Product.ProductPromotions
             cacheRepository.Setup(x => x.GetKeyCollection<UseCaseCommon.ProductModelOutPut>(It.IsAny<string>())).ReturnsAsync(productsFake);
 
             var useCase = new UseCase.ProductsPromotions(cacheRepository.Object, repository.Object, notification.Object);
-            var outPut = await useCase.Handle();
+            var outPut = await useCase.Handler();
 
             repository.Verify(x => x.GetProductsPromotions(), Times.Never);
             cacheRepository.Verify(x => x.GetKeyCollection<UseCaseCommon.ProductModelOutPut>(It.IsAny<string>()), Times.Once);
@@ -99,7 +99,7 @@ namespace MShop.UnitTests.Application.UseCases.Product.ProductPromotions
             repository.Setup(x=>x.GetProductsPromotions()).ThrowsAsync(new NotFoundException(""));
 
             var useCase = new UseCase.ProductsPromotions(cacheRepository.Object, repository.Object, notification.Object);
-            var outPut = async () => await useCase.Handle();
+            var outPut = async () => await useCase.Handler();
 
             var exception = Assert.ThrowsAsync<NotFoundException>(outPut);
 

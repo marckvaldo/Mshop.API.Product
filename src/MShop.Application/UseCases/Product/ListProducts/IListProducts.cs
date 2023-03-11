@@ -9,6 +9,6 @@ namespace MShop.Application.UseCases.Product.ListProducts
 {
     public interface IListProducts
     {
-        public Task<ListProductsOutPut> Handle(ListProductInPut request);
+        public Task<ListProductsOutPut> Handler(ListProductInPut request);
     }
 }

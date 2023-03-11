@@ -39,7 +39,7 @@ namespace Mshop.Tests.Application.UseCases.Product.CreateProduct
             
            
 
-            var outPut =  await productUseCase.Handle(request);
+            var outPut =  await productUseCase.Handler(request);
 
             repository.Verify(
                 repository => repository.Create(It.IsAny<BusinessEntity.Product>()),
@@ -88,7 +88,7 @@ namespace Mshop.Tests.Application.UseCases.Product.CreateProduct
                 storageService.Object, 
                 repositoryImage.Object);
 
-            var action = async () => await productUseCase.Handle(request);
+            var action = async () => await productUseCase.Handler(request);
 
             var exception =  Assert.ThrowsAsync<EntityValidationException>(action);
 
@@ -122,7 +122,7 @@ namespace Mshop.Tests.Application.UseCases.Product.CreateProduct
                 storageService.Object,
                 repositoryImage.Object);
 
-            var action = async () => await productUseCase.Handle(request);
+            var action = async () => await productUseCase.Handler(request);
 
             var exception = Assert.ThrowsAsync<ApplicationException>(action);
 

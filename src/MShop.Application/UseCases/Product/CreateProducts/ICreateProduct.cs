@@ -4,6 +4,6 @@ namespace MShop.Application.UseCases.Product.CreateProducts
 {
     public interface ICreateProduct
     {
-        public Task<ProductModelOutPut> Handle(CreateProductInPut categoryInput);
+        public Task<ProductModelOutPut> Handler(CreateProductInPut categoryInput);
     }
 }

@@ -20,7 +20,7 @@ namespace MShop.Application.UseCases.Product.DeleteProduct
             _imageRepository = imageRepository;
         }
 
-        public async Task<ProductModelOutPut> Handle(Guid request)
+        public async Task<ProductModelOutPut> Handler(Guid request)
         {
             var product = await _productRespository.GetById(request);
 

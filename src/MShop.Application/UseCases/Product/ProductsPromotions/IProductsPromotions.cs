@@ -10,6 +10,6 @@ namespace MShop.Application.UseCases.Product.ProductsPromotions
 {
     public interface IProductsPromotions
     {
-        public Task<List<ProductModelOutPut>> Handle();
+        public Task<List<ProductModelOutPut>> Handler();
     }
 }

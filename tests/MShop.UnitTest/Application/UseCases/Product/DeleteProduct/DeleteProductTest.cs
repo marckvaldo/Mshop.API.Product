@@ -27,7 +27,7 @@ namespace Mshop.Tests.Application.UseCases.Product.DeleteProduct
             var product = new ApplicationUseCase.DeleteProduct(repository.Object, repositoryImage.Object, notification.Object);
 
             var guid = Faker().Id;
-            var outPut = await product.Handle(guid);
+            var outPut = await product.Handler(guid);
 
             repository.Verify(r => r.DeleteById(It.IsAny<BusinessEntity.Product>()),Times.Once);
             repository.Verify(r => r.GetById(It.IsAny<Guid>()), Times.Once);
@@ -51,7 +51,7 @@ namespace Mshop.Tests.Application.UseCases.Product.DeleteProduct
 
             var product = new ApplicationUseCase.DeleteProduct(repository.Object, repositoryImage.Object, notification.Object);
             var guid = Faker().Id;
-            var action = async () => await product.Handle(guid);
+            var action = async () => await product.Handler(guid);
 
             var exception = Assert.ThrowsAsync<NotFoundException>(action);
 

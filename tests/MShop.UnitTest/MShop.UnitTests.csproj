@@ -29,7 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Application\UseCases\Image\" />
+    <Folder Include="Application\UseCases\Category\ListCategory\" />
   </ItemGroup>
 
 </Project>

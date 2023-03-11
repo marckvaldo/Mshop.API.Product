@@ -28,7 +28,7 @@ namespace MShop.Application.UseCases.Product.CreateProducts
             _imagesRepository = imagesRepository;
         }
 
-        public async Task<ProductModelOutPut> Handle(CreateProductInPut request)
+        public async Task<ProductModelOutPut> Handler(CreateProductInPut request)
         {
             var product = new Business.Entity.Product(
                     request.Description,

@@ -21,7 +21,9 @@ namespace MShop.Application.UseCases.images.ListImage
         {
             var images = await _imageRepository.Filter(x=>x.ProductId == request.ProductId);
 
-            return new ListImageOutPut(request.ProductId, 
+            return new ListImageOutPut
+                (
+                    request.ProductId, 
                     images.Select(x => new ImageModelOutPut(x.FileName)).ToList()
                 ) ;
         }

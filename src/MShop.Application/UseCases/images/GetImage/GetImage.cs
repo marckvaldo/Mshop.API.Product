@@ -30,7 +30,7 @@ namespace MShop.Application.UseCases.images.GetImage
             if (image is null)
             {
                 Notify("Não foi possivel localizar image na base de dados!");
-                throw new ValidationException("");
+                throw new ApplicationException("");
             }
 
             return new GetImageOutPut(image.ProductId, new ImageModelOutPut(image.FileName));

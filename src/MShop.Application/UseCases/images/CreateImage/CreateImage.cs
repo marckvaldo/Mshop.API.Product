@@ -4,11 +4,7 @@ using MShop.Business.Entity;
 using MShop.Business.Interface;
 using MShop.Business.Interface.Repository;
 using MShop.Business.Interface.Service;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace MShop.Application.UseCases.images.CreateImage
 {

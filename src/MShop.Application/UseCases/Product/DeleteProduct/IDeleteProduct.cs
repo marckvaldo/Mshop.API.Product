@@ -9,6 +9,6 @@ namespace MShop.Application.UseCases.Product.DeleteProduct
 {
     public interface IDeleteProduct
     {
-        public Task<ProductModelOutPut> Handle(Guid request);
+        public Task<ProductModelOutPut> Handler(Guid request);
     }
 }

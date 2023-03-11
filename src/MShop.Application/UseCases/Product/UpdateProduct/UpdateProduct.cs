@@ -23,7 +23,7 @@ namespace MShop.Application.UseCases.Product.UpdateProduct
             _storageService = storageService;
         }
 
-        public async Task<ProductModelOutPut> Handle(UpdateProductInPut request)
+        public async Task<ProductModelOutPut> Handler(UpdateProductInPut request)
         {            
             var product = await _productRepository.GetById(request.Id);
 

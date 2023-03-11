@@ -12,15 +12,7 @@ namespace MShop.UnitTests.Application.UseCases.Category.common
 {
     public class CategoryBaseFixtureTest : BaseFixture
     {
-        public CreateCategoryInPut FakerRequest()
-        {
-            return new CreateCategoryInPut { Name = faker.Commerce.Categories(1)[0], IsActive = true };
-        }
-
-        public CreateCategoryInPut FakerRequest(string name, bool isActive)
-        {
-            return new CreateCategoryInPut { Name = name, IsActive = isActive };
-        }
+       
 
         public BusinessEntity.Category Faker()
         {

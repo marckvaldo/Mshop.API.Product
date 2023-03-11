@@ -16,7 +16,7 @@ using MShop.UnitTests.Application.UseCases.Category.common;
 
 namespace MShop.UnitTests.Application.UseCases.Category.CreateCategory
 {
-    public class CreateCategoryTest: CategoryBaseFixtureTest
+    public class CreateCategoryTest: CreateCategoryTestFituxre
     {
         [Fact(DisplayName = nameof(CreateCategory))]
         [Trait("Application-UseCase","Create Category")]

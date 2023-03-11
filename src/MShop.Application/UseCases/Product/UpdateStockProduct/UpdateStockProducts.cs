@@ -19,7 +19,7 @@ namespace MShop.Application.UseCases.Product.UpdateStockProduct
             _productRepository = productRepository;
         }
 
-        public async Task<ProductModelOutPut> Handle(UpdateStockProductInPut request)
+        public async Task<ProductModelOutPut> Handler(UpdateStockProductInPut request)
         {
             var product = await _productRepository.GetById(request.Id);
             if(product is null)

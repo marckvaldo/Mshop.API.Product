@@ -9,14 +9,14 @@ namespace MShop.Application.UseCases.images.ListImage
 {
     public class ListImageOutPut
     {
-        public ListImageOutPut(Guid productId, List<ImageModelOutPut> productName)
+        public ListImageOutPut(Guid productId, List<ImageModelOutPut> imageName)
         {
             ProductId = productId;
-            ProductName = productName;
+            ImageName = imageName;
         }
 
         public Guid ProductId { get; set; }
 
-        public List<ImageModelOutPut> ProductName { get; set; }   
+        public List<ImageModelOutPut> ImageName { get; set; }   
     }
 }

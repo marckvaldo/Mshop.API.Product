@@ -14,7 +14,7 @@ namespace MShop.Application.UseCases.Product.ListProducts
             _productRepostory = productRepostory;   
         }
 
-        public async Task<ListProductsOutPut> Handle(ListProductInPut request)
+        public async Task<ListProductsOutPut> Handler(ListProductInPut request)
         {
 
             var paginatedInPut = new PaginatedInPut(
