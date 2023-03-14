@@ -19,9 +19,9 @@ namespace MShop.Application.UseCases.images.DeleteImage
             _storageService = storageService;   
         }
 
-        public async Task<DeleteImageOutPutcs> Handler(DeleteImageInPut request)
+        public async Task<ImageOutPut> Handler(Guid id)
         {
-            var image = await _imageRepository.GetById(request.Id);
+            var image = await _imageRepository.GetById(id);
 
             if(image is null)
             {
@@ -34,7 +34,7 @@ namespace MShop.Application.UseCases.images.DeleteImage
                 await _imageRepository.DeleteById(image);
             }
 
-            return new DeleteImageOutPutcs(image.ProductId, new ImageModelOutPut(image.FileName));
+            return new ImageOutPut(image.ProductId, new ImageModelOutPut(image.FileName));
 
         }
     }

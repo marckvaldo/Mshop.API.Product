@@ -40,7 +40,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.ProductsPromotions
             await _DbContext.SaveChangesAsync();
 
             var useCase = new useCaseProducts.ProductsPromotions(_redisRepository, _productRepository, notification);
-            var outPut = await useCase.Handle();
+            var outPut = await useCase.Handler();
 
             Assert.NotNull(outPut);
             Assert.False(notification.HasErrors()); 
@@ -67,7 +67,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.ProductsPromotions
             var notification = new Notifications();
 
             var useCase = new useCaseProducts.ProductsPromotions(_redisRepository, _productRepository, notification);
-            var outPut = async () => await useCase.Handle();
+            var outPut = async () => await useCase.Handler();
 
             var exception = Assert.ThrowsAsync<NotFoundException>(outPut);
             Assert.False(notification.HasErrors());

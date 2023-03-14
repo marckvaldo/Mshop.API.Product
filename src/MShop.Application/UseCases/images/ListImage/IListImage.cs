@@ -9,6 +9,6 @@ namespace MShop.Application.UseCases.images.ListImage
 {
     public interface IListImage
     {
-        Task<ListImageOutPut> Handler (ListImageInPut request);
+        Task<ListImageOutPut> Handler (Guid productId);
     }
 }

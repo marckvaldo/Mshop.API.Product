@@ -14,6 +14,8 @@ using ApplicationUseCase = MShop.Application.UseCases.images.ListImage;
 using BusinessEntity = MShop.Business.Entity;
 using MShop.Application.UseCases.images.ListImage;
 using System.Linq.Expressions;
+using MShop.Business.Entity;
+using MShop.Business.Exception;
 
 namespace MShop.UnitTests.Application.UseCases.Image.ListImage
 {
@@ -33,7 +35,7 @@ namespace MShop.UnitTests.Application.UseCases.Image.ListImage
             repository.Setup(r => r.Filter(It.IsAny<Expression<Func<BusinessEntity.Image, bool>>>())).ReturnsAsync(imagens);
 
             var useCase = new ApplicationUseCase.ListImage(notification.Object, repository.Object);
-            var outPut = await useCase.Handler(new ListImageInPut { ProductId = productId });
+            var outPut = await useCase.Handler(productId);
 
             repository.Verify(r => r.Filter(It.IsAny<Expression<Func<BusinessEntity.Image, bool>>>()), Times.Once);
             Assert.NotNull(outPut);
@@ -49,11 +51,20 @@ namespace MShop.UnitTests.Application.UseCases.Image.ListImage
 
 
 
-        [Fact(DisplayName = nameof(ShoudReturnErrorWhenListImage))]
+        [Fact(DisplayName = nameof(ShoudReturNullWhenListImage))]
         [Trait("Application-UseCase", "List Image")]
-        public void ShoudReturnErrorWhenListImage()
+        public void ShoudReturNullWhenListImage()
         {
-            Assert.True(false);
+            var notification = new Mock<INotification>();
+            var repository = new Mock<IImageRepository>();
+
+            repository.Setup(r => r.Filter(It.IsAny<Expression<Func<BusinessEntity.Image, bool>>>())).ThrowsAsync(new NotFoundException(""));
+
+            var useCase = new ApplicationUseCase.ListImage(notification.Object, repository.Object);
+            var outPut = async () => await useCase.Handler(Guid.NewGuid());
+
+            var exception = Assert.ThrowsAsync<NotFoundException>(outPut);
+
         }
     }
 }

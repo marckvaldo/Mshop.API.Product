@@ -9,6 +9,6 @@ namespace MShop.Application.UseCases.images.DeleteImage
 {
     public interface IDeleteImage
     {
-        Task<DeleteImageOutPutcs> Handler(DeleteImageInPut request);
+        Task<ImageOutPut> Handler(Guid id);
     }
 }

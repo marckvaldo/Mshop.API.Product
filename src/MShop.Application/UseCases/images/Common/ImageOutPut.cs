@@ -1,15 +1,14 @@
-﻿using MShop.Application.UseCases.images.Common;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MShop.Application.UseCases.images.GetImage
+namespace MShop.Application.UseCases.images.Common
 {
-    public class GetImageOutPut
+    public class ImageOutPut
     {
-        public GetImageOutPut(Guid productId, ImageModelOutPut image)
+        public ImageOutPut(Guid productId, ImageModelOutPut image)
         {
             ProductId = productId;
             Image = image;

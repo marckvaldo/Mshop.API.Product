@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Moq;
+using MShop.Business.Exception;
 using MShop.Business.Interface.Service;
 using MShop.Business.Service;
 using MShop.Business.Validation;
@@ -79,7 +80,18 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.CreateProduct
         public async Task SholdReturnErrorWhenCreateProductWithOutCategory()
         {
 
-            Assert.True(false);
+            var notification = new Notifications();
+            var request = Faker();
+
+            request.CategoryId = Guid.NewGuid();
+
+            var productUseCase = new ApplicationUseCase.CreateProduct(_repository, notification, _categoryRepository, _storageService, _imageRepository);
+            var outPut = async () => await productUseCase.Handler(request);
+
+            var exception = await Assert.ThrowsAsync<NotFoundException>(outPut);
+            Assert.Equal("your search returned null", exception.Message);
+            Assert.False(notification.HasErrors());
+
 
         }
 

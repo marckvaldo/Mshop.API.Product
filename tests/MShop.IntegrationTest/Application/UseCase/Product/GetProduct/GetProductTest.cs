@@ -13,11 +13,13 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.GetProduct
     {
         private readonly RepositoryDbContext _DbContext;
         private readonly ProductRepository _repository;
+        private readonly ImagesRepository _imagesRepository;
 
         public GetProductTest()
         {
             _DbContext = CreateDBContext();
             _repository = new ProductRepository(_DbContext);
+            _imagesRepository = new ImagesRepository(_DbContext);
         }
 
         [Fact(DisplayName = nameof(GetProduct))]
@@ -25,14 +27,15 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.GetProduct
         public async Task GetProduct()
         {
             var notification = new Notifications();
+            
 
             var productFake = Faker();
             await _DbContext.Products.AddAsync(productFake);
             await _DbContext.SaveChangesAsync();
 
             var guid = productFake.Id;
-            var useCase = new ApplicationUseCase.GetProduct(_repository, notification);
-            var outPut = await useCase.Handle(guid);
+            var useCase = new ApplicationUseCase.GetProduct(_repository,  _imagesRepository ,notification);
+            var outPut = await useCase.Handler(guid);
 
 
             Assert.False(notification.HasErrors());
@@ -59,8 +62,8 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.GetProduct
             await _DbContext.Products.AddAsync(productFake);
             await _DbContext.SaveChangesAsync();
 
-            var useCase = new ApplicationUseCase.GetProduct(_repository, notification);
-            var outPut = async () => await useCase.Handle(Guid.NewGuid());
+            var useCase = new ApplicationUseCase.GetProduct(_repository, _imagesRepository, notification);
+            var outPut = async () => await useCase.Handler(Guid.NewGuid());
 
             var exception = await Assert.ThrowsAsync<NotFoundException>(outPut);
             Assert.Equal("your search returned null", exception.Message);

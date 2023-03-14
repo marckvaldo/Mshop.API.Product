@@ -9,6 +9,6 @@ namespace MShop.Application.UseCases.images.GetImage
 {
     internal interface IGetImage
     {
-        Task<GetImageOutPut> Handler(GetImageInPut request);
+        Task<ImageOutPut> Handler(Guid id);
     }
 }

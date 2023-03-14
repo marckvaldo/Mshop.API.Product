@@ -29,7 +29,7 @@ namespace MShop.UnitTests.Application.UseCases.Image.GetImage
             repository.Setup(r => r.GetById(It.IsAny<Guid>())).ReturnsAsync(request);
 
             var useCase = new ApplicationUseCase.GetImage(notification.Object, repository.Object, storageService.Object);
-            var outPut = await useCase.Handler(new GetImageInPut { id = Guid.NewGuid()});
+            var outPut = await useCase.Handler(Guid.NewGuid());
 
             Assert.NotNull(outPut);
             repository.Verify(r=>r.GetById(It.IsAny<Guid>()),Times.Once);
@@ -48,7 +48,7 @@ namespace MShop.UnitTests.Application.UseCases.Image.GetImage
             var request = Faker(Guid.NewGuid());
 
             var useCase = new ApplicationUseCase.GetImage(notification.Object, repository.Object, storageService.Object);
-            var action = async () => await useCase.Handler(new GetImageInPut { id = Guid.NewGuid() });
+            var action = async () => await useCase.Handler(Guid.NewGuid());
 
             var exception = Assert.ThrowsAsync<ApplicationException>(action);
 

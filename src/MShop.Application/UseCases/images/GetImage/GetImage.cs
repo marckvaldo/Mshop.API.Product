@@ -23,9 +23,9 @@ namespace MShop.Application.UseCases.images.GetImage
             _imageRepository = imageRepository; 
         }
 
-        public async Task<GetImageOutPut> Handler(GetImageInPut request)
+        public async Task<ImageOutPut> Handler(Guid id)
         {
-            var image = await _imageRepository.GetById(request.id);
+            var image = await _imageRepository.GetById(id);
 
             if (image is null)
             {
@@ -33,7 +33,7 @@ namespace MShop.Application.UseCases.images.GetImage
                 throw new ApplicationException("");
             }
 
-            return new GetImageOutPut(image.ProductId, new ImageModelOutPut(image.FileName));
+            return new ImageOutPut(image.ProductId, new ImageModelOutPut(image.FileName));
         }
     }
 }

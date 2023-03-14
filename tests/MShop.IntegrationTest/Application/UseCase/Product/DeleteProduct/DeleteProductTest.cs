@@ -33,7 +33,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.DeleteProduct
             await _DbContext.SaveChangesAsync();
 
             var useCase = new ApplicationUseCase.DeleteProduct(_repository, _imagesRepository, notification);
-            await useCase.Handle(product.Id);
+            await useCase.Handler(product.Id);
 
             var productDbDelete = await CreateDBContext(true).Products.FindAsync(product.Id);
 

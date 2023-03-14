@@ -41,7 +41,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.ListProduct
                             dir: SearchOrder.Asc
                             );
 
-            var outPut = await useCase.Handle(request);
+            var outPut = await useCase.Handler(request);
 
             Assert.NotNull(outPut);
             Assert.Equal(productsFake.Count, outPut.Total);
