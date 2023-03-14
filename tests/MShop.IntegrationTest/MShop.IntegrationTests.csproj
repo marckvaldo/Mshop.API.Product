@@ -32,4 +32,8 @@
     <ProjectReference Include="..\..\src\MShop.Repository\MShop.Repository.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Repository\CategoryRepository\" />
+  </ItemGroup>
+
 </Project>
