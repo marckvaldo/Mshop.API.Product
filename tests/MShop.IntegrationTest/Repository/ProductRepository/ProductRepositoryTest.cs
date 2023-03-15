@@ -112,10 +112,10 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
         }
 
 
-        [Fact(DisplayName = nameof(SearchResultListAndTotal))]
+        [Fact(DisplayName = nameof(FilterPaginated))]
         [Trait("Integration - Infra.Data", "Product Repositorio")]
 
-        public async Task SearchResultListAndTotal()
+        public async Task FilterPaginated()
         {
              
             var productList = FakerList(20);
@@ -142,10 +142,10 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
         }
 
 
-        [Fact(DisplayName = nameof(SholdSearchResultListEmpty))]
+        [Fact(DisplayName = nameof(SholdResultListEmptyFilterPaginated))]
         [Trait("Integration - Infra.Data", "Product Repositorio")]
 
-        public async Task SholdSearchResultListEmpty()
+        public async Task SholdResultListEmptyFilterPaginated()
         {
             var perPage = 20;
             var input = new PaginatedInPut(1, perPage, "", "", SearchOrder.Asc);
@@ -156,6 +156,7 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
             Assert.True(outPut.Total == 0);
             Assert.Equal(input.PerPage, outPut.PerPage);
         }
+
 
         [Theory(DisplayName = nameof(SerachRestusPaginated))]
         [Trait("Integration - Infra.Data", "Product Repositorio")]

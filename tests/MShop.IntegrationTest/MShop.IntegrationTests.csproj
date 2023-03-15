@@ -33,7 +33,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Repository\CategoryRepository\" />
+    <Folder Include="Application\UseCase\Category\" />
+    <Folder Include="Application\UseCase\Images\" />
   </ItemGroup>
 
 </Project>
