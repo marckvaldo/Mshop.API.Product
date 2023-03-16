@@ -31,14 +31,10 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.GetProduct
         [Trait("Integration-Application", "Product Use Case")]
         public async Task GetProduct()
         {
-            //var notification = new Notifications();
-            
-
+           
             var productFake = Faker();
             await _productPersistence.Create(productFake);
-            //await _DbContext.Products.AddAsync(productFake);
-            //await _DbContext.SaveChangesAsync();
-
+           
             var guid = productFake.Id;
             var useCase = new ApplicationUseCase.GetProduct(_repository,  _imagesRepository ,_notification);
             var outPut = await useCase.Handler(guid);

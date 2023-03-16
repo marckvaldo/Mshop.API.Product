@@ -32,8 +32,4 @@
     <ProjectReference Include="..\..\src\MShop.Repository\MShop.Repository.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Application\UseCase\Images\" />
-  </ItemGroup>
-
 </Project>
