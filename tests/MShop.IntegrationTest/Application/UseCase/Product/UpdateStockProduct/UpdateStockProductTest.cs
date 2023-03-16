@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using ApplicationUseCase = MShop.Application.UseCases.Product.UpdateStockProduct;
 using MShop.Business.Interface.Service;
 using Moq;
+using MShop.Business.Interface;
 
 namespace MShop.IntegrationTests.Application.UseCase.Product.UpdateStockProduct
 {
@@ -18,6 +19,8 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.UpdateStockProduct
         private readonly CategoryRepository _categoryRepository;
         private readonly ImagesRepository _imageRepository;
         private readonly IStorageService _storageService;
+        private readonly INotification _notification;
+        private readonly ProductPersistence _productPersistence;
 
         public UpdateStockProductTest()
         {
@@ -26,6 +29,8 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.UpdateStockProduct
             _categoryRepository = new CategoryRepository(_DbContext);
             _imageRepository = new ImagesRepository(_DbContext);
             _storageService = new Mock<IStorageService>().Object;
+            _productPersistence = new ProductPersistence(_DbContext);
+            _notification = new Notifications();
         }
 
         [Fact(DisplayName = nameof(UpdateStockProduct))]
@@ -33,18 +38,20 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.UpdateStockProduct
 
         public async Task UpdateStockProduct()
         {
-            var notification = new Notifications();
+            //var notification = new Notifications();
 
             var product = Faker();
             var request = RequestFake();
 
-            await _DbContext.AddAsync(product);
-            await _DbContext.SaveChangesAsync();
+             await _productPersistence.Create(product);
+            //await _DbContext.AddAsync(product);
+            //await _DbContext.SaveChangesAsync();
 
-            var useCase = new ApplicationUseCase.UpdateStockProducts(_repository, notification);
+            var useCase = new ApplicationUseCase.UpdateStockProducts(_repository, _notification);
             var outPut = await useCase.Handler(request);
 
-            var productDb = await CreateDBContext(true).Products.AsNoTracking().Where(x => x.Id == product.Id).FirstAsync();
+            //var productDb = await CreateDBContext(true).Products.AsNoTracking().Where(x => x.Id == product.Id).FirstAsync();
+            var productDb = await _productPersistence.GetProduct(product.Id);
 
             Assert.NotNull(outPut);
             Assert.Equal(request.Stock, outPut.Stock);

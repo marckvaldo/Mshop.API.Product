@@ -30,7 +30,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.UpdateProduct
         }
 
         [Fact(DisplayName = nameof(UpdateProduct))]
-        [Trait("Integration-Infra.Data", "Product Use Case")]
+        [Trait("Integration-Application", "Product Use Case")]
 
         public async Task UpdateProduct()
         {

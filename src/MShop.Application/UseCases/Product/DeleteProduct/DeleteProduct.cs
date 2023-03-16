@@ -3,7 +3,7 @@ using MShop.Business.Exception;
 using MShop.Business.Exceptions;
 using MShop.Business.Interface;
 using MShop.Business.Interface.Repository;
-
+using MShop.Business.Interface.Service;
 
 namespace MShop.Application.UseCases.Product.DeleteProduct
 {
@@ -11,13 +11,16 @@ namespace MShop.Application.UseCases.Product.DeleteProduct
     {
         private readonly IProductRepository _productRespository;
         private readonly IImageRepository _imageRepository;
+        private readonly IStorageService _storageService;
  
         public DeleteProduct(IProductRepository productRespository, 
             IImageRepository imageRepository,
-            INotification notification):base(notification)
+            INotification notification,
+            IStorageService storageService):base(notification)
         {
             _productRespository = productRespository;
             _imageRepository = imageRepository;
+            _storageService = storageService;
         }
 
         public async Task<ProductModelOutPut> Handler(Guid request)
@@ -29,11 +32,12 @@ namespace MShop.Application.UseCases.Product.DeleteProduct
                 Notify($"Produto com id {request} não encontrado");
                 throw new ApplicationValidationException("");
             }
-
-            //implementar o delete images
+                      
 
             await _productRespository.DeleteById(product);
             await _imageRepository.DeleteByIdProduct(product.Id);
+            if(product?.Thumb?.Path is not null)
+                await _storageService.Delete(product.Thumb.Path);
 
             return new ProductModelOutPut(
                 product.Id, 

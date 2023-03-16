@@ -4,16 +4,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BusinessEntity = MShop.Business.Entity;
 using MShop.Application.UseCases.Product.CreateProducts;
 using MShop.Application.Common;
-using MShop.Business.Entity;
+using BusinessEntity = MShop.Business.Entity;
+using MShop.IntegrationTests.Application.UseCase.Product.Common;
 
 namespace MShop.IntegrationTests.Application.UseCase.Product.CreateProduct
 {
-    public abstract class CreateProductTestFixture : BaseFixture
+    public abstract class CreateProductTestFixture : ProductTestFixture
     {
-        private readonly Guid _categoryId;
+        /*private readonly Guid _categoryId;
         private readonly Guid _id;
         public CreateProductTestFixture() : base()
         {
@@ -25,6 +25,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.CreateProduct
         {
             return new FileInput("jpg", new MemoryStream(Encoding.ASCII.GetBytes(fakerStatic.Image.LoremPixelUrl())));
         }
+        */
 
         protected CreateProductInPut Faker()
         {
@@ -40,9 +41,6 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.CreateProduct
             };
         }
 
-        protected Category FakeCategory()
-        {
-            return new Category(faker.Commerce.Categories(1)[0]);
-        }
+        
     }
 }

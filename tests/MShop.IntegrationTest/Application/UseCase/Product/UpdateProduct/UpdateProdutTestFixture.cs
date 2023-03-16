@@ -8,12 +8,13 @@ using BusinessEntity = MShop.Business.Entity;
 using ApplicationUseCase = MShop.Application.UseCases.Product.UpdateProduct;
 using MShop.Business.ValueObject;
 using MShop.Application.Common;
+using MShop.IntegrationTests.Application.UseCase.Product.Common;
 
 namespace MShop.IntegrationTests.Application.UseCase.Product.UpdateProduct
 {
-    public class UpdateProdutTestFixture : BaseFixture
+    public class UpdateProdutTestFixture : ProductTestFixture
     {
-        private readonly Guid _categoryId;
+        /*private readonly Guid _categoryId;
         private readonly Guid _id;
         public UpdateProdutTestFixture() : base()
         {
@@ -36,11 +37,11 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.UpdateProduct
             product.Id = _id;
             return product;
         }
-
+        
         protected static FileInput ImageFake()
         {
             return new FileInput("jpg", new MemoryStream(Encoding.ASCII.GetBytes(fakerStatic.Image.LoremPixelUrl())));
-        }
+        }*/
 
         protected ApplicationUseCase.UpdateProductInPut RequestFake()
         {

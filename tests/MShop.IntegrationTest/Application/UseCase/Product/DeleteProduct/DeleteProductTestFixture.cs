@@ -6,20 +6,21 @@ using System.Text;
 using System.Threading.Tasks;
 using BusinessEntity = MShop.Business.Entity;
 using MShop.Business.ValueObject;
+using MShop.IntegrationTests.Application.UseCase.Product.Common;
 
 namespace MShop.IntegrationTests.Application.UseCase.Product.DeleteProduct
 {
-    public class DeleteProductTestFixture : BaseFixture
+    public class DeleteProductTestFixture : ProductTestFixture
     {
-        private readonly Guid _categoryId;
+        /*private readonly Guid _categoryId;
         private readonly Guid _id;
         public DeleteProductTestFixture() : base()
         {
             _categoryId = Guid.NewGuid();
             _id = Guid.NewGuid();
-        }
+        }*/
 
-        protected BusinessEntity.Product Faker()
+       /* protected BusinessEntity.Product Faker()
         {
             var product = (new BusinessEntity.Product
             (
@@ -32,7 +33,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.DeleteProduct
             ));
             product.Id = _id;
             return product;
-        }
+        }*/
 
 
     }

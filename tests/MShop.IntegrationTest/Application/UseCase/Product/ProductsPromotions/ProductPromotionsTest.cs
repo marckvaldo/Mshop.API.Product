@@ -8,6 +8,7 @@ using MShop.Repository.Repository;
 using Mshop.Cache.RepositoryRedis;
 using MShop.Business.Entity;
 using MShop.Business.Exception;
+using MShop.Business.Interface;
 
 namespace MShop.IntegrationTests.Application.UseCase.Product.ProductsPromotions
 {
@@ -19,6 +20,9 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.ProductsPromotions
         private readonly IDistributedCache _cacheMemory;
         private readonly RepositoryDbContext _DbContext;
         private readonly RedisRepository _redisRepository;
+        private readonly INotification _notification;
+        private readonly ProductPersistence _productPersistence;
+
 
         public ProductPromotionsTest()
         {
@@ -26,6 +30,8 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.ProductsPromotions
             _cacheMemory = CreateCache();
             _productRepository = new(_DbContext);
             _redisRepository = new(_cacheMemory);
+            _productPersistence = new ProductPersistence(_DbContext);
+            _notification = new Notifications();
         }
 
         [Fact(DisplayName = nameof(ProductionPromotions))]
@@ -33,17 +39,18 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.ProductsPromotions
 
         public async void ProductionPromotions()
         {
-            var notification = new Notifications();
+            //var notification = new Notifications();
 
             var productsFake = FakerList(20);
-            await _DbContext.Products.AddRangeAsync(productsFake);
-            await _DbContext.SaveChangesAsync();
+            await _productPersistence.CreateList(productsFake);
+            //await _DbContext.Products.AddRangeAsync(productsFake);
+            //await _DbContext.SaveChangesAsync();
 
-            var useCase = new useCaseProducts.ProductsPromotions(_redisRepository, _productRepository, notification);
+            var useCase = new useCaseProducts.ProductsPromotions(_redisRepository, _productRepository, _notification);
             var outPut = await useCase.Handler();
 
             Assert.NotNull(outPut);
-            Assert.False(notification.HasErrors()); 
+            Assert.False(_notification.HasErrors()); 
 
             foreach (var item in outPut)
             {
@@ -64,13 +71,13 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.ProductsPromotions
 
         public async Task sholdReturErrorWhenCatGetProductionPromotions()
         {
-            var notification = new Notifications();
+            //var notification = new Notifications();
 
-            var useCase = new useCaseProducts.ProductsPromotions(_redisRepository, _productRepository, notification);
+            var useCase = new useCaseProducts.ProductsPromotions(_redisRepository, _productRepository, _notification);
             var outPut = async () => await useCase.Handler();
 
             var exception = Assert.ThrowsAsync<NotFoundException>(outPut);
-            Assert.False(notification.HasErrors());
+            Assert.False(_notification.HasErrors());
 
         }
     }
