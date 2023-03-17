@@ -42,4 +42,8 @@
     <ProjectReference Include="..\..\src\MShop.ProductAPI\MShop.ProductAPI.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="API\Categoria\Common\" />
+  </ItemGroup>
+
 </Project>

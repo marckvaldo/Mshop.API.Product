@@ -48,9 +48,9 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.CreateProduct
             var request = Faker();
             var categoryFake = FakeCategory();
 
-            /*_DbContext.Categorys.Add(categoryFake);
+            /*_DbContext.Categories.Add(categoryFake);
             await _DbContext.SaveChangesAsync();
-            var categoryDb = _DbContext.Categorys.FirstOrDefault();
+            var categoryDb = _DbContext.Categories.FirstOrDefault();
 
             Assert.NotNull(categoryDb);           
             request.CategoryId = categoryDb.Id;*/

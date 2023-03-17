@@ -13,7 +13,6 @@ using System.Text;
 using System.Threading.Tasks;
 using MShop.Business.Enum.Paginated;
 using ApplicationUseCase = MShop.Application.UseCases.images.ListImage;
-using MShop.Application.UseCases.Product.ListProducts;
 
 namespace MShop.IntegrationTests.Application.UseCase.Images.ListImage
 {

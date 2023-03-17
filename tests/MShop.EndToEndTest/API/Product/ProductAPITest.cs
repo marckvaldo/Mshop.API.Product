@@ -6,8 +6,9 @@ using MShop.Application.UseCases.Product.ListProducts;
 using MShop.EndToEndTest.API.Product.Common;
 using MShop.Repository.Context;
 using MShop.Business.Enum.Paginated;
-using MShop.EndToEndTest.API.Category;
+//using MShop.EndToEndTest.API.Category;
 using MShop.Application.UseCases.Category.CreateCategory;
+using MShop.EndToEndTest.API.Common;
 
 namespace MShop.EndToEndTest.API.Product
 {

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using MShop.Application.UseCases.Category.CreateCategory;
 using MShop.Application.UseCases.Category.UpdateCategory;
 
-namespace MShop.EndToEndTest.API.Category
+namespace MShop.EndToEndTest.API.Categoria
 {
     public class CategoryAPITestFixture : BaseFixture
     {
@@ -28,11 +28,11 @@ namespace MShop.EndToEndTest.API.Category
 
         protected BusinessEntity.Category Faker()
         {
-            var product = (new BusinessEntity.Category
+            var product = new BusinessEntity.Category
             (
-                faker.Commerce.ProductName(),                
+                faker.Commerce.ProductName(),
                 true
-            ));
+            );
             return product;
         }
 

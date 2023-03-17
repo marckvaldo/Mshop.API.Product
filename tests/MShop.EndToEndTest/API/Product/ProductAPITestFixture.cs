@@ -7,9 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MShop.Application.UseCases.Product.CreateProducts;
-using MShop.EndToEndTest.API.Category;
 using MShop.Business.ValueObject;
 using MShop.Application.Common;
+using MShop.EndToEndTest.API.Categoria;
 
 namespace MShop.EndToEndTest.API.Product
 {

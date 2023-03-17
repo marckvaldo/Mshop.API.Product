@@ -20,17 +20,17 @@ namespace MShop.IntegrationTests.Repository.CategoryRepository
 
         public async Task<Category?> GetCategory(Guid id)
         {
-            return await _context.Categorys.AsNoTracking().FirstOrDefaultAsync(x=>x.Id == id);
+            return await _context.Categories.AsNoTracking().FirstOrDefaultAsync(x=>x.Id == id);
         }
 
         public async Task<IEnumerable<Category>> GetAllCategories() 
         {
-            return await _context.Categorys.ToListAsync();
+            return await _context.Categories.ToListAsync();
         }
 
         public async void Create(Category category)
         {
-            await _context.Categorys.AddAsync(category);
+            await _context.Categories.AddAsync(category);
             await _context.SaveChangesAsync();
         }
 

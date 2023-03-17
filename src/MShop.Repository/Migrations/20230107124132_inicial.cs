@@ -13,7 +13,7 @@ namespace MShop.Repository.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Categorys",
+                name: "Categories",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
@@ -53,7 +53,7 @@ namespace MShop.Repository.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Categorys");
+                name: "Categories");
 
             migrationBuilder.DropTable(
                 name: "Products");

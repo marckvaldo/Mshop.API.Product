@@ -34,7 +34,7 @@ namespace MShop.Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categorys", (string)null);
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("MShop.Business.Entity.Product", b =>

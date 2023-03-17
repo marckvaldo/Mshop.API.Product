@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MShop.EndToEndTest.API.Product.Common
+namespace MShop.EndToEndTest.API.Common
 {
     public class CustomResponse<TResult>
     {
@@ -20,6 +20,6 @@ namespace MShop.EndToEndTest.API.Product.Common
             Success = success;
         }
 
-        
+
     }
 }

@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BusinessEntity = MShop.Business.Entity;
 
-namespace MShop.EndToEndTest.API.Category
+namespace MShop.EndToEndTest.API.Categoria
 {
     public class CategoryPersistence
     {
@@ -21,7 +21,7 @@ namespace MShop.EndToEndTest.API.Category
         public async Task<BusinessEntity.Category?> GetById(Guid id)
         {
             return await _context.
-                Categorys.    
+                Categories.
                 AsNoTracking().
                 FirstOrDefaultAsync(x => x.Id == id);
         }
@@ -29,14 +29,14 @@ namespace MShop.EndToEndTest.API.Category
         public async Task<BusinessEntity.Category?> GetByIdName(string name)
         {
             return await _context.
-                Categorys.
+                Categories.
                 AsNoTracking().
                 FirstOrDefaultAsync(x => x.Name == name);
         }
 
         public async Task<List<BusinessEntity.Category?>> List()
         {
-            return await _context.Categorys.ToListAsync();
+            return await _context.Categories.ToListAsync();
         }
 
         public async Task Create(BusinessEntity.Category request)

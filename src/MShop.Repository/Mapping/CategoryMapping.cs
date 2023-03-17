@@ -19,7 +19,7 @@ namespace MShop.Repository.Mapping
                 .IsRequired()
                 .HasColumnType("varchar(30)");
 
-            builder.ToTable("Categorys");
+            builder.ToTable("Categories");
         }       
     }
 }

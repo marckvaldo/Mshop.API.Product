@@ -39,7 +39,7 @@ namespace MShop.IntegrationTests.Repository.CategoryRepository
             var request = Faker();
             await _categoryRepository.Create(request);
 
-            var newCategory = await CreateDBContext(true).Categorys.FindAsync(request.Id);
+            var newCategory = await CreateDBContext(true).Categories.FindAsync(request.Id);
 
             Assert.NotNull(newCategory);
             Assert.Equal(newCategory.Name, request.Name);
