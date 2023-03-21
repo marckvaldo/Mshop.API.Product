@@ -55,9 +55,9 @@ namespace MShop.ProductAPI.Controllers
         }
 
         [HttpGet("list-category")]
-        public async Task<ActionResult<List<CategoryModelOutPut>>> ListCategory()
+        public async Task<ActionResult<List<CategoryModelOutPut>>> ListCategory(ListCategoryInPut request)
         {
-            return CustomResponse(await _listCategory.Handler());   
+            return CustomResponse(await _listCategory.Handler(request));   
         }
 
 

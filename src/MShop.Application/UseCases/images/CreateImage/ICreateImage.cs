@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MShop.Application.UseCases.images.CreateImage
 {
-    internal interface ICreateImage
+    public interface ICreateImage
     {
         Task<CreateImageOutPut> Handler(CreateImageInPut request);
     }

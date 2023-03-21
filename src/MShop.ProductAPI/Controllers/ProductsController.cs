@@ -49,21 +49,21 @@ namespace MShop.ProductAPI.Controllers
         public async Task<ActionResult<IEnumerable<ProductModelOutPut>>> Product(Guid id)
         {
 
-            return CustomResponse(await _getProduct.Handle(id));
+            return CustomResponse(await _getProduct.Handler(id));
         
         }
 
         [HttpGet("list-products")]
         public async Task<ActionResult<List<ProductModelOutPut>>> ListProdutcs([FromQuery] ListProductInPut request)
         {
-            return CustomResponse(await _listProducts.Handle(request));
+            return CustomResponse(await _listProducts.Handler(request));
         }
 
         [HttpGet("list-products-promotions")]
         public async Task<ActionResult<List<ProductModelOutPut>>> ListProdutcsPromotions()
         {
  
-            return CustomResponse(await _productPromotions.Handle());
+            return CustomResponse(await _productPromotions.Handler());
         
         }
 
@@ -72,7 +72,7 @@ namespace MShop.ProductAPI.Controllers
         {
  
             if (!ModelState.IsValid) return CustomResponse(ModelState);
-            return CustomResponse(await _createProduct.Handle(product));
+            return CustomResponse(await _createProduct.Handler(product));
        
         }
 
@@ -88,7 +88,7 @@ namespace MShop.ProductAPI.Controllers
                 return CustomResponse(product);
             }
 
-            return CustomResponse(await _updateProduct.Handle(product));
+            return CustomResponse(await _updateProduct.Handler(product));
         
         }
 
@@ -96,7 +96,7 @@ namespace MShop.ProductAPI.Controllers
         public async Task<ActionResult<ProductModelOutPut>> Delete(Guid Id)
         {
 
-            return CustomResponse(await _deleteProduct.Handle(Id));
+            return CustomResponse(await _deleteProduct.Handler(Id));
         
         }
 
@@ -113,7 +113,7 @@ namespace MShop.ProductAPI.Controllers
                 return CustomResponse(product);
             }
 
-            return CustomResponse(await _updateStoqueProduct.Handle(product));
+            return CustomResponse(await _updateStoqueProduct.Handler(product));
         
         }
     }

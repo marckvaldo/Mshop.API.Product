@@ -14,10 +14,10 @@ namespace MShop.EndToEndTest.API.Categoria
     public class CategoryAPITest : CategoryAPITestFixture
     {
 
-        [Fact(DisplayName = "")]
-        [Trait("","")]
+        [Fact(DisplayName = nameof(CrateCategory))]
+        [Trait("EndToEnd/API", "Category - Endpoints")]
 
-        public async void CrudCategory()
+        public async void CrateCategory()
         {
             var request = RequestCreate();
             var (response, outPut) = await apiClient.Post<CustomResponse<CategoryModelOutPut>>(Configuration.URL_API_CATEGORY, request);
@@ -28,7 +28,32 @@ namespace MShop.EndToEndTest.API.Categoria
             Assert.True(outPut.Success);
             Assert.Equal(outPut.Data.Name, request.Name);
             Assert.Equal(outPut.Data.IsActive, request.IsActive);
-            
+
+            var dbCategory = await Persistence.GetById(outPut.Data.Id);
+
+            Assert.NotNull(dbCategory);
+            Assert.Equal(dbCategory.Name, request.Name);
+            //Assert.Equal(dbProduct.Thumb.Path, request.Imagem);
+            Assert.Equal(dbCategory.IsActive, request.IsActive);
+
+        }
+
+
+        [Fact(DisplayName = nameof(DeleteCategory))]
+        [Trait("EndToEnd/API", "Category - Endpoints")]
+
+        public async void DeleteCategory()
+        {
+            var request = RequestCreate();
+            var (response, outPut) = await apiClient.Post<CustomResponse<CategoryModelOutPut>>(Configuration.URL_API_CATEGORY, request);
+
+            Assert.NotNull(request);
+            Assert.Equal(System.Net.HttpStatusCode.OK, response?.StatusCode);
+            Assert.NotNull(outPut);
+            Assert.True(outPut.Success);
+            Assert.Equal(outPut.Data.Name, request.Name);
+            Assert.Equal(outPut.Data.IsActive, request.IsActive);
+
         }
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MShop.Application.UseCases.images.GetImage
 {
-    internal interface IGetImage
+    public interface IGetImage
     {
         Task<ImageOutPut> Handler(Guid id);
     }
