@@ -29,8 +29,8 @@ namespace MShop.Application.UseCases.Category.ListCategorys
                 request.Page, 
                 request.PerPage, 
                 request.Search, 
-                request.OrderBy,
-                request.Order);
+                request.Sort,
+                request.Dir);
 
             var categorys = await _categoryRepositiry.FilterPaginated(paginate);
 
