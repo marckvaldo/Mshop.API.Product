@@ -33,7 +33,6 @@ namespace MShop.EndToEndTest.API.Categoria
 
             Assert.NotNull(dbCategory);
             Assert.Equal(dbCategory.Name, request.Name);
-            //Assert.Equal(dbProduct.Thumb.Path, request.Imagem);
             Assert.Equal(dbCategory.IsActive, request.IsActive);
 
         }
