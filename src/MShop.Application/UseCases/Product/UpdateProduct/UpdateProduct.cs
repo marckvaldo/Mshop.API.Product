@@ -7,6 +7,7 @@ using System.ComponentModel.DataAnnotations;
 using MShop.Business.ValueObject;
 using MShop.Application.UseCases.Product.CreateProducts;
 using MShop.Business.Interface.Service;
+using MShop.Application.Common;
 
 namespace MShop.Application.UseCases.Product.UpdateProduct
 {
@@ -62,7 +63,8 @@ namespace MShop.Application.UseCases.Product.UpdateProduct
         {
             if (request.Thumb is not null)
             {
-                var urlThumb = await _storageService.Upload($"{product.Id}-thumb.{request.Thumb.Extension}", request.Thumb.FileStrem);
+                var thumb = Helpers.Base64ToStream(request.Thumb.FileStremBase64);
+                var urlThumb = await _storageService.Upload($"{product.Id}-thumb.{request.Thumb.Extension}", thumb.FileStrem);
                 product.UpdateThumb(urlThumb);
             }
         }

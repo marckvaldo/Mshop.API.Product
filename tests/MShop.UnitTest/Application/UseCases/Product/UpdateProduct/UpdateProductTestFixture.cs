@@ -10,6 +10,7 @@ using ApplicationUseCase = MShop.Application.UseCases.Product.UpdateProduct;
 using MShop.Application.UseCases.Product.Common;
 using MShop.Business.ValueObject;
 using MShop.Application.Common;
+using MShop.UnitTests.Common;
 
 namespace Mshop.Tests.Application.UseCases.Product.UpdateProduct
 {
@@ -28,6 +29,11 @@ namespace Mshop.Tests.Application.UseCases.Product.UpdateProduct
             return new FileInput("jpg", new MemoryStream(Encoding.ASCII.GetBytes(fakerStatic.Image.LoremPixelUrl())));
         }
 
+        protected static FileInputBase64 ImageFake64()
+        {
+            return new FileInputBase64("jpg", FileFakerBase64.IMAGE64);
+        }
+
         protected ApplicationUseCase.UpdateProductInPut ProductInPut()
         {
             return new ApplicationUseCase.UpdateProductInPut
@@ -36,7 +42,7 @@ namespace Mshop.Tests.Application.UseCases.Product.UpdateProduct
                 Name = Faker().Name,
                 Description = Faker().Description,
                 Price = Faker().Price,
-                Thumb = ImageFake(),
+                Thumb = ImageFake64(),
                 CategoryId = Faker().CategoryId,
                 IsActive = Faker().IsActive
             };
@@ -102,7 +108,7 @@ namespace Mshop.Tests.Application.UseCases.Product.UpdateProduct
                 Name = fakerStatic.Commerce.ProductName(),
                 Description = description,
                 Price = Convert.ToDecimal(fakerStatic.Commerce.Price()),
-                Thumb = ImageFake(),
+                Thumb = ImageFake64(),
                 CategoryId = Guid.NewGuid(),
                 IsActive = true
             };
@@ -120,7 +126,7 @@ namespace Mshop.Tests.Application.UseCases.Product.UpdateProduct
                 Name = fakerStatic.Commerce.ProductName(),
                 Description = description,
                 Price = Convert.ToDecimal(fakerStatic.Commerce.Price()),
-                Thumb = ImageFake(),
+                Thumb = ImageFake64(),
                 CategoryId = Guid.NewGuid(),
                 IsActive = true
             };
@@ -141,7 +147,7 @@ namespace Mshop.Tests.Application.UseCases.Product.UpdateProduct
                 Name = name,
                 Description = fakerStatic.Commerce.ProductDescription(),
                 Price = Convert.ToDecimal(fakerStatic.Commerce.Price()),
-                Thumb = ImageFake(),
+                Thumb = ImageFake64(),
                 CategoryId = Guid.NewGuid(),
                 IsActive = true
             };
@@ -159,7 +165,7 @@ namespace Mshop.Tests.Application.UseCases.Product.UpdateProduct
                 Name = name,
                 Description = fakerStatic.Commerce.ProductDescription(),
                 Price = Convert.ToDecimal(fakerStatic.Commerce.Price()),
-                Thumb = ImageFake(),
+                Thumb = ImageFake64(),
                 CategoryId = Guid.NewGuid(),
                 IsActive = true
             };

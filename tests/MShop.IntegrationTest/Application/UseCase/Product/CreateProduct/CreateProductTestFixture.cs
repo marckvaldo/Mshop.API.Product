@@ -13,20 +13,6 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.CreateProduct
 {
     public abstract class CreateProductTestFixture : ProductTestFixture
     {
-        /*private readonly Guid _categoryId;
-        private readonly Guid _id;
-        public CreateProductTestFixture() : base()
-        {
-            _categoryId = Guid.NewGuid();
-            _id = Guid.NewGuid();
-        }
-
-        protected static FileInput ImageFake()
-        {
-            return new FileInput("jpg", new MemoryStream(Encoding.ASCII.GetBytes(fakerStatic.Image.LoremPixelUrl())));
-        }
-        */
-
         protected CreateProductInPut Faker()
         {
             return new CreateProductInPut
@@ -34,7 +20,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.CreateProduct
                 Name = faker.Commerce.ProductName(),
                 Description = faker.Commerce.ProductDescription(),
                 Price = Convert.ToDecimal(faker.Commerce.Price()),
-                Thumb = ImageFake(),
+                Thumb = ImageFake64(),
                 CategoryId = _categoryId,
                 Stock = faker.Random.UInt(),
                 IsActive = true

@@ -82,17 +82,15 @@ namespace MShop.EndToEndTest.API.Categoria
             var request = Faker();
             request.Id = category.Id;
 
-            var (response, outPut) = await apiClient.Delete<CustomResponse<CategoryModelOutPut>>(Configuration.URL_API_CATEGORY);
+            var (response, outPut) = await apiClient.Delete<CustomResponse<CategoryModelOutPut>>($"{Configuration.URL_API_CATEGORY}{request.Id}");
 
             var categoryDb = await Persistence.GetById(category.Id);  
 
-            Assert.NotNull(categoryDb);
+            Assert.Null(categoryDb);
             Assert.NotNull(response);
             Assert.NotNull(outPut); 
             Assert.True(outPut.Success);    
             Assert.Equal(System.Net.HttpStatusCode.OK,response.StatusCode);
-            Assert.Equal(categoryDb.Name, outPut.Data.Name);
-            Assert.Equal(categoryDb.IsActive, outPut.Data.IsActive);
         }
 
 

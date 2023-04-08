@@ -1,6 +1,8 @@
 ﻿using Mshop.Test.Common;
 using MShop.Application.Common;
 using MShop.Application.UseCases.Product.CreateProducts;
+using MShop.UnitTests.Common;
+using System.Runtime.CompilerServices;
 using System.Text;
 using ApplicationUseCase = MShop.Application.UseCases.Product.CreateProducts;
 
@@ -22,14 +24,13 @@ namespace Mshop.Tests.Application.UseCases.Product.CreateProduct
                 Name = faker.Commerce.ProductName(),
                 Description = faker.Commerce.ProductDescription(),
                 Price = Convert.ToDecimal(faker.Commerce.Price()),
-                Thumb = ImageFake(),
+                Thumb = ImageFake64(),
                 CategoryId = _categoryId,
                 Stock = faker.Random.UInt(),
                 IsActive = true
             };
         }
 
-       
 
         protected CreateProductInPut Faker(string description, string name, decimal price, string imagem, Guid categoryId, decimal stock, bool isActive = true)
         {
@@ -38,7 +39,7 @@ namespace Mshop.Tests.Application.UseCases.Product.CreateProduct
                 Name = name,
                 Description = description,
                 Price = price,
-                Thumb = ImageFake(),
+                Thumb = ImageFake64(),
                 CategoryId = categoryId,
                 Stock = stock,
                 IsActive = isActive
@@ -48,6 +49,11 @@ namespace Mshop.Tests.Application.UseCases.Product.CreateProduct
         protected static FileInput ImageFake()
         {
             return new FileInput("jpg", new MemoryStream(Encoding.ASCII.GetBytes(fakerStatic.Image.LoremPixelUrl())));
+        }
+
+        protected static FileInputBase64 ImageFake64()
+        {
+            return new FileInputBase64("jpg", FileFakerBase64.IMAGE64);
         }
 
         public static IEnumerable<object[]> GetCreateProductInPutInvalid()
@@ -75,7 +81,7 @@ namespace Mshop.Tests.Application.UseCases.Product.CreateProduct
                 CategoryId = Guid.NewGuid(),
                 Stock = fakerStatic.Random.UInt(),
                 IsActive = true,
-                Thumb = ImageFake()
+                Thumb = ImageFake64()
             };
 
         }
@@ -91,7 +97,7 @@ namespace Mshop.Tests.Application.UseCases.Product.CreateProduct
                 Name = fakerStatic.Commerce.ProductName(),
                 Description = description,
                 Price = Convert.ToDecimal(fakerStatic.Commerce.Price()),
-                Thumb = ImageFake(),
+                Thumb = ImageFake64(),
                 CategoryId = Guid.NewGuid(),
                 Stock = fakerStatic.Random.UInt(),
                 IsActive = true
@@ -113,7 +119,7 @@ namespace Mshop.Tests.Application.UseCases.Product.CreateProduct
                 Name = name,
                 Description = fakerStatic.Commerce.ProductDescription(),
                 Price = Convert.ToDecimal(fakerStatic.Commerce.Price()),
-                Thumb = ImageFake(),
+                Thumb = ImageFake64(),
                 CategoryId = Guid.NewGuid(),
                 Stock = fakerStatic.Random.UInt(),
                 IsActive = true
@@ -132,7 +138,7 @@ namespace Mshop.Tests.Application.UseCases.Product.CreateProduct
                 Name = name,
                 Description = fakerStatic.Commerce.ProductDescription(),
                 Price = Convert.ToDecimal(fakerStatic.Commerce.Price()),
-                Thumb = ImageFake(),
+                Thumb = ImageFake64(),
                 CategoryId = Guid.NewGuid(),
                 Stock = fakerStatic.Random.UInt(),
                 IsActive = true
@@ -140,8 +146,5 @@ namespace Mshop.Tests.Application.UseCases.Product.CreateProduct
 
         }
 
-
-
-    
     }
 }

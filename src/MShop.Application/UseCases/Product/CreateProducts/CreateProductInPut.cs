@@ -21,7 +21,7 @@ namespace MShop.Application.UseCases.Product.CreateProducts
 
         public Guid CategoryId { get; set; }
 
-        public FileInput? Thumb { get; set; }
+        public FileInputBase64? Thumb { get; set; }
 
     }
 }

@@ -36,7 +36,6 @@ namespace MShop.Application.UseCases.Product.GetProduct
             var images = await _imageRepository.Filter(x => x.ProductId == product.Id);
 
             //implementar o delete de images
-
             return new GetProductOutPut(
                 product.Id,
                 product.Description,

@@ -26,7 +26,11 @@ namespace MShop.EndToEndTest.Common
         {
             var response = await _httpCliente.PostAsync(
                 route,
-                new StringContent(JsonSerializer.Serialize(payload),Encoding.UTF8,"application/json")
+                new StringContent(
+                    JsonSerializer.Serialize(payload),
+                    Encoding.UTF8,
+                    "application/json"
+                    )
                 );
 
             var outputString = await response.Content.ReadAsStringAsync();
@@ -54,7 +58,7 @@ namespace MShop.EndToEndTest.Common
                 new StringContent(
                     JsonSerializer.Serialize(payload), Encoding.UTF8, "application/json"
                 ));
-
+            
             var outputString = await response.Content.ReadAsStringAsync();
 
             if (string.IsNullOrWhiteSpace(outputString))

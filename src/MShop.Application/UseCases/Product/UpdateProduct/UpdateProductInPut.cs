@@ -18,7 +18,7 @@ namespace MShop.Application.UseCases.Product.UpdateProduct
 
         public decimal Price { get; set; }
 
-        public FileInput? Thumb { get; set; }
+        public FileInputBase64? Thumb { get; set; }
 
         public bool IsActive { get; set; }
 

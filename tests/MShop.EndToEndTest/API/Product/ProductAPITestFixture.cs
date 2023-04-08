@@ -77,6 +77,11 @@ namespace MShop.EndToEndTest.API.Product
             return new FileInput("jpg", new MemoryStream(Encoding.ASCII.GetBytes(fakerStatic.Image.LoremPixelUrl())));
         }
 
+        protected static FileInputBase64 ImageFake64()
+        {
+            return new FileInputBase64("jpg", FileFakerBase64.IMAGE64);
+        }
+
         public async Task<CreateProductInPut> RequestCreate()
         {
             var fakerProduct = await Faker();
@@ -84,7 +89,7 @@ namespace MShop.EndToEndTest.API.Product
             {
                 Name = fakerProduct.Name,
                 CategoryId = _categoryId,
-                Thumb = ImageFake(),
+                Thumb = ImageFake64(),
                 IsActive = true,
                 Description = fakerProduct.Description,
                 Price = fakerProduct.Price,
@@ -99,7 +104,7 @@ namespace MShop.EndToEndTest.API.Product
             {
                 Name = fakerProduct.Name,
                 CategoryId = _categoryId,
-                Thumb = ImageFake(),
+                Thumb = ImageFake64(),
                 IsActive = true,
                 Description = fakerProduct.Description,
                 Price = fakerProduct.Price,
