@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using BusinessEntity = MShop.Business.Entity;
 using ApplicationUseCase = MShop.Application.UseCases.images;
 using MShop.Application.Common;
+using MShop.UnitTests.Common;
 
 namespace MShop.UnitTests.Application.UseCases.Image.Common
 {
@@ -38,6 +39,16 @@ namespace MShop.UnitTests.Application.UseCases.Image.Common
             List<FileInput> listImage = new List<FileInput>();
             for (int i = 0; i <= quantity; i++)
                 listImage.Add(ImageFaker());
+
+            return listImage;
+        }
+
+
+        public List<FileInputBase64> ImageFakers64(int quantity)
+        {
+            var listImage = new List<FileInputBase64>();
+            for (int i = 0; i <= quantity; i++)
+                listImage.Add(ImageFake64());
 
             return listImage;
         }

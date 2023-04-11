@@ -12,7 +12,7 @@ namespace MShop.UnitTests.Application.UseCases.Image.CreateImage
 {
     public class CreateImageTestFixture : ImageBaseFixtureTest
     {
-        public CreateImageInPut FakerRequest(Guid productId, List<FileInput> images)
+        public CreateImageInPut FakerRequest(Guid productId, List<FileInputBase64> images)
         {
             return new CreateImageInPut
             {

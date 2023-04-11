@@ -49,10 +49,10 @@ namespace MShop.IntegrationTests.Application.UseCase.Images.ListImage
 
             Assert.NotNull(outPut);
             Assert.Equal(imagesFake.Count, quantity);
-            Assert.Equal(outPut.ImageName.Count, quantity);
-            foreach (var item in outPut.ImageName) 
+            Assert.Equal(outPut.Images.Count, quantity);
+            foreach (var item in outPut.Images) 
             {
-                var image = outPut.ImageName.Where(i => i.Image == item.Image);
+                var image = outPut.Images.Where(i => i.Image == item.Image);
                 Assert.NotNull(image);
             }
         }

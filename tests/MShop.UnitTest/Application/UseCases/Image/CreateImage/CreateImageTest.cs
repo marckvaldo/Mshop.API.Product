@@ -25,7 +25,7 @@ namespace MShop.UnitTests.Application.UseCases.Image.CreateImage
             var storageService = new Mock<IStorageService>();
 
             var id = Guid.NewGuid();
-            var images = ImageFakers(3);
+            var images = ImageFakers64(3);
             var request = FakerRequest(id, images);
 
             var useCase = new ApplicationUseCase.CreateImage(repository.Object,storageService.Object,notification.Object);
@@ -33,7 +33,7 @@ namespace MShop.UnitTests.Application.UseCases.Image.CreateImage
 
             Assert.NotNull(outPut);
             Assert.Equal(outPut.ProductId, id);
-            Assert.NotNull(outPut.Image);
+            Assert.NotNull(outPut.Images);
             
         }
 
@@ -48,7 +48,7 @@ namespace MShop.UnitTests.Application.UseCases.Image.CreateImage
             var storageService = new Mock<IStorageService>();
 
             var id = Guid.NewGuid();
-            var images = ImageFakers(3);
+            var images = ImageFakers64(3);
             var request = FakerRequest(id, images);
 
             request.Images = null;

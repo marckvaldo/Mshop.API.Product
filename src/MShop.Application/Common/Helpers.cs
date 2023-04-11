@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MShop.Application.Common
 {
-    static class Helpers
+    public static class Helpers
     {
         /*Files*/
         public static string GetExtensionBase64(string file)
@@ -52,7 +52,7 @@ namespace MShop.Application.Common
                 return "";
 
             //return value.Substring(adjustedPosA, posB - adjustedPosA);
-            return value[adjustedPosA..(posB - adjustedPosA)];
+            return value[adjustedPosA..(posB)];
         }
 
         public static string StringBefore(this string value, string a)

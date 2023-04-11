@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
+using MShop.Application.Common;
 using MShop.Repository.Context;
 using System;
 using System.Collections.Generic;
@@ -62,6 +63,10 @@ namespace MShop.IntegrationTests.Common
             return memoryCache;
         }
 
-        
+
+        protected static FileInputBase64 ImageFake64()
+        {
+            return new FileInputBase64(FileFakerBase64.IMAGE64);
+        }
     }
 }

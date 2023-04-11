@@ -79,7 +79,7 @@ namespace MShop.EndToEndTest.API.Product
 
         protected static FileInputBase64 ImageFake64()
         {
-            return new FileInputBase64("jpg", FileFakerBase64.IMAGE64);
+            return new FileInputBase64(FileFakerBase64.IMAGE64);
         }
 
         public async Task<CreateProductInPut> RequestCreate()

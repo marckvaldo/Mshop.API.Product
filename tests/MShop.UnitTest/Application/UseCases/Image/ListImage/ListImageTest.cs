@@ -40,7 +40,7 @@ namespace MShop.UnitTests.Application.UseCases.Image.ListImage
             repository.Verify(r => r.Filter(It.IsAny<Expression<Func<BusinessEntity.Image, bool>>>()), Times.Once);
             Assert.NotNull(outPut);
 
-            foreach (var item in outPut.ImageName) 
+            foreach (var item in outPut.Images) 
             {
                 var image = imagens.Where(x=>x.FileName == item.Image).FirstOrDefault();   
 

@@ -5,18 +5,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MShop.Application.UseCases.images.CreateImage
+namespace MShop.Application.UseCases.images.Common
 {
-    public class CreateImageOutPut
+    public class ListImageOutPut
     {
-        public CreateImageOutPut(Guid productId, List<ImageModelOutPut> image)
+        public ListImageOutPut(Guid productId, List<ImageModelOutPut> images)
         {
             ProductId = productId;
-            Image = image;
+            Images = images;
         }
 
         public Guid ProductId { get; set; }
 
-        public List<ImageModelOutPut> Image { get; set; }
+        public List<ImageModelOutPut> Images { get; set; }
     }
 }

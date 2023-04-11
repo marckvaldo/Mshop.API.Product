@@ -45,7 +45,6 @@ namespace Mshop.Tests.Application.UseCases.Product.UpdateProduct
             Assert.NotNull(outPut);
             Assert.Equal(outPut.Name, request.Name);
             Assert.Equal(outPut.Description, request.Description);
-            Assert.Equal(outPut.Thumb, $"{outPut.Id}-thumb.{request.Thumb?.Extension}");
             Assert.Equal(outPut.Price, request.Price);
             Assert.Equal(outPut.CategoryId, request.CategoryId);
 

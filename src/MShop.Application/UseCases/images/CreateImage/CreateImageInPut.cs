@@ -9,7 +9,7 @@ namespace MShop.Application.UseCases.images.CreateImage
 {
     public class CreateImageInPut
     {
-        public List<FileInput>? Images {get; set; }
+        public List<FileInputBase64>? Images {get; set; }
 
         public Guid ProductId { get; set; }
     }

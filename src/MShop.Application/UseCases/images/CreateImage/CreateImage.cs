@@ -20,7 +20,7 @@ namespace MShop.Application.UseCases.images.CreateImage
             _storageService = storageService;
         }
 
-        public async Task<CreateImageOutPut> Handler(CreateImageInPut request)
+        public async Task<ListImageOutPut> Handler(CreateImageInPut request)
         {
             if (request.Images is null)
             {
@@ -31,13 +31,14 @@ namespace MShop.Application.UseCases.images.CreateImage
 
             List<Image> Images = new();
 
-            foreach (FileInput item in request.Images)
+            foreach (FileInputBase64 item in request.Images)
             {
                 var image = new Image("", request.ProductId);
 
                 if(item is not null)
                 {
-                    var urlImage  = await  _storageService.Upload($"image-{image.Id}-{image.ProductId}.{item.Extension}", item.FileStrem);
+                    var file = Helpers.Base64ToStream(item.FileStremBase64);
+                    var urlImage  = await  _storageService.Upload($"image-{image.Id}-{image.ProductId}.{file.Extension}", file.FileStrem);
                     image.UpdateUrlImage(urlImage);
                     image.IsValid(_notifications);
                     Images.Add(image);
@@ -52,7 +53,7 @@ namespace MShop.Application.UseCases.images.CreateImage
 
             await _imageRepository.CreateRange(Images);
 
-            return new CreateImageOutPut(request.ProductId, Images.Select(x=> new ImageModelOutPut(x.FileName)).ToList());
+            return new ListImageOutPut(request.ProductId, Images.Select(x=> new ImageModelOutPut(x.FileName)).ToList());
         }
     }
 }

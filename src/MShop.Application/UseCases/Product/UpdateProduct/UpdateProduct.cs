@@ -64,7 +64,7 @@ namespace MShop.Application.UseCases.Product.UpdateProduct
             if (request.Thumb is not null)
             {
                 var thumb = Helpers.Base64ToStream(request.Thumb.FileStremBase64);
-                var urlThumb = await _storageService.Upload($"{product.Id}-thumb.{request.Thumb.Extension}", thumb.FileStrem);
+                var urlThumb = await _storageService.Upload($"{product.Id}-thumb.{thumb.Extension}", thumb.FileStrem);
                 product.UpdateThumb(urlThumb);
             }
         }

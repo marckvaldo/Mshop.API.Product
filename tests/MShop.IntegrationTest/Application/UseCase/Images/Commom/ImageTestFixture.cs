@@ -39,5 +39,14 @@ namespace MShop.IntegrationTests.Application.UseCase.Images.Commom
             return list;
         }
 
+        public List<FileInputBase64> FakeFileInputList64(int quantity = 3)
+        {
+            List<FileInputBase64> list = new List<FileInputBase64>();
+            for (int i = 0; i < quantity; i++)
+                list.Add(ImageFake64());
+
+            return list;
+        }
+
     }
 }

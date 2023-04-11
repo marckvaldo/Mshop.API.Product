@@ -24,10 +24,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.Common
             return new FileInput("jpg", new MemoryStream(Encoding.ASCII.GetBytes(fakerStatic.Image.LoremPixelUrl())));
         }
 
-        protected static FileInputBase64 ImageFake64()
-        {
-            return new FileInputBase64("jpg", FileFakerBase64.IMAGE64);
-        }
+       
 
         protected BusinessEntity.Category FakeCategory()
         {

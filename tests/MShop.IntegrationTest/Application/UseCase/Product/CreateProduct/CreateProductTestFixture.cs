@@ -8,6 +8,7 @@ using MShop.Application.UseCases.Product.CreateProducts;
 using MShop.Application.Common;
 using BusinessEntity = MShop.Business.Entity;
 using MShop.IntegrationTests.Application.UseCase.Product.Common;
+using System.Data.SqlTypes;
 
 namespace MShop.IntegrationTests.Application.UseCase.Product.CreateProduct
 {
@@ -27,6 +28,5 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.CreateProduct
             };
         }
 
-        
     }
 }

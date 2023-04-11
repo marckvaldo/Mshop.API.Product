@@ -51,10 +51,6 @@ namespace Mshop.Tests.Application.UseCases.Product.CreateProduct
             return new FileInput("jpg", new MemoryStream(Encoding.ASCII.GetBytes(fakerStatic.Image.LoremPixelUrl())));
         }
 
-        protected static FileInputBase64 ImageFake64()
-        {
-            return new FileInputBase64("jpg", FileFakerBase64.IMAGE64);
-        }
 
         public static IEnumerable<object[]> GetCreateProductInPutInvalid()
         {

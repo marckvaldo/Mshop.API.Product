@@ -16,7 +16,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Images.CreateImage
         {
             return new CreateImageInPut
             {
-                Images = FakeFileInputList(quantity),
+                Images = FakeFileInputList64(quantity),
                 ProductId = productId
             }; 
         }

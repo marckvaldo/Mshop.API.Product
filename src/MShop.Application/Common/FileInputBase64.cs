@@ -6,6 +6,6 @@ using System.Threading.Tasks;
 
 namespace MShop.Application.Common
 {
-    public record FileInputBase64(string Extension, string FileStremBase64);
+    public record FileInputBase64(string FileStremBase64);
     
 }

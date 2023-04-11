@@ -1,8 +1,10 @@
 ﻿using MShop.Application.UseCases.images.Common;
+using MShop.Application.UseCases.images.CreateImage;
 using MShop.Business.Entity;
 using MShop.Business.Interface;
 using MShop.Business.Interface.Repository;
 using MShop.Business.Interface.Service;
+using static System.Net.Mime.MediaTypeNames;
 
 
 namespace MShop.Application.UseCases.images.DeleteImage
@@ -35,7 +37,7 @@ namespace MShop.Application.UseCases.images.DeleteImage
             }
 
             return new ImageOutPut(image.ProductId, new ImageModelOutPut(image.FileName));
-
+            
         }
     }
 }
