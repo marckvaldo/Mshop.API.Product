@@ -1,6 +1,7 @@
 ﻿using MShop.Application.UseCases.Product.Common;
 using MShop.Application.UseCases.Product.CreateProducts;
 using MShop.Business.Entity;
+using MShop.Business.Exception;
 using MShop.Business.Exceptions;
 using MShop.Business.Interface;
 using MShop.Business.Interface.Repository;
@@ -27,11 +28,14 @@ namespace MShop.Application.UseCases.Product.GetProduct
         {
             var product = await _productRepository.GetById(Id);
 
-            if (product == null)
+            Notify("Não foi possivel localizar a produto da base de dados!");
+            NotFoundException.ThrowIfnull(product, "your search returned null");
+
+            /*if (product == null)
             {
                 Notify("Não possivel localizar produto na base de dados");
                 throw new ApplicationValidationException("");
-            }
+            }*/
 
             var images = await _imageRepository.Filter(x => x.ProductId == product.Id);
 

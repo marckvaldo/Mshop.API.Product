@@ -27,28 +27,28 @@ namespace MShop.Repository.Repository
         public async Task<List<TEntity>> Filter(Expression<Func<TEntity, bool>> predicate)
         {
             var result = await _dbSet.AsNoTracking().Where(predicate).ToListAsync();
-            NotFoundException.ThrowIfnull(result, "your search returned null");
+            //NotFoundException.ThrowIfnull(result, "your search returned null");
             return result;
         }
 
         public virtual async Task<TEntity?> GetById(Guid Id)
         {
             var result = await _dbSet.FindAsync(Id);
-            NotFoundException.ThrowIfnull(result, "your search returned null");
+            //NotFoundException.ThrowIfnull(result, "your search returned null");
             return result;
         }
 
         public virtual async Task<List<TEntity>> GetValuesList()
         {
             var result =  await _dbSet.ToListAsync();
-            NotFoundException.ThrowIfnull(result, "your search returned null");
+            //NotFoundException.ThrowIfnull(result, "your search returned null");
             return result;
         }
 
         public virtual async Task<TEntity> GetLastRegister(Expression<Func<TEntity, bool>> predicate)
         {
             var result =  await _dbSet.AsNoTracking().Where(predicate).OrderByDescending(x=>x.Id).FirstAsync();
-            NotFoundException.ThrowIfnull(result, "your search returned null");
+            //NotFoundException.ThrowIfnull(result, "your search returned null");
             return result;
         }
 

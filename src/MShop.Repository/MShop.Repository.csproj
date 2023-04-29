@@ -24,4 +24,8 @@
     <ProjectReference Include="..\MShop.Business\MShop.Business.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>

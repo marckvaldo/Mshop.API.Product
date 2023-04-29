@@ -7,7 +7,7 @@
             return new
             {
                 success = true,
-                data = result
+                data = result,
             };
         }
 

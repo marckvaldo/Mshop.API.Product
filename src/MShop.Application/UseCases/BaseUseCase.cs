@@ -5,19 +5,19 @@ namespace MShop.Application.UseCases
 {
     public abstract class BaseUseCase: Notifications
     {
-        protected readonly INotification _notifications;
+        protected readonly INotification Notifications;
 
         protected BaseUseCase(INotification notification)
         {
-            _notifications = notification;
+            Notifications = notification;
         }
 
         protected void Notify(string menssagem)
         {
-            _notifications.AddNotifications(menssagem);
+            Notifications.AddNotifications(menssagem);
         }
 
-        protected bool IsValid(Notification validation)
+        /*protected bool IsValid(Notification validation)
         {
             var result = validation.Validate();
             if (result.HasErrors()) return false;
@@ -25,7 +25,7 @@ namespace MShop.Application.UseCases
             //Notificar(result.Erros());
 
             return true;
-        }
+        }*/
 
    
     }

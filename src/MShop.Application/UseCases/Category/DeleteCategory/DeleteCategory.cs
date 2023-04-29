@@ -1,4 +1,5 @@
 ﻿using MShop.Application.UseCases.Category.Common;
+using MShop.Business.Exception;
 using MShop.Business.Exceptions;
 using MShop.Business.Interface;
 using MShop.Business.Interface.Repository;
@@ -24,11 +25,15 @@ namespace MShop.Application.UseCases.Category.DeleteCategory
         public async Task<CategoryModelOutPut> Handler(Guid id)
         {
             var category = await _categoryRepository.GetById(id);
-            if(category == null)
+
+            Notify("não foi possivel localizar a categoria da base de dados!");
+            NotFoundException.ThrowIfnull(category, "your search returned null");
+
+            /*if(category == null)
             {
                 Notify("Não foi possivel localizar a categoria na base de dados");
                 throw new ApplicationValidationException("");
-            }
+            }*/
 
             var products = await _productRepository.GetProductsByCategoryId(id);
             if(products?.Count() > 0 )

@@ -6,7 +6,10 @@ namespace MShop.ProductAPI.Configuration
     {
         public static IServiceCollection AddAndConfigureController(this IServiceCollection services)
         {
-            services.AddControllers(options => options.Filters.Add(typeof(ApiGlobalExceptionFilter)));
+            services.AddControllers(
+                //aqui eu forço toda exception passar por aqui 
+                options => options.Filters.Add(typeof(ApiGlobalExceptionFilter))
+                );
             services.AddDocumentation();
             return services;
         }

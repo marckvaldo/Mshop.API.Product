@@ -22,7 +22,7 @@ namespace MShop.Application.UseCases.Category.CreateCategory
         {
             var category = new Business.Entity.Category(request.Name, request.IsActive);
 
-            category.IsValid(_notifications);
+            category.IsValid(Notifications);
 
             await _categoryRepository.Create(category);
            

@@ -1,4 +1,5 @@
 ﻿using MShop.Application.UseCases.Product.Common;
+using MShop.Business.Entity;
 using MShop.Business.Exception;
 using MShop.Business.Exceptions;
 using MShop.Business.Interface;
@@ -27,12 +28,15 @@ namespace MShop.Application.UseCases.Product.DeleteProduct
         {
             var product = await _productRespository.GetById(request);
 
-            if (product is null)
+            /*if (product is null)
             {
                 Notify($"Produto com id {request} não encontrado");
                 throw new ApplicationValidationException("");
-            }
-                      
+            }*/
+
+            Notify("Não foi possivel localizar a produto da base de dados!");
+            NotFoundException.ThrowIfnull(product, "your search returned null");
+
 
             await _productRespository.DeleteById(product);
             await _imageRepository.DeleteByIdProduct(product.Id);

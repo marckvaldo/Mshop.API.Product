@@ -48,9 +48,7 @@ namespace MShop.ProductAPI.Controllers
         [HttpGet("{id:guid}")]
         public async Task<ActionResult<IEnumerable<ProductModelOutPut>>> Product(Guid id)
         {
-
-            return CustomResponse(await _getProduct.Handler(id));
-        
+            return CustomResponse(await _getProduct.Handler(id));        
         }
 
         [HttpGet("list-products")]
@@ -61,19 +59,15 @@ namespace MShop.ProductAPI.Controllers
 
         [HttpGet("list-products-promotions")]
         public async Task<ActionResult<List<ProductModelOutPut>>> ListProdutcsPromotions()
-        {
- 
+        { 
             return CustomResponse(await _productPromotions.Handler());
-        
         }
 
         [HttpPost]
         public async Task<ActionResult<ProductModelOutPut>> Create([FromBody] CreateProductInPut product)
         {
- 
             if (!ModelState.IsValid) return CustomResponse(ModelState);
-            return CustomResponse(await _createProduct.Handler(product));
-       
+            return CustomResponse(await _createProduct.Handler(product));      
         }
 
         [HttpPut("{id:guid}")]
@@ -95,9 +89,7 @@ namespace MShop.ProductAPI.Controllers
         [HttpDelete("{id:guid}")]
         public async Task<ActionResult<ProductModelOutPut>> Delete(Guid Id)
         {
-
             return CustomResponse(await _deleteProduct.Handler(Id));
-        
         }
 
 

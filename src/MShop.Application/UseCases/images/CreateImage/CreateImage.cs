@@ -40,7 +40,7 @@ namespace MShop.Application.UseCases.images.CreateImage
                     var file = Helpers.Base64ToStream(item.FileStremBase64);
                     var urlImage  = await  _storageService.Upload($"image-{image.Id}-{image.ProductId}.{file.Extension}", file.FileStrem);
                     image.UpdateUrlImage(urlImage);
-                    image.IsValid(_notifications);
+                    image.IsValid(Notifications);
                     Images.Add(image);
                 }
             }

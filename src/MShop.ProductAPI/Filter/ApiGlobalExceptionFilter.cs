@@ -8,10 +8,11 @@ namespace MShop.ProductAPI.Filter
     public class ApiGlobalExceptionFilter : IExceptionFilter
     {
         private readonly IHostEnvironment _env;
-
-        public ApiGlobalExceptionFilter(IHostEnvironment env)
+        private readonly INotification _notification;
+        public ApiGlobalExceptionFilter(IHostEnvironment env, INotification notification)
         {
             _env = env;
+            _notification = notification;
         }
 
         public void OnException(ExceptionContext context)
@@ -25,6 +26,7 @@ namespace MShop.ProductAPI.Filter
             }
 
             //_notification.AddNotifications(exception.Message);
+            Notify(exception.Message);
 
             /*if(exception is EntityValidationException)
             {
@@ -55,11 +57,18 @@ namespace MShop.ProductAPI.Filter
             details.Status = StatusCodes.Status400BadRequest;
             details.Detail = exception!.Message;
             details.Type = "UnprocessableEntity";
-
             context.HttpContext.Response.StatusCode = (int) details.Status;
-            context.Result = new ObjectResult(ExtensionResponse.Error(new List<string> { exception.Message }));  
+            
+            context.Result = new ObjectResult(ExtensionResponse.Error(_notification.Errors().Select(x => x.Message).ToList()));  
             context.ExceptionHandled = true;
             
         }
+
+        public void Notify(string message)
+        {
+           _notification.AddNotifications(message);
+        }
+
+       
     }
 }

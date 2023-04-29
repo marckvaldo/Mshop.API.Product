@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MShop.Repository.Migrations
 {
     [DbContext(typeof(RepositoryDbContext))]
-    [Migration("20230107124132_inicial")]
-    partial class Inicial
+    [Migration("20230427210129_inicial")]
+    partial class inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -39,6 +39,24 @@ namespace MShop.Repository.Migrations
                     b.ToTable("Categories", (string)null);
                 });
 
+            modelBuilder.Entity("MShop.Business.Entity.Image", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Images", (string)null);
+                });
+
             modelBuilder.Entity("MShop.Business.Entity.Product", b =>
                 {
                     b.Property<Guid>("Id")
@@ -50,17 +68,14 @@ namespace MShop.Repository.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("Thumb")
-                        .HasColumnType("Varchar(100)");
+                        .HasColumnType("text");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("varchar(30)");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(16,2)");
@@ -70,7 +85,44 @@ namespace MShop.Repository.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CategoryId");
+
                     b.ToTable("Products", (string)null);
+                });
+
+            modelBuilder.Entity("MShop.Business.Entity.Product", b =>
+                {
+                    b.HasOne("MShop.Business.Entity.Category", "Category")
+                        .WithMany("Products")
+                        .HasForeignKey("CategoryId")
+                        .IsRequired();
+
+                    b.OwnsOne("MShop.Business.ValueObject.FileImage", "Thumb", b1 =>
+                        {
+                            b1.Property<Guid>("ProductId")
+                                .HasColumnType("char(36)");
+
+                            b1.Property<string>("Path")
+                                .IsRequired()
+                                .HasColumnType("Varchar(100)")
+                                .HasColumnName("Thumb");
+
+                            b1.HasKey("ProductId");
+
+                            b1.ToTable("Products");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ProductId");
+                        });
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Thumb");
+                });
+
+            modelBuilder.Entity("MShop.Business.Entity.Category", b =>
+                {
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

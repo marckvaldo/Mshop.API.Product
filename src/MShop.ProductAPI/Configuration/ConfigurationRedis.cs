@@ -4,6 +4,7 @@
     {
         public static IServiceCollection AddConfigurationRedis(this IServiceCollection services, IConfiguration configuration)
         {
+            ////configurações de cache REDIS
             var redisPassword = configuration["Redis:Password"];
             var redisEndPoint = configuration["Redis:Endpoint"];
 

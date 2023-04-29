@@ -28,7 +28,7 @@ namespace MShop.Application.UseCases.Product.UpdateStockProduct
                 throw new ApplicationValidationException("");
             }
             product.UpdateQuantityStock(request.Stock);
-            product.IsValid(_notifications);
+            product.IsValid(Notifications);
             await _productRepository.Update(product);
             return new ProductModelOutPut(
                 product.Id,

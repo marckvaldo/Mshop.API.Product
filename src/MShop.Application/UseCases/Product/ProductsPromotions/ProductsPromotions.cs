@@ -12,7 +12,9 @@ namespace MShop.Application.UseCases.Product.Productspromotions
         private readonly ICacheRepository _cacheRepository;
         private readonly IProductRepository _productRepository;
 
-        public ProductsPromotions(ICacheRepository cacheRepository, IProductRepository productRepository, INotification notification) : base(notification)
+        public ProductsPromotions(ICacheRepository cacheRepository, 
+            IProductRepository productRepository, 
+            INotification notification) : base(notification)
         {
             _cacheRepository = cacheRepository;
             _productRepository = productRepository;

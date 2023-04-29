@@ -39,19 +39,10 @@ namespace MShop.ProductAPI.Controllers
             _getCatetoryWithProducts = getCatetoryWithProducts; 
         }
 
-        [HttpGet("{id:Guid}")]
-        public async Task<ActionResult<CategoryModelOutPut>> Category(Guid id)
+        [HttpGet("{Id:Guid}")]
+        public async Task<ActionResult<CategoryModelOutPut>> Category(Guid Id)
         {
-            try
-            {
-                return CustomResponse(await _getCategory.Handler(id));
-            }
-            catch (Exception erro)
-            {
-                Notify(erro.Message);
-                return CustomResponse();
-            }
-
+                return CustomResponse(await _getCategory.Handler(Id));
         }
 
         [HttpGet("list-category")]
@@ -60,13 +51,11 @@ namespace MShop.ProductAPI.Controllers
             return CustomResponse(await _listCategory.Handler(request));   
         }
 
-
-        [HttpGet("list-category-products/{id:Guid}")]
+        [HttpGet("list-category-products/{Id:Guid}")]
         public async Task<ActionResult<List<GetCategoryWithProductsOutPut>>> ListCategoryProdutcs(Guid Id)
         {
             return CustomResponse(await _getCatetoryWithProducts.Handler(Id));
         }
-
 
         [HttpPost]
         public async Task<ActionResult<CategoryModelOutPut>> Create(CreateCategoryInPut request)

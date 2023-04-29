@@ -25,9 +25,6 @@ builder.Services.AddSwaggerGen();*/
 //    options.UseMySql(ConnectionString, ServerVersion.AutoDetect(ConnectionString)));
 
 
-
-
-
 //configurações de cache REDIS
 //var configuracao = builder.Configuration;
 //var redisPassword = configuracao["Redis:Password"];

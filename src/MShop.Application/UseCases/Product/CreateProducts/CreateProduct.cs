@@ -1,5 +1,7 @@
 ﻿using MShop.Application.Common;
 using MShop.Application.UseCases.Product.Common;
+using MShop.Business.Entity;
+using MShop.Business.Exception;
 using MShop.Business.Exceptions;
 using MShop.Business.Interface;
 using MShop.Business.Interface.Repository;
@@ -39,14 +41,19 @@ namespace MShop.Application.UseCases.Product.CreateProducts
                     request.IsActive
                 );
 
-            product.IsValid(_notifications);
+            product.IsValid(Notifications);
 
             var hasCategory = await _categoryRepository.GetById(product.CategoryId);
-            if (hasCategory is null)
+
+
+            Notify($"Categoria {product.Id} não encontrada");
+            NotFoundException.ThrowIfnull(hasCategory, "your search returned null");
+
+            /*if (hasCategory is null)
             {
                 Notify($"Categoria {product.Id} não encontrada");
                 throw new ApplicationValidationException("");
-            }
+            }*/
 
             await UploadImage(request, product);
 

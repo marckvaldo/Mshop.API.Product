@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using MShop.Application.UseCases.Category.GetCatetory;
 using MShop.Application.UseCases.Product.Common;
+using MShop.Business.Exception;
 using MShop.Business.Exceptions;
 using MShop.Business.Interface;
 using MShop.Business.Interface.Repository;
@@ -24,12 +25,17 @@ namespace MShop.Application.UseCases.GetCatetoryWithProducts.GetCatetory
         public async Task<GetCategoryWithProductsOutPut> Handler(Guid id)
         {
             var category = await  _categoryRepository.GetCategoryProducts(id);
-            if(category == null)
+
+            Notify("não foi possivel localizar a categoria da base de dados!");
+            NotFoundException.ThrowIfnull(category, "your search returned null");
+
+
+            /*if(category == null)
             {
                 Notify("não foi possivel localizar a categoria da base de dados!");
                 throw new ApplicationValidationException("");
-            }
-            category.IsValid(_notifications);
+            }*/
+            category.IsValid(Notifications);
 
             List<ProductModelOutPut> listProdutos = new List<ProductModelOutPut>();
 

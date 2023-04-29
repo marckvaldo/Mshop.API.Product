@@ -8,6 +8,7 @@ using MShop.Business.ValueObject;
 using MShop.Application.UseCases.Product.CreateProducts;
 using MShop.Business.Interface.Service;
 using MShop.Application.Common;
+using MShop.Business.Exception;
 
 namespace MShop.Application.UseCases.Product.UpdateProduct
 {
@@ -28,12 +29,14 @@ namespace MShop.Application.UseCases.Product.UpdateProduct
         {            
             var product = await _productRepository.GetById(request.Id);
 
-            if(product == null)
+            /*if(product == null)
             {
                 Notify("Não foi possivel localizar o produto na base de dados");
                 throw new ApplicationValidationException("");
-            }
+            }*/
 
+            Notify("Não foi possivel localizar a produto da base de dados!");
+            NotFoundException.ThrowIfnull(product, "your search returned null");
 
             product.Update(request.Description, request.Name, request.Price, request.CategoryId);
             
@@ -42,7 +45,7 @@ namespace MShop.Application.UseCases.Product.UpdateProduct
             else
                 product.Deactive();
 
-            product.IsValid(_notifications);
+            product.IsValid(Notifications);
 
             await UploadImage(request, product);
 

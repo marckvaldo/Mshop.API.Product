@@ -1,8 +1,7 @@
 ﻿using MShop.Business.Exceptions;
 using MShop.Business.Interface;
 using MShop.Business.Validator;
-
-
+using MShop.Business.ValueObject;
 
 namespace MShop.Business.Entity
 {
@@ -22,9 +21,9 @@ namespace MShop.Business.Entity
 
         public Category Category { get; private set; }
 
-        public ValueObject.FileImage? Thumb { get; private set; }
-       
+        public FileImage? Thumb { get; private set; }
 
+        
         public Product(string description, string name, decimal price, Guid categoryId, decimal stock = 0, bool isActive = false)
         {
             Description = description;
@@ -81,7 +80,7 @@ namespace MShop.Business.Entity
 
         public void UpdateThumb(string thumb)
         {
-            Thumb = new ValueObject.FileImage(thumb);
+            Thumb = new FileImage(thumb);
         }
         
     }

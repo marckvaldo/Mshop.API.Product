@@ -6,6 +6,7 @@ namespace MShop.ProductAPI.Configuration
     {
         public static IServiceCollection AddConfigurationModelState(this IServiceCollection services)
         {
+            //desativa o modelStateInvalid na controller automatizado
             services.Configure<ApiBehaviorOptions>(options =>
             {
                 options.SuppressModelStateInvalidFilter = true;

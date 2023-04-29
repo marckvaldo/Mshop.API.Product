@@ -1,4 +1,5 @@
 ﻿using MShop.Application.UseCases.Category.Common;
+using MShop.Business.Exception;
 using MShop.Business.Exceptions;
 using MShop.Business.Interface;
 using MShop.Business.Interface.Repository;
@@ -22,12 +23,11 @@ namespace MShop.Application.UseCases.Category.GetCatetory
         public async Task<CategoryModelOutPut> Handler(Guid id)
         {
             var category = await  _categoryRepository.GetById(id);
-            if(category == null)
-            {
-                Notify("não foi possivel localizar a categoria da base de dados!");
-                throw new ApplicationValidationException("");
-            }
-            category.IsValid(_notifications);
+            
+            Notify("não foi possivel localizar a categoria da base de dados!");
+            NotFoundException.ThrowIfnull(category, "your search returned null");
+
+            category.IsValid(Notifications);
             return new CategoryModelOutPut(id, category.Name, category.IsActive);
         }
     }
