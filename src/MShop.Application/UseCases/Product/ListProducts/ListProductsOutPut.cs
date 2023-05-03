@@ -10,8 +10,10 @@ namespace MShop.Application.UseCases.Product.ListProducts
 {
     public class ListProductsOutPut : PaginatedListOutPut<ProductModelOutPut>
     {
-        public ListProductsOutPut(int page, int perPage, int total, IReadOnlyList<ProductModelOutPut> itens) : base(page, perPage, total, itens)
+        public ListProductsOutPut(int page, int perPage, int total, IReadOnlyList<ProductModelOutPut> itens) 
+            : base(page, perPage, total, itens)
         {
+
         }
     }
 }

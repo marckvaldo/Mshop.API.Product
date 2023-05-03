@@ -22,7 +22,7 @@ namespace MShop.Repository.Repository
 
         public async Task<Category> GetCategoryProducts(Guid id)
         {
-            return await _dbSet.Where(c => c.Id == id).Include(c => c.Products).FirstAsync();
+            return await _dbSet.Where(c => c.Id == id).Include(c => c.Products).FirstOrDefaultAsync();
         }
 
         public async Task<PaginatedOutPut<Category>> FilterPaginated(PaginatedInPut input)

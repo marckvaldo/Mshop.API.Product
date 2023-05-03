@@ -9,6 +9,7 @@ using MShop.Application.UseCases.Product.CreateProducts;
 using MShop.Business.Interface.Service;
 using MShop.Application.Common;
 using MShop.Business.Exception;
+using MShop.Repository.Repository;
 
 namespace MShop.Application.UseCases.Product.UpdateProduct
 {
@@ -16,13 +17,16 @@ namespace MShop.Application.UseCases.Product.UpdateProduct
     {
         private readonly IProductRepository _productRepository;
         private readonly IStorageService _storageService;
+        private readonly ICategoryRepository _categoryRepository;
 
         public UpdateProduct(IProductRepository productRepository, 
+            ICategoryRepository categoryRepository,
             INotification notification,
             IStorageService storageService) :base (notification)
         {
             _productRepository = productRepository;
             _storageService = storageService;
+            _categoryRepository = categoryRepository;
         }
 
         public async Task<ProductModelOutPut> Handler(UpdateProductInPut request)
@@ -35,8 +39,7 @@ namespace MShop.Application.UseCases.Product.UpdateProduct
                 throw new ApplicationValidationException("");
             }*/
 
-            Notify("Não foi possivel localizar a produto da base de dados!");
-            NotFoundException.ThrowIfnull(product, "your search returned null");
+            NotFoundException.ThrowIfnull(product, "Não foi possivel localizar a produto da base de dados!");
 
             product.Update(request.Description, request.Name, request.Price, request.CategoryId);
             
@@ -45,7 +48,15 @@ namespace MShop.Application.UseCases.Product.UpdateProduct
             else
                 product.Deactive();
 
+            if (request.IsPromotion)
+                product.ActivatePromotion();
+            else
+                product.DeactivePromotion();
+            
             product.IsValid(Notifications);
+
+            var hasCategory = await _categoryRepository.GetById(product.CategoryId);
+            NotFoundException.ThrowIfnull(hasCategory, $"Categoria {product.CategoryId} não encontrada");
 
             await UploadImage(request, product);
 
@@ -58,18 +69,21 @@ namespace MShop.Application.UseCases.Product.UpdateProduct
                 product.Thumb?.Path, 
                 product.Stock, 
                 product.IsActive, 
-                product.CategoryId);
+                product.CategoryId,
+                null,
+                product.IsPromotion);
             
         }
 
         private async Task UploadImage(UpdateProductInPut request, Business.Entity.Product product)
         {
-            if (request.Thumb is not null)
-            {
-                var thumb = Helpers.Base64ToStream(request.Thumb.FileStremBase64);
-                var urlThumb = await _storageService.Upload($"{product.Id}-thumb.{thumb.Extension}", thumb.FileStrem);
-                product.UpdateThumb(urlThumb);
-            }
+            if (string.IsNullOrEmpty(request.Thumb?.FileStremBase64.Trim()))
+                return;
+
+            var thumb = Helpers.Base64ToStream(request.Thumb.FileStremBase64);
+            var urlThumb = await _storageService.Upload($"{product.Id}-thumb.{thumb.Extension}", thumb.FileStrem);
+            product.UpdateThumb(urlThumb);
+            
         }
     }
 }

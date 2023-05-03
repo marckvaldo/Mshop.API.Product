@@ -1,9 +1,11 @@
 ﻿using MShop.Application.Common;
 using MShop.Application.UseCases.images.Common;
 using MShop.Business.Entity;
+using MShop.Business.Exception;
 using MShop.Business.Interface;
 using MShop.Business.Interface.Repository;
 using MShop.Business.Interface.Service;
+using MShop.Repository.Repository;
 
 
 namespace MShop.Application.UseCases.images.CreateImage
@@ -11,28 +13,32 @@ namespace MShop.Application.UseCases.images.CreateImage
     public class CreateImage : BaseUseCase,  ICreateImage
     {
         private readonly IImageRepository _imageRepository;
+        private readonly IProductRepository _productRepository;
         private readonly IStorageService _storageService;
         public CreateImage(IImageRepository imageRepository,
             IStorageService storageService,
+            IProductRepository productRepository,
             INotification notification) : base(notification)
         {
             _imageRepository = imageRepository;
+            _productRepository = productRepository;
             _storageService = storageService;
         }
 
         public async Task<ListImageOutPut> Handler(CreateImageInPut request)
         {
-            if (request.Images is null)
-            {
-                Notify("Infome um container de imagens!");
-                throw new ApplicationException("Infome um container de imagens!");
-            }
 
+           
+            var hasProduct = await _productRepository.GetById(request.ProductId);
+            NotFoundException.ThrowIfnull(hasProduct, "Não foi possivel localizar produtos informado");
 
             List<Image> Images = new();
 
             foreach (FileInputBase64 item in request.Images)
             {
+                if (string.IsNullOrEmpty(item.FileStremBase64.Trim()))
+                    continue;
+
                 var image = new Image("", request.ProductId);
 
                 if(item is not null)

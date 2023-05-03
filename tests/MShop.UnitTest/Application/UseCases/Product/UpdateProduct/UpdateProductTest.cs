@@ -23,6 +23,7 @@ namespace Mshop.Tests.Application.UseCases.Product.UpdateProduct
         public async void UpdateProduct()
         {
             var repository = new Mock<IProductRepository>();
+            var repositoryCategory = new Mock<ICategoryRepository>();    
             var notification = new Mock<INotification>();
             var storageService = new Mock<IStorageService>();
 
@@ -35,7 +36,7 @@ namespace Mshop.Tests.Application.UseCases.Product.UpdateProduct
 
             storageService.Setup(s => s.Upload(It.IsAny<string>(), It.IsAny<Stream>())).ReturnsAsync($"{productFake.Id}-thumb.jpg");
 
-            var useCase = new ApplicationUseCase.UpdateProduct(repository.Object, notification.Object,storageService.Object);
+            var useCase = new ApplicationUseCase.UpdateProduct(repository.Object, repositoryCategory.Object, notification.Object,storageService.Object);
             var outPut = await useCase.Handler(request);
 
 
@@ -57,6 +58,7 @@ namespace Mshop.Tests.Application.UseCases.Product.UpdateProduct
         public void ShoulReturnErroWhenNotFoundUpdateProduct()
         {
             var repository = new Mock<IProductRepository>();
+            var repositoryCategory = new Mock<ICategoryRepository>();
             var notification = new Mock<INotification>();
             var storageService = new Mock<IStorageService>();
 
@@ -66,7 +68,7 @@ namespace Mshop.Tests.Application.UseCases.Product.UpdateProduct
             repository.Setup(r => r.GetById(It.IsAny<Guid>()))
                 .ThrowsAsync(new NotFoundException(""));
 
-            var useCase = new ApplicationUseCase.UpdateProduct(repository.Object, notification.Object, storageService.Object);
+            var useCase = new ApplicationUseCase.UpdateProduct(repository.Object, repositoryCategory.Object, notification.Object, storageService.Object);
             var outPut = async () => await useCase.Handler(request);
 
             var exception = Assert.ThrowsAsync<NotFoundException>(outPut); 
@@ -84,13 +86,14 @@ namespace Mshop.Tests.Application.UseCases.Product.UpdateProduct
         public void ShoulReturnErroWhenRequestUpdateProduct(UpdateProductInPut request)
         {
             var repository = new Mock<IProductRepository>();
+            var repositoryCategory = new Mock<ICategoryRepository>();
             var notification = new Mock<INotification>();
             var storageService = new Mock<IStorageService>();
 
             //var request = ProductInPut();
             var productRepository = ProductModelOutPut();
 
-            var useCase = new ApplicationUseCase.UpdateProduct(repository.Object, notification.Object, storageService.Object);
+            var useCase = new ApplicationUseCase.UpdateProduct(repository.Object, repositoryCategory.Object, notification.Object, storageService.Object);
             var outPut = async () => await useCase.Handler(request);
 
             var exception = Assert.ThrowsAsync<ApplicationValidationException>(outPut);

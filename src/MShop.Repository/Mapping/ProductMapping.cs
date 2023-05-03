@@ -26,6 +26,10 @@ namespace MShop.Repository.Mapping
                 .IsRequired()
                 .HasColumnType("decimal(16,2)");
 
+            builder.Property(x=>x.IsPromotion)
+                .IsRequired()
+                .HasColumnType("bool");
+
             builder.OwnsOne(x=>x.Thumb, 
                 x=>x.Property(x=>x.Path).HasColumnName("Thumb"));
 

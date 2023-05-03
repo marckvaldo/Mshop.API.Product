@@ -35,10 +35,10 @@ namespace MShop.Repository.Context
 
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(RepositoryDbContext).Assembly);
 
-            //aque eu estou retirando o modo cascata
+            //aqui eu estou retirando o modo cascata
             foreach(var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e=>e.GetForeignKeys()))
             {
-                relationship.DeleteBehavior = DeleteBehavior.ClientSetNull;
+                relationship.DeleteBehavior = DeleteBehavior.ClientNoAction;
             }
 
             base.OnModelCreating(modelBuilder);

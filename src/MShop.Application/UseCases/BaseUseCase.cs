@@ -1,4 +1,5 @@
-﻿using MShop.Business.Interface;
+﻿using MShop.Business.Exceptions;
+using MShop.Business.Interface;
 using MShop.Business.Validation;
 
 namespace MShop.Application.UseCases
@@ -17,16 +18,10 @@ namespace MShop.Application.UseCases
             Notifications.AddNotifications(menssagem);
         }
 
-        /*protected bool IsValid(Notification validation)
+        protected void NotifyStop(string menssagem)
         {
-            var result = validation.Validate();
-            if (result.HasErrors()) return false;
-
-            //Notificar(result.Erros());
-
-            return true;
-        }*/
-
-   
+            Notifications.AddNotifications(menssagem);
+            throw new ApplicationValidationException("Erro Applications");
+        }
     }
 }

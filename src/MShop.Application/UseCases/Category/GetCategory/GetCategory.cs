@@ -24,8 +24,7 @@ namespace MShop.Application.UseCases.Category.GetCatetory
         {
             var category = await  _categoryRepository.GetById(id);
             
-            Notify("não foi possivel localizar a categoria da base de dados!");
-            NotFoundException.ThrowIfnull(category, "your search returned null");
+            NotFoundException.ThrowIfnull(category, "não foi possivel localizar a categoria da base de dados!");
 
             category.IsValid(Notifications);
             return new CategoryModelOutPut(id, category.Name, category.IsActive);

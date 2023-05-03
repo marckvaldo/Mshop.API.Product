@@ -17,6 +17,7 @@ using MShop.Application.UseCases.Product.Productspromotions;
 using MShop.Application.UseCases.Product.ProductsPromotions;
 using MShop.Application.UseCases.Product.UpdateProduct;
 using MShop.Application.UseCases.Product.UpdateStockProduct;
+using MShop.Application.UseCases.Product.UpdateThumb;
 using MShop.Business.Interface;
 using MShop.Business.Interface.Cache;
 using MShop.Business.Interface.Repository;
@@ -42,6 +43,7 @@ namespace MShop.ProductAPI.Configuration
             services.AddScoped<IUpdateStockProduct, UpdateStockProducts>();
             services.AddScoped<IListProducts, ListProducts>();
             services.AddScoped<IProductsPromotions, ProductsPromotions>();
+            services.AddScoped<IUpdateThumb, UpdateThumb>();
 
 
             services.AddScoped<ICategoryRepository, CategoryRepository>();

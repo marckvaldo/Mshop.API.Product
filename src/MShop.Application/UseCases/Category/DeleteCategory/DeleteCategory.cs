@@ -26,8 +26,7 @@ namespace MShop.Application.UseCases.Category.DeleteCategory
         {
             var category = await _categoryRepository.GetById(id);
 
-            Notify("não foi possivel localizar a categoria da base de dados!");
-            NotFoundException.ThrowIfnull(category, "your search returned null");
+            NotFoundException.ThrowIfnull(category, "não foi possivel localizar a categoria da base de dados!");
 
             /*if(category == null)
             {

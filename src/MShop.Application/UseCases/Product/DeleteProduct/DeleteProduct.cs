@@ -28,18 +28,15 @@ namespace MShop.Application.UseCases.Product.DeleteProduct
         {
             var product = await _productRespository.GetById(request);
 
-            /*if (product is null)
-            {
-                Notify($"Produto com id {request} não encontrado");
-                throw new ApplicationValidationException("");
-            }*/
+            NotFoundException.ThrowIfnull(product, "Não foi possivel localizar a produto da base de dados!");
 
-            Notify("Não foi possivel localizar a produto da base de dados!");
-            NotFoundException.ThrowIfnull(product, "your search returned null");
+            var hasImages = await _imageRepository.Filter(x => x.ProductId == product.Id);
+            if(hasImages.Count > 0)
+                NotifyStop("Existe(m) Imagen(s) associada(s) a esse produto");
 
 
             await _productRespository.DeleteById(product);
-            await _imageRepository.DeleteByIdProduct(product.Id);
+           
             if(product?.Thumb?.Path is not null)
                 await _storageService.Delete(product.Thumb.Path);
 

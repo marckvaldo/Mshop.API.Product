@@ -1,4 +1,5 @@
-﻿using MShop.Application.UseCases.Product.Common;
+﻿using MShop.Application.UseCases.Category.Common;
+using MShop.Application.UseCases.Product.Common;
 using MShop.Application.UseCases.Product.CreateProducts;
 using MShop.Business.Entity;
 using MShop.Business.Exception;
@@ -26,16 +27,10 @@ namespace MShop.Application.UseCases.Product.GetProduct
 
         public async Task<GetProductOutPut> Handler(Guid Id)
         {
-            var product = await _productRepository.GetById(Id);
+            var product = await _productRepository.GetProductWithCategory(Id);
 
-            Notify("Não foi possivel localizar a produto da base de dados!");
-            NotFoundException.ThrowIfnull(product, "your search returned null");
 
-            /*if (product == null)
-            {
-                Notify("Não possivel localizar produto na base de dados");
-                throw new ApplicationValidationException("");
-            }*/
+            NotFoundException.ThrowIfnull(product, "Não foi possivel localizar a produto da base de dados!");
 
             var images = await _imageRepository.Filter(x => x.ProductId == product.Id);
 
@@ -49,7 +44,9 @@ namespace MShop.Application.UseCases.Product.GetProduct
                 product.Stock,
                 product.IsActive,
                 product.CategoryId,
-                images.Select(x=>x?.FileName).ToList());
+                (new CategoryModelOutPut(product.CategoryId, product.Category.Name, product.Category.IsActive)),
+                images.Select(x => x?.FileName).ToList(),
+                product.IsPromotion) ;
         }
     }
 }

@@ -23,6 +23,8 @@ namespace MShop.Business.Entity
 
         public FileImage? Thumb { get; private set; }
 
+        public bool IsPromotion { get; set; }
+
         
         public Product(string description, string name, decimal price, Guid categoryId, decimal stock = 0, bool isActive = false)
         {
@@ -82,6 +84,17 @@ namespace MShop.Business.Entity
         {
             Thumb = new FileImage(thumb);
         }
+
+        public void ActivatePromotion()
+        {
+            IsPromotion = true;
+        }
+
+        public void DeactivePromotion()
+        {
+            IsPromotion = false;
+        }
+        
         
     }
 }

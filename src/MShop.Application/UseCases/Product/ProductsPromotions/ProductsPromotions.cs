@@ -1,4 +1,5 @@
-﻿using MShop.Application.UseCases.Product.Common;
+﻿using MShop.Application.UseCases.Category.Common;
+using MShop.Application.UseCases.Product.Common;
 using MShop.Application.UseCases.Product.ProductsPromotions;
 using MShop.Business.Interface;
 using MShop.Business.Interface.Cache;
@@ -34,13 +35,13 @@ namespace MShop.Application.UseCases.Product.Productspromotions
             foreach(var item in products)
             {
                 listProducts.Add(new ProductModelOutPut(
-                    item.Id, 
-                    item.Description, 
-                    item.Name, 
-                    item.Price, 
-                    item.Thumb?.Path, 
-                    item.Stock, 
-                    item.IsActive, 
+                    item.Id,
+                    item.Description,
+                    item.Name,
+                    item.Price,
+                    item.Thumb?.Path,
+                    item.Stock,
+                    item.IsActive,
                     item.CategoryId));
             }
 

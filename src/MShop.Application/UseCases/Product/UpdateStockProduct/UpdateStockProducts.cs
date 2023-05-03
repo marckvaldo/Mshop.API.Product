@@ -1,4 +1,5 @@
 ﻿using MShop.Application.UseCases.Product.Common;
+using MShop.Business.Exception;
 using MShop.Business.Exceptions;
 using MShop.Business.Interface;
 using MShop.Business.Interface.Repository;
@@ -22,11 +23,14 @@ namespace MShop.Application.UseCases.Product.UpdateStockProduct
         public async Task<ProductModelOutPut> Handler(UpdateStockProductInPut request)
         {
             var product = await _productRepository.GetById(request.Id);
-            if(product is null)
+            /*if(product is null)
             {
                 Notify("Não foi possivel localizar o produto na base de dados");
                 throw new ApplicationValidationException("");
-            }
+            }*/
+
+            NotFoundException.ThrowIfnull(product, "Não foi possivel localizar a produto da base de dados!");
+
             product.UpdateQuantityStock(request.Stock);
             product.IsValid(Notifications);
             await _productRepository.Update(product);

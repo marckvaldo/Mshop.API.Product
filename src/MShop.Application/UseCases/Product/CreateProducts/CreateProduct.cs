@@ -45,9 +45,7 @@ namespace MShop.Application.UseCases.Product.CreateProducts
 
             var hasCategory = await _categoryRepository.GetById(product.CategoryId);
 
-
-            Notify($"Categoria {product.Id} não encontrada");
-            NotFoundException.ThrowIfnull(hasCategory, "your search returned null");
+            NotFoundException.ThrowIfnull(hasCategory, $"Categoria {product.CategoryId} não encontrada");
 
             /*if (hasCategory is null)
             {
@@ -74,12 +72,14 @@ namespace MShop.Application.UseCases.Product.CreateProducts
 
         private async Task UploadImage(CreateProductInPut request, Business.Entity.Product product)
         {
-            if (request.Thumb is not null)
-            {
-                var thumbFile = Helpers.Base64ToStream(request.Thumb.FileStremBase64);
-                var urlThumb = await _storageService.Upload($"{product.Id}-thumb.{thumbFile.Extension}", thumbFile.FileStrem);
-                product.UpdateThumb(urlThumb);
-            }
+            if (string.IsNullOrEmpty(request.Thumb?.FileStremBase64.Trim()))
+                return;
+           
+
+            var thumbFile = Helpers.Base64ToStream(request.Thumb.FileStremBase64);
+            var urlThumb = await _storageService.Upload($"{product.Id}-thumb.{thumbFile.Extension}", thumbFile.FileStrem);
+            product.UpdateThumb(urlThumb);
+            
         }
     }
 }

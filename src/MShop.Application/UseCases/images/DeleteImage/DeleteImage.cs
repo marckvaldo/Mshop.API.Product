@@ -1,6 +1,7 @@
 ﻿using MShop.Application.UseCases.images.Common;
 using MShop.Application.UseCases.images.CreateImage;
 using MShop.Business.Entity;
+using MShop.Business.Exception;
 using MShop.Business.Interface;
 using MShop.Business.Interface.Repository;
 using MShop.Business.Interface.Service;
@@ -25,11 +26,7 @@ namespace MShop.Application.UseCases.images.DeleteImage
         {
             var image = await _imageRepository.GetById(id);
 
-            if(image is null)
-            {
-                Notify("Não foi possivel encontrar a Image");
-                throw new ApplicationException("");
-            }
+            NotFoundException.ThrowIfnull(image, "Não foi possivel encontrar a Image");
 
             if(await _storageService.Delete(image.FileName))
             {

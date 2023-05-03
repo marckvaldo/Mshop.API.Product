@@ -13,5 +13,7 @@ namespace MShop.Business.Interface.Repository
         Task<List<Product>> GetProductsPromotions();
 
         Task<List<Product>> GetProductsByCategoryId(Guid categoryId);
+
+        Task<Product> GetProductWithCategory(Guid id); 
     }
 }

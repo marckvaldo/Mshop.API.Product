@@ -1,4 +1,5 @@
-﻿using MShop.Application.UseCases.Product.Common;
+﻿using MShop.Application.UseCases.Category.Common;
+using MShop.Application.UseCases.Product.Common;
 using MShop.Business.ValueObject;
 using System;
 using System.Collections.Generic;
@@ -10,8 +11,18 @@ namespace MShop.Application.UseCases.Product.GetProduct
 {
     public class GetProductOutPut : ProductModelOutPut
     {
-        public GetProductOutPut(Guid id, string description, string name, decimal price, string? thumb, decimal stock, bool isActive, Guid categoryId, List<string?> images)
-            : base(id, description,name,price,thumb,stock,isActive,categoryId)
+        public GetProductOutPut(Guid id, 
+            string description, 
+            string name, 
+            decimal price, 
+            string? thumb, 
+            decimal stock, 
+            bool isActive, 
+            Guid categoryId,
+            CategoryModelOutPut category,
+            List<string?> images,
+            bool isPromotion)
+            : base(id, description,name,price,thumb,stock,isActive,categoryId,category,isPromotion)
         {
             Description = description;
             Name = name;
@@ -24,6 +35,6 @@ namespace MShop.Application.UseCases.Product.GetProduct
             Images = images;
         }
        
-        public List<string?> Images { get; set; }  
+        public List<string?> Images { get; set; }   
     }
 }

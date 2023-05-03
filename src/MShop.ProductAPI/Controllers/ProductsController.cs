@@ -5,11 +5,11 @@ using MShop.Application.UseCases.Product.CreateProducts;
 using MShop.Application.UseCases.Product.GetProduct;
 using MShop.Application.UseCases.Product.UpdateProduct;
 using MShop.Application.UseCases.Product.DeleteProduct;
-using MShop.Business.Exceptions;
 using MShop.Application.UseCases.Product.UpdateStockProduct;
 using MShop.Application.UseCases.Product.ListProducts;
 using MShop.Application.UseCases.Product.Common;
 using MShop.Application.UseCases.Product.ProductsPromotions;
+using MShop.Application.UseCases.Product.UpdateThumb;
 
 namespace MShop.ProductAPI.Controllers
 {
@@ -24,6 +24,7 @@ namespace MShop.ProductAPI.Controllers
         private readonly IUpdateStockProduct _updateStoqueProduct;
         private readonly IListProducts _listProducts;
         private readonly IProductsPromotions _productPromotions;
+        private readonly IUpdateThumb _updateThumb;
 
         public ProductsController(
             IGetProduct getProduct, 
@@ -33,7 +34,8 @@ namespace MShop.ProductAPI.Controllers
             IUpdateStockProduct updateStoqueProduct,
             IListProducts listProducts,
             INotification notification,
-            IProductsPromotions productPromotions
+            IProductsPromotions productPromotions,
+            IUpdateThumb updateThumb
             ) : base(notification)
         {
             _getProduct = getProduct;
@@ -43,6 +45,7 @@ namespace MShop.ProductAPI.Controllers
             _updateStoqueProduct = updateStoqueProduct;
             _listProducts = listProducts;
             _productPromotions = productPromotions;
+            _updateThumb = updateThumb;
         }
 
         [HttpGet("{id:guid}")]
@@ -71,12 +74,12 @@ namespace MShop.ProductAPI.Controllers
         }
 
         [HttpPut("{id:guid}")]
-        public async Task<ActionResult<ProductModelOutPut>> Update(Guid Id, UpdateProductInPut product)
+        public async Task<ActionResult<ProductModelOutPut>> Update(Guid id, UpdateProductInPut product)
         {
         
             if (!ModelState.IsValid) return CustomResponse(ModelState);
 
-            if (Id != product.Id)
+            if (id != product.Id)
             {
                 Notify("O id informado não é o mesmo passado como parametro");
                 return CustomResponse(product);
@@ -87,19 +90,18 @@ namespace MShop.ProductAPI.Controllers
         }
 
         [HttpDelete("{id:guid}")]
-        public async Task<ActionResult<ProductModelOutPut>> Delete(Guid Id)
+        public async Task<ActionResult<ProductModelOutPut>> Delete(Guid id)
         {
-            return CustomResponse(await _deleteProduct.Handler(Id));
+            return CustomResponse(await _deleteProduct.Handler(id));
         }
 
-
         [HttpPost("update-stock/{id:guid}")]
-        public async Task<ActionResult<ProductModelOutPut>> UpdateStock(Guid Id, [FromBody] UpdateStockProductInPut product)
+        public async Task<ActionResult<ProductModelOutPut>> UpdateStock(Guid id, [FromBody] UpdateStockProductInPut product)
         {
        
             if (!ModelState.IsValid) return CustomResponse(ModelState);
 
-            if (Id != product.Id)
+            if (id != product.Id)
             {
                 Notify("O id informado não é o mesmo passado como parametro");
                 return CustomResponse(product);
@@ -107,6 +109,20 @@ namespace MShop.ProductAPI.Controllers
 
             return CustomResponse(await _updateStoqueProduct.Handler(product));
         
+        }
+
+        [HttpPut("update-thump/{id:guid}")]
+        public async Task<ActionResult<ProductModelOutPut>> UpdateThumb(Guid id, [FromBody] UpdateThumbInput product)
+        {
+            if (!ModelState.IsValid) CustomResponse(ModelState);
+
+            if(id != product.Id)
+            {
+                Notify("O id informado não é o mesmo passado como parametro");
+                return CustomResponse(product);
+            }
+
+            return CustomResponse(await _updateThumb.Handler(product));
         }
     }
 }

@@ -15,6 +15,11 @@ namespace MShop.Application.Common
             return StringBetween(file, "/", ";");
         }
 
+        public static string CleanExtensionBase64(string file)
+        {
+            var fileClean = new Regex(@"^data:image\/[a-z]+;base64,").Replace(file, "");
+            return fileClean;
+        }
         public static FileInput Base64ToStream(string file) 
         {
             var extension = GetExtensionBase64(file);
@@ -37,7 +42,13 @@ namespace MShop.Application.Common
             return Convert.ToBase64String(bytes);
            
         }
-    
+
+        public static bool IsBase64String(string base64)
+        {
+            base64 = CleanExtensionBase64(base64);
+            return (base64.Length % 4 == 0) && Regex.IsMatch(base64, @"^[a-zA-Z0-9\+/]*={0,3}$", RegexOptions.None);
+        }
+
 
         /*String*/
         public static string StringBetween(this string value, string a, string b)

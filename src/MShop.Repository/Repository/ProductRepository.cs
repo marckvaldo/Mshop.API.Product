@@ -18,9 +18,7 @@ namespace MShop.Repository.Repository
 
         public async Task<Product> GetProductWithCategory(Guid id)
         {
-            var result = await  _db.Products.Where(p => p.Id == id).Include(c => c.CategoryId).FirstAsync();
-            NotFoundException.ThrowIfnull(result, "your search returned null");
-            return result;
+           return await  _db.Products.Where(p => p.Id == id).Include(c => c.Category).FirstOrDefaultAsync();
         }
 
         public async Task<PaginatedOutPut<Product>> FilterPaginated(PaginatedInPut input)
@@ -35,18 +33,16 @@ namespace MShop.Repository.Repository
 
             var total = await query.CountAsync();
             var product = await query.Skip(toSkip).Take(input.PerPage)
-                         .ToListAsync();
+                         .Include(c => c.Category).ToListAsync();
 
-            NotFoundException.ThrowIfnull(product);
+            //NotFoundException.ThrowIfnull(product);
             return new PaginatedOutPut<Product>(input.Page, input.PerPage, total, product);
 
         }
 
         public async Task<List<Product>> GetProductsPromotions()
         {
-            var result = await _dbSet.ToListAsync();
-            if(!result.Any()) result = null;
-            NotFoundException.ThrowIfnull(result, "your search returned null");
+            var result = await _dbSet.Where(c => c.IsPromotion == true).Include(c => c.Category).ToListAsync();
             return result;
         }
 

@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="UseCases\images\ListImage\tlgxjizk.t4k~" />
+    <None Remove="UseCases\Images\ListImage\tlgxjizk.t4k~" />
   </ItemGroup>
 
   <ItemGroup>
