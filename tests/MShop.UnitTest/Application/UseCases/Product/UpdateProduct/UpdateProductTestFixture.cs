@@ -28,7 +28,6 @@ namespace Mshop.Tests.Application.UseCases.Product.UpdateProduct
         {
             return new FileInput("jpg", new MemoryStream(Encoding.ASCII.GetBytes(fakerStatic.Image.LoremPixelUrl())));
         }
-
        
 
         protected ApplicationUseCase.UpdateProductInPut ProductInPut()
@@ -45,7 +44,6 @@ namespace Mshop.Tests.Application.UseCases.Product.UpdateProduct
             };
             
         }
-
 
         protected ProductModelOutPut ProductModelOutPut()
         {
@@ -79,7 +77,10 @@ namespace Mshop.Tests.Application.UseCases.Product.UpdateProduct
             return product;
         }
 
-
+        protected BusinessEntity.Category FakerCategory()
+        {
+            return new(faker.Commerce.Categories(1)[0]);
+        }
 
 
 

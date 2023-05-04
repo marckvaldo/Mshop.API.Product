@@ -34,6 +34,10 @@ namespace Mshop.Tests.Application.UseCases.Product.UpdateProduct
             repository.Setup(r => r.GetById(It.IsAny<Guid>()))
                 .ReturnsAsync(productFake);
 
+            var categoryFake = FakerCategory();
+            repositoryCategory.Setup(c => c.GetById(It.IsAny<Guid>()))
+                .ReturnsAsync(categoryFake);
+
             storageService.Setup(s => s.Upload(It.IsAny<string>(), It.IsAny<Stream>())).ReturnsAsync($"{productFake.Id}-thumb.jpg");
 
             var useCase = new ApplicationUseCase.UpdateProduct(repository.Object, repositoryCategory.Object, notification.Object,storageService.Object);
@@ -90,16 +94,19 @@ namespace Mshop.Tests.Application.UseCases.Product.UpdateProduct
             var notification = new Mock<INotification>();
             var storageService = new Mock<IStorageService>();
 
-            //var request = ProductInPut();
+            var categoryFake = FakerCategory();
+            repositoryCategory.Setup(c => c.GetById(It.IsAny<Guid>()))
+                .ReturnsAsync(categoryFake);
+
             var productRepository = ProductModelOutPut();
 
             var useCase = new ApplicationUseCase.UpdateProduct(repository.Object, repositoryCategory.Object, notification.Object, storageService.Object);
             var outPut = async () => await useCase.Handler(request);
 
-            var exception = Assert.ThrowsAsync<ApplicationValidationException>(outPut);
+            var exception = Assert.ThrowsAsync<NotFoundException>(outPut);
 
             repository.Verify(r => r.Update(It.IsAny<BusinessEntity.Product>()), Times.Never);
-            notification.Verify(n => n.AddNotifications(It.IsAny<string>()), Times.Once);
+            notification.Verify(n => n.AddNotifications(It.IsAny<string>()), Times.Never);
 
         }
 

@@ -95,6 +95,10 @@ namespace MShop.Business.Entity
             IsPromotion = false;
         }
         
-        
+        public void UpdateCategory(Category category)
+        {
+            Category = category;
+            CategoryId = category.Id;
+        }
     }
 }

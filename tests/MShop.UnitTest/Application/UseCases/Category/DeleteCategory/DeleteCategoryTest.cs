@@ -59,7 +59,7 @@ namespace MShop.UnitTests.Application.UseCases.Category.DeleteCategory
 
             var exception = Assert.ThrowsAsync<ApplicationValidationException>(action);
             repository.Verify(n => n.DeleteById(It.IsAny<BusinessEntity.Category>()), Times.Never);          
-            notification.Verify(n => n.AddNotifications(It.IsAny<string>()), Times.Once);
+            notification.Verify(n => n.AddNotifications(It.IsAny<string>()), Times.Never);
             repositoryProduct.Verify(n => n.GetProductsByCategoryId(It.IsAny<Guid>()), Times.Never);
 
         }

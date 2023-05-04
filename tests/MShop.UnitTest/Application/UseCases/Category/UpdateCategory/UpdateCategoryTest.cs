@@ -27,6 +27,7 @@ namespace MShop.UnitTests.Application.UseCases.Category.UpdateCategory
             var request = FakerRequest();
 
             var productFake = Faker();
+
             repository.Setup(r => r.GetById(It.IsAny<Guid>()))
                 .ReturnsAsync(productFake);
 

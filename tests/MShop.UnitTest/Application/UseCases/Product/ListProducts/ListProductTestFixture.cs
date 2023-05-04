@@ -40,6 +40,7 @@ namespace Mshop.Tests.Application.UseCases.Product.ListProducts
                 true
             ));
             product.Id = _id;
+            product.UpdateCategory(new BusinessEntity.Category(faker.Commerce.Categories(1)[0]));
             return product;
         }
 

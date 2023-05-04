@@ -36,6 +36,7 @@ namespace Mshop.Tests.Application.UseCases.Product.GetProduct
             ));
             product.Id = _id;
             product.UpdateThumb(faker.Image.LoremFlickrUrl());
+            product.UpdateCategory(new Category(faker.Commerce.Categories(1)[0]));
             return product;
         }
 

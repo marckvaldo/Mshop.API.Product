@@ -28,13 +28,13 @@ namespace Mshop.Tests.Application.UseCases.Product.GetProduts
             var guid = productFake.Id;
             var imagesFaker = ImageFake(guid);
 
-            repository.Setup(r => r.GetById(It.IsAny<Guid>())).ReturnsAsync(productFake);
+            repository.Setup(r => r.GetProductWithCategory(It.IsAny<Guid>())).ReturnsAsync(productFake);
             repositoryImage.Setup(r => r.Filter(It.IsAny<Expression<Func<Image, bool>>>())).ReturnsAsync(imagesFaker);
 
             var useCase = new ApplicationUseCase.GetProduct(repository.Object, repositoryImage.Object, notification.Object) ;
             var outPut = await useCase.Handler(guid);
 
-            repository.Verify(r => r.GetById(It.IsAny<Guid>()), Times.Once);
+            repository.Verify(r => r.GetProductWithCategory(It.IsAny<Guid>()), Times.Once);
             notification.Verify(r => r.AddNotifications(It.IsAny<string>()), Times.Never);
 
             Assert.NotNull(outPut);
@@ -69,13 +69,13 @@ namespace Mshop.Tests.Application.UseCases.Product.GetProduts
             var guid = productFake.Id;
             var imagesFaker = ImageFake(guid);
 
-            repository.Setup(r => r.GetById(It.IsAny<Guid>())).ReturnsAsync(productFake);
+            repository.Setup(r => r.GetProductWithCategory(It.IsAny<Guid>())).ReturnsAsync(productFake);
             repositoryImage.Setup(r => r.Filter(It.IsAny<Expression<Func<Image, bool>>>())).ReturnsAsync(new List<Image>());
 
             var useCase = new ApplicationUseCase.GetProduct(repository.Object, repositoryImage.Object, notification.Object);
             var outPut = await useCase.Handler(guid);
 
-            repository.Verify(r => r.GetById(It.IsAny<Guid>()), Times.Once);
+            repository.Verify(r => r.GetProductWithCategory(It.IsAny<Guid>()), Times.Once);
             notification.Verify(r => r.AddNotifications(It.IsAny<string>()), Times.Never);
 
             Assert.NotNull(outPut);
@@ -98,15 +98,14 @@ namespace Mshop.Tests.Application.UseCases.Product.GetProduts
             var notification = new Mock<INotification>();
             var repositoryImage = new Mock<IImageRepository>();
 
-
-            repository.Setup(r => r.GetById(It.IsAny<Guid>())).ThrowsAsync(new NotFoundException(""));
+            repository.Setup(r => r.GetProductWithCategory(It.IsAny<Guid>()));//.ThrowsAsync(new NotFoundException(""));
 
             var caseUse = new ApplicationUseCase.GetProduct(repository.Object, repositoryImage.Object, notification.Object);
             var outPut = async () => await caseUse.Handler(Guid.NewGuid());
 
             var exception = Assert.ThrowsAsync<NotFoundException>(outPut);
 
-            repository.Verify(r => r.GetById(It.IsAny<Guid>()), Times.Once);
+            repository.Verify(r => r.GetProductWithCategory(It.IsAny<Guid>()), Times.Once);
             notification.Verify(r => r.AddNotifications(It.IsAny<string>()), Times.Never);
         }
     }

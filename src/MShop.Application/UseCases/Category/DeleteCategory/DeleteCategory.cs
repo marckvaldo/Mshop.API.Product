@@ -35,7 +35,7 @@ namespace MShop.Application.UseCases.Category.DeleteCategory
             }*/
 
             var products = await _productRepository.GetProductsByCategoryId(id);
-            if(products?.Count() > 0 )
+            if(products.Count() > 0 )
             {
                 Notify("Não é possivel excluir um categoria quando a mesma ja está relacionada com produtos");
                 throw new ApplicationValidationException("");

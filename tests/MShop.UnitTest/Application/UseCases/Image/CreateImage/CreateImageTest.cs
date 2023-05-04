@@ -21,14 +21,16 @@ namespace MShop.UnitTests.Application.UseCases.Image.CreateImage
         public async void CreateImage()
         {
             var repository = new Mock<IImageRepository>();
+            var repositoryProduct = new Mock<IProductRepository>();
             var notification = new Mock<INotification>();
             var storageService = new Mock<IStorageService>();
+            
 
             var id = Guid.NewGuid();
             var images = ImageFakers64(3);
             var request = FakerRequest(id, images);
 
-            var useCase = new ApplicationUseCase.CreateImage(repository.Object,storageService.Object,notification.Object);
+            var useCase = new ApplicationUseCase.CreateImage(repository.Object,storageService.Object, repositoryProduct.Object, notification.Object);
             var outPut = await useCase.Handler(request);
 
             Assert.NotNull(outPut);
@@ -46,6 +48,7 @@ namespace MShop.UnitTests.Application.UseCases.Image.CreateImage
             var repository = new Mock<IImageRepository>();
             var notification = new Mock<INotification>();
             var storageService = new Mock<IStorageService>();
+            var repositoryProduct = new Mock<IProductRepository>();
 
             var id = Guid.NewGuid();
             var images = ImageFakers64(3);
@@ -53,7 +56,7 @@ namespace MShop.UnitTests.Application.UseCases.Image.CreateImage
 
             request.Images = null;
 
-            var useCase = new ApplicationUseCase.CreateImage(repository.Object, storageService.Object, notification.Object);
+            var useCase = new ApplicationUseCase.CreateImage(repository.Object, storageService.Object, repositoryProduct.Object, notification.Object);
             var action = async () => await useCase.Handler(request);
 
             var exception = Assert.ThrowsAnyAsync<ApplicationException>(action);
