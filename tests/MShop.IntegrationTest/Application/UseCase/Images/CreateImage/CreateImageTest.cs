@@ -22,6 +22,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Images.CreateImages
     public class CreateImageTest : CreateImageTestFixture, IDisposable
     {
         private readonly IImageRepository _imageRepository;
+        private readonly IProductRepository _productRepository;
         private readonly INotification _notification;
         private readonly RepositoryDbContext _repositoryContext;
         private readonly IStorageService _storageService;
@@ -31,6 +32,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Images.CreateImages
         {
             _repositoryContext = CreateDBContext();
             _imageRepository = new ImagesRepository(_repositoryContext);
+            _productRepository = new ProductRepository(_repositoryContext);
             _notification = new Notifications();
             _storageService = new StorageService();
             _imagePersistense = new ImagePersistense(_repositoryContext);
@@ -41,7 +43,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Images.CreateImages
         public async void CreateImage()
         {
             var request = FakerRequest(Guid.NewGuid());
-            var useCase = new ApplicationUseCase.CreateImage(_imageRepository, _storageService, _notification);
+            var useCase = new ApplicationUseCase.CreateImage(_imageRepository, _storageService, _productRepository, _notification);
             var outPut = await useCase.Handler(request);
 
             Assert.NotNull(outPut);

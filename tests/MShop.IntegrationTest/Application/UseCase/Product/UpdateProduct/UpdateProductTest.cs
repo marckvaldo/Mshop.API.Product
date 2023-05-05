@@ -15,6 +15,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.UpdateProduct
     {
 
         private readonly RepositoryDbContext _DbContext;
+        private readonly RepositoryDbContext _DbContextCategory;
         private readonly ProductRepository _repository;
         private readonly CategoryRepository _categoryRepository;
         private readonly ImagesRepository _imageRepository;
@@ -23,6 +24,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.UpdateProduct
         public UpdateProductTest()
         {
             _DbContext = CreateDBContext();
+            _DbContextCategory = CreateDBContext();
             _repository = new ProductRepository(_DbContext);
             _categoryRepository = new CategoryRepository(_DbContext);
             _imageRepository = new ImagesRepository(_DbContext);
@@ -37,11 +39,15 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.UpdateProduct
            
             var notificacao = new Notifications();
 
-            var product = Faker();
-            var request = RequestFake();
+            Guid id = Guid.NewGuid();
+            var category = FakeCategory(id);
+            var product = Faker(category);
+            
+            var request = RequestFake(product.Id,category);
             
 
             await _DbContext.AddAsync(product);
+            await _DbContext.AddAsync(category);
             await _DbContext.SaveChangesAsync();
 
             var useCase = new ApplicationUseCase.UpdateProduct(_repository, _categoryRepository, notificacao,_storageService);

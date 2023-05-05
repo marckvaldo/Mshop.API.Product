@@ -14,8 +14,6 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.UpdateProduct
 {
     public class UpdateProdutTestFixture : ProductTestFixture
     {
-        
-
         protected ApplicationUseCase.UpdateProductInPut RequestFake()
         {
             var product = (new ApplicationUseCase.UpdateProductInPut
@@ -27,6 +25,39 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.UpdateProduct
                 CategoryId = _categoryId,
                 IsActive = true,
                 Id = _id    
+            });
+            return product;
+        }
+
+
+        protected ApplicationUseCase.UpdateProductInPut RequestFake(BusinessEntity.Category category)
+        {
+
+            var product = (new ApplicationUseCase.UpdateProductInPut
+            {
+                Description = Faker().Description,
+                Name = Faker().Name,
+                Price = Convert.ToDecimal(Faker().Price),
+                Thumb = ImageFake64(),
+                CategoryId = category.Id,
+                IsActive = true,
+                Id = _id
+            });
+            return product;
+        }
+
+        protected ApplicationUseCase.UpdateProductInPut RequestFake(Guid produtoId, BusinessEntity.Category category)
+        {
+
+            var product = (new ApplicationUseCase.UpdateProductInPut
+            {
+                Description = Faker().Description,
+                Name = Faker().Name,
+                Price = Convert.ToDecimal(Faker().Price),
+                Thumb = ImageFake64(),
+                CategoryId = category.Id,
+                IsActive = true,
+                Id = produtoId
             });
             return product;
         }
