@@ -6,6 +6,7 @@ namespace MShop.Repository.Migrations
 {
     public partial class created_field_isPromotion : Migration
     {
+
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<bool>(

@@ -7,6 +7,7 @@ namespace MShop.Repository.Migrations
 {
     public partial class inicial : Migration
     {
+
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterDatabase()

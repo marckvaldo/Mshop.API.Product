@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MShop.Repository.Migrations
 {
+
     [DbContext(typeof(RepositoryDbContext))]
     partial class RepositoryDbContextModelSnapshot : ModelSnapshot
     {
