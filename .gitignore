@@ -10,7 +10,7 @@ tests/MShop.IntegrationTest/obj/
 tests/MShop.EndToEndTest/obj/
 .vs/
 
-
+src/MShop.Business/obj/Migrations/
 
 
 src/MShop.Application/bin/
