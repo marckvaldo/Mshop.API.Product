@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Moq;
 using MShop.Business.Exception;
+using MShop.Business.Exceptions;
 using MShop.Business.Interface;
 using MShop.Business.Interface.Service;
 using MShop.Business.Service;
@@ -100,9 +101,9 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.CreateProduct
             var productUseCase = new ApplicationUseCase.CreateProduct(_repository, _notification, _categoryRepository, _storageService, _imageRepository);
             var outPut = async () => await productUseCase.Handler(request);
 
-            var exception = await Assert.ThrowsAsync<NotFoundException>(outPut);
-            Assert.Equal("your search returned null", exception.Message);
-            Assert.False(_notification.HasErrors());
+            var exception = await Assert.ThrowsAsync<ApplicationValidationException>(outPut);
+            Assert.Equal("Error", exception.Message);
+            Assert.True(_notification.HasErrors());
 
 
         }

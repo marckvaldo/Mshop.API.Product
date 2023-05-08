@@ -28,7 +28,8 @@ namespace MShop.Application.UseCases.images.GetImage
         {
             var image = await _imageRepository.GetById(id);
 
-            NotFoundException.ThrowIfnull(image, "Não foi possivel localizar image na base de dados!");
+            //NotFoundException.ThrowIfnull(image, "Não foi possivel localizar image na base de dados!");
+            NotifyExceptionIfNull(image, "Não foi possivel localizar image na base de dados!");
 
             return new ImageOutPut(image.ProductId, new ImageModelOutPut(image.FileName));
         }

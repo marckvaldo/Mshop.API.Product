@@ -2,6 +2,7 @@
 using MShop.Business.Enum.Paginated;
 using MShop.Business.Paginated;
 using MShop.Business.Validation;
+using MShop.IntegrationTests.Repository.CategoryRepository;
 using MShop.Repository.Context;
 using InfraRepository = MShop.Repository.Repository;
 
@@ -13,12 +14,14 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
     {
         private readonly RepositoryDbContext _DbContext;
         private readonly InfraRepository.ProductRepository _repository;
-        protected readonly ProductRepositoryPersistence _persistence; 
+        protected readonly ProductRepositoryPersistence _persistence;
+        protected readonly CategoryRepositoryPertsistence _persistenceCategory;
         public ProductRepositoryTest()
         {
             _DbContext = CreateDBContext();
             _repository = new InfraRepository.ProductRepository(_DbContext);
             _persistence = new ProductRepositoryPersistence(_DbContext);
+            _persistenceCategory = new CategoryRepositoryPertsistence(_DbContext);
         }
 
         [Fact(DisplayName = nameof(CreateProduct))]
@@ -114,11 +117,12 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
 
         [Fact(DisplayName = nameof(FilterPaginated))]
         [Trait("Integration - Infra.Data", "Product Repositorio")]
-
         public async Task FilterPaginated()
         {
-             
-            var productList = FakerList(20);
+            var category = FakerCategory();
+            _persistenceCategory.Create(category);
+
+            var productList = FakerList(category,20);
             _persistence.CreateList(productList);
 
             var perPage = 10;
@@ -137,6 +141,7 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
                 Assert.Equal(product.Name, item.Name);
                 Assert.Equal(product.Description, item.Description);
                 Assert.Equal(product.Price, item.Price);
+                Assert.Equal(product.CategoryId, item.CategoryId);
             }
 
         }
@@ -166,7 +171,11 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
 
         public async Task SerachRestusPaginated(int quantityProduct, int page, int perPage, int expectedQuantityItems)
         {
-            var productList = FakerList(quantityProduct);
+
+            var category = FakerCategory();
+            _persistenceCategory.Create(category);
+
+            var productList = FakerList(category,quantityProduct);
             _persistence.CreateList(productList);
 
             var input = new PaginatedInPut(page, perPage, "", "", SearchOrder.Asc);
@@ -186,6 +195,7 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
                 Assert.Equal(product.Name, item.Name);
                 Assert.Equal(product.Description, item.Description);
                 Assert.Equal(product.Price, item.Price);
+                Assert.Equal(product.CategoryId, item.CategoryId);
             }
 
         }

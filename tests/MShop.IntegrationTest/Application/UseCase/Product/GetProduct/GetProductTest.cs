@@ -4,6 +4,8 @@ using ApplicationUseCase = MShop.Application.UseCases.Product.GetProduct;
 using MShop.Business.Validation;
 using MShop.Business.Exception;
 using MShop.Business.Interface;
+using MShop.Business.Exceptions;
+using MShop.IntegrationTests.Application.UseCase.Category;
 
 namespace MShop.IntegrationTests.Application.UseCase.Product.GetProduct
 {
@@ -16,6 +18,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.GetProduct
         private readonly ProductRepository _repository;
         private readonly ImagesRepository _imagesRepository;
         private readonly ProductPersistence _productPersistence;
+        private readonly CategoryPersistence _categoryPersistence;
         private readonly INotification _notification;
 
         public GetProductTest()
@@ -24,6 +27,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.GetProduct
             _repository = new ProductRepository(_DbContext);
             _imagesRepository = new ImagesRepository(_DbContext);
             _productPersistence = new ProductPersistence(_DbContext);
+            _categoryPersistence = new CategoryPersistence(_DbContext);
             _notification = new Notifications();
         }
 
@@ -31,8 +35,11 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.GetProduct
         [Trait("Integration-Application", "Product Use Case")]
         public async Task GetProduct()
         {
-           
-            var productFake = Faker();
+
+            var category = FakeCategory();
+            await _categoryPersistence.Create(category);
+
+            var productFake = Faker(category);
             await _productPersistence.Create(productFake);
            
             var guid = productFake.Id;
@@ -56,19 +63,21 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.GetProduct
         [Trait("Integration-Application", "Product Use Case")]
         public async Task SholdReturnErrorWhenCantGetProduct()
         {
-           
-            //var notification = new Notifications();
 
-            var productFake = Faker();
+            //var notification = new Notifications();
+            var category = FakeCategory();
+            await _categoryPersistence.Create(category);
+
+            var productFake = Faker(category);
             await _DbContext.Products.AddAsync(productFake);
             await _DbContext.SaveChangesAsync();
 
             var useCase = new ApplicationUseCase.GetProduct(_repository, _imagesRepository, _notification);
             var outPut = async () => await useCase.Handler(Guid.NewGuid());
 
-            var exception = await Assert.ThrowsAsync<NotFoundException>(outPut);
-            Assert.Equal("your search returned null", exception.Message);
-            Assert.False(_notification.HasErrors());
+            var exception = await Assert.ThrowsAsync<ApplicationValidationException>(outPut);
+            Assert.Equal("Error", exception.Message);
+            Assert.True(_notification.HasErrors());
 
         }
 

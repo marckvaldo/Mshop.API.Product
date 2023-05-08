@@ -30,7 +30,8 @@ namespace MShop.Application.UseCases.Product.GetProduct
             var product = await _productRepository.GetProductWithCategory(Id);
 
 
-            NotFoundException.ThrowIfnull(product, "Não foi possivel localizar a produto da base de dados!");
+            //NotFoundException.ThrowIfnull(product, "Não foi possivel localizar a produto da base de dados!");
+            NotifyExceptionIfNull(product, "Não foi possivel localizar a produto da base de dados!");
 
             var images = await _imageRepository.Filter(x => x.ProductId == product.Id);
 

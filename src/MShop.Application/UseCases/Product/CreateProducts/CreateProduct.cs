@@ -45,13 +45,8 @@ namespace MShop.Application.UseCases.Product.CreateProducts
 
             var hasCategory = await _categoryRepository.GetById(product.CategoryId);
 
-            NotFoundException.ThrowIfnull(hasCategory, $"Categoria {product.CategoryId} não encontrada");
-
-            /*if (hasCategory is null)
-            {
-                Notify($"Categoria {product.Id} não encontrada");
-                throw new ApplicationValidationException("");
-            }*/
+            //NotFoundException.ThrowIfnull(hasCategory, $"Categoria {product.CategoryId} não encontrada");
+            NotifyExceptionIfNull(hasCategory, $"Categoria {product.CategoryId} não encontrada");
 
             await UploadImage(request, product);
 

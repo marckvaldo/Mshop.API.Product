@@ -26,6 +26,21 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
             );
         }
 
+        protected Product Faker(Category category)
+        {
+            var produto  = new Product
+                                (
+                                    faker.Commerce.ProductDescription(),
+                                    faker.Commerce.ProductName(),
+                                    Convert.ToDecimal(faker.Commerce.Price()),
+                                    category.Id,
+                                    faker.Random.UInt(),
+                                    true
+                                );
+            produto.UpdateCategory(category);
+            return produto;
+        }
+
         protected Product FakerImage()
         {
             var product = new Product
@@ -51,5 +66,21 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
 
             return listProduct;
         }
+
+        protected List<Product> FakerList(Category category, int length = 5)
+        {
+            List<Product> listProduct = new List<Product>();
+
+            for (int i = 0; i < length; i++)
+                listProduct.Add(Faker(category));
+
+            return listProduct;
+        }
+
+        protected Category FakerCategory()
+        {
+            return new(faker.Commerce.Categories(1)[0],false);
+        }
+
     }
 }

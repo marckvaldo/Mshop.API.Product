@@ -12,6 +12,7 @@ using ApplicationUseCase = MShop.Application.UseCases.images.GetImage;
 using BusinessEntity = MShop.Business.Entity;
 using MShop.Business.Interface.Service;
 using MShop.Application.UseCases.images.GetImage;
+using MShop.Business.Exceptions;
 
 namespace MShop.UnitTests.Application.UseCases.Image.GetImage
 {
@@ -50,7 +51,7 @@ namespace MShop.UnitTests.Application.UseCases.Image.GetImage
             var useCase = new ApplicationUseCase.GetImage(notification.Object, repository.Object, storageService.Object);
             var action = async () => await useCase.Handler(Guid.NewGuid());
 
-            var exception = Assert.ThrowsAsync<ApplicationException>(action);
+            var exception = Assert.ThrowsAsync<ApplicationValidationException>(action);
 
             repository.Verify(r => r.GetById(It.IsAny<Guid>()), Times.Once);
             notification.Verify(n => n.AddNotifications(It.IsAny<string>()), Times.Once);            

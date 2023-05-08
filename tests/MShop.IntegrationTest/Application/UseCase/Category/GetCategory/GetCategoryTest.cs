@@ -12,6 +12,7 @@ using MShop.IntegrationTests.Application.UseCase.Category.Common;
 using Microsoft.EntityFrameworkCore;
 using ApplicationUseCase = MShop.Application.UseCases.Category.GetCatetory;
 using MShop.Business.Exception;
+using MShop.Business.Exceptions;
 
 namespace MShop.IntegrationTests.Application.UseCase.Category.GetCategory
 {
@@ -59,15 +60,15 @@ namespace MShop.IntegrationTests.Application.UseCase.Category.GetCategory
         public async Task SholdReturnErrorWhenCantGetProduct()
         {
             var categoryFake = Faker();
-            _categoryPersistence.Create(categoryFake);
+            await _categoryPersistence.Create(categoryFake);
 
 
             var useCase = new ApplicationUseCase.GetCategory(_notification,_categoryRepository);
             var outPut = async () => await useCase.Handler(Guid.NewGuid());
 
-            var exception = await Assert.ThrowsAsync<NotFoundException>(outPut);
-            Assert.Equal("your search returned null", exception.Message);
-            Assert.False(_notification.HasErrors());
+            var exception = await Assert.ThrowsAsync<ApplicationValidationException>(outPut);
+            Assert.Equal("Error", exception.Message);
+            Assert.True(_notification.HasErrors());
 
         }
 

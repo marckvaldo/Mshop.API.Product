@@ -1,6 +1,9 @@
-﻿using MShop.Business.Exceptions;
+﻿using MShop.Business.Entity;
+using MShop.Business.Exception;
+using MShop.Business.Exceptions;
 using MShop.Business.Interface;
 using MShop.Business.Validation;
+using System;
 
 namespace MShop.Application.UseCases
 {
@@ -18,10 +21,22 @@ namespace MShop.Application.UseCases
             Notifications.AddNotifications(menssagem);
         }
 
-        protected void NotifyStop(string menssagem)
+        protected void NotifyException(string menssagem)
         {
             Notifications.AddNotifications(menssagem);
-            throw new ApplicationValidationException("Erro Applications");
+            throw new ApplicationValidationException("Error");
         }
+
+        protected void NotifyExceptionIfNull(object? @object,  string menssagem)
+        {
+            if (@object == null)
+            {
+                Notifications.AddNotifications(menssagem);
+                throw new ApplicationValidationException("Error");
+            }
+                
+        }
+
+        
     }
 }

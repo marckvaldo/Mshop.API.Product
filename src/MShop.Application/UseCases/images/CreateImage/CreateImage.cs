@@ -30,7 +30,8 @@ namespace MShop.Application.UseCases.images.CreateImage
 
            
             var hasProduct = await _productRepository.GetById(request.ProductId);
-            NotFoundException.ThrowIfnull(hasProduct, "Não foi possivel localizar produtos informado");
+            //NotFoundException.ThrowIfnull(hasProduct, "Não foi possivel localizar produtos informado");
+            NotifyExceptionIfNull(hasProduct, "Não foi possivel localizar produtos informado");
 
             List<Image> Images = new();
 
@@ -51,11 +52,12 @@ namespace MShop.Application.UseCases.images.CreateImage
                 }
             }
 
-            if(Images.Count == 0)
-            {
-                Notify("Não foi possível salvar as images");
-                throw new ApplicationException("Não foi possível salvar as images");
-            }
+            if (Images.Count == 0)
+                NotifyException("Não foi possível salvar as images");
+            //{
+                //Notify("Não foi possível salvar as images");
+                //throw new ApplicationException("Não foi possível salvar as images");
+            //}
 
             await _imageRepository.CreateRange(Images);
 

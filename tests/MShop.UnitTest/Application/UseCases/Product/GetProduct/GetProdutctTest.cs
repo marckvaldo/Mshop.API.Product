@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using MShop.Business.Exception;
 using System.Linq.Expressions;
 using MShop.Business.Entity;
+using MShop.Business.Exceptions;
 
 namespace Mshop.Tests.Application.UseCases.Product.GetProduts
 {
@@ -103,10 +104,10 @@ namespace Mshop.Tests.Application.UseCases.Product.GetProduts
             var caseUse = new ApplicationUseCase.GetProduct(repository.Object, repositoryImage.Object, notification.Object);
             var outPut = async () => await caseUse.Handler(Guid.NewGuid());
 
-            var exception = Assert.ThrowsAsync<NotFoundException>(outPut);
+            var exception = Assert.ThrowsAsync<ApplicationValidationException>(outPut);
 
             repository.Verify(r => r.GetProductWithCategory(It.IsAny<Guid>()), Times.Once);
-            notification.Verify(r => r.AddNotifications(It.IsAny<string>()), Times.Never);
+            notification.Verify(r => r.AddNotifications(It.IsAny<string>()), Times.Once);
         }
     }
 }

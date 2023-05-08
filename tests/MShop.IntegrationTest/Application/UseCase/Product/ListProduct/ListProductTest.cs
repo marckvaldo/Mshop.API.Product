@@ -2,6 +2,7 @@
 using MShop.Business.Enum.Paginated;
 using MShop.Business.Interface;
 using MShop.Business.Validation;
+using MShop.IntegrationTests.Application.UseCase.Category;
 using MShop.Repository.Context;
 using MShop.Repository.Repository;
 
@@ -16,13 +17,16 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.ListProduct
         private readonly ProductRepository _repository;
         private readonly INotification _notification;
         private readonly ProductPersistence _productPersistence;
+        private readonly CategoryPersistence _categoryPersistence;
 
         public ListProductTest()
         {
             _DbContext = CreateDBContext();
             _repository = new ProductRepository(_DbContext);
             _productPersistence = new ProductPersistence(_DbContext);
+            _categoryPersistence = new CategoryPersistence(_DbContext);
             _notification = new Notifications();
+
         }
 
         [Fact(DisplayName = nameof(ListProduct))]
@@ -30,10 +34,13 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.ListProduct
 
         public async Task ListProducts()
         {
-           
+
             //var notification = new Notifications();
 
-            var productsFake = ListFake(20);
+            var category = FakeCategory();
+            await _categoryPersistence.Create(category);
+
+            var productsFake = ListFake(category,20);
             await _productPersistence.CreateList(productsFake);
             //await _DbContext.Products.AddRangeAsync(productsFake);
             //await _DbContext.SaveChangesAsync();
