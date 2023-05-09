@@ -6,6 +6,7 @@ using MShop.Application.UseCases.images.GetImage;
 using MShop.Application.UseCases.images.DeleteImage;
 using MShop.Application.UseCases.images.CreateImage;
 using MShop.Application.UseCases.images.ListImage;
+using MShop.Application.UseCases.Product.Common;
 
 namespace MShop.ProductAPI.Controllers
 {
@@ -27,28 +28,28 @@ namespace MShop.ProductAPI.Controllers
             INotification notification
             ) : base(notification)
         {
-           _getImage = getImage;
+            _getImage = getImage;
             _deleteImage = deleteImage;
             _createImage = createImage;
             _listImage = listImage;
         }
 
         [HttpGet("{id:guid}")]
-        public async Task<ActionResult<IEnumerable<ImageOutPut>>> Image(Guid id)
+        public async Task<ActionResult<ImageOutPut>> Image(Guid id)
         {
             return CustomResponse(await _getImage.Handler(id));        
         }
 
         [HttpGet("list-images-by-id-production/{productId:guid}")]
-        public async Task<ActionResult<IEnumerable<ImageOutPut>>> ListImagesByIdProduction(Guid productId)
+        public async Task<ActionResult<ListImageOutPut>> ListImagesByIdProduction(Guid productId)
         {
             return CustomResponse(await _listImage.Handler(productId));
         }
 
         [HttpPost]        
-        public async Task<ActionResult<ImageOutPut>> Create(CreateImageInPut image)
+        public async Task<ActionResult<ListImageOutPut>> Create(CreateImageInPut image)
         {
-            if (ModelState.IsValid) CustomResponse(ModelState);
+            if (!ModelState.IsValid) CustomResponse(ModelState);
             return CustomResponse(await _createImage.Handler(image));
         }
 
@@ -57,7 +58,7 @@ namespace MShop.ProductAPI.Controllers
         {
             return CustomResponse(await _deleteImage.Handler(id));
         }
-        
+
     }
 }
 

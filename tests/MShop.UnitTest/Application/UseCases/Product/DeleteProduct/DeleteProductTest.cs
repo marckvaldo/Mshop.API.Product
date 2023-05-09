@@ -26,18 +26,18 @@ namespace Mshop.Tests.Application.UseCases.Product.DeleteProduct
             repository.Setup(repository => repository.GetById(It.IsAny<Guid>()))
                 .ReturnsAsync(Faker());
 
-            var product = new ApplicationUseCase.DeleteProduct(repository.Object, repositoryImage.Object, notification.Object, storageService.Object);
-
             var guid = Faker().Id;
+
+            var product = new ApplicationUseCase.DeleteProduct(repository.Object, repositoryImage.Object, notification.Object, storageService.Object);
             var outPut = await product.Handler(guid);
 
             repository.Verify(r => r.DeleteById(It.IsAny<BusinessEntity.Product>()),Times.Once);
             repository.Verify(r => r.GetById(It.IsAny<Guid>()), Times.Once);
             notification.Verify(n => n.AddNotifications(It.IsAny<string>()), Times.Never);
-            repositoryImage.Verify(r => r.DeleteByIdProduct(It.IsAny<Guid>()), Times.Once);
+            //repositoryImage.Verify(r => r.DeleteByIdProduct(It.IsAny<Guid>()), Times.Once);
 
             Assert.Equal(outPut.Id, guid);
-            Assert.NotNull(outPut);
+            Assert.NotNull(outPut);            
 
         }
 

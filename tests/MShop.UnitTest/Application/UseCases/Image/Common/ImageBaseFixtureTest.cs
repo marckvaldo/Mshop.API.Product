@@ -8,6 +8,9 @@ using BusinessEntity = MShop.Business.Entity;
 using ApplicationUseCase = MShop.Application.UseCases.images;
 using MShop.Application.Common;
 using MShop.UnitTests.Common;
+using MShop.Business.Entity;
+using Mshop.Test.Business.Entity.Product;
+using Bogus.DataSets;
 
 namespace MShop.UnitTests.Application.UseCases.Image.Common
 {
@@ -51,6 +54,33 @@ namespace MShop.UnitTests.Application.UseCases.Image.Common
                 listImage.Add(ImageFake64());
 
             return listImage;
+        }
+
+
+        public BusinessEntity.Product FakerProduct(BusinessEntity.Category category)
+        {
+            var product = new BusinessEntity.Product
+                (
+                     faker.Commerce.ProductName(),
+                     faker.Commerce.ProductDescription(),
+                    Convert.ToDecimal(faker.Commerce.Price()),
+                    category.Id,
+                    faker.Random.UInt(),
+                    true
+                );
+
+            return product;
+        }
+
+        public BusinessEntity.Category FakerCategory()
+        {
+            var category = new BusinessEntity.Category
+                (
+                     faker.Commerce.Categories(1)[0],
+                     true
+                );
+
+            return category;
         }
     }
 }

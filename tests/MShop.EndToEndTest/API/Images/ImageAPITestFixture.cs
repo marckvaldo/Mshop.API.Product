@@ -8,22 +8,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
-using MShop.Business.Entity;
+using MShop.EndToEndTest.API.Product;
+using BusinessEntity = MShop.Business.Entity;
 
 namespace MShop.EndToEndTest.API.Images
 {
     public class ImageAPITestFixture :  BaseFixture
     {
         private readonly Guid _productId;
-        protected readonly ImagePersistence _imagePersistence;    
+        protected readonly ImagePersistence _imagePersistence;
+        protected readonly ProductPersistence _productPersistence;
         public ImageAPITestFixture() 
         { 
             _productId = Guid.NewGuid();
             _imagePersistence = new ImagePersistence(CreateDBContext());
+            _productPersistence = new ProductPersistence(CreateDBContext());    
         }
-        public CreateImageInPut FakeRequest(int quantidade = 3)
+        public async Task<CreateImageInPut> FakeRequest(int quantidade = 3)
         {
-            return new CreateImageInPut { Images = ListFakeImage64(quantidade), ProductId = _productId };
+            var product = await PersistirProduct();
+            return new CreateImageInPut { Images = ListFakeImage64(quantidade), ProductId = product.Id };
         }
 
         public FileInputBase64 FakeImage64()
@@ -40,17 +44,26 @@ namespace MShop.EndToEndTest.API.Images
             return images;
         }
 
-        public Image FakeImage()
+        public BusinessEntity.Image FakeImage()
         {
-            return new Image(faker.Image.LoremFlickrUrl(), _productId); ;
+            return new BusinessEntity.Image(faker.Image.LoremFlickrUrl(), _productId); ;
         }
 
-        public List<Image> ListImage(int quantidade = 4)
+        public List<BusinessEntity.Image> ListImage(int quantidade = 4)
         {
-            var images = new List<Image>();
+            var images = new List<BusinessEntity.Image>();
             for(var i = 0; i < quantidade; i++) 
                 images.Add(FakeImage());
             return images;
+        }
+
+        public async Task<BusinessEntity.Product> PersistirProduct()
+        {
+            var category = new BusinessEntity.Category(faker.Commerce.Categories(1)[0]);
+            var product = new BusinessEntity.Product(faker.Commerce.ProductDescription(),faker.Commerce.ProductName(),10,category.Id,0,true);
+            _productPersistence.Create(product);
+            return product;
+
         }
 
     }

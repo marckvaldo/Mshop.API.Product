@@ -8,9 +8,9 @@ namespace MShop.Application.UseCases.images.Common
 {
     public class ImageModelOutPut
     {
-        public ImageModelOutPut(string images)
+        public ImageModelOutPut(string image)
         {
-            Image = images;
+            Image = image;
         }
 
         public string Image { get; set; }

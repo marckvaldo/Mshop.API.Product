@@ -36,5 +36,40 @@ namespace MShop.UnitTests.Application.UseCases.Category.common
             yield return new object[] { "" };
             yield return new object[] { null };
         }
+
+        public BusinessEntity.Product FakerProduct(BusinessEntity.Category category)
+        {
+            var product = new BusinessEntity.Product
+                (
+                     faker.Commerce.ProductName(),
+                     faker.Commerce.ProductDescription(),
+                    Convert.ToDecimal(faker.Commerce.Price()),
+                    category.Id,
+                    faker.Random.UInt(),
+                    true
+                );
+
+            return product;
+        }
+
+        public BusinessEntity.Category FakerCategory()
+        {
+            var category = new BusinessEntity.Category
+                (
+                     faker.Commerce.Categories(1)[0],
+                     true
+                );
+
+            return category;
+        }
+
+        public List<BusinessEntity.Product> FakerProducts(int quantity, BusinessEntity.Category category)
+        {
+            List<BusinessEntity.Product> listProduct = new List<BusinessEntity.Product>();
+            for (int i = 1; i <= quantity; i++)
+                listProduct.Add(FakerProduct(category));
+
+            return listProduct;
+        }
     }
 }

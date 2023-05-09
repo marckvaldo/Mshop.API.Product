@@ -20,6 +20,5 @@ namespace MShop.EndToEndTest.API.Common
             Success = success;
         }
 
-
     }
 }

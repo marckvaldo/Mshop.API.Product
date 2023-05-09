@@ -25,8 +25,8 @@ namespace MShop.UnitTests.Application.UseCases.Category.DeleteCategory
             var repositoryProduct = new Mock<IProductRepository>();
 
             var category = Faker();
-            
 
+            //repositoryProduct.Setup(r => r.GetProductsByCategoryId(It.IsAny<Guid>())).ReturnsAsync(FakerProducts(6,FakerCategory()));
             repository.Setup(r => r.GetById(It.IsAny<Guid>())).ReturnsAsync(category);
 
             var useCase = new useCase.DeleteCategory(repository.Object, repositoryProduct.Object , notification.Object);
@@ -76,7 +76,7 @@ namespace MShop.UnitTests.Application.UseCases.Category.DeleteCategory
             var notification = new Mock<INotification>();
 
             var category = Faker();
-            var product = FakerProducts(3,category.Id);
+            var product = FakerProducts(3, category);
 
             repository.Setup(r => r.GetById(It.IsAny<Guid>())).ReturnsAsync(category);
             repositoryProduct.Setup(r => r.GetProductsByCategoryId(It.IsAny<Guid>())).ReturnsAsync(product);

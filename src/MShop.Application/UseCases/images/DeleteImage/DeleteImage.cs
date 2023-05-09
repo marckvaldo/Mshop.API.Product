@@ -26,7 +26,7 @@ namespace MShop.Application.UseCases.images.DeleteImage
         {
             var image = await _imageRepository.GetById(id);
 
-            NotFoundException.ThrowIfnull(image, "Não foi possivel encontrar a Image");
+            NotifyExceptionIfNull(image, "Não foi possivel encontrar a Image");
 
             if(await _storageService.Delete(image.FileName))
             {

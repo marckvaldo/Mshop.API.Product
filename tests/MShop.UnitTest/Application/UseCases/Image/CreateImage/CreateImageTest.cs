@@ -24,7 +24,9 @@ namespace MShop.UnitTests.Application.UseCases.Image.CreateImage
             var repositoryProduct = new Mock<IProductRepository>();
             var notification = new Mock<INotification>();
             var storageService = new Mock<IStorageService>();
-            
+
+
+            repositoryProduct.Setup(x => x.GetById(It.IsAny<Guid>())).ReturnsAsync(FakerProduct(FakerCategory()));
 
             var id = Guid.NewGuid();
             var images = ImageFakers64(3);

@@ -45,7 +45,6 @@
   <ItemGroup>
     <Folder Include="API\Categoria\Common\" />
     <Folder Include="API\Categoria\Common\" />
-    <Folder Include="API\Images\Common\" />
   </ItemGroup>
 
 </Project>
