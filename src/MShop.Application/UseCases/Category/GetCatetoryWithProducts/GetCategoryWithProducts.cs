@@ -18,26 +18,14 @@ namespace MShop.Application.UseCases.GetCatetoryWithProducts.GetCatetory
     {
         private readonly ICategoryRepository _categoryRepository;
         public GetCategoryWithProducts(INotification notification, ICategoryRepository categoryRepository) : base(notification)
-        {
-            _categoryRepository = categoryRepository;
-        }
-
+          => _categoryRepository = categoryRepository;
         public async Task<GetCategoryWithProductsOutPut> Handler(Guid id)
         {
             var category = await  _categoryRepository.GetCategoryProducts(id);
-
-            NotFoundException.ThrowIfnull(category, "não foi possivel localizar a categoria da base de dados!");
-
-
-            /*if(category == null)
-            {
-                Notify("não foi possivel localizar a categoria da base de dados!");
-                throw new ApplicationValidationException("");
-            }*/
+            NotifyExceptionIfNull(category, "não foi possivel localizar a categoria da base de dados!");
             category.IsValid(Notifications);
 
             List<ProductModelOutPut> listProdutos = new List<ProductModelOutPut>();
-
             foreach(var item in category.Products)
             {
                 listProdutos.Add(new ProductModelOutPut(
@@ -45,7 +33,7 @@ namespace MShop.Application.UseCases.GetCatetoryWithProducts.GetCatetory
                     item.Description,
                     item.Name,
                     item.Price,
-                    item.Thumb.Path,
+                    item.Thumb?.Path,
                     item.Stock,
                     item.IsActive,
                     item.CategoryId

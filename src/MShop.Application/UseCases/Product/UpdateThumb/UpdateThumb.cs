@@ -27,9 +27,9 @@ namespace MShop.Application.UseCases.Product.UpdateThumb
         public async Task<ProductModelOutPut> Handler(UpdateThumbInput request)
         {
             var product = await _productRepository.GetById(request.Id);
-            NotFoundException.ThrowIfnull(product, "Não foi possivel localizar o produto!");
+            NotifyExceptionIfNull(product, "Não foi possivel localizar o produto!");
 
-            product.IsValid(Notifications);
+            product!.IsValid(Notifications);
 
             await UploadImage(request, product);
             await _productRepository.Update(product);
@@ -56,6 +56,10 @@ namespace MShop.Application.UseCases.Product.UpdateThumb
 
             var thumb = Helpers.Base64ToStream(request.Thumb.FileStremBase64);
             var urlThumb = await _storageService.Upload($"{product.Id}-thumb.{thumb.Extension}", thumb.FileStrem);
+
+            if (!string.IsNullOrEmpty(request.Thumb.FileStremBase64.Trim()) && !string.IsNullOrEmpty(product.Thumb?.Path.Trim()))
+                await _storageService.Delete(product.Thumb.Path);
+
             product.UpdateThumb(urlThumb);
 
         }

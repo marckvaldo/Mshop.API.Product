@@ -36,7 +36,6 @@ namespace MShop.IntegrationTests.Common
                 context.Database.EnsureDeleted();
 
             return context;
-
         }
 
         protected void CleanInMemoryDatabase(RepositoryDbContext? context = null)

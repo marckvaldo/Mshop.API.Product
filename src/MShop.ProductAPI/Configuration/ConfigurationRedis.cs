@@ -1,4 +1,7 @@
-﻿namespace MShop.ProductAPI.Configuration
+﻿using Microsoft.Extensions.Options;
+using MShop.ProductAPI.Settings;
+
+namespace MShop.ProductAPI.Configuration
 {
     public static class ConfigurationRedis
     {

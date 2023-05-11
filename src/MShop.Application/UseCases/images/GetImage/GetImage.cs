@@ -26,12 +26,10 @@ namespace MShop.Application.UseCases.images.GetImage
 
         public async Task<ImageOutPut> Handler(Guid id)
         {
-            var image = await _imageRepository.GetById(id);
-
-            //NotFoundException.ThrowIfnull(image, "Não foi possivel localizar image na base de dados!");
+            var image = await _imageRepository.GetById(id);            
             NotifyExceptionIfNull(image, "Não foi possivel localizar image na base de dados!");
 
-            return new ImageOutPut(image.ProductId, new ImageModelOutPut(image.FileName));
+            return new ImageOutPut(image!.ProductId, new ImageModelOutPut(image.FileName));
         }
     }
 }

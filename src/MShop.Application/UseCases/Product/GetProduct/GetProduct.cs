@@ -27,15 +27,11 @@ namespace MShop.Application.UseCases.Product.GetProduct
 
         public async Task<GetProductOutPut> Handler(Guid Id)
         {
-            var product = await _productRepository.GetProductWithCategory(Id);
-
-
-            //NotFoundException.ThrowIfnull(product, "Não foi possivel localizar a produto da base de dados!");
+            var product = await _productRepository.GetProductWithCategory(Id);            
             NotifyExceptionIfNull(product, "Não foi possivel localizar a produto da base de dados!");
 
             var images = await _imageRepository.Filter(x => x.ProductId == product.Id);
 
-            //implementar o delete de images
             return new GetProductOutPut(
                 product.Id,
                 product.Description,

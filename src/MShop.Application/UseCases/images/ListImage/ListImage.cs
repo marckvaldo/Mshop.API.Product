@@ -13,19 +13,15 @@ namespace MShop.Application.UseCases.images.ListImage
     {
         private readonly IImageRepository _imageRepository;
         public ListImage(INotification notification, IImageRepository imageRepository) : base(notification)
-        {
-            _imageRepository = imageRepository;
-        }
-
+            => _imageRepository = imageRepository;
         public async Task<ListImageOutPut> Handler(Guid productId)
         {
             var images = await _imageRepository.Filter(x=>x.ProductId == productId);
-
             return new ListImageOutPut
-                (
-                    productId, 
-                    images.Select(x => new ImageModelOutPut(x.FileName)).ToList()
-                ) ;
+                    (
+                        productId, 
+                        images.Select(x => new ImageModelOutPut(x.FileName)).ToList()
+                    );
         }
     }
 }

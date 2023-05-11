@@ -27,21 +27,19 @@ namespace MShop.Application.UseCases.images.CreateImage
 
         public async Task<ListImageOutPut> Handler(CreateImageInPut request)
         {
-
-           
-            var hasProduct = await _productRepository.GetById(request.ProductId);
-            //NotFoundException.ThrowIfnull(hasProduct, "Não foi possivel localizar produtos informado");
+            var hasProduct = await _productRepository.GetById(request.ProductId);            
             NotifyExceptionIfNull(hasProduct, "Não foi possivel localizar produtos informado");
 
-            List<Image> Images = new();
+            if (request.Images?.Count == 0)
+                NotifyException("Por favor informar ao menos uma image");
 
+            List<Image> Images = new();
             foreach (FileInputBase64 item in request.Images)
             {
                 if (string.IsNullOrEmpty(item.FileStremBase64.Trim()))
                     continue;
 
                 var image = new Image("", request.ProductId);
-
                 if(item is not null)
                 {
                     var file = Helpers.Base64ToStream(item.FileStremBase64);
@@ -54,11 +52,7 @@ namespace MShop.Application.UseCases.images.CreateImage
 
             if (Images.Count == 0)
                 NotifyException("Não foi possível salvar as images");
-            //{
-                //Notify("Não foi possível salvar as images");
-                //throw new ApplicationException("Não foi possível salvar as images");
-            //}
-
+           
             await _imageRepository.CreateRange(Images);
 
             return new ListImageOutPut(request.ProductId, Images.Select(x=> new ImageModelOutPut(x.FileName)).ToList());

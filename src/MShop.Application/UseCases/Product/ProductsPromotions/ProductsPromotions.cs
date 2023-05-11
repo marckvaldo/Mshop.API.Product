@@ -24,9 +24,9 @@ namespace MShop.Application.UseCases.Product.Productspromotions
         public async Task<List<ProductModelOutPut>> Handler()
         {
             var productsCache = await _cacheRepository.GetKeyCollection<ProductModelOutPut>("promocao");
-            if (productsCache != null)
+            if (productsCache is not null)
             {
-                return productsCache;
+                return productsCache!;
             }
                 
             List<ProductModelOutPut> listProducts = new();

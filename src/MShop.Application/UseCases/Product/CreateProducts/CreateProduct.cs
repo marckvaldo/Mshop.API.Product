@@ -44,25 +44,30 @@ namespace MShop.Application.UseCases.Product.CreateProducts
             product.IsValid(Notifications);
 
             var hasCategory = await _categoryRepository.GetById(product.CategoryId);
-
-            //NotFoundException.ThrowIfnull(hasCategory, $"Categoria {product.CategoryId} não encontrada");
             NotifyExceptionIfNull(hasCategory, $"Categoria {product.CategoryId} não encontrada");
 
-            await UploadImage(request, product);
+            try
+            {
+                await UploadImage(request, product);
+                await _productRepository.Create(product);
 
-            await _productRepository.Create(product);
-
-
-            return new ProductModelOutPut(
-                    product.Id,
-                    product.Description,
-                    product.Name,
-                    product.Price,
-                    product.Thumb?.Path,
-                    product.Stock,
-                    product.IsActive,
-                    product.CategoryId
-                );
+                return new ProductModelOutPut(
+                        product.Id,
+                        product.Description,
+                        product.Name,
+                        product.Price,
+                        product.Thumb?.Path,
+                        product.Stock,
+                        product.IsActive,
+                        product.CategoryId
+                    );
+            }
+            catch(Exception)
+            {
+                if(product?.Thumb?.Path is not null) 
+                    await _storageService.Delete(product.Thumb.Path);
+                throw;
+            }
         }
 
         private async Task UploadImage(CreateProductInPut request, Business.Entity.Product product)

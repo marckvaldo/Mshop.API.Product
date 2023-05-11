@@ -25,10 +25,9 @@ namespace MShop.Application.UseCases.images.DeleteImage
         public async Task<ImageOutPut> Handler(Guid id)
         {
             var image = await _imageRepository.GetById(id);
-
             NotifyExceptionIfNull(image, "Não foi possivel encontrar a Image");
 
-            if(await _storageService.Delete(image.FileName))
+            if(await _storageService.Delete(image!.FileName))
             {
                 await _imageRepository.DeleteById(image);
             }

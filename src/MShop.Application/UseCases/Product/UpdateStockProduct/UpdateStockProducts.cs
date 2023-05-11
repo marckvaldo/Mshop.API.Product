@@ -16,24 +16,17 @@ namespace MShop.Application.UseCases.Product.UpdateStockProduct
         private readonly IProductRepository _productRepository;
 
         public UpdateStockProducts(IProductRepository productRepository, INotification notification):base(notification)
-        {
-            _productRepository = productRepository;
-        }
+            => _productRepository = productRepository;
 
         public async Task<ProductModelOutPut> Handler(UpdateStockProductInPut request)
         {
             var product = await _productRepository.GetById(request.Id);
-            /*if(product is null)
-            {
-                Notify("Não foi possivel localizar o produto na base de dados");
-                throw new ApplicationValidationException("");
-            }*/
+            NotifyExceptionIfNull(product, "Não foi possivel localizar a produto da base de dados!");
 
-            NotFoundException.ThrowIfnull(product, "Não foi possivel localizar a produto da base de dados!");
-
-            product.UpdateQuantityStock(request.Stock);
+            product!.UpdateQuantityStock(request.Stock);
             product.IsValid(Notifications);
             await _productRepository.Update(product);
+
             return new ProductModelOutPut(
                 product.Id,
                 product.Description,
@@ -43,7 +36,6 @@ namespace MShop.Application.UseCases.Product.UpdateStockProduct
                 product.Stock,
                 product.IsActive,
                 product.CategoryId);
-
         }
     }
 }

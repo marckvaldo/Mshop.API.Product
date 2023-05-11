@@ -27,22 +27,18 @@ namespace MShop.Application.UseCases.Product.DeleteProduct
         public async Task<ProductModelOutPut> Handler(Guid request)
         {
             var product = await _productRespository.GetById(request);
-
-            //NotFoundException.ThrowIfnull(product, "Não foi possivel localizar a produto da base de dados!");
             NotifyExceptionIfNull(product, "Não foi possivel localizar a produto da base de dados!");
 
-            var hasImages = await _imageRepository.Filter(x => x.ProductId == product.Id);
+            var hasImages = await _imageRepository.Filter(x => x.ProductId == product!.Id);
             if(hasImages?.Count > 0)
                 NotifyException("Existe(m) Imagen(s) associada(s) a esse produto");
 
-
-            await _productRespository.DeleteById(product);
+            await _productRespository.DeleteById(product!);
            
-            if(product?.Thumb?.Path is not null)
-                await _storageService.Delete(product.Thumb.Path);
+            if(product?.Thumb?.Path is not null) await _storageService.Delete(product.Thumb.Path);
 
             return new ProductModelOutPut(
-                product.Id, 
+                product!.Id, 
                 product.Description,
                 product.Name, 
                 product.Price, 

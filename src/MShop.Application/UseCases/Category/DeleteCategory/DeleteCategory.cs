@@ -25,26 +25,14 @@ namespace MShop.Application.UseCases.Category.DeleteCategory
         public async Task<CategoryModelOutPut> Handler(Guid id)
         {
             var category = await _categoryRepository.GetById(id);
-
-            NotFoundException.ThrowIfnull(category, "não foi possivel localizar a categoria da base de dados!");
-
-            /*if(category == null)
-            {
-                Notify("Não foi possivel localizar a categoria na base de dados");
-                throw new ApplicationValidationException("");
-            }*/
-
+            NotifyExceptionIfNull(category, "não foi possivel localizar a categoria da base de dados!");
+            
             var products = await _productRepository.GetProductsByCategoryId(id);
-            if (products?.Count() > 0)
+            if (products?.Count > 0)
                 NotifyException("Não é possivel excluir um categoria quando a mesma ja está relacionada com produtos");
-            //{
-                //Notify("Não é possivel excluir um categoria quando a mesma ja está relacionada com produtos");
-                //throw new ApplicationValidationException("");
-            //}
-
-            await _categoryRepository.DeleteById(category);
-
-            return new CategoryModelOutPut(category.Id, category.Name, category.IsActive);
+           
+            await _categoryRepository.DeleteById(category!);
+            return new CategoryModelOutPut(category!.Id, category.Name, category.IsActive);
         }
     }
 }

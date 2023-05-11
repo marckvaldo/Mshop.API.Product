@@ -16,18 +16,14 @@ namespace MShop.Application.UseCases.Category.GetCatetory
     {
         private readonly ICategoryRepository _categoryRepository;
         public GetCategory(INotification notification, ICategoryRepository categoryRepository) : base(notification)
-        {
-            _categoryRepository = categoryRepository;
-        }
+            => _categoryRepository = categoryRepository;
 
         public async Task<CategoryModelOutPut> Handler(Guid id)
         {
-            var category = await  _categoryRepository.GetById(id);
-
-            //NotFoundException.ThrowIfnull(category, "não foi possivel localizar a categoria da base de dados!");
+            var category = await  _categoryRepository.GetById(id);            
             NotifyExceptionIfNull(category, "não foi possivel localizar a categoria da base de dados!");
 
-            category.IsValid(Notifications);
+            category!.IsValid(Notifications);
             return new CategoryModelOutPut(id, category.Name, category.IsActive);
         }
     }

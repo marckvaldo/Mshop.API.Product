@@ -11,13 +11,9 @@ namespace MShop.Application.UseCases.Product.ListProducts
         private readonly IProductRepository _productRepostory;
 
         public ListProducts(IProductRepository productRepostory, INotification notification) : base(notification)
-        {
-            _productRepostory = productRepostory;   
-        }
-
+            => _productRepostory = productRepostory;   
         public async Task<ListProductsOutPut> Handler(ListProductInPut request)
         {
-
             var paginatedInPut = new PaginatedInPut(
                 request.Page,
                 request.PerPage,
@@ -43,10 +39,8 @@ namespace MShop.Application.UseCases.Product.ListProducts
                     x.IsActive,
                     x.CategoryId,
                     (new CategoryModelOutPut(x.Category.Id,x.Category.Name,x.Category.IsActive))
-                )).ToList()
-                );
-
-            
+                ))
+                 .ToList());
         }
     }
 }

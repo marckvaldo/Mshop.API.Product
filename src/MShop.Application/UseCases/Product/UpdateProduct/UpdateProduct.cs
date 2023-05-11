@@ -32,16 +32,9 @@ namespace MShop.Application.UseCases.Product.UpdateProduct
         public async Task<ProductModelOutPut> Handler(UpdateProductInPut request)
         {            
             var product = await _productRepository.GetById(request.Id);
-
-            /*if(product == null)
-            {
-                Notify("Não foi possivel localizar o produto na base de dados");
-                throw new ApplicationValidationException("");
-            }*/
-
             NotFoundException.ThrowIfnull(product, "Não foi possivel localizar a produto da base de dados!");
 
-            product.Update(request.Description, request.Name, request.Price, request.CategoryId);
+            product!.Update(request.Description, request.Name, request.Price, request.CategoryId);
             
             if (request.IsActive)
                 product.Activate();
@@ -58,32 +51,44 @@ namespace MShop.Application.UseCases.Product.UpdateProduct
             var hasCategory = await _categoryRepository.GetById(product.CategoryId);
             NotFoundException.ThrowIfnull(hasCategory, $"Categoria {product.CategoryId} não encontrada");
 
-            await UploadImage(request, product);
+            try
+            {
+                await UploadImage(request, product);
 
-            await _productRepository.Update(product);
-            return new ProductModelOutPut(
-                product.Id, 
-                product.Description, 
-                product.Name, 
-                product.Price,
-                product.Thumb?.Path, 
-                product.Stock, 
-                product.IsActive, 
-                product.CategoryId,
-                null,
-                product.IsPromotion);
+                await _productRepository.Update(product);
+
+                return new ProductModelOutPut(
+                    product.Id,
+                    product.Description,
+                    product.Name,
+                    product.Price,
+                    product.Thumb?.Path,
+                    product.Stock,
+                    product.IsActive,
+                    product.CategoryId,
+                    null,
+                    product.IsPromotion);
+            }
+            catch(Exception)
+            {
+                if (product?.Thumb?.Path is not null) await _storageService.Delete(product.Thumb.Path);
+                throw;
+            }
             
         }
 
         private async Task UploadImage(UpdateProductInPut request, Business.Entity.Product product)
         {
             if (string.IsNullOrEmpty(request.Thumb?.FileStremBase64.Trim()))
-                return;
+                return;                   
 
-            var thumb = Helpers.Base64ToStream(request.Thumb.FileStremBase64);
+            var thumb = Helpers.Base64ToStream(request.Thumb!.FileStremBase64);
             var urlThumb = await _storageService.Upload($"{product.Id}-thumb.{thumb.Extension}", thumb.FileStrem);
+
+            if (!string.IsNullOrEmpty(product.Thumb?.Path.Trim()) && !string.IsNullOrEmpty(request.Thumb?.FileStremBase64.Trim()))
+                await _storageService.Delete(product.Thumb.Path);
+
             product.UpdateThumb(urlThumb);
-            
         }
     }
 }
