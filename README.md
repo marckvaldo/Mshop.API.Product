@@ -30,10 +30,10 @@ Antes de começar, você vai precisar ter instalado em sua máquina as seguintes
 [Git](https://git-scm.com)<br/>
 [Dot.net (6.0)](https://dotnet.microsoft.com/en-us/download/dotnet/6.0). <br/>
 [Mysql](https://www.mysql.com/downloads/).<br/>
-[Redis](https://redis.io/download/).<br/> (Recomendo fortmento caso você esteja no windows executar no docker)
+[Redis](https://redis.io/download/). (Recomendo fortmento caso você esteja no windows executar no docker)<br/>
 
-Além disso é bom ter um editor para trabalhar com o código como [VSCode](https://code.visualstudio.com/)
-ou se prefeir um IDE o velhor e bom [Visual Estudio 2022](https://visualstudio.microsoft.com/pt-br/downloads/).
+Além disso é bom ter um editor de código para trabalhar como [VSCode](https://code.visualstudio.com/)
+ou se prefeir uma IDE, o velhor e bom [Visual Estudio 2022](https://visualstudio.microsoft.com/pt-br/downloads/).
 
 ### 🎲 Rodando
 
