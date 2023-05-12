@@ -4,10 +4,6 @@
 <img src="https://github.com/marckvaldo/docker-monitor/blob/main/imagens/Grafana.png">
 </div>
 
-![GitHub](https://img.shields.io/github/license/marckvaldo/docker-php)
-![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/marckvaldo/docker-php)
-
-
 ## Descrição do Projeto
 Esse projeto tem o intuito de aplicar conceitos importantes como;
 - Teste automatizado (TDD)
@@ -32,59 +28,47 @@ Pretendo aplicar essa API em uma arquitetura de microserviço em um futuro próx
 Antes de começar, você vai precisar ter instalado em sua máquina as seguintes ferramentas:
 
 [Git](https://git-scm.com)<br/>
-[Dot.net (6.0)](https://docs.docker.com/engine/install/). 
-[Mysql](https://docs.docker.com/engine/install/).
+[Dot.net (6.0)](https://dotnet.microsoft.com/en-us/download/dotnet/6.0). <br/>
+[Mysql](https://www.mysql.com/downloads/).<br/>
+[Redis](https://redis.io/download/).<br/> (Recomendo fortmento caso você esteja no windows executar no docker)
 
 Além disso é bom ter um editor para trabalhar com o código como [VSCode](https://code.visualstudio.com/)
-ou se prefeir um IDE o velhor e bom [Visual Estudio 2022](https://docs.docker.com/engine/install/).
+ou se prefeir um IDE o velhor e bom [Visual Estudio 2022](https://visualstudio.microsoft.com/pt-br/downloads/).
 
 ### 🎲 Rodando
 
 ```bash
 # Clone este repositório
-$ git clone <https://github.com/marckvaldo/docker-monitor.git>
+$ git clone <https://github.com/marckvaldo/Mshop.API.Product>
 
 # Acesse a pasta do projeto no terminal/cmd
-$ cd Msho.API.Product/env
+$ cd Mshop.API.Product/env
 
 # levante os docker 
 $ docker-compose up -d
 
+# executar as migrations 
+$ cd Mshop.API.Product/src/MShop.Repository
+dotnet ef --startup-project ../MShop.ProductAPI/ database update
+
 # O serviço inciará na porta:5000 - acesse <http://localhost:5000>
-# pronto tempos a API funcinando.
+# pronto tempos a API funcionando.
 ```
 ### 🚀 Algumas imagens
 
-#### Painel Docker
+#### API
 <img src="https://github.com/marckvaldo/docker-monitor/blob/main/imagens/Docker.png">
 
-#### Painel Mysql
-<img src="https://github.com/marckvaldo/docker-monitor/blob/main/imagens/Mysql.png">
-<img src="https://github.com/marckvaldo/docker-monitor/blob/main/imagens/Mysql2.png">
-
-#### Painel Nginx
-<img src="https://github.com/marckvaldo/docker-monitor/blob/main/imagens/Nginx.png">
-
-#### Painel Sistema
-<img src="https://github.com/marckvaldo/docker-monitor/blob/main/imagens/Sistema.png">
-<img src="https://github.com/marckvaldo/docker-monitor/blob/main/imagens/Sistema2.png">
-
 ### 🛠 Configuração
-Todas as configurações do projeto estão no arquivo .env
-
-Atenção Especial para as variaveis 
-STATUS_NGINX & MYSQL_STRING 
-onde tiver host-nginx e host-mysql substituir para o host da maquina que está executando os respequitivos serviços
-
-Na variavel LOG_NGINX vai colocar o caminho do arquivo log "access.log" do nginx
+Todas as configurações do projeto estão em Mshop.API.Product\src\MShop.ProductAPI\appsettings.Development.json
 
 ### 🛠 Tecnologias
 
 As seguintes ferramentas foram usadas na construção do projeto:
 
-- [Grafana](https://grafana.com/)
-- [InfluxDb](https://www.influxdata.com/)
-- [Telegaf](https://docs.influxdata.com/telegraf/v1.19/)
+- [ASP.net](https://dotnet.microsoft.com/en-us/apps/aspnet)
+- [Mysql](https://www.mysql.com/)
+- [Redis](https://redis.io/)
 - [Docker](https://www.docker.com/)
 
 
@@ -92,3 +76,4 @@ As seguintes ferramentas foram usadas na construção do projeto:
 Este projeto esta sobe a licença MIT.
 
 Feito com ❤️ por Marckvaldo Wallas 👋🏽 Entre em contato (marckvaldo@hotmail.com, marckvaldowallas@gmail.com)
+
