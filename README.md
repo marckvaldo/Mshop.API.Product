@@ -18,6 +18,8 @@ Pretendo aplicar essa API em uma arquitetura de microserviço em um futuro próx
 - Messageria
 - API Gateway
 - Autenticação com keycloak
+- monitoramento
+- kubernet
 
 <h4> 
 	🚧  API produtos 🚀 Em construção...  🚧
