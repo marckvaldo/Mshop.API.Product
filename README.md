@@ -1,7 +1,7 @@
 # API de catalado de produtos 
 
 <div style="background-color: #f0f0f0; height:20vh; display: flex; flex-direction: row; justify-content: center;">
-<img src="https://github.com/marckvaldo/docker-monitor/blob/main/imagens/Grafana.png">
+<img src="https://github.com/marckvaldo/WEBAPI/blob/main/imgGit/dotnet.png">
 </div>
 
 ## Descrição do Projeto
