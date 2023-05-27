@@ -19,7 +19,10 @@ namespace MShop.Application.UseCases.Product.GetProduct
         private readonly IProductRepository _productRepository;
         private readonly IImageRepository _imageRepository;
 
-        public GetProduct(IProductRepository productRepository, IImageRepository imageRepository, INotification notification) : base(notification)
+        public GetProduct(
+            IProductRepository productRepository, 
+            IImageRepository imageRepository, 
+            INotification notification) : base(notification)
         {
             _productRepository = productRepository;
             _imageRepository = imageRepository;

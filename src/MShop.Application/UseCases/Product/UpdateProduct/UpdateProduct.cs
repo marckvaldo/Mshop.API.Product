@@ -18,18 +18,22 @@ namespace MShop.Application.UseCases.Product.UpdateProduct
         private readonly IProductRepository _productRepository;
         private readonly IStorageService _storageService;
         private readonly ICategoryRepository _categoryRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
         public UpdateProduct(IProductRepository productRepository, 
             ICategoryRepository categoryRepository,
             INotification notification,
-            IStorageService storageService) :base (notification)
+            IStorageService storageService,
+            IUnitOfWork unitOfWork
+            ) :base (notification)
         {
             _productRepository = productRepository;
             _storageService = storageService;
             _categoryRepository = categoryRepository;
+            _unitOfWork = unitOfWork;
         }
 
-        public async Task<ProductModelOutPut> Handler(UpdateProductInPut request)
+        public async Task<ProductModelOutPut> Handler(UpdateProductInPut request, CancellationToken cancellationToken)
         {            
             var product = await _productRepository.GetById(request.Id);
             NotFoundException.ThrowIfnull(product, "Não foi possivel localizar a produto da base de dados!");
@@ -55,7 +59,8 @@ namespace MShop.Application.UseCases.Product.UpdateProduct
             {
                 await UploadImage(request, product);
 
-                await _productRepository.Update(product);
+                await _productRepository.Update(product, cancellationToken);
+                await _unitOfWork.CommitAsync(cancellationToken);   
 
                 return new ProductModelOutPut(
                     product.Id,

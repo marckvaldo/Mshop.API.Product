@@ -1,5 +1,4 @@
-﻿using MShop.Business.Entity;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -8,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace MShop.Business.Interface.Repository
 {
-    public interface IRepository<TEntity> : IDisposable where TEntity : Entity.Entity
+    public interface IRepository<TEntity> : IDisposable where TEntity : SeedWork.Entity
     {
-        Task Create(TEntity entity);
-        Task Update(TEntity entity);
-        Task DeleteById(TEntity entity);
+        Task Create(TEntity entity, CancellationToken cancellationToken);
+        Task Update(TEntity entity, CancellationToken cancellationToken);
+        Task DeleteById(TEntity entity, CancellationToken cancellationToken);
         Task<TEntity?> GetById(Guid Id);
         Task<List<TEntity>> GetValuesList();
         Task<List<TEntity>> Filter(Expression<Func<TEntity, bool>> predicate);

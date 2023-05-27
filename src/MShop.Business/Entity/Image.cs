@@ -1,10 +1,11 @@
 ﻿using MShop.Business.Exceptions;
 using MShop.Business.Interface;
+using MShop.Business.SeedWork;
 using MShop.Business.Validator;
 
 namespace MShop.Business.Entity
 {
-    public class Image : Entity
+    public class Image : AggregateRoot
     {
         public Image(string fileName, Guid productId)
         {

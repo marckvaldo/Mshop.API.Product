@@ -16,13 +16,19 @@ namespace MShop.Application.UseCases.Category.DeleteCategory
     {
         private readonly ICategoryRepository _categoryRepository;
         private readonly IProductRepository _productRepository;
-        public DeleteCategory(ICategoryRepository categoryRepository, IProductRepository productRepository,INotification notification) : base(notification)
+        private readonly IUnitOfWork _unitOfWork;
+        public DeleteCategory(
+            ICategoryRepository categoryRepository, 
+            IProductRepository productRepository,
+            INotification notification, 
+            IUnitOfWork unitOfWork) : base(notification)
         {
             _categoryRepository = categoryRepository;
-            _productRepository= productRepository;
+            _productRepository = productRepository;
+            _unitOfWork = unitOfWork;
         }
 
-        public async Task<CategoryModelOutPut> Handler(Guid id)
+        public async Task<CategoryModelOutPut> Handler(Guid id, CancellationToken cancellationToken)
         {
             var category = await _categoryRepository.GetById(id);
             NotifyExceptionIfNull(category, "não foi possivel localizar a categoria da base de dados!");
@@ -31,7 +37,9 @@ namespace MShop.Application.UseCases.Category.DeleteCategory
             if (products?.Count > 0)
                 NotifyException("Não é possivel excluir um categoria quando a mesma ja está relacionada com produtos");
            
-            await _categoryRepository.DeleteById(category!);
+            await _categoryRepository.DeleteById(category!,cancellationToken);
+            await _unitOfWork.CommitAsync(cancellationToken);
+
             return new CategoryModelOutPut(category!.Id, category.Name, category.IsActive);
         }
     }

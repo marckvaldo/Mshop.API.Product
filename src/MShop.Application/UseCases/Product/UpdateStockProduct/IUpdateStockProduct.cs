@@ -4,6 +4,6 @@ namespace MShop.Application.UseCases.Product.UpdateStockProduct
 {
     public interface IUpdateStockProduct
     {
-        public Task<ProductModelOutPut> Handler(UpdateStockProductInPut request);
+        public Task<ProductModelOutPut> Handler(UpdateStockProductInPut request, CancellationToken cancellationToken);
     }
 }

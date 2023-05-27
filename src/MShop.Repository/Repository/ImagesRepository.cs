@@ -19,10 +19,10 @@ namespace MShop.Repository.Repository
 
         }
 
-        public async Task CreateRange(List<Image> images)
+        public async Task CreateRange(List<Image> images, CancellationToken cancellationToken)
         {
-            _dbSet.AddRange(images);
-            await SaveChanges();
+            await _dbSet.AddRangeAsync(images,cancellationToken);
+            //await SaveChanges();
         }
 
         public async Task DeleteByIdProduct(Guid productId)

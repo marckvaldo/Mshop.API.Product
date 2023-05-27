@@ -1,5 +1,6 @@
 ﻿using MShop.Business.Exceptions;
 using MShop.Business.Interface;
+using MShop.Business.SeedWork;
 using MShop.Business.Validation;
 using MShop.Business.Validator;
 using System;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace MShop.Business.Entity
 {
-    public class Category : Entity
+    public class Category : AggregateRoot
     {
 
         public string Name { get; private set; }

@@ -13,15 +13,24 @@ namespace MShop.Application.UseCases.Category.CreateCategory
     public class CreateCategory : BaseUseCase, ICreateCategory
     {
         private readonly ICategoryRepository _categoryRepository;
-        public CreateCategory(INotification notification, ICategoryRepository categoryRepository) : base(notification)
-           => _categoryRepository = categoryRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public async Task<CategoryModelOutPut> Handler(CreateCategoryInPut request)
+        public CreateCategory(
+            INotification notification,
+            ICategoryRepository categoryRepository,
+            IUnitOfWork unitOfWork) : base(notification)
+        {
+            _categoryRepository = categoryRepository;
+            _unitOfWork = unitOfWork;
+        }
+
+        public async Task<CategoryModelOutPut> Handler(CreateCategoryInPut request, CancellationToken cancellationToken)
         {
             var category = new Business.Entity.Category(request.Name, request.IsActive);
 
             category.IsValid(Notifications);
-            await _categoryRepository.Create(category);
+            await _categoryRepository.Create(category,cancellationToken);
+            await _unitOfWork.CommitAsync(cancellationToken);
            
             return new CategoryModelOutPut(category.Id, category.Name, category.IsActive);
 

@@ -26,6 +26,7 @@ using MShop.Business.Service;
 using MShop.Business.Validation;
 using MShop.Repository.Context;
 using MShop.Repository.Repository;
+using MShop.Repository.UnitOfWork;
 
 namespace MShop.ProductAPI.Configuration
 {
@@ -35,6 +36,8 @@ namespace MShop.ProductAPI.Configuration
         {
             services.AddScoped<RepositoryDbContext>();
             
+            services.AddScoped<IUnitOfWork,UnitOfWork>();
+
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IGetProduct, GetProduct>();
             services.AddScoped<ICreateProduct, CreateProduct>();

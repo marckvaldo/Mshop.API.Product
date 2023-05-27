@@ -15,10 +15,19 @@ namespace MShop.Application.UseCases.Category.UpdateCategory
     public class UpdateCategory : BaseUseCase, IUpdateCategory
     {
         private readonly ICategoryRepository _categoryRepository;
-        public UpdateCategory(ICategoryRepository categoryRepository, INotification notification) : base(notification)
-            => _categoryRepository = categoryRepository;
+        private readonly IUnitOfWork _unitOfWork;
+        public UpdateCategory(
+            ICategoryRepository categoryRepository, 
+            INotification notification,
+            IUnitOfWork unitOfWork
+            ) : base(notification)
+        {
+            _categoryRepository = categoryRepository;
+            _unitOfWork = unitOfWork;
+        }
+            
 
-        public async Task<CategoryModelOutPut> Handler(UpdateCategoryInPut request)
+        public async Task<CategoryModelOutPut> Handler(UpdateCategoryInPut request, CancellationToken cancellationToken)
         {
             var category = await _categoryRepository.GetById(request.Id);
             NotifyExceptionIfNull(category, "não foi possivel localizar a categoria da base de dados!");
@@ -31,7 +40,8 @@ namespace MShop.Application.UseCases.Category.UpdateCategory
                 category.Deactive();
 
             category.IsValid(Notifications);
-            await _categoryRepository.Update(category);
+            await _categoryRepository.Update(category,cancellationToken);
+            await _unitOfWork.CommitAsync(cancellationToken);
 
             return new CategoryModelOutPut(category.Id, category.Name, category.IsActive);
         }

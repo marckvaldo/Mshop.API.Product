@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MShop.Business.Interface.Paginated
 {
-    public interface IPaginated<TEntity> where TEntity : Entity.Entity
+    public interface IPaginated<TEntity> where TEntity : SeedWork.Entity
     {
         Task<PaginatedOutPut<TEntity>> FilterPaginated(PaginatedInPut input); 
     }

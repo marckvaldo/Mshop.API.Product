@@ -14,18 +14,26 @@ namespace MShop.Application.UseCases.Product.UpdateStockProduct
     public class UpdateStockProducts : BaseUseCase, IUpdateStockProduct
     {
         private readonly IProductRepository _productRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public UpdateStockProducts(IProductRepository productRepository, INotification notification):base(notification)
-            => _productRepository = productRepository;
+        public UpdateStockProducts(
+            IProductRepository productRepository, 
+            INotification notification,
+            IUnitOfWork unitOfWork):base(notification)
+        {
+            _productRepository = productRepository;
+            _unitOfWork = unitOfWork;
+        }
 
-        public async Task<ProductModelOutPut> Handler(UpdateStockProductInPut request)
+        public async Task<ProductModelOutPut> Handler(UpdateStockProductInPut request, CancellationToken cancellationToken)
         {
             var product = await _productRepository.GetById(request.Id);
             NotifyExceptionIfNull(product, "Não foi possivel localizar a produto da base de dados!");
 
             product!.UpdateQuantityStock(request.Stock);
             product.IsValid(Notifications);
-            await _productRepository.Update(product);
+            await _productRepository.Update(product, cancellationToken);
+            await _unitOfWork.CommitAsync(cancellationToken);
 
             return new ProductModelOutPut(
                 product.Id,

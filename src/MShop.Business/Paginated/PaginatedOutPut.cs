@@ -1,5 +1,4 @@
-﻿using MShop.Business.Entity;
-using MShop.Business.Enum.Paginated;
+﻿using MShop.Business.Enum.Paginated;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MShop.Business.Paginated
 {
-    public class PaginatedOutPut<TEntity> where TEntity : Entity.Entity
+    public class PaginatedOutPut<TEntity> where TEntity : SeedWork.Entity
     {
 
         public int CurrentPage { get; set; }

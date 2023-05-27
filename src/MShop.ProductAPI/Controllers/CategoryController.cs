@@ -58,14 +58,14 @@ namespace MShop.ProductAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<CategoryModelOutPut>> Create(CreateCategoryInPut request)
+        public async Task<ActionResult<CategoryModelOutPut>> Create(CreateCategoryInPut request, CancellationToken cancellationToken)
         {
             if (!ModelState.IsValid) return CustomResponse(ModelState);
-            return CustomResponse(await _createCategory.Handler(request));
+            return CustomResponse(await _createCategory.Handler(request, cancellationToken));
         }
 
         [HttpPut("{Id:Guid}")]
-        public async Task<ActionResult<CategoryModelOutPut>> Update(Guid Id, UpdateCategoryInPut request)
+        public async Task<ActionResult<CategoryModelOutPut>> Update(Guid Id, UpdateCategoryInPut request, CancellationToken cancellationToken)
         {
             if (!ModelState.IsValid) return CustomResponse(ModelState);
 
@@ -74,13 +74,13 @@ namespace MShop.ProductAPI.Controllers
                 Notify("O id informado não é o mesmo passado como parametro");
                 return CustomResponse(request);
             }
-            return CustomResponse(await _updateCategory.Handler(request));
+            return CustomResponse(await _updateCategory.Handler(request, cancellationToken));
         }
 
         [HttpDelete("{Id:Guid}")]
-        public async Task<ActionResult<CategoryModelOutPut>> Delete(Guid Id)
+        public async Task<ActionResult<CategoryModelOutPut>> Delete(Guid Id, CancellationToken cancellationToken)
         {
-            return CustomResponse(await _deleteCategory.Handler(Id));        
+            return CustomResponse(await _deleteCategory.Handler(Id, cancellationToken));        
         }
 
 

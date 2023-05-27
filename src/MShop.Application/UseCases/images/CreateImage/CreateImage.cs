@@ -15,17 +15,20 @@ namespace MShop.Application.UseCases.images.CreateImage
         private readonly IImageRepository _imageRepository;
         private readonly IProductRepository _productRepository;
         private readonly IStorageService _storageService;
+        private readonly IUnitOfWork _unitOfWork;
         public CreateImage(IImageRepository imageRepository,
             IStorageService storageService,
             IProductRepository productRepository,
-            INotification notification) : base(notification)
+            INotification notification,
+            IUnitOfWork unitOfWork) : base(notification)
         {
             _imageRepository = imageRepository;
             _productRepository = productRepository;
             _storageService = storageService;
+            _unitOfWork = unitOfWork;
         }
 
-        public async Task<ListImageOutPut> Handler(CreateImageInPut request)
+        public async Task<ListImageOutPut> Handler(CreateImageInPut request, CancellationToken cancellationToken)
         {
             var hasProduct = await _productRepository.GetById(request.ProductId);            
             NotifyExceptionIfNull(hasProduct, "Não foi possivel localizar produtos informado");
@@ -53,7 +56,8 @@ namespace MShop.Application.UseCases.images.CreateImage
             if (Images.Count == 0)
                 NotifyException("Não foi possível salvar as images");
            
-            await _imageRepository.CreateRange(Images);
+            await _imageRepository.CreateRange(Images, cancellationToken);
+            await _unitOfWork.CommitAsync(cancellationToken);
 
             return new ListImageOutPut(request.ProductId, Images.Select(x=> new ImageModelOutPut(x.FileName)).ToList());
         }

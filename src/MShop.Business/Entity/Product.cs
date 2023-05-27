@@ -1,11 +1,14 @@
-﻿using MShop.Business.Exceptions;
+﻿using MShop.Business.Events;
+using MShop.Business.Events.Products;
+using MShop.Business.Exceptions;
 using MShop.Business.Interface;
+using MShop.Business.SeedWork;
 using MShop.Business.Validator;
 using MShop.Business.ValueObject;
 
 namespace MShop.Business.Entity
 {
-    public class Product : Entity
+    public class Product : AggregateRoot
     {
         public string Description { get; private set; }
 
@@ -23,10 +26,10 @@ namespace MShop.Business.Entity
 
         public FileImage? Thumb { get; private set; }
 
-        public bool IsPromotion { get; set; }
+        public bool IsPromotion { get; private set; }
 
-        
-        public Product(string description, string name, decimal price, Guid categoryId, decimal stock = 0, bool isActive = false)
+
+        public Product(string description, string name, decimal price, Guid categoryId, decimal stock = 0, bool isActive = false) : base()
         {
             Description = description;
             Name = name;
@@ -34,6 +37,8 @@ namespace MShop.Business.Entity
             Stock = stock;
             IsActive = isActive;
             CategoryId = categoryId;
+
+            ProductCreatedEvent();
         }
 
         public void IsValid(INotification notification)
@@ -49,12 +54,14 @@ namespace MShop.Business.Entity
 
         public void Activate()
         {
-           IsActive= true;
+            IsActive= true;
+            ProductCreatedEvent();
         }
 
         public void Deactive()
         {
-            IsActive= false; 
+            IsActive= false;
+            ProductRemovedEvent();
         }
 
         public void Update(string description, string name, decimal price, Guid categoryId)
@@ -63,6 +70,7 @@ namespace MShop.Business.Entity
             Description = description;   
             Price = price;
             CategoryId = categoryId;
+            ProductUpdatedEvent();
         }
 
         public void AddQuantityStock(decimal stock)
@@ -83,22 +91,45 @@ namespace MShop.Business.Entity
         public void UpdateThumb(string thumb)
         {
             Thumb = new FileImage(thumb);
+            ProductUpdatedEvent();
         }
 
         public void ActivatePromotion()
         {
             IsPromotion = true;
+            ProductUpdatedEvent();
         }
 
         public void DeactivePromotion()
         {
             IsPromotion = false;
+            ProductUpdatedEvent();
         }
         
         public void UpdateCategory(Category category)
         {
             Category = category;
             CategoryId = category.Id;
+            ProductUpdatedEvent();
         }
+
+
+
+
+        private void ProductUpdatedEvent()
+        {
+            RegisterEvent(new ProductUpdatedEvent(Id));
+        }
+
+        private void ProductRemovedEvent()
+        {
+            RegisterEvent(new ProductRemovedEvent(Id));
+        }
+
+        private void ProductCreatedEvent()
+        {
+            RegisterEvent(new ProductCreatedEvent(Id));
+        }
+
     }
 }

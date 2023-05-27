@@ -9,6 +9,6 @@ namespace MShop.Application.UseCases.images.CreateImage
 {
     public interface ICreateImage
     {
-        Task<ListImageOutPut> Handler(CreateImageInPut request);
+        Task<ListImageOutPut> Handler(CreateImageInPut request, CancellationToken cancellation);
     }
 }

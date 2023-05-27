@@ -9,6 +9,6 @@ namespace MShop.Application.UseCases.Category.DeleteCategory
 {
     public interface IDeleteCategory
     {
-        Task<CategoryModelOutPut> Handler(Guid id);
+        Task<CategoryModelOutPut> Handler(Guid id, CancellationToken cancellationToken);
     }
 }

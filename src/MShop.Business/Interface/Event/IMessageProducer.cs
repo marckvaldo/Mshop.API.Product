@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MShop.Business.Entity
+namespace MShop.Business.Interface.Event
 {
-    public interface IEntity
+    public interface IMessageProducer
     {
-        public void Teste();
+        Task SendMessageAsync<T>(T message);
     }
 }

@@ -14,22 +14,26 @@ namespace MShop.Application.UseCases.images.DeleteImage
     {
         private readonly IImageRepository _imageRepository;
         private readonly IStorageService _storageService;
+        private readonly IUnitOfWork _unitOfWork;
         public DeleteImage(IImageRepository imageRepository,
             IStorageService storageService,
-            INotification notification) : base(notification)
+            INotification notification,
+            IUnitOfWork unitOfWork) : base(notification)
         {
             _imageRepository = imageRepository;
-            _storageService = storageService;   
+            _storageService = storageService;
+            _unitOfWork = unitOfWork;
         }
 
-        public async Task<ImageOutPut> Handler(Guid id)
+        public async Task<ImageOutPut> Handler(Guid id, CancellationToken cancellationToken)
         {
             var image = await _imageRepository.GetById(id);
             NotifyExceptionIfNull(image, "Não foi possivel encontrar a Image");
 
             if(await _storageService.Delete(image!.FileName))
             {
-                await _imageRepository.DeleteById(image);
+                await _imageRepository.DeleteById(image, cancellationToken);
+                await _unitOfWork.CommitAsync(cancellationToken);
             }
 
             return new ImageOutPut(image.ProductId, new ImageModelOutPut(image.FileName));

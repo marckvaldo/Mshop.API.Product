@@ -9,6 +9,6 @@ namespace MShop.Application.UseCases.Category.CreateCategory
 {
     public interface ICreateCategory
     {
-        Task<CategoryModelOutPut> Handler(CreateCategoryInPut request);
+        Task<CategoryModelOutPut> Handler(CreateCategoryInPut request, CancellationToken cancellation);
     }
 }

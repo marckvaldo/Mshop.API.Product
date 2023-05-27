@@ -18,13 +18,19 @@ namespace MShop.Application.UseCases.Product.UpdateThumb
     {
         private readonly IProductRepository _productRepository;
         private readonly IStorageService _storageService;
-        public UpdateThumb(IProductRepository productRepository, IStorageService storageService, INotification notification) : base(notification)
+        private readonly IUnitOfWork _unitOfWork;
+        public UpdateThumb(
+            IProductRepository productRepository, 
+            IStorageService storageService,
+            INotification notification,
+            IUnitOfWork unitOfWork) : base(notification)
         {
             _productRepository = productRepository;
             _storageService = storageService;
+            _unitOfWork = unitOfWork;
         }
 
-        public async Task<ProductModelOutPut> Handler(UpdateThumbInput request)
+        public async Task<ProductModelOutPut> Handler(UpdateThumbInput request, CancellationToken cancellationToken)
         {
             var product = await _productRepository.GetById(request.Id);
             NotifyExceptionIfNull(product, "Não foi possivel localizar o produto!");
@@ -32,7 +38,8 @@ namespace MShop.Application.UseCases.Product.UpdateThumb
             product!.IsValid(Notifications);
 
             await UploadImage(request, product);
-            await _productRepository.Update(product);
+            await _productRepository.Update(product, cancellationToken);
+            await _unitOfWork.CommitAsync(cancellationToken);
 
             return new ProductModelOutPut(
                 product.Id,

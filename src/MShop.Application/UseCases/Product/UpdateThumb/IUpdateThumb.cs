@@ -9,6 +9,6 @@ namespace MShop.Application.UseCases.Product.UpdateThumb
 {
     public interface IUpdateThumb
     {
-        public Task<ProductModelOutPut> Handler(UpdateThumbInput request);
+        public Task<ProductModelOutPut> Handler(UpdateThumbInput request, CancellationToken cancellationToken);
     }
 }

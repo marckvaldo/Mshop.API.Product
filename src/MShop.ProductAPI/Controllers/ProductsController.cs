@@ -67,14 +67,14 @@ namespace MShop.ProductAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<ProductModelOutPut>> Create([FromBody] CreateProductInPut product)
+        public async Task<ActionResult<ProductModelOutPut>> Create([FromBody] CreateProductInPut product, CancellationToken cancellationToken)
         {
             if (!ModelState.IsValid) return CustomResponse(ModelState);
-            return CustomResponse(await _createProduct.Handler(product));      
+            return CustomResponse(await _createProduct.Handler(product, cancellationToken));      
         }
 
         [HttpPut("{id:guid}")]
-        public async Task<ActionResult<ProductModelOutPut>> Update(Guid id, UpdateProductInPut product)
+        public async Task<ActionResult<ProductModelOutPut>> Update(Guid id, UpdateProductInPut product, CancellationToken cancellationToken)
         {
         
             if (!ModelState.IsValid) return CustomResponse(ModelState);
@@ -85,18 +85,18 @@ namespace MShop.ProductAPI.Controllers
                 return CustomResponse(product);
             }
 
-            return CustomResponse(await _updateProduct.Handler(product));
+            return CustomResponse(await _updateProduct.Handler(product, cancellationToken));
         
         }
 
         [HttpDelete("{id:guid}")]
-        public async Task<ActionResult<ProductModelOutPut>> Delete(Guid id)
+        public async Task<ActionResult<ProductModelOutPut>> Delete(Guid id, CancellationToken cancellationToken)
         {
-            return CustomResponse(await _deleteProduct.Handler(id));
+            return CustomResponse(await _deleteProduct.Handler(id, cancellationToken));
         }
 
         [HttpPost("update-stock/{id:guid}")]
-        public async Task<ActionResult<ProductModelOutPut>> UpdateStock(Guid id, [FromBody] UpdateStockProductInPut product)
+        public async Task<ActionResult<ProductModelOutPut>> UpdateStock(Guid id, [FromBody] UpdateStockProductInPut product, CancellationToken cancellationToken)
         {
        
             if (!ModelState.IsValid) return CustomResponse(ModelState);
@@ -107,12 +107,12 @@ namespace MShop.ProductAPI.Controllers
                 return CustomResponse(product);
             }
 
-            return CustomResponse(await _updateStoqueProduct.Handler(product));
+            return CustomResponse(await _updateStoqueProduct.Handler(product, cancellationToken));
         
         }
 
         [HttpPut("update-thump/{id:guid}")]
-        public async Task<ActionResult<ProductModelOutPut>> UpdateThumb(Guid id, [FromBody] UpdateThumbInput product)
+        public async Task<ActionResult<ProductModelOutPut>> UpdateThumb(Guid id, [FromBody] UpdateThumbInput product, CancellationToken cancellationToken)
         {
             if (!ModelState.IsValid) CustomResponse(ModelState);
 
@@ -122,7 +122,7 @@ namespace MShop.ProductAPI.Controllers
                 return CustomResponse(product);
             }
 
-            return CustomResponse(await _updateThumb.Handler(product));
+            return CustomResponse(await _updateThumb.Handler(product, cancellationToken));
         }
     }
 }

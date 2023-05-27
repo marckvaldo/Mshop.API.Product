@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MShop.Business.Entity;
 using MShop.Business.Exception;
 using MShop.Business.Interface;
 using MShop.Business.Interface.Repository;
+using MShop.Business.SeedWork;
 using MShop.Repository.Context;
 using System;
 using System.Collections.Generic;
@@ -27,47 +27,42 @@ namespace MShop.Repository.Repository
         public async Task<List<TEntity>> Filter(Expression<Func<TEntity, bool>> predicate)
         {
             var result = await _dbSet.AsNoTracking().Where(predicate).ToListAsync();
-            //NotFoundException.ThrowIfnull(result, "your search returned null");
             return result;
         }
 
         public virtual async Task<TEntity?> GetById(Guid Id)
         {
-            var result = await _dbSet.FindAsync(Id);
-            //NotFoundException.ThrowIfnull(result, "your search returned null");
+            var result = await _dbSet.FindAsync(Id);            
             return result;
         }
 
         public virtual async Task<List<TEntity>> GetValuesList()
         {
             var result =  await _dbSet.ToListAsync();
-            //NotFoundException.ThrowIfnull(result, "your search returned null");
             return result;
         }
 
         public virtual async Task<TEntity> GetLastRegister(Expression<Func<TEntity, bool>> predicate)
         {
-            var result =  await _dbSet.AsNoTracking().Where(predicate).OrderByDescending(x=>x.Id).FirstAsync();
-            //NotFoundException.ThrowIfnull(result, "your search returned null");
+            var result =  await _dbSet.AsNoTracking().Where(predicate).OrderByDescending(x=>x.Id).FirstAsync();            
             return result;
         }
 
-        public virtual async Task Create(TEntity entity)
+        public virtual async Task Create(TEntity entity, CancellationToken cancellationToken)
         {
-            _dbSet.Add(entity);
-            await SaveChanges();
+            await _dbSet.AddAsync(entity,cancellationToken);
         }
 
-        public virtual async Task DeleteById(TEntity entity)
+        public virtual async Task DeleteById(TEntity entity,CancellationToken cancellationToken)
         {
-            _dbSet.Remove(entity);
-            await SaveChanges();
+            await Task.FromResult(_dbSet.Remove(entity));
+            //await SaveChanges();
         }
 
-        public virtual async Task Update(TEntity entity)
+        public virtual async Task Update(TEntity entity, CancellationToken cancellation)
         {
-            _dbSet.Update(entity);
-            await SaveChanges();
+            Task.FromResult(_dbSet.Update(entity));
+            //await SaveChanges();
         }
         public async Task<int> SaveChanges()
         {

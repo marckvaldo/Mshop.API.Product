@@ -47,16 +47,16 @@ namespace MShop.ProductAPI.Controllers
         }
 
         [HttpPost]        
-        public async Task<ActionResult<ListImageOutPut>> Create(CreateImageInPut image)
+        public async Task<ActionResult<ListImageOutPut>> Create(CreateImageInPut image, CancellationToken cancellationToken)
         {
             if (!ModelState.IsValid) CustomResponse(ModelState);
-            return CustomResponse(await _createImage.Handler(image));
+            return CustomResponse(await _createImage.Handler(image, cancellationToken));
         }
 
         [HttpDelete("{id:guid}")]
-        public async Task<ActionResult<ImageOutPut>> Delete(Guid id)
+        public async Task<ActionResult<ImageOutPut>> Delete(Guid id, CancellationToken cancellationToken)
         {
-            return CustomResponse(await _deleteImage.Handler(id));
+            return CustomResponse(await _deleteImage.Handler(id, cancellationToken));
         }
 
     }
