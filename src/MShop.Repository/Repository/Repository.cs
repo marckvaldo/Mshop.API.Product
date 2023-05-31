@@ -61,7 +61,7 @@ namespace MShop.Repository.Repository
 
         public virtual async Task Update(TEntity entity, CancellationToken cancellation)
         {
-            Task.FromResult(_dbSet.Update(entity));
+            await Task.FromResult(_dbSet.Update(entity));
             //await SaveChanges();
         }
         public async Task<int> SaveChanges()
