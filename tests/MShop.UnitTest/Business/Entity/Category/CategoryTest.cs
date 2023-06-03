@@ -5,18 +5,24 @@ using MShop.UnitTests.Common;
 namespace Mshop.Test.Business.Entity.Category
 {
     public class CategoryTest : CategoryTestFixture
-    { 
+    {
+        private readonly Notifications _notifications;
+
+        public CategoryTest()
+        {
+            _notifications = new Notifications();
+        }
+
         [Fact(DisplayName = nameof(Instantiate))]
         [Trait("Business","Category")]
         public void Instantiate()
         {
-            var notification = new Notifications();
             var valid = GetCategoryValid();
 
             var category = GetCategoryValid(valid.Name, valid.IsActive); ;
-            category.IsValid(notification);
+            category.IsValid(_notifications);
 
-            Assert.False(notification.HasErrors());
+            Assert.False(_notifications.HasErrors());
             Assert.NotNull(category);
             Assert.Equal(valid.Name, category.Name);
             Assert.Equal(valid.IsActive, category.IsActive);
@@ -29,15 +35,14 @@ namespace Mshop.Test.Business.Entity.Category
         [MemberData(nameof(ListNamesCategoryInvalid))]
         public void SholdReturnErroWhenNameIsInvalid(string? name)
         {
-            var notification = new Notifications();
             var category = GetCategoryValid(name);
             Action action =
-                () => category.IsValid(notification);
+                () => category.IsValid(_notifications);
 
             var exception = Assert.Throws<BusinessExceptions.EntityValidationException>(action);
 
             Assert.Equal("Validation errors", exception.Message);
-            Assert.True(notification.HasErrors());
+            Assert.True(_notifications.HasErrors());
 
         }
 
@@ -46,44 +51,42 @@ namespace Mshop.Test.Business.Entity.Category
         [Trait("Business","Category")]
         public void SholdActivateCategory()
         {
-            var notification = new Notifications();
+
             var category = GetCategoryValid(Fake().Name, false);
             category.Active();
-            category.IsValid(notification);
+            category.IsValid(_notifications);
 
             Assert.True(category.IsActive);
-            Assert.False(notification.HasErrors());
+            Assert.False(_notifications.HasErrors());
         }
 
         [Fact(DisplayName = nameof(SholdDeactiveCategory))]
         [Trait("Business","Category")]
         public void SholdDeactiveCategory()
-        {
-            var notification = new Notifications();
+        {            
             var category = GetCategoryValid(Fake().Name, true);
             category.Deactive();
-            category.IsValid(notification);
+            category.IsValid(_notifications);
 
             Assert.False(category.IsActive);
-            Assert.False(notification.HasErrors());
+            Assert.False(_notifications.HasErrors());
         }
 
 
         [Fact(DisplayName = nameof(SholdUpdateCategory))]
         [Trait("Business","Category")]
         public void SholdUpdateCategory()
-        {
-            var notification = new Notifications();
+        {            
             var newValidade = new
             {
                 Name = "Category New"
             };
 
-            var category = GetCategoryValid(); //new BusinessEntity.Category(validade.Name);
+            var category = GetCategoryValid();
             category.Update(newValidade.Name);
-            category.IsValid(notification);
+            category.IsValid(_notifications);
 
-            Assert.False(notification.HasErrors());
+            Assert.False(_notifications.HasErrors());
             Assert.Equal(category.Name, newValidade.Name);
         }
     }

@@ -11,6 +11,10 @@ using MShop.Business.Validation;
 using MShop.Repository.Repository;
 using Microsoft.EntityFrameworkCore;
 using ApplicationUseCase = MShop.Application.UseCases.Category.UpdateCategory;
+using MShop.Application.Event;
+using MShop.Repository.UnitOfWork;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace MShop.IntegrationTests.Application.UseCase.Category.UpdateCategory
 {
@@ -23,6 +27,8 @@ namespace MShop.IntegrationTests.Application.UseCase.Category.UpdateCategory
         private readonly INotification _notification;
         private readonly RepositoryDbContext _context;
         private readonly CategoryPersistence _categoryPersistence;
+        private readonly UnitOfWork _unitOfWork;
+        private readonly DomainEventPublisher _domainEventPublisher;
 
         public UpdateCategoryTest()
         {
@@ -31,6 +37,13 @@ namespace MShop.IntegrationTests.Application.UseCase.Category.UpdateCategory
             _productRepository = new ProductRepository(_context);
             _notification = new Notifications();
             _categoryPersistence = new CategoryPersistence(_context);
+
+            var serviceColletion = new ServiceCollection();
+            serviceColletion.AddLogging();
+            var serviceProvider = serviceColletion.BuildServiceProvider();
+
+            _domainEventPublisher = new DomainEventPublisher(serviceProvider);
+            _unitOfWork = new UnitOfWork(_context, _domainEventPublisher, serviceProvider.GetRequiredService<ILogger<UnitOfWork>>());
         }
 
         [Fact(DisplayName = nameof(UpdateCategory))]
@@ -45,8 +58,11 @@ namespace MShop.IntegrationTests.Application.UseCase.Category.UpdateCategory
 
              await _categoryPersistence.Create(category);
 
-            var useCase = new ApplicationUseCase.UpdateCategory(_categoryRepository, _notification);
-            var outPut = await useCase.Handler(request);
+            var useCase = new ApplicationUseCase.UpdateCategory(
+                _categoryRepository, 
+                _notification,
+                _unitOfWork);
+            var outPut = await useCase.Handler(request, CancellationToken.None);
 
             var categoryDb = await _categoryPersistence.GetCategory(category.Id);
 

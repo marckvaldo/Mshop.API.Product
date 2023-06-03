@@ -25,13 +25,14 @@ namespace MShop.UnitTests.Application.UseCases.Category.CreateCategory
         {
             var repository = new Mock<ICategoryRepository>();
             var notification = new Mock<INotification>();
+            var unitOfWork = new Mock<IUnitOfWork>();
 
             var request = FakerRequest();
 
-            var useCase = new useCase.CreateCategory(notification.Object, repository.Object);
-            var outPut = await useCase.Handler(request);
+            var useCase = new useCase.CreateCategory(notification.Object, repository.Object,unitOfWork.Object);
+            var outPut = await useCase.Handler(request, CancellationToken.None);
 
-            repository.Verify(r => r.Create(It.IsAny<BusinessEntity.Category>()), Times.Once);
+            repository.Verify(r => r.Create(It.IsAny<BusinessEntity.Category>(), CancellationToken.None), Times.Once);
             notification.Verify(n => n.AddNotifications(It.IsAny<string>()), Times.Never);
 
             Assert.NotNull(outPut);
@@ -49,14 +50,15 @@ namespace MShop.UnitTests.Application.UseCases.Category.CreateCategory
         {
             var repository = new Mock<ICategoryRepository>();       
             var notification = new Notifications();
+            var unitOfWork = new Mock<IUnitOfWork>();
 
             var request = FakerRequest(name,true);
 
-            var useCase = new useCase.CreateCategory(notification, repository.Object);
-            var action = async () => await useCase.Handler(request);
+            var useCase = new useCase.CreateCategory(notification, repository.Object, unitOfWork.Object);
+            var action = async () => await useCase.Handler(request, CancellationToken.None);
 
             var exception = Assert.ThrowsAsync<EntityValidationException>(action);
-            repository.Verify(n => n.Create(It.IsAny<BusinessEntity.Category>()), Times.Never);
+            repository.Verify(n => n.Create(It.IsAny<BusinessEntity.Category>(), CancellationToken.None), Times.Never);
         }
 
     }

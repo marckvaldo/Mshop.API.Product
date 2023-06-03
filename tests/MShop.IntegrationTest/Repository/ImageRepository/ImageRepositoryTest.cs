@@ -1,5 +1,10 @@
-﻿using MShop.Business.Entity;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using MShop.Application.Event;
+using MShop.Business.Entity;
 using MShop.Repository.Context;
+using MShop.Repository.UnitOfWork;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,12 +21,21 @@ namespace MShop.IntegrationTests.Repository.ImagenRepository
         private readonly InfraRepository.ImagesRepository _imageRepository;
         private readonly RepositoryDbContext _DbContext;
         private readonly ImageRepositoryPersistence _persistence;
+        private readonly UnitOfWork _unitOfWork;
+        private readonly DomainEventPublisher _domainEventPublisher;
 
         public ImageRepositoryTest()
         {
             _DbContext = CreateDBContext();
             _imageRepository = new InfraRepository.ImagesRepository(_DbContext);
             _persistence = new ImageRepositoryPersistence(_DbContext);
+
+            var serviceColletion = new ServiceCollection();
+            serviceColletion.AddLogging();
+            var serviceProvider = serviceColletion.BuildServiceProvider();
+
+            _domainEventPublisher = new DomainEventPublisher(serviceProvider);
+            _unitOfWork = new UnitOfWork(_DbContext, _domainEventPublisher, serviceProvider.GetRequiredService<ILogger<UnitOfWork>>());
         }
 
         [Fact(DisplayName = nameof(CreateImage))]
@@ -30,8 +44,8 @@ namespace MShop.IntegrationTests.Repository.ImagenRepository
         public async Task CreateImage()
         {
             var request = Faker();
-            await _imageRepository.Create(request);
-
+            await _imageRepository.Create(request, CancellationToken.None);
+            await _unitOfWork.CommitAsync(CancellationToken.None);
             var outPut = await CreateDBContext(true).Images.FindAsync(request.Id);
 
             Assert.NotNull(outPut);
@@ -91,8 +105,8 @@ namespace MShop.IntegrationTests.Repository.ImagenRepository
             _persistence.CreateList(imageFaker);
             var imageDelete = imageFaker.FirstOrDefault();
             Assert.NotNull(imageDelete);
-            await _imageRepository.DeleteById(imageDelete);
-
+            await _imageRepository.DeleteById(imageDelete, CancellationToken.None);
+            await _unitOfWork.CommitAsync(CancellationToken.None);
             var outPut = await _persistence.GetAllImage();
 
             Assert.NotNull(outPut);

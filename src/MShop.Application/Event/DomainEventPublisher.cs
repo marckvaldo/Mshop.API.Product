@@ -12,14 +12,13 @@ namespace MShop.Application.Event
             => _serviceProvider = serviceProvider;
 
 
-        public async Task PublishAsync(DomainEvent domainEvent)
+        public async Task PublishAsync<TDomainEvent>(TDomainEvent domainEvent) where TDomainEvent : DomainEvent
         {
-            var handlers = _serviceProvider.GetServices<IDomainEventHandler<DomainEvent>>();
+            var handlers = _serviceProvider.GetServices<IDomainEventHandler<TDomainEvent>>();
             if (handlers is null || !handlers.Any()) return;
+
             foreach (var handler in handlers)
-            {
                 await handler.HandlerAsync(domainEvent);
-            }
         }
     }
 }

@@ -1,4 +1,6 @@
 ﻿using Mshop.Cache.RepositoryRedis;
+using MShop.Application.Event;
+using MShop.Application.Event.Handler.Products;
 using MShop.Application.UseCases.Category.CreateCategory;
 using MShop.Application.UseCases.Category.DeleteCategory;
 using MShop.Application.UseCases.Category.GetCatetory;
@@ -18,8 +20,10 @@ using MShop.Application.UseCases.Product.ProductsPromotions;
 using MShop.Application.UseCases.Product.UpdateProduct;
 using MShop.Application.UseCases.Product.UpdateStockProduct;
 using MShop.Application.UseCases.Product.UpdateThumb;
+using MShop.Business.Events.Products;
 using MShop.Business.Interface;
 using MShop.Business.Interface.Cache;
+using MShop.Business.Interface.Event;
 using MShop.Business.Interface.Repository;
 using MShop.Business.Interface.Service;
 using MShop.Business.Service;
@@ -35,7 +39,9 @@ namespace MShop.ProductAPI.Configuration
         public static IServiceCollection AddDependencyInjection(this IServiceCollection services) 
         {
             services.AddScoped<RepositoryDbContext>();
+
             
+            services.AddScoped<IDomainEventPublisher,DomainEventPublisher>();            
             services.AddScoped<IUnitOfWork,UnitOfWork>();
 
             services.AddScoped<IProductRepository, ProductRepository>();
@@ -65,9 +71,10 @@ namespace MShop.ProductAPI.Configuration
 
 
             services.AddScoped<IStorageService, StorageService>();
-            
             services.AddScoped<INotification, Notifications>();
             services.AddScoped<ICacheRepository, RedisRepository>();
+
+            services.AddScoped<IDomainEventHandler<ProductCreatedEvent>, SendToProductCreatedEventHandler>();
 
             return services;
         }

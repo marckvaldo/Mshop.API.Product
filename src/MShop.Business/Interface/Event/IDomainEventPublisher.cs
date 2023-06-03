@@ -9,6 +9,6 @@ namespace MShop.Business.Interface.Event
 {
     public interface IDomainEventPublisher
     {
-        Task PublishAsync(DomainEvent entity);  
+        Task PublishAsync<TDomainEvent>(TDomainEvent entity) where TDomainEvent : DomainEvent;  
     }
 }

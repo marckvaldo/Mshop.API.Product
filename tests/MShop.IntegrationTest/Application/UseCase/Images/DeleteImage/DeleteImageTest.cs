@@ -12,6 +12,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ApplicationUseCase = MShop.Application.UseCases.images.DeleteImage;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using MShop.Application.Event;
+using MShop.Repository.UnitOfWork;
 
 namespace MShop.IntegrationTests.Application.UseCase.Images.DeleteImage
 {
@@ -24,6 +29,8 @@ namespace MShop.IntegrationTests.Application.UseCase.Images.DeleteImage
         private readonly RepositoryDbContext _repositoryContext;
         private readonly IStorageService _storageService;
         private readonly ImagePersistense _imagePersistense;
+        private readonly UnitOfWork _unitOfWork;
+        private readonly DomainEventPublisher _domainEventPublisher;
 
         public DeleteImageTest()
         {
@@ -32,6 +39,13 @@ namespace MShop.IntegrationTests.Application.UseCase.Images.DeleteImage
             _notification = new Notifications();
             _storageService = new StorageService();
             _imagePersistense = new ImagePersistense(_repositoryContext);
+
+            var serviceColletion = new ServiceCollection();
+            serviceColletion.AddLogging();
+            var serviceProvider = serviceColletion.BuildServiceProvider();
+
+            _domainEventPublisher = new DomainEventPublisher(serviceProvider);
+            _unitOfWork = new UnitOfWork(_repositoryContext, _domainEventPublisher, serviceProvider.GetRequiredService<ILogger<UnitOfWork>>());
         }
 
         [Fact(DisplayName = nameof(DeleteImage))]
@@ -43,8 +57,13 @@ namespace MShop.IntegrationTests.Application.UseCase.Images.DeleteImage
 
             await _imagePersistense.Create(image);
 
-            var useCase = new ApplicationUseCase.DeleteImage(_imageRepository, _storageService, _notification);
-            await useCase.Handler(image.Id);
+            var useCase = new ApplicationUseCase.DeleteImage(
+                _imageRepository,
+                _storageService,
+                _notification,
+                _unitOfWork);
+
+            await useCase.Handler(image.Id, CancellationToken.None);
 
             var imageDbDelete = await _imagePersistense.GetImage(image.Id);
 

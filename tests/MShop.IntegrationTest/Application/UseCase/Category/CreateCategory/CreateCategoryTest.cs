@@ -12,6 +12,10 @@ using MShop.Business.Validation;
 using MShop.Repository.Context;
 using Microsoft.EntityFrameworkCore;
 using MShop.Business.Exceptions;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using MShop.Application.Event;
+using MShop.Repository.UnitOfWork;
 
 namespace MShop.IntegrationTests.Application.UseCase.Category.CreateCategory
 {
@@ -23,14 +27,23 @@ namespace MShop.IntegrationTests.Application.UseCase.Category.CreateCategory
         private readonly ICategoryRepository _categoryRepository;
         private readonly INotification _notification;
         private readonly RepositoryDbContext _context;
-        private readonly CategoryPersistence _categoryPersistence;  
+        private readonly CategoryPersistence _categoryPersistence;
+        private readonly UnitOfWork _unitOfWork;
+        private readonly DomainEventPublisher _domainEventPublisher;
 
         public CreateCategoryTest()
         {
             _context = CreateDBContext();
             _categoryRepository = new CategoryRepository(_context);
             _notification = new Notifications();
-            _categoryPersistence = new CategoryPersistence(_context);   
+            _categoryPersistence = new CategoryPersistence(_context);
+
+            var serviceColletion = new ServiceCollection();
+            serviceColletion.AddLogging();
+            var serviceProvider = serviceColletion.BuildServiceProvider();
+
+            _domainEventPublisher = new DomainEventPublisher(serviceProvider);
+            _unitOfWork = new UnitOfWork(_context, _domainEventPublisher, serviceProvider.GetRequiredService<ILogger<UnitOfWork>>());
         }
 
         [Fact(DisplayName = nameof(CreateCategory))]
@@ -38,8 +51,12 @@ namespace MShop.IntegrationTests.Application.UseCase.Category.CreateCategory
         public async void CreateCategory()
         {
             var request = Faker();
-            var useCase = new ApplicationUseCase.CreateCategory(_notification,_categoryRepository);
-            var outPut = await useCase.Handler(request);
+            var useCase = new ApplicationUseCase.CreateCategory(
+                _notification,
+                _categoryRepository,
+                _unitOfWork);
+
+            var outPut = await useCase.Handler(request, CancellationToken.None);
 
             var categoryDB = await _categoryPersistence.GetCategory(outPut.Id);
 
@@ -60,8 +77,12 @@ namespace MShop.IntegrationTests.Application.UseCase.Category.CreateCategory
             var request = Faker();
             request.Name = name;
 
-            var useCase = new ApplicationUseCase.CreateCategory(_notification, _categoryRepository);
-            var action = async () => await useCase.Handler(request);
+            var useCase = new ApplicationUseCase.CreateCategory(
+                _notification,
+                _categoryRepository,
+                _unitOfWork);
+
+            var action = async () => await useCase.Handler(request, CancellationToken.None);
 
             var exception = Assert.ThrowsAsync<EntityValidationException>(action);
 

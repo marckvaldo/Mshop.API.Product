@@ -1,9 +1,13 @@
-﻿using MShop.Business.Entity;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using MShop.Application.Event;
+using MShop.Business.Entity;
 using MShop.Business.Enum.Paginated;
 using MShop.Business.Paginated;
 using MShop.Business.Validation;
 using MShop.IntegrationTests.Repository.CategoryRepository;
 using MShop.Repository.Context;
+using MShop.Repository.UnitOfWork;
 using InfraRepository = MShop.Repository.Repository;
 
 namespace MShop.IntegrationTests.Repository.ProductRepository
@@ -16,12 +20,22 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
         private readonly InfraRepository.ProductRepository _repository;
         protected readonly ProductRepositoryPersistence _persistence;
         protected readonly CategoryRepositoryPertsistence _persistenceCategory;
+        private readonly UnitOfWork _unitOfWork;
+        private readonly DomainEventPublisher _domainEventPublisher;
+
         public ProductRepositoryTest()
         {
             _DbContext = CreateDBContext();
             _repository = new InfraRepository.ProductRepository(_DbContext);
             _persistence = new ProductRepositoryPersistence(_DbContext);
             _persistenceCategory = new CategoryRepositoryPertsistence(_DbContext);
+
+            var serviceColletion = new ServiceCollection();
+            serviceColletion.AddLogging();
+            var serviceProvider = serviceColletion.BuildServiceProvider();
+
+            _domainEventPublisher = new DomainEventPublisher(serviceProvider);
+            _unitOfWork = new UnitOfWork(_DbContext, _domainEventPublisher, serviceProvider.GetRequiredService<ILogger<UnitOfWork>>());
         }
 
         [Fact(DisplayName = nameof(CreateProduct))]
@@ -30,7 +44,8 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
         public async Task CreateProduct()
         {
             var product = Faker();
-            await _repository.Create(product);
+            await _repository.Create(product, CancellationToken.None);
+            await _unitOfWork.CommitAsync(CancellationToken.None);
             var newProduct = await CreateDBContext(true).Products.FindAsync(product.Id);
 
             Assert.NotNull(newProduct);
@@ -53,7 +68,6 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
             
             productList.Add(product);
             _persistence.CreateList(productList);
-
             var outPut = await _repository.GetById(product.Id);
 
             Assert.NotNull(outPut);
@@ -86,7 +100,8 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
             product.UpdateQuantityStock(request.Stock);
             product.IsValid(notification);
 
-            await repository.Update(product);
+            await repository.Update(product, CancellationToken.None);
+            await _unitOfWork.CommitAsync(CancellationToken.None);
             var productUpdate = await (CreateDBContext(true)).Products.FindAsync(id);   
 
             Assert.NotNull(productUpdate);
@@ -108,7 +123,8 @@ namespace MShop.IntegrationTests.Repository.ProductRepository
             _persistence.CreateList(productList);   
 
             var request = productList.First();
-            await _repository.DeleteById(request);
+            await _repository.DeleteById(request, CancellationToken.None);
+            await _unitOfWork.CommitAsync(CancellationToken.None);
             var productUpdate = await (CreateDBContext(true)).Products.FindAsync(request.Id);
 
             Assert.Null(productUpdate);

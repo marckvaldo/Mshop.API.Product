@@ -23,6 +23,7 @@ namespace MShop.UnitTests.Application.UseCases.Image.DelteImage
             var repository = new Mock<IImageRepository>();
             var notification = new Mock<INotification>();
             var storageService = new Mock<IStorageService>();
+            var unitOfWork = new Mock<IUnitOfWork>();
 
 
             var id = Guid.NewGuid();
@@ -31,8 +32,13 @@ namespace MShop.UnitTests.Application.UseCases.Image.DelteImage
 
             repository.Setup(r => r.GetById(It.IsAny<Guid>())).ReturnsAsync(images);
 
-            var useCase = new ApplicationUseCase.DeleteImage(repository.Object, storageService.Object, notification.Object);
-            var outPut = await useCase.Handler(request);
+            var useCase = new ApplicationUseCase.DeleteImage(
+                repository.Object, 
+                storageService.Object, 
+                notification.Object,
+                unitOfWork.Object);
+
+            var outPut = await useCase.Handler(request, CancellationToken.None);
 
             Assert.NotNull(outPut);
             Assert.Equal(outPut.ProductId, id);
@@ -50,21 +56,27 @@ namespace MShop.UnitTests.Application.UseCases.Image.DelteImage
             var repository = new Mock<IImageRepository>();
             var notification = new Mock<INotification>();
             var storageService = new Mock<IStorageService>();
+            var unitOfWork = new Mock<IUnitOfWork>();
 
             var id = Guid.NewGuid();
             var images = Faker(id);
             var request = FakerRequest();
          
 
-            var useCase = new ApplicationUseCase.DeleteImage(repository.Object, storageService.Object, notification.Object);
-            var action = async () => await useCase.Handler(request);
+            var useCase = new ApplicationUseCase.DeleteImage(
+                repository.Object, 
+                storageService.Object, 
+                notification.Object,
+                unitOfWork.Object);
+
+            var action = async () => await useCase.Handler(request, CancellationToken.None);
 
             var exception = Assert.ThrowsAsync<ApplicationException>(action);
 
             repository.Verify(r => r.GetById(It.IsAny<Guid>()), Times.Once);
             notification.Verify(n => n.AddNotifications(It.IsAny<string>()), Times.Once);
             storageService.Verify(s => s.Delete(It.IsAny<string>()), Times.Never);
-            repository.Verify(r => r.DeleteById(It.IsAny<BusinessEntity.Image>()), Times.Never);
+            repository.Verify(r => r.DeleteById(It.IsAny<BusinessEntity.Image>(),CancellationToken.None), Times.Never);
 
 
         }

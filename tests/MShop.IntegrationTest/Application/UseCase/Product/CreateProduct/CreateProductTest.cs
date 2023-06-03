@@ -1,5 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Moq;
+using MShop.Application.Event;
 using MShop.Business.Exception;
 using MShop.Business.Exceptions;
 using MShop.Business.Interface;
@@ -9,6 +12,7 @@ using MShop.Business.Validation;
 using MShop.IntegrationTests.Application.UseCase.Category;
 using MShop.Repository.Context;
 using MShop.Repository.Repository;
+using MShop.Repository.UnitOfWork;
 using System.Data.SqlTypes;
 using ApplicationUseCase = MShop.Application.UseCases.Product.CreateProducts;
 
@@ -27,6 +31,8 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.CreateProduct
         private readonly ProductPersistence _productPersistence;
         private readonly CategoryPersistence _categoryPersistence;
         private readonly INotification _notification;
+        private readonly UnitOfWork _unitOfWork;
+        private readonly DomainEventPublisher _domainEventPublisher;
 
         public CreateProductTest()
         {
@@ -38,6 +44,14 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.CreateProduct
             _productPersistence = new ProductPersistence(_DbContext);
             _categoryPersistence = new CategoryPersistence(_DbContext);
             _notification = new Notifications();
+
+            var serviceColletion = new ServiceCollection();
+            serviceColletion.AddLogging();
+            var serviceProvider = serviceColletion.BuildServiceProvider();
+
+            _domainEventPublisher = new DomainEventPublisher(serviceProvider);  
+            _unitOfWork = new UnitOfWork(_DbContext, _domainEventPublisher, serviceProvider.GetRequiredService<ILogger<UnitOfWork>>());
+
         }
 
         [Fact(DisplayName = nameof(CreateProduct))]
@@ -61,8 +75,14 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.CreateProduct
             Assert.NotNull(categoryDb);
             request.CategoryId = categoryDb.Id;
 
-            var productUseCase = new ApplicationUseCase.CreateProduct(_repository, _notification,_categoryRepository, _storageService, _imageRepository);
-            var outPut = await productUseCase.Handler(request);
+            var productUseCase = new ApplicationUseCase.CreateProduct(
+                _repository, 
+                _notification,
+                _categoryRepository, 
+                _storageService, 
+                _unitOfWork);
+
+            var outPut = await productUseCase.Handler(request, CancellationToken.None);
 
             //var newProduct = await CreateDBContext(true).Products.FindAsync(outPut.Id);
             var newProduct = await _productPersistence.GetProduct(outPut.Id);
@@ -98,8 +118,14 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.CreateProduct
 
             request.CategoryId = Guid.NewGuid();
 
-            var productUseCase = new ApplicationUseCase.CreateProduct(_repository, _notification, _categoryRepository, _storageService, _imageRepository);
-            var outPut = async () => await productUseCase.Handler(request);
+            var productUseCase = new ApplicationUseCase.CreateProduct(
+                _repository, 
+                _notification, 
+                _categoryRepository, 
+                _storageService, 
+                _unitOfWork);
+
+            var outPut = async () => await productUseCase.Handler(request, CancellationToken.None);
 
             var exception = await Assert.ThrowsAsync<ApplicationValidationException>(outPut);
             Assert.Equal("Error", exception.Message);

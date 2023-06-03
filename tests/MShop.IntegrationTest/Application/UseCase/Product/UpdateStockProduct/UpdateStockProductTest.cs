@@ -6,6 +6,10 @@ using ApplicationUseCase = MShop.Application.UseCases.Product.UpdateStockProduct
 using MShop.Business.Interface.Service;
 using Moq;
 using MShop.Business.Interface;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using MShop.Application.Event;
+using MShop.Repository.UnitOfWork;
 
 namespace MShop.IntegrationTests.Application.UseCase.Product.UpdateStockProduct
 {
@@ -21,6 +25,8 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.UpdateStockProduct
         private readonly IStorageService _storageService;
         private readonly INotification _notification;
         private readonly ProductPersistence _productPersistence;
+        private readonly DomainEventPublisher _domainEventPublisher;
+        private readonly UnitOfWork _unitOfWork;
 
         public UpdateStockProductTest()
         {
@@ -31,6 +37,13 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.UpdateStockProduct
             _storageService = new Mock<IStorageService>().Object;
             _productPersistence = new ProductPersistence(_DbContext);
             _notification = new Notifications();
+
+            var serviceCollection = new ServiceCollection();
+            serviceCollection.AddLogging();
+            var serviceProvider = serviceCollection.BuildServiceProvider();
+
+            _domainEventPublisher = new DomainEventPublisher(serviceProvider);
+            _unitOfWork = new UnitOfWork(_DbContext, _domainEventPublisher, serviceProvider.GetRequiredService<ILogger<UnitOfWork>>());
         }
 
         [Fact(DisplayName = nameof(UpdateStockProduct))]
@@ -47,8 +60,8 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.UpdateStockProduct
             //await _DbContext.AddAsync(product);
             //await _DbContext.SaveChangesAsync();
 
-            var useCase = new ApplicationUseCase.UpdateStockProducts(_repository, _notification);
-            var outPut = await useCase.Handler(request);
+            var useCase = new ApplicationUseCase.UpdateStockProducts(_repository, _notification, _unitOfWork);
+            var outPut = await useCase.Handler(request, CancellationToken.None);
 
             //var productDb = await CreateDBContext(true).Products.AsNoTracking().Where(x => x.Id == product.Id).FirstAsync();
             var productDb = await _productPersistence.GetProduct(product.Id);

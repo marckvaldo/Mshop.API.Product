@@ -1,10 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Moq;
+using MShop.Application.Event;
 using MShop.Business.Interface.Service;
 using MShop.Business.Service;
 using MShop.Business.Validation;
 using MShop.Repository.Context;
 using MShop.Repository.Repository;
+using MShop.Repository.UnitOfWork;
 using ApplicationUseCase = MShop.Application.UseCases.Product.UpdateProduct;
 
 namespace MShop.IntegrationTests.Application.UseCase.Product.UpdateProduct
@@ -20,6 +24,8 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.UpdateProduct
         private readonly CategoryRepository _categoryRepository;
         private readonly ImagesRepository _imageRepository;
         private readonly StorageService _storageService;
+        private readonly UnitOfWork _unitOfWork;
+        private readonly DomainEventPublisher _domainEventPublisher;
 
         public UpdateProductTest()
         {
@@ -29,6 +35,13 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.UpdateProduct
             _categoryRepository = new CategoryRepository(_DbContext);
             _imageRepository = new ImagesRepository(_DbContext);
             _storageService = new StorageService();
+
+            var serviceColletion = new ServiceCollection();
+            serviceColletion.AddLogging();
+            var serviceProvider = serviceColletion.BuildServiceProvider();
+
+            _domainEventPublisher = new DomainEventPublisher(serviceProvider);
+            _unitOfWork = new UnitOfWork(_DbContext, _domainEventPublisher, serviceProvider.GetRequiredService<ILogger<UnitOfWork>>());
         }
 
         [Fact(DisplayName = nameof(UpdateProduct))]
@@ -50,8 +63,14 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.UpdateProduct
             await _DbContext.AddAsync(category);
             await _DbContext.SaveChangesAsync();
 
-            var useCase = new ApplicationUseCase.UpdateProduct(_repository, _categoryRepository, notificacao,_storageService);
-            var outPut = await useCase.Handler(request);
+            var useCase = new ApplicationUseCase.UpdateProduct(
+                _repository, 
+                _categoryRepository, 
+                notificacao,
+                _storageService,
+                _unitOfWork);
+
+            var outPut = await useCase.Handler(request, CancellationToken.None);
 
             var productDb = await CreateDBContext(true).Products.Where(x=>x.Id == product.Id).FirstAsync();
 

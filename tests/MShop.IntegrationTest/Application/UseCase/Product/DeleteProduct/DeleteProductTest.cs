@@ -1,10 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using MShop.Application.Event;
 using MShop.Business.Interface;
 using MShop.Business.Interface.Service;
 using MShop.Business.Service;
 using MShop.Business.Validation;
 using MShop.Repository.Context;
 using MShop.Repository.Repository;
+using MShop.Repository.UnitOfWork;
 using ApplicationUseCase = MShop.Application.UseCases.Product.DeleteProduct;
 
 namespace MShop.IntegrationTests.Application.UseCase.Product.DeleteProduct
@@ -19,6 +23,8 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.DeleteProduct
         private readonly ProductPersistence _productPersistence;
         private readonly IStorageService _storageService;
         private readonly INotification _notification;
+        private readonly UnitOfWork _unitOfWork;
+        private readonly DomainEventPublisher _domainEventPublisher;
 
         public DeleteProductTest()
         {
@@ -28,6 +34,13 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.DeleteProduct
             _productPersistence = new ProductPersistence(_DbContext);
             _storageService = new StorageService();
             _notification = new Notifications();
+
+            var serviceColletion = new ServiceCollection();
+            serviceColletion.AddLogging();
+            var serviceProvider = serviceColletion.BuildServiceProvider();
+
+            _domainEventPublisher = new DomainEventPublisher(serviceProvider);
+            _unitOfWork = new UnitOfWork(_DbContext, _domainEventPublisher, serviceProvider.GetRequiredService<ILogger<UnitOfWork>>());
         }
 
         [Fact(DisplayName = nameof(DeleteProduct))]
@@ -44,8 +57,14 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.DeleteProduct
             //await _DbContext.SaveChangesAsync();
             await _productPersistence.Create(product);
 
-            var useCase = new ApplicationUseCase.DeleteProduct(_repository, _imagesRepository, _notification, _storageService);
-            await useCase.Handler(product.Id);
+            var useCase = new ApplicationUseCase.DeleteProduct(
+                _repository, 
+                _imagesRepository, 
+                _notification, 
+                _storageService,
+                _unitOfWork);
+
+            await useCase.Handler(product.Id, CancellationToken.None);
 
             //var productDbDelete = await CreateDBContext(true).Products.FindAsync(product.Id);
             var productDbDelete = await _productPersistence.GetProduct(product.Id);

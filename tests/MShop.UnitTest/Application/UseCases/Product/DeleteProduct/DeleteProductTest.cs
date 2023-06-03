@@ -7,8 +7,6 @@ using ApplicationUseCase = MShop.Application.UseCases.Product.DeleteProduct;
 using BusinessEntity = MShop.Business.Entity;
 
 
-
-
 namespace Mshop.Tests.Application.UseCases.Product.DeleteProduct
 {
     public class DeleteProductTest : DeleteProductTestFixture
@@ -22,16 +20,23 @@ namespace Mshop.Tests.Application.UseCases.Product.DeleteProduct
             var notification = new Mock<INotification>();
             var repositoryImage = new Mock<IImageRepository>();
             var storageService = new Mock<IStorageService>();
+            var unitOfWork = new Mock<IUnitOfWork>();   
 
             repository.Setup(repository => repository.GetById(It.IsAny<Guid>()))
                 .ReturnsAsync(Faker());
 
             var guid = Faker().Id;
 
-            var product = new ApplicationUseCase.DeleteProduct(repository.Object, repositoryImage.Object, notification.Object, storageService.Object);
-            var outPut = await product.Handler(guid);
+            var product = new ApplicationUseCase.DeleteProduct(
+                repository.Object, 
+                repositoryImage.Object, 
+                notification.Object, 
+                storageService.Object,
+                unitOfWork.Object);
 
-            repository.Verify(r => r.DeleteById(It.IsAny<BusinessEntity.Product>()),Times.Once);
+            var outPut = await product.Handler(guid, CancellationToken.None);
+
+            repository.Verify(r => r.DeleteById(It.IsAny<BusinessEntity.Product>(), CancellationToken.None),Times.Once);
             repository.Verify(r => r.GetById(It.IsAny<Guid>()), Times.Once);
             notification.Verify(n => n.AddNotifications(It.IsAny<string>()), Times.Never);
             //repositoryImage.Verify(r => r.DeleteByIdProduct(It.IsAny<Guid>()), Times.Once);
@@ -49,16 +54,23 @@ namespace Mshop.Tests.Application.UseCases.Product.DeleteProduct
             var notification = new Mock<INotification>();
             var repositoryImage = new Mock<IImageRepository>();
             var storageService = new Mock<IStorageService>();
+            var unitOfWork = new Mock<IUnitOfWork>();
 
             repository.Setup(r => r.GetById(It.IsAny<Guid>())).ThrowsAsync(new NotFoundException("your search returned null"));
 
-            var product = new ApplicationUseCase.DeleteProduct(repository.Object, repositoryImage.Object, notification.Object, storageService.Object);
+            var product = new ApplicationUseCase.DeleteProduct(
+                repository.Object, 
+                repositoryImage.Object, 
+                notification.Object, 
+                storageService.Object,
+                unitOfWork.Object);
+
             var guid = Faker().Id;
-            var action = async () => await product.Handler(guid);
+            var action = async () => await product.Handler(guid, CancellationToken.None);
 
             var exception = Assert.ThrowsAsync<NotFoundException>(action);
 
-            repository.Verify(r => r.DeleteById(It.IsAny<BusinessEntity.Product>()), Times.Never);
+            repository.Verify(r => r.DeleteById(It.IsAny<BusinessEntity.Product>(), CancellationToken.None), Times.Never);
             repository.Verify(r => r.GetById(It.IsAny<Guid>()), Times.Once);
             notification.Verify(a => a.AddNotifications(It.IsAny<string>()), Times.Never);
             repositoryImage.Verify(a => a.DeleteByIdProduct(It.IsAny<Guid>()), Times.Never);

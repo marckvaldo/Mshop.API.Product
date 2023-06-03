@@ -30,6 +30,7 @@
 
   <ItemGroup>
     <Folder Include="Application\UseCases\Category\ListCategory\" />
+    <Folder Include="UnitOfWork\" />
   </ItemGroup>
 
 </Project>

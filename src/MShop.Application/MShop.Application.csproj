@@ -11,6 +11,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\MShop.Business\MShop.Business.csproj" />
     <ProjectReference Include="..\Mshop.Chache\MShop.Cache.csproj" />
     <ProjectReference Include="..\MShop.Repository\MShop.Repository.csproj" />

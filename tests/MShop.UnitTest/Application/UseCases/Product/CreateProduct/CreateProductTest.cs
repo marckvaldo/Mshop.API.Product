@@ -23,6 +23,7 @@ namespace Mshop.Tests.Application.UseCases.Product.CreateProduct
             var storageService = new Mock<IStorageService>();
             var repositoryCategoria = new Mock<ICategoryRepository>();
             var repositoryImage = new Mock<IImageRepository>();
+            var unitOfWork = new Mock<IUnitOfWork>();
 
             var request = Faker();
             var categoryFake = new Category(faker.Commerce.Categories(1)[0], true);
@@ -30,19 +31,22 @@ namespace Mshop.Tests.Application.UseCases.Product.CreateProduct
 
             storageService.Setup(s => s.Upload(It.IsAny<string>(), It.IsAny<Stream>())).ReturnsAsync(nameImage);
             repositoryCategoria.Setup(c => c.GetById(It.IsAny<Guid>())).ReturnsAsync(categoryFake);
+            unitOfWork.Setup(u=>u.CommitAsync(It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
 
-            var productUseCase = new ApplicationUseCase.CreateProduct(repository.Object, 
+
+            var productUseCase = new ApplicationUseCase.CreateProduct(
+                repository.Object, 
                 notification, 
                 repositoryCategoria.Object, 
-                storageService.Object, 
-                repositoryImage.Object);
+                storageService.Object,
+                unitOfWork.Object);
             
            
 
-            var outPut =  await productUseCase.Handler(request);
+            var outPut =  await productUseCase.Handler(request, CancellationToken.None);
 
             repository.Verify(
-                repository => repository.Create(It.IsAny<BusinessEntity.Product>()),
+                repository => repository.Create(It.IsAny<BusinessEntity.Product>(),CancellationToken.None),
                 Times.Once);
 
             //notification.Verify(n=>n.AddNotifications(It.IsAny<string>()),Times.Never);
@@ -73,6 +77,7 @@ namespace Mshop.Tests.Application.UseCases.Product.CreateProduct
             var storageService = new Mock<IStorageService>();
             var repositoryCategoria = new Mock<ICategoryRepository>();
             var repositoryImage = new Mock<IImageRepository>();
+            var unitOfWork = new Mock<IUnitOfWork>();
 
             var categoryFake = new Category(faker.Commerce.Categories(1)[0], true);
             categoryFake.Id = request.CategoryId;
@@ -80,20 +85,21 @@ namespace Mshop.Tests.Application.UseCases.Product.CreateProduct
 
             storageService.Setup(s => s.Upload(It.IsAny<string>(), It.IsAny<Stream>())).ReturnsAsync(nameImage);
             repositoryCategoria.Setup(c => c.GetById(It.IsAny<Guid>())).ReturnsAsync(categoryFake);
+            unitOfWork.Setup(u => u.CommitAsync(It.IsAny<CancellationToken>()));
 
             var productUseCase = new ApplicationUseCase.CreateProduct(
                 repository.Object, 
                 notification, 
                 repositoryCategoria.Object, 
                 storageService.Object, 
-                repositoryImage.Object);
+                unitOfWork.Object);
 
-            var action = async () => await productUseCase.Handler(request);
+            var action = async () => await productUseCase.Handler(request,CancellationToken.None);
 
             var exception =  Assert.ThrowsAsync<EntityValidationException>(action);
 
             repository.Verify(
-                repository => repository.Create(It.IsAny<BusinessEntity.Product>()),
+                repository => repository.Create(It.IsAny<BusinessEntity.Product>(), CancellationToken.None),
                 Times.Never);
 
             Assert.True(notification.HasErrors());
@@ -109,25 +115,28 @@ namespace Mshop.Tests.Application.UseCases.Product.CreateProduct
             var storageService = new Mock<IStorageService>();
             var repositoryCategoria = new Mock<ICategoryRepository>();
             var repositoryImage = new Mock<IImageRepository>();
+            var unitOfWork = new Mock<IUnitOfWork>();   
 
             var request = Faker();
             var categoryFake = new Category(faker.Commerce.Categories(1)[0], true);
             var nameImage = $"{request.Name}-thumb.{ExtensionFile(request.Thumb.FileStremBase64)}";
 
-            storageService.Setup(s => s.Upload(It.IsAny<string>(), It.IsAny<Stream>())).ReturnsAsync(nameImage);            
+            storageService.Setup(s => s.Upload(It.IsAny<string>(), It.IsAny<Stream>())).ReturnsAsync(nameImage);
+           
 
-            var productUseCase = new ApplicationUseCase.CreateProduct(repository.Object,
+            var productUseCase = new ApplicationUseCase.CreateProduct(
+                repository.Object,
                 notification,
                 repositoryCategoria.Object,
                 storageService.Object,
-                repositoryImage.Object);
+                unitOfWork.Object);
 
-            var action = async () => await productUseCase.Handler(request);
+            var action = async () => await productUseCase.Handler(request, CancellationToken.None);
 
             var exception = Assert.ThrowsAsync<ApplicationException>(action);
 
             repository.Verify(
-                repository => repository.Create(It.IsAny<BusinessEntity.Product>()),
+                repository => repository.Create(It.IsAny<BusinessEntity.Product>(), CancellationToken.None),
                 Times.Never);
 
             //Assert.True(notification.HasErrors());

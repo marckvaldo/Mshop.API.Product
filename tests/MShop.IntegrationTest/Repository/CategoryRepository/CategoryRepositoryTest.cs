@@ -1,11 +1,15 @@
 ﻿using Bogus;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using MShop.Application.Event;
 using MShop.Business.Entity;
 using MShop.Business.Enum.Paginated;
 using MShop.Business.Interface.Repository;
 using MShop.Business.Paginated;
 using MShop.Repository.Context;
 using MShop.Repository.Repository;
+using MShop.Repository.UnitOfWork;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,12 +27,22 @@ namespace MShop.IntegrationTests.Repository.CategoryRepository
         private readonly InfraRepository.CategoryRepository _categoryRepository;
         private readonly RepositoryDbContext _DbContext;
         private readonly CategoryRepositoryPertsistence _persistence;
+        private readonly UnitOfWork _unitOfWork;
+        private readonly DomainEventPublisher _domainEventPublisher;
 
         public CategoryRepositoryTest()
         {
             _DbContext = CreateDBContext();
             _categoryRepository = new InfraRepository.CategoryRepository(_DbContext);
             _persistence = new CategoryRepositoryPertsistence(_DbContext);
+
+            var serviceColletion = new ServiceCollection();
+            serviceColletion.AddLogging();
+            var serviceProvider = serviceColletion.BuildServiceProvider();
+
+            _domainEventPublisher = new DomainEventPublisher(serviceProvider);
+            _unitOfWork = new UnitOfWork(_DbContext, _domainEventPublisher, serviceProvider.GetRequiredService<ILogger<UnitOfWork>>());
+
         }
 
         [Fact(DisplayName = nameof(CreateCategory))]
@@ -37,8 +51,8 @@ namespace MShop.IntegrationTests.Repository.CategoryRepository
         public async Task CreateCategory()
         {
             var request = Faker();
-            await _categoryRepository.Create(request);
-
+            await _categoryRepository.Create(request, CancellationToken.None);
+            await _unitOfWork.CommitAsync(CancellationToken.None);
             var newCategory = await CreateDBContext(true).Categories.FindAsync(request.Id);
 
             Assert.NotNull(newCategory);
@@ -76,8 +90,8 @@ namespace MShop.IntegrationTests.Repository.CategoryRepository
             category.Update(faker.Commerce.Categories(1)[0]);
             category.Deactive();
 
-            await _categoryRepository.Update(category);
-
+            await _categoryRepository.Update(category, CancellationToken.None);
+            await _unitOfWork.CommitAsync(CancellationToken.None);
             var categoryDb = await _persistence.GetCategory(category.Id);
 
             Assert.NotNull(categoryDb);            
@@ -95,10 +109,10 @@ namespace MShop.IntegrationTests.Repository.CategoryRepository
             var quantity = 3;
             var categoryFaker = FakerCategories(quantity);
             _persistence.CreateList(categoryFaker);
-            var categoryDelete = categoryFaker.FirstOrDefault();
+            var categoryDelete = categoryFaker.FirstOrDefault();    
             Assert.NotNull(categoryDelete);
-            await _categoryRepository.DeleteById(categoryDelete);
-
+            await _categoryRepository.DeleteById(categoryDelete, CancellationToken.None);
+            await _unitOfWork.CommitAsync(CancellationToken.None);
             var outPut = await _persistence.GetAllCategories();
 
             Assert.NotNull(outPut);

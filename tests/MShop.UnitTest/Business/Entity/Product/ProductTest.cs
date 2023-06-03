@@ -5,19 +5,24 @@ using MShop.UnitTests.Common;
 
 namespace Mshop.Test.Business.Entity.Product
 {
-    public class ProductTest : ProductTestFixture
+    public class ProductTest : ProductTestFixture, IDisposable
     {
+        private readonly Notifications _notifications;
+        public ProductTest()
+        {
+            _notifications = new Notifications();
+        }
+
         [Fact(DisplayName = nameof(Instantiate))]
         [Trait("Business","Products")]
         public void Instantiate()
         {
-            var notification = new Notifications();
             var valid = GetProductValid();
             var product = GetProductValid(Fake(valid.Description,valid.Name,valid.Price, valid.CategoryId, valid.Stock,valid.IsActive));
-            product.IsValid(notification);
+            product.IsValid(_notifications);
 
             Assert.NotNull(product);
-            Assert.False(notification.HasErrors());
+            Assert.False(_notifications.HasErrors());
             Assert.Equal(product.Name, valid.Name);
             Assert.Equal(product.Description, valid.Description);
             Assert.Equal(product.Price, valid.Price);
@@ -27,6 +32,7 @@ namespace Mshop.Test.Business.Entity.Product
             Assert.Equal(product.IsActive, valid.IsActive);
             Assert.Null(product.Thumb);
 
+            _notifications.Errors().Clear();
         }
         
         [Theory(DisplayName = nameof(SholdReturnErrorWhenDescriptionInvalid))]
@@ -35,7 +41,6 @@ namespace Mshop.Test.Business.Entity.Product
 
         public void SholdReturnErrorWhenDescriptionInvalid(string description)
         {
-            var notification = new Notifications();
 
             var validade = Fake(
                 description,
@@ -48,10 +53,10 @@ namespace Mshop.Test.Business.Entity.Product
             var product = GetProductValid(validade);
             product.Activate();
 
-            Action action = () => product.IsValid(notification);
+            Action action = () => product.IsValid(_notifications);
             var exception = Assert.Throws<EntityValidationException>(action);
 
-            Assert.True(notification.HasErrors());
+            Assert.True(_notifications.HasErrors());
             Assert.Equal("Validation errors", exception.Message);
 
             Assert.Equal(product.Name, validade.Name);
@@ -69,8 +74,7 @@ namespace Mshop.Test.Business.Entity.Product
         [MemberData(nameof(ListNameProductInvalid))]
         public void SholdReturnErrorWhenNameInvalid(string name)
         {
-            var notification = new Notifications();
-
+           
             var validade = Fake(
                 Fake().Description,
                 name,
@@ -82,10 +86,10 @@ namespace Mshop.Test.Business.Entity.Product
             var product = GetProductValid(validade);
             product.Activate();
 
-            Action action = () => product.IsValid(notification);
+            Action action = () => product.IsValid(_notifications);
             var exception = Assert.Throws<EntityValidationException>(action);
 
-            Assert.True(notification.HasErrors());
+            Assert.True(_notifications.HasErrors());
             Assert.Equal("Validation errors", exception.Message);
             Assert.Equal(product.Name, name);
             Assert.Equal(product.Description, validade.Description);
@@ -104,7 +108,7 @@ namespace Mshop.Test.Business.Entity.Product
 
         public void SholdReturnErrorWhenPriceInvalid(decimal price)
         {
-            var notification = new Notifications();
+
             var validade = Fake(
                 Fake().Description,
                 Fake().Name,
@@ -116,10 +120,10 @@ namespace Mshop.Test.Business.Entity.Product
             var product = GetProductValid(validade);
             product.Activate();
 
-            Action action = () => product.IsValid(notification);
+            Action action = () => product.IsValid(_notifications);
             var exception = Assert.Throws<EntityValidationException>(action);
 
-            Assert.True(notification.HasErrors());
+            Assert.True(_notifications.HasErrors());
             Assert.Equal("Validation errors", exception.Message);
             Assert.Equal(product.Name, validade.Name);
             Assert.Equal(product.Description, validade.Description);
@@ -128,6 +132,7 @@ namespace Mshop.Test.Business.Entity.Product
             Assert.Equal(product.Stock, validade.Stock);
             Assert.Equal(product.IsActive, validade.IsActive);
             Assert.Null(product.Thumb);
+
         }
 
         
@@ -137,7 +142,7 @@ namespace Mshop.Test.Business.Entity.Product
         [InlineData(false)]
         public void SholdActiveAndDeactiveProduct(bool status)
         {
-            var notification = new Notifications();
+           
             var validade = Fake(
                Fake().Description,
                Fake().Name,
@@ -154,11 +159,11 @@ namespace Mshop.Test.Business.Entity.Product
             else
                 product.Deactive();
 
-            product.IsValid(notification);
+            product.IsValid(_notifications);
 
             
             Assert.Equal(product.IsActive,status);
-            Assert.False(notification.HasErrors());
+            Assert.False(_notifications.HasErrors());
             Assert.Equal(product.Name, validade.Name);
             Assert.Equal(product.Description, validade.Description);
             Assert.Equal(product.Price, validade.Price);
@@ -173,7 +178,6 @@ namespace Mshop.Test.Business.Entity.Product
         [Trait("Business","Products")]
         public void SholdUpdateProduct()
         {
-            var notification = new Notifications();
 
             var newValidade = new
             {
@@ -190,10 +194,10 @@ namespace Mshop.Test.Business.Entity.Product
 
             product.Update(newValidade.Description, newValidade.Name, newValidade.Price, newValidade.CategoryId);
 
-            product.IsValid(notification);
+            product.IsValid(_notifications);
 
             Assert.True(product.IsActive);
-            Assert.False(notification.HasErrors());
+            Assert.False(_notifications.HasErrors());
             Assert.Equal(product.Name, newValidade.Name);
             Assert.Equal(product.Description, newValidade.Description);
             Assert.Equal(product.Price, newValidade.Price);
@@ -206,7 +210,6 @@ namespace Mshop.Test.Business.Entity.Product
         [Trait("Business", "Products")]
         public void SholdAddQuantityStock()
         {
-            var notification = new Notifications();
             var validate = Fake();
             var newStoque = 10;
             var product = GetProductValid(validate);
@@ -214,11 +217,12 @@ namespace Mshop.Test.Business.Entity.Product
             product.AddQuantityStock(newStoque);
             product.UpdateThumb(faker.Image.LoremFlickrUrl());
             product.Activate();
-            product.IsValid(notification);
+            product.IsValid(_notifications);
 
             Assert.True(product.IsActive);
-            Assert.False(notification.HasErrors());
+            Assert.False(_notifications.HasErrors());
             Assert.Equal(product.Stock, (newStoque+ validate.Stock));
+
         }
 
 
@@ -226,17 +230,15 @@ namespace Mshop.Test.Business.Entity.Product
         [Trait("Business", "Products")]
         public void SholdRemoveQuantityStock()
         {
-            var notification = new Notifications();
             var validate = Fake();
             var newStoque = 10;
             var product = GetProductValid(validate);
 
             product.RemoveQuantityStock(newStoque);
-            product.IsValid(notification);
+            product.IsValid(_notifications);
 
             Assert.Equal(product.Stock, (validate.Stock- newStoque));
-            Assert.False(notification.HasErrors());
-
+            Assert.False(_notifications.HasErrors());
         }
 
 
@@ -244,15 +246,15 @@ namespace Mshop.Test.Business.Entity.Product
         [Trait("Business", "Products")]
         public void SholdUpdateQuantityStock()
         {
-            var notification = new Notifications();
             var newStoque = 1;
             var product = GetProductValid();
 
             product.UpdateQuantityStock(newStoque);
-            product.IsValid(notification);
+            product.IsValid(_notifications);
 
             Assert.Equal(product.Stock, (newStoque));
-            Assert.False(notification.HasErrors());
+            Assert.False(_notifications.HasErrors());
+
         }
 
 
@@ -260,20 +262,23 @@ namespace Mshop.Test.Business.Entity.Product
         [Fact(DisplayName = nameof(SholdUpdateImage))]
         [Trait("Business", "Products")]
         public void SholdUpdateImage()
-        {
-            var notification = new Notifications();
+        {            
             var newImagem = faker.Image.LoremFlickrUrl();
             var product = GetProductValid();
 
             product.UpdateThumb(newImagem);
-            product.IsValid(notification);
+            product.IsValid(_notifications);
 
             Assert.Equal(product.Thumb.Path, newImagem);
-            Assert.False(notification.HasErrors());
-
+            Assert.False(_notifications.HasErrors());
             Assert.True(true);
+    
         }
 
+        public void Dispose()
+        {
+            _notifications.Errors().Clear();
+        }
     }
 }
 

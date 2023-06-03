@@ -1,5 +1,10 @@
-﻿using MShop.Business.Exceptions;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Moq;
+using MShop.Application.Event;
+using MShop.Business.Exceptions;
 using MShop.Business.Interface;
+using MShop.Business.Interface.Event;
 using MShop.Business.Interface.Repository;
 using MShop.Business.Interface.Service;
 using MShop.Business.Service;
@@ -10,6 +15,7 @@ using MShop.IntegrationTests.Application.UseCase.Images.CreateImage;
 using MShop.IntegrationTests.Application.UseCase.Product;
 using MShop.Repository.Context;
 using MShop.Repository.Repository;
+using MShop.Repository.UnitOfWork;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +37,8 @@ namespace MShop.IntegrationTests.Application.UseCase.Images.CreateImages
         private readonly ImagePersistense _imagePersistense;
         private readonly CategoryPersistence _categoryPersistence;
         private readonly ProductPersistence _productPersistence;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IDomainEventPublisher _domainEventPublisher;
 
         public CreateImageTest()
         {
@@ -42,6 +50,13 @@ namespace MShop.IntegrationTests.Application.UseCase.Images.CreateImages
             _imagePersistense = new ImagePersistense(_repositoryContext);
             _categoryPersistence = new CategoryPersistence(_repositoryContext); 
             _productPersistence = new ProductPersistence(_repositoryContext);
+
+            var serviceCollection = new ServiceCollection();
+            serviceCollection.AddLogging();
+            var serviceProvider = serviceCollection.BuildServiceProvider();            
+
+            _domainEventPublisher = new DomainEventPublisher(serviceProvider);
+            _unitOfWork = new UnitOfWork(_repositoryContext, _domainEventPublisher, serviceProvider.GetRequiredService<ILogger<UnitOfWork>>());
         }
 
         [Fact(DisplayName = nameof(CreateImage))]
@@ -55,8 +70,14 @@ namespace MShop.IntegrationTests.Application.UseCase.Images.CreateImages
             await _productPersistence.Create(product);  
 
             var request = FakerRequest(product.Id);
-            var useCase = new ApplicationUseCase.CreateImage(_imageRepository, _storageService, _productRepository, _notification);
-            var outPut = await useCase.Handler(request);
+            var useCase = new ApplicationUseCase.CreateImage(
+                _imageRepository, 
+                _storageService, 
+                _productRepository, 
+                _notification,
+                _unitOfWork);
+
+            var outPut = await useCase.Handler(request,CancellationToken.None);
 
             Assert.NotNull(outPut);
             Assert.True(outPut.Images.Count == 3);

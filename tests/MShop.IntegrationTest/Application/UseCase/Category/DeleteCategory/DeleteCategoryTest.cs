@@ -12,6 +12,10 @@ using ApplicationUseCase = MShop.Application.UseCases.Category.DeleteCategory;
 using MShop.IntegrationTests.Application.UseCase.Product;
 using MShop.Business.Entity;
 using MShop.Business.Exceptions;
+using MShop.Application.Event;
+using MShop.Repository.UnitOfWork;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace MShop.IntegrationTests.Application.UseCase.Category.DeleteCategory
 {
@@ -26,7 +30,8 @@ namespace MShop.IntegrationTests.Application.UseCase.Category.DeleteCategory
         private readonly RepositoryDbContext _context;
         private readonly CategoryPersistence _categoryPersistence;
         private readonly ProductPersistence _productPersistence;
-
+        private readonly UnitOfWork _unitOfWork;
+        private readonly DomainEventPublisher _domainEventPublisher;
 
         public DeleteCategoryTest()
         {
@@ -36,6 +41,13 @@ namespace MShop.IntegrationTests.Application.UseCase.Category.DeleteCategory
             _notification = new Notifications();
             _categoryPersistence = new CategoryPersistence(_context);
             _productPersistence = new ProductPersistence(_context);
+
+            var serviceColletion = new ServiceCollection();
+            serviceColletion.AddLogging();
+            var serviceProvider = serviceColletion.BuildServiceProvider();
+
+            _domainEventPublisher = new DomainEventPublisher(serviceProvider);
+            _unitOfWork = new UnitOfWork(_context, _domainEventPublisher, serviceProvider.GetRequiredService<ILogger<UnitOfWork>>());
         }
 
         [Fact(DisplayName = nameof(DeleteCategory))]
@@ -49,8 +61,13 @@ namespace MShop.IntegrationTests.Application.UseCase.Category.DeleteCategory
             var category = categorys.FirstOrDefault();
             Assert.NotNull(category);
 
-            var useCase = new ApplicationUseCase.DeleteCategory(_categoryRepository,_productRepository,_notification);
-            await useCase.Handler(category.Id);
+            var useCase = new ApplicationUseCase.DeleteCategory(
+                _categoryRepository,
+                _productRepository,
+                _notification,
+                _unitOfWork);
+
+            await useCase.Handler(category.Id, CancellationToken.None);
 
             var categoryDB = await _categoryPersistence.GetCategory(category.Id);
 
@@ -73,8 +90,13 @@ namespace MShop.IntegrationTests.Application.UseCase.Category.DeleteCategory
             _productPersistence.CreateList(products);
            
 
-            var useCase = new ApplicationUseCase.DeleteCategory(_categoryRepository, _productRepository, _notification);
-            var action = async () => await useCase.Handler(category.Id);
+            var useCase = new ApplicationUseCase.DeleteCategory(
+                _categoryRepository, 
+                _productRepository, 
+                _notification, 
+                _unitOfWork);
+
+            var action = async () => await useCase.Handler(category.Id, CancellationToken.None);
 
             var exception = Assert.ThrowsAsync<ApplicationValidationException>(action);
 

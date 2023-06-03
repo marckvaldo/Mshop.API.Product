@@ -13,15 +13,21 @@ namespace MShop.UnitTests.Business.Entity.Image
 {
     public class ImageTest : ImageTestFixture
     {
+        private readonly Notifications _notifications;
+
+        public ImageTest()
+        {
+            _notifications = new Notifications();
+        }
+
         [Fact(DisplayName = nameof(Instantiate))]
         [Trait("Business", "Image")]
 
         public void Instantiate()
         {
-            var notificacao = new Notifications();
             var FileName = Faker().FileName;
             var image = Faker(Faker().Id, FileName);
-            image.IsValid(notificacao);
+            image.IsValid(_notifications);
 
             Assert.NotNull(image);
             Assert.NotEqual(image.Id,Guid.Empty);
@@ -35,16 +41,14 @@ namespace MShop.UnitTests.Business.Entity.Image
         [InlineData(null, "image")]
         [InlineData(null,null)]
         public void ShoudReturErroInstantiate(Guid productId, string fileName)
-        {
-            var notificacao = new Notifications();
+        {            
             var image = Faker(productId, fileName);
-            
-
+           
             Action action =
-                 () => image.IsValid(notificacao);
+                 () => image.IsValid(_notifications);
 
             var exception = Assert.Throws<EntityValidationException>(action);
-            Assert.True(notificacao.HasErrors());
+            Assert.True(_notifications.HasErrors());
         }
     }
 }

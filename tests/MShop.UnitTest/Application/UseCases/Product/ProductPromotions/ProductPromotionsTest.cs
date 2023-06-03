@@ -11,27 +11,37 @@ namespace MShop.UnitTests.Application.UseCases.Product.ProductPromotions
 {
     public class ProductPromotionsTest : ProductPromotionsTestFixture
     {
+        private readonly Mock<INotification> _notifications;
+        private readonly Mock<IUnitOfWork> _unitOfWork;
+        private readonly Mock<IProductRepository> _repositoryProduct;
+        private readonly Mock<ICacheRepository> _cacheRepository;
+
+        public ProductPromotionsTest()
+        {
+            _notifications = new Mock<INotification>();
+            _unitOfWork = new Mock<IUnitOfWork>();
+            _repositoryProduct = new Mock<IProductRepository>();
+            _cacheRepository = new Mock<ICacheRepository>();
+        }
+
+
         [Fact(DisplayName = nameof(ProductPromotions))]
         [Trait("Application-UseCase","Product Promotions")]
         public async Task ProductPromotionsCreateCache()
         {
-            var cacheRepository = new Mock<ICacheRepository>();
-            var repository = new Mock<IProductRepository>();
-            var notification = new Mock<INotification>();
-
             var productsFake = GetListProdutsOutPut();
             var products = GetListProduts();
 
-            repository.Setup(r => r.GetProductsPromotions()).ReturnsAsync(products);
-            cacheRepository.Setup(x => x.GetKeyCollection<UseCaseCommon.ProductModelOutPut>(It.IsAny<string>()));
+            _repositoryProduct.Setup(r => r.GetProductsPromotions()).ReturnsAsync(products);
+            _cacheRepository.Setup(x => x.GetKeyCollection<UseCaseCommon.ProductModelOutPut>(It.IsAny<string>()));
 
-            var useCase = new UseCase.ProductsPromotions(cacheRepository.Object,repository.Object,notification.Object);
+            var useCase = new UseCase.ProductsPromotions(_cacheRepository.Object, _repositoryProduct.Object, _notifications.Object);
             var outPut = await useCase.Handler();
 
-            repository.Verify(x => x.GetProductsPromotions(), Times.Once);
-            cacheRepository.Verify(x => x.GetKeyCollection<UseCaseCommon.ProductModelOutPut>(It.IsAny<string>()), Times.Once);
-            notification.Verify(x => x.AddNotifications(It.IsAny<string>()), Times.Never);
-            cacheRepository.Verify(x => x.SetKeyCollection(It.IsAny<string>(), It.IsAny<object>(),It.IsAny<TimeSpan>()), Times.Once);
+            _repositoryProduct.Verify(x => x.GetProductsPromotions(), Times.Once);
+            _cacheRepository.Verify(x => x.GetKeyCollection<UseCaseCommon.ProductModelOutPut>(It.IsAny<string>()), Times.Once);
+            _notifications.Verify(x => x.AddNotifications(It.IsAny<string>()), Times.Never);
+            _cacheRepository.Verify(x => x.SetKeyCollection(It.IsAny<string>(), It.IsAny<object>(),It.IsAny<TimeSpan>()), Times.Once);
 
             Assert.NotNull(outPut);
             foreach(var item in outPut)
@@ -52,22 +62,18 @@ namespace MShop.UnitTests.Application.UseCases.Product.ProductPromotions
         [Trait("Application-UseCase", "Product Promotions")]
         public async Task ProductPromotionsUseCache()
         {
-            var cacheRepository = new Mock<ICacheRepository>();
-            var repository = new Mock<IProductRepository>();
-            var notification = new Mock<INotification>();
-
             var productsFake = GetListProdutsOutPut();
             var products = GetListProduts();
 
-            cacheRepository.Setup(x => x.GetKeyCollection<UseCaseCommon.ProductModelOutPut>(It.IsAny<string>())).ReturnsAsync(productsFake);
+            _cacheRepository.Setup(x => x.GetKeyCollection<UseCaseCommon.ProductModelOutPut>(It.IsAny<string>())).ReturnsAsync(productsFake);
 
-            var useCase = new UseCase.ProductsPromotions(cacheRepository.Object, repository.Object, notification.Object);
+            var useCase = new UseCase.ProductsPromotions(_cacheRepository.Object, _repositoryProduct.Object, _notifications.Object);
             var outPut = await useCase.Handler();
 
-            repository.Verify(x => x.GetProductsPromotions(), Times.Never);
-            cacheRepository.Verify(x => x.GetKeyCollection<UseCaseCommon.ProductModelOutPut>(It.IsAny<string>()), Times.Once);
-            notification.Verify(x => x.AddNotifications(It.IsAny<string>()), Times.Never);
-            cacheRepository.Verify(x => x.SetKeyCollection(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<TimeSpan>()), Times.Never);
+            _repositoryProduct.Verify(x => x.GetProductsPromotions(), Times.Never);
+            _cacheRepository.Verify(x => x.GetKeyCollection<UseCaseCommon.ProductModelOutPut>(It.IsAny<string>()), Times.Once);
+            _notifications.Verify(x => x.AddNotifications(It.IsAny<string>()), Times.Never);
+            _cacheRepository.Verify(x => x.SetKeyCollection(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<TimeSpan>()), Times.Never);
 
             Assert.NotNull(outPut);
             foreach (var item in outPut)
@@ -88,29 +94,21 @@ namespace MShop.UnitTests.Application.UseCases.Product.ProductPromotions
         [Trait("Application-UseCase", "Product Promotions")]
         public async Task sholdReturnErrorWhenCatGetProductPromotions()
         {
-            var cacheRepository = new Mock<ICacheRepository>();
-            var repository = new Mock<IProductRepository>();
-            var notification = new Mock<INotification>();
-
             var productsFake = GetListProdutsOutPut();
             var products = GetListProduts();
 
-            cacheRepository.Setup(x => x.GetKeyCollection<UseCaseCommon.ProductModelOutPut>(It.IsAny<string>()));
-            repository.Setup(x=>x.GetProductsPromotions()).ThrowsAsync(new NotFoundException(""));
+            _cacheRepository.Setup(x => x.GetKeyCollection<UseCaseCommon.ProductModelOutPut>(It.IsAny<string>()));
+            _repositoryProduct.Setup(x=>x.GetProductsPromotions()).ThrowsAsync(new NotFoundException(""));
 
-            var useCase = new UseCase.ProductsPromotions(cacheRepository.Object, repository.Object, notification.Object);
+            var useCase = new UseCase.ProductsPromotions(_cacheRepository.Object, _repositoryProduct.Object, _notifications.Object);
             var outPut = async () => await useCase.Handler();
 
             var exception = Assert.ThrowsAsync<NotFoundException>(outPut);
 
-            repository.Verify(x => x.GetProductsPromotions(), Times.Once);
-            cacheRepository.Verify(x => x.GetKeyCollection<UseCaseCommon.ProductModelOutPut>(It.IsAny<string>()), Times.Once);
-            notification.Verify(x => x.AddNotifications(It.IsAny<string>()), Times.Never);
-            cacheRepository.Verify(x => x.SetKeyCollection(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<TimeSpan>()), Times.Never);
-
-            
-
-            
+            _repositoryProduct.Verify(x => x.GetProductsPromotions(), Times.Once);
+            _cacheRepository.Verify(x => x.GetKeyCollection<UseCaseCommon.ProductModelOutPut>(It.IsAny<string>()), Times.Once);
+            _notifications.Verify(x => x.AddNotifications(It.IsAny<string>()), Times.Never);
+            _cacheRepository.Verify(x => x.SetKeyCollection(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<TimeSpan>()), Times.Never);
         }
     }
 }
