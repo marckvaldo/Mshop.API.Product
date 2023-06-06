@@ -46,9 +46,9 @@ namespace MShop.Application.UseCases.Product.UpdateProduct
                 product.Deactive();
 
             if (request.IsPromotion)
-                product.ActivatePromotion();
+                product.ActivateSale();
             else
-                product.DeactivePromotion();
+                product.DeactiveSale();
             
             product.IsValid(Notifications);
 
@@ -72,7 +72,7 @@ namespace MShop.Application.UseCases.Product.UpdateProduct
                     product.IsActive,
                     product.CategoryId,
                     null,
-                    product.IsPromotion);
+                    product.IsSale);
             }
             catch(Exception)
             {

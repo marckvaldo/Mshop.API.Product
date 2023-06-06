@@ -1,5 +1,4 @@
-﻿using MShop.Business.Exceptions;
-using MShop.Business.Interface;
+﻿using MShop.Business.Interface;
 
 namespace MShop.Business.Validation
 {
@@ -65,7 +64,7 @@ namespace MShop.Business.Validation
                 notification.AddNotifications($"O {fieldName} dever ser igual ou menor que {value}");
         }
 
-        public static void NotEqual(decimal target, decimal value, string fieldName, INotification notification, string? messagem=null)
+        public static void NotEqual(decimal target, decimal value, string fieldName, INotification notification, string? messagem = null)
         {
             if (messagem is null)
                 messagem = $"O {fieldName} não é igual a {value}";
@@ -76,7 +75,7 @@ namespace MShop.Business.Validation
 
         public static void NotNullGuid(Guid target, string fieldName, INotification notification)
         {
-            if(target == Guid.Empty)
+            if (target == Guid.Empty)
                 notification.AddNotifications($"O {fieldName} não deve ser null");
         }
 
@@ -84,10 +83,10 @@ namespace MShop.Business.Validation
         public static void IsValidGuid(string target, string fieldName, INotification notification)
         {
             Guid guidValid = Guid.Empty;
-            if(!Guid.TryParse(target, out guidValid))
+            if (!Guid.TryParse(target, out guidValid))
                 notification.AddNotifications($" {fieldName} invalid");
 
-            
+
         }
     }
 }

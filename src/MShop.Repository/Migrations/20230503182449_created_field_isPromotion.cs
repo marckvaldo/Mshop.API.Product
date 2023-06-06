@@ -10,7 +10,7 @@ namespace MShop.Repository.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<bool>(
-                name: "IsPromotion",
+                name: "IsSale",
                 table: "Products",
                 type: "bool",
                 nullable: false,
@@ -20,7 +20,7 @@ namespace MShop.Repository.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "IsPromotion",
+                name: "IsSale",
                 table: "Products");
         }
     }

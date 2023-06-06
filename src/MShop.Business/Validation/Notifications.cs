@@ -1,9 +1,4 @@
 ﻿using MShop.Business.Interface;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MShop.Business.Validation
 {
@@ -11,10 +6,10 @@ namespace MShop.Business.Validation
     {
         private readonly List<MessageError> _erros;
 
-        public Notifications() 
+        public Notifications()
         {
             _erros = new List<MessageError>();
-        }              
+        }
 
         public void AddNotifications(string error)
         {

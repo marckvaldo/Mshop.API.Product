@@ -32,19 +32,13 @@ namespace MShop.Repository.UnitOfWork
                 .Where(x => x.Entity.Events.Any())
                 .Select(x => x.Entity);
                 
-            _logger.LogInformation($"Commit {aggregateRoot.Count()} aggregate roots with events");
-
             var events = aggregateRoot
                 .SelectMany(a => a.Events);
 
-            _logger.LogInformation($"Commit: {events.Count()} events add");
-
-            foreach( var @event in events )
-                await _publisher.PublishAsync((dynamic)@event);
-
-            foreach (var aggregate in aggregateRoot)
-                aggregate.ClearEvents();
-            
+            events.ToList().ForEach(async x => {
+                await _publisher.PublishAsync((dynamic)x); 
+            });
+            aggregateRoot.ToList().ForEach(x=> x.ClearEvents());    
             await _repositoryDbContext.SaveChangesAsync(cancellationToken);
         }
 

@@ -4,20 +4,21 @@ using MShop.Business.Interface.Repository;
 
 namespace MShop.Application.Event.Handler.Products
 {
-    public class SendToProductRemovedEventHandler : IDomainEventHandler<ProductRemovedEvent>
+    public class ProductUpdatedEventHandler : IDomainEventHandler<ProductUpdatedEvent>
     {
         private readonly IMessageProducer _messageProducer;
         private readonly IProductRepository _productRepository;
 
-        public SendToProductRemovedEventHandler(IMessageProducer messageProducer, IProductRepository productRepository)
+        public ProductUpdatedEventHandler(IMessageProducer messageProducer, IProductRepository productRepository)
         {
             _messageProducer = messageProducer;
             _productRepository = productRepository;
         }
 
-        public Task HandlerAsync(ProductRemovedEvent domainEvent)
+        public Task HandlerAsync(ProductUpdatedEvent domainEvent)
         {
-            return _messageProducer.SendMessageAsync(domainEvent.ProductId);
+            var product = _productRepository.GetProductWithCategory(domainEvent.ProductId);
+            return _messageProducer.SendMessageAsync(product);
         }
     }
 }

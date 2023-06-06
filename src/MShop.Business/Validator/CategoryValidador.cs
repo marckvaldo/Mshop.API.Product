@@ -1,11 +1,6 @@
 ﻿using MShop.Business.Entity;
 using MShop.Business.Interface;
 using MShop.Business.Validation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MShop.Business.Validator
 {
@@ -19,7 +14,7 @@ namespace MShop.Business.Validator
 
         public override INotification Validate()
         {
-            ValidationDefault.NotNullOrEmpty(_category.Name, nameof(_category.Name),_notifications);
+            ValidationDefault.NotNullOrEmpty(_category.Name, nameof(_category.Name), _notifications);
             ValidationDefault.MaxLength(_category.Name, 30, nameof(_category.Name), _notifications);
             ValidationDefault.MinLength(_category.Name, 3, nameof(_category.Name), _notifications);
 

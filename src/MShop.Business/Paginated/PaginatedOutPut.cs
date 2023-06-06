@@ -1,11 +1,4 @@
-﻿using MShop.Business.Enum.Paginated;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MShop.Business.Paginated
+﻿namespace MShop.Business.Paginated
 {
     public class PaginatedOutPut<TEntity> where TEntity : SeedWork.Entity
     {
@@ -28,7 +21,7 @@ namespace MShop.Business.Paginated
             Itens = itens;
             TotalPages = (int)(total / perPage);
         }
-       
+
 
     }
 }

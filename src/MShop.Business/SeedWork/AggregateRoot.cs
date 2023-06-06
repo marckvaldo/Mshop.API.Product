@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 
 namespace MShop.Business.SeedWork
 {
@@ -11,13 +6,13 @@ namespace MShop.Business.SeedWork
     {
         private readonly List<DomainEvent> _events = new();
 
-        protected AggregateRoot():base()
-        {}
+        protected AggregateRoot() : base()
+        { }
 
-        public IReadOnlyCollection<DomainEvent> Events 
+        public IReadOnlyCollection<DomainEvent> Events
             => new ReadOnlyCollection<DomainEvent>(_events);
 
-        public void RegisterEvent(DomainEvent @event) 
+        public void RegisterEvent(DomainEvent @event)
             => _events.Add(@event);
 
         public void ClearEvents()

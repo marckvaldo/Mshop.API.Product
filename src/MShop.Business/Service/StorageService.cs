@@ -1,9 +1,4 @@
 ﻿using MShop.Business.Interface.Service;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MShop.Business.Service
 {

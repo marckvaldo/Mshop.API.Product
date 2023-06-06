@@ -46,7 +46,7 @@ namespace MShop.Application.UseCases.Product.GetProduct
                 product.CategoryId,
                 (new CategoryModelOutPut(product.CategoryId, product.Category.Name, product.Category.IsActive)),
                 images.Select(x => x?.FileName).ToList(),
-                product.IsPromotion) ;
+                product.IsSale) ;
         }
     }
 }

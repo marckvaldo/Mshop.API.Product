@@ -1,5 +1,4 @@
-﻿using MShop.Business.Events;
-using MShop.Business.Events.Products;
+﻿using MShop.Business.Events.Products;
 using MShop.Business.Exceptions;
 using MShop.Business.Interface;
 using MShop.Business.SeedWork;
@@ -18,15 +17,15 @@ namespace MShop.Business.Entity
 
         public decimal Stock { get; private set; }
 
-        public bool IsActive { get; private set; }  
-        
+        public bool IsActive { get; private set; }
+
         public Guid CategoryId { get; private set; }
 
         public Category Category { get; private set; }
 
         public FileImage? Thumb { get; private set; }
 
-        public bool IsPromotion { get; private set; }
+        public bool IsSale { get; private set; }
 
 
         public Product(string description, string name, decimal price, Guid categoryId, decimal stock = 0, bool isActive = false) : base()
@@ -45,29 +44,29 @@ namespace MShop.Business.Entity
         {
             var productValidador = new ProductValidador(this, notification);
             productValidador.Validate();
-            if(notification.HasErrors())
+            if (notification.HasErrors())
             {
                 throw new EntityValidationException("Validation errors");
             }
-           
+
         }
 
         public void Activate()
         {
-            IsActive= true;
+            IsActive = true;
             ProductCreatedEvent();
         }
 
         public void Deactive()
         {
-            IsActive= false;
+            IsActive = false;
             ProductRemovedEvent();
         }
 
         public void Update(string description, string name, decimal price, Guid categoryId)
         {
             Name = name;
-            Description = description;   
+            Description = description;
             Price = price;
             CategoryId = categoryId;
             ProductUpdatedEvent();
@@ -94,18 +93,18 @@ namespace MShop.Business.Entity
             ProductUpdatedEvent();
         }
 
-        public void ActivatePromotion()
+        public void ActivateSale()
         {
-            IsPromotion = true;
+            IsSale = true;
             ProductUpdatedEvent();
         }
 
-        public void DeactivePromotion()
+        public void DeactiveSale()
         {
-            IsPromotion = false;
+            IsSale = false;
             ProductUpdatedEvent();
         }
-        
+
         public void UpdateCategory(Category category)
         {
             Category = category;

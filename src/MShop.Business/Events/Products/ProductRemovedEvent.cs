@@ -1,11 +1,4 @@
-﻿using MShop.Business.Entity;
-using MShop.Business.SeedWork;
-using MShop.Business.ValueObject;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MShop.Business.SeedWork;
 
 namespace MShop.Business.Events.Products
 {

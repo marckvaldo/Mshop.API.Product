@@ -26,7 +26,7 @@ namespace MShop.Repository.Mapping
                 .IsRequired()
                 .HasColumnType("decimal(16,2)");
 
-            builder.Property(x=>x.IsPromotion)
+            builder.Property(x=>x.IsSale)
                 .IsRequired()
                 .HasColumnType("bool");
 

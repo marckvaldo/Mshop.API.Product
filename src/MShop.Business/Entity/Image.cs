@@ -18,9 +18,9 @@ namespace MShop.Business.Entity
 
         public void IsValid(INotification notification)
         {
-            var imageValidate = new ImageValidador(this,notification);
+            var imageValidate = new ImageValidador(this, notification);
             imageValidate.Validate();
-            if(notification.HasErrors())
+            if (notification.HasErrors())
             {
                 throw new EntityValidationException("Validation errors");
             }

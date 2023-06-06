@@ -72,7 +72,7 @@ namespace MShop.Repository.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<bool>("IsPromotion")
+                    b.Property<bool>("IsSale")
                         .HasColumnType("boolean(1)");
 
                     b.Property<string>("Name")

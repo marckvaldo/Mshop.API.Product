@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MShop.Business.Exception
+﻿namespace MShop.Business.Exception
 {
     public class NotFoundException : ApplicationException
     {
-        public NotFoundException(string? message):base(message){}
+        public NotFoundException(string? message) : base(message) { }
 
         public static void ThrowIfnull(object? @object, string exceptionMessage = "Not found")
         {
-            if(@object == null)
+            if (@object == null)
                 throw new NotFoundException(exceptionMessage);
         }
 

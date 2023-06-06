@@ -74,7 +74,7 @@ namespace MShop.ProductAPI.Configuration
             services.AddScoped<INotification, Notifications>();
             services.AddScoped<ICacheRepository, RedisRepository>();
 
-            services.AddScoped<IDomainEventHandler<ProductCreatedEvent>, SendToProductCreatedEventHandler>();
+            services.AddScoped<IDomainEventHandler<ProductCreatedEvent>, ProductCreatedEventHandler>();
 
             return services;
         }

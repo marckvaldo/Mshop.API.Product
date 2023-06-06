@@ -42,7 +42,7 @@ namespace MShop.Repository.Repository
 
         public async Task<List<Product>> GetProductsPromotions()
         {
-            var result = await _dbSet.Where(c => c.IsPromotion == true).Include(c => c.Category).ToListAsync();
+            var result = await _dbSet.Where(c => c.IsSale == true).Include(c => c.Category).ToListAsync();
             return result;
         }
 

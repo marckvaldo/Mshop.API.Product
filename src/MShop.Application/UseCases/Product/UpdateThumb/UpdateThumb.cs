@@ -51,7 +51,7 @@ namespace MShop.Application.UseCases.Product.UpdateThumb
                 product.IsActive,
                 product.CategoryId,
                 null,
-                product.IsPromotion
+                product.IsSale
                 );
 
         }

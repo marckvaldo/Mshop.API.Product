@@ -1,13 +1,6 @@
 ﻿using MShop.Business.Entity;
 using MShop.Business.Interface;
 using MShop.Business.Validation;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace MShop.Business.Validator
 {
@@ -15,7 +8,7 @@ namespace MShop.Business.Validator
     {
         private readonly Product _product;
 
-        public ProductValidador(Product product, INotification notification):base(notification)
+        public ProductValidador(Product product, INotification notification) : base(notification)
         {
             _product = product;
         }
@@ -34,7 +27,7 @@ namespace MShop.Business.Validator
 
             //Price
             ValidationDefault.MustPositive(_product.Price, nameof(_product.Price), _notifications);
-            ValidationDefault.MustBiggerOrEqualThan(_product.Price,0.1M, nameof(_product.Price), _notifications);
+            ValidationDefault.MustBiggerOrEqualThan(_product.Price, 0.1M, nameof(_product.Price), _notifications);
 
             //stok
             //ValidationDefault.MustBiggerOrEqualThan(_product.Stock, 0_00, nameof(_product.Stock), _notifications);    
@@ -42,7 +35,7 @@ namespace MShop.Business.Validator
             return _notifications;
 
         }
-            
+
 
     }
 }
