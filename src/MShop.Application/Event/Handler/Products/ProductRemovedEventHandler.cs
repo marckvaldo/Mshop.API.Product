@@ -15,9 +15,10 @@ namespace MShop.Application.Event.Handler.Products
             _productRepository = productRepository;
         }
 
-        public Task HandlerAsync(ProductRemovedEvent domainEvent)
+        public async Task HandlerAsync(ProductRemovedEvent domainEvent)
         {
-            return _messageProducer.SendMessageAsync(domainEvent.ProductId);
+            if (domainEvent.ProductId == Guid.Empty) return;
+            await _messageProducer.SendMessageAsync(domainEvent);
         }
     }
 }

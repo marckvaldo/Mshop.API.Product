@@ -17,6 +17,7 @@
   <ItemGroup>
     <ProjectReference Include="..\MShop.Business\MShop.Business.csproj" />
     <ProjectReference Include="..\Mshop.Chache\MShop.Cache.csproj" />
+    <ProjectReference Include="..\MShop.Messaging\MShop.Messaging.csproj" />
     <ProjectReference Include="..\MShop.Repository\MShop.Repository.csproj" />
   </ItemGroup>
 

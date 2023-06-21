@@ -10,8 +10,10 @@
 
   <ItemGroup>
     <PackageReference Include="Bogus" Version="34.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="7.0.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
     <PackageReference Include="Moq" Version="4.18.4" />
+    <PackageReference Include="RabbitMQ.Client" Version="6.5.0" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -26,10 +28,12 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\MShop.Application\MShop.Application.csproj" />
     <ProjectReference Include="..\..\src\MShop.Business\MShop.Business.csproj" />
+    <ProjectReference Include="..\..\src\MShop.Messaging\MShop.Messaging.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Application\UseCases\Category\ListCategory\" />
+    <Folder Include="Messaging\" />
     <Folder Include="UnitOfWork\" />
   </ItemGroup>
 

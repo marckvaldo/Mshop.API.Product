@@ -45,8 +45,10 @@ builder.Services.AddSwaggerGen();*/
 
 builder.Services.AddAndConfigureController()
     .AddConfigurationModelState()
+    .AddConfigurationEvents(builder.Configuration)
     .AddDependencyInjection()
     .AddConfigurationMySql(builder.Configuration)
+    .AddConfigurationStorage()
     .AddConfigurationRedis(builder.Configuration);
 
 

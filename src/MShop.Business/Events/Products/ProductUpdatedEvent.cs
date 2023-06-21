@@ -1,4 +1,5 @@
-﻿using MShop.Business.SeedWork;
+﻿using MShop.Business.Entity;
+using MShop.Business.SeedWork;
 
 namespace MShop.Business.Events.Products
 {
@@ -9,8 +10,10 @@ namespace MShop.Business.Events.Products
             ProductId = productId;
 
         }
-
         public Guid ProductId { get; private set; }
+        public Product Product { get; private set; }
+
+        public void SetProduct(Product product) => Product = product;
 
     }
 }

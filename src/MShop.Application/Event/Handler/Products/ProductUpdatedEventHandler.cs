@@ -15,10 +15,13 @@ namespace MShop.Application.Event.Handler.Products
             _productRepository = productRepository;
         }
 
-        public Task HandlerAsync(ProductUpdatedEvent domainEvent)
+        public async Task HandlerAsync(ProductUpdatedEvent domainEvent)
         {
-            var product = _productRepository.GetProductWithCategory(domainEvent.ProductId);
-            return _messageProducer.SendMessageAsync(product);
+            if (domainEvent.ProductId == Guid.Empty) return;
+            var product = await _productRepository.GetProductWithCategory(domainEvent.ProductId);
+            if (product is null) return;
+            domainEvent.SetProduct(product);
+            await _messageProducer.SendMessageAsync(domainEvent);
         }
     }
 }

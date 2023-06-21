@@ -15,10 +15,13 @@ namespace MShop.Application.Event.Handler.Products
         }
 
 
-        public Task HandlerAsync(ProductCreatedEvent domainEvent)
+        public async Task HandlerAsync(ProductCreatedEvent domainEvent)
         {
-            var product = _productRepository.GetProductWithCategory(domainEvent.ProductId);
-            return _messageProducer.SendMessageAsync(product);
+            if (domainEvent.ProductId == Guid.Empty) return; 
+            var product = await _productRepository.GetProductWithCategory(domainEvent.ProductId);
+            if(product == null) return; 
+            domainEvent.SetProduct(product);
+            await _messageProducer.SendMessageAsync(domainEvent);
         }
 
 

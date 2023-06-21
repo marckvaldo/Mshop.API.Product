@@ -1,0 +1,15 @@
+C:\Users\IQ SISTEMAS\Documents\mShopping\Mshop.API.Product\src\MShop.Messaging\bin\Debug\net6.0\MShop.Messaging.deps.json
+C:\Users\IQ SISTEMAS\Documents\mShopping\Mshop.API.Product\src\MShop.Messaging\bin\Debug\net6.0\MShop.Messaging.dll
+C:\Users\IQ SISTEMAS\Documents\mShopping\Mshop.API.Product\src\MShop.Messaging\bin\Debug\net6.0\MShop.Messaging.pdb
+C:\Users\IQ SISTEMAS\Documents\mShopping\Mshop.API.Product\src\MShop.Messaging\bin\Debug\net6.0\MShop.Business.dll
+C:\Users\IQ SISTEMAS\Documents\mShopping\Mshop.API.Product\src\MShop.Messaging\bin\Debug\net6.0\MShop.Business.pdb
+C:\Users\IQ SISTEMAS\Documents\mShopping\Mshop.API.Product\src\MShop.Messaging\obj\Debug\net6.0\MShop.Messaging.csproj.AssemblyReference.cache
+C:\Users\IQ SISTEMAS\Documents\mShopping\Mshop.API.Product\src\MShop.Messaging\obj\Debug\net6.0\MShop.Messaging.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\IQ SISTEMAS\Documents\mShopping\Mshop.API.Product\src\MShop.Messaging\obj\Debug\net6.0\MShop.Messaging.AssemblyInfoInputs.cache
+C:\Users\IQ SISTEMAS\Documents\mShopping\Mshop.API.Product\src\MShop.Messaging\obj\Debug\net6.0\MShop.Messaging.AssemblyInfo.cs
+C:\Users\IQ SISTEMAS\Documents\mShopping\Mshop.API.Product\src\MShop.Messaging\obj\Debug\net6.0\MShop.Messaging.csproj.CoreCompileInputs.cache
+C:\Users\IQ SISTEMAS\Documents\mShopping\Mshop.API.Product\src\MShop.Messaging\obj\Debug\net6.0\MShop.Messaging.csproj.CopyComplete
+C:\Users\IQ SISTEMAS\Documents\mShopping\Mshop.API.Product\src\MShop.Messaging\obj\Debug\net6.0\MShop.Messaging.dll
+C:\Users\IQ SISTEMAS\Documents\mShopping\Mshop.API.Product\src\MShop.Messaging\obj\Debug\net6.0\refint\MShop.Messaging.dll
+C:\Users\IQ SISTEMAS\Documents\mShopping\Mshop.API.Product\src\MShop.Messaging\obj\Debug\net6.0\MShop.Messaging.pdb
+C:\Users\IQ SISTEMAS\Documents\mShopping\Mshop.API.Product\src\MShop.Messaging\obj\Debug\net6.0\ref\MShop.Messaging.dll
