@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using MShop.Application.Event;
 using MShop.Application.Event.Handler.Products;
 using MShop.Business.Events.Products;

@@ -14,7 +14,7 @@ namespace MShop.Application.Event
 
         public async Task PublishAsync<TDomainEvent>(TDomainEvent domainEvent) where TDomainEvent : DomainEvent
         {
-            var handlers = _serviceProvider.GetServices<IDomainEventHandler<TDomainEvent>>();
+            var handlers = _serviceProvider.GetServices<IDomainEventHandler<TDomainEvent>>(); //isso e a mesma coisa que var handles new ProductCreatedEventHandler(); exemplo
             if (handlers is null || !handlers.Any()) return;
 
             foreach (var handler in handlers)
