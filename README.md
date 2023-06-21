@@ -1,7 +1,7 @@
 # API de catalago de produtos 
 
 <div style="background-color: #f0f0f0; height:20vh; display: flex; flex-direction: row; justify-content: center;">
-<img src="https://github.com/marckvaldo/Mshop.API.Product/images/eshoponcontainers-reference-application-architecture.png">
+<img src="https://github.com/marckvaldo/Mshop.API.Product/blob/main/images/eshoponcontainers-reference-application-architecture.png">
 </div>
 
 ## Descrição do Projeto
