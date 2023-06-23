@@ -32,6 +32,9 @@ namespace MShop.Application.UseCases.Product.UpdateStockProduct
 
             product!.UpdateQuantityStock(request.Stock);
             product.IsValid(Notifications);
+            product.ProductUpdatedEvent();
+            NotifyExceptionIfNull(product.Events.Count == 0 ? null : product.Events, $" Não foi possivel registrar o event ProductUpdatedEvent");
+
             await _productRepository.Update(product, cancellationToken);
             await _unitOfWork.CommitAsync(cancellationToken);
 

@@ -36,6 +36,9 @@ namespace MShop.Application.UseCases.Product.DeleteProduct
             if(hasImages?.Count > 0)
                 NotifyException("Existe(m) Imagen(s) associada(s) a esse produto");
 
+            product!.ProductRemovedEvent();
+            NotifyExceptionIfNull(product.Events.Count == 0 ? null : product.Events, $" Não foi possivel registrar o event ProductDeletedEvent");
+
             await _productRespository.DeleteById(product!, cancellationToken);
             await _unitOfWork.CommitAsync(cancellationToken);   
 

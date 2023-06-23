@@ -1,4 +1,6 @@
-﻿using MShop.Business.Exceptions;
+﻿using MShop.Business.Events.Products;
+using MShop.Business.Exceptions;
+using MShop.Business.SeedWork;
 using MShop.Business.Validation;
 using MShop.Business.ValueObject;
 using MShop.UnitTests.Common;
@@ -170,6 +172,7 @@ namespace Mshop.Test.Business.Entity.Product
             Assert.Equal(product.CategoryId, validade.CategoryId);
             Assert.Equal(product.Stock, validade.Stock);
             Assert.Null(product.Thumb);
+            
 
         }
 
@@ -195,6 +198,7 @@ namespace Mshop.Test.Business.Entity.Product
             product.Update(newValidade.Description, newValidade.Name, newValidade.Price, newValidade.CategoryId);
 
             product.IsValid(_notifications);
+            product.ProductUpdatedEvent();
 
             Assert.True(product.IsActive);
             Assert.False(_notifications.HasErrors());
@@ -203,6 +207,14 @@ namespace Mshop.Test.Business.Entity.Product
             Assert.Equal(product.Price, newValidade.Price);
             Assert.Equal(product.CategoryId, newValidade.CategoryId);
             Assert.Null(product.Thumb);
+            Assert.NotEmpty(product.Events);
+            Assert.Equal(1, product.Events.Count);
+
+            foreach (DomainEvent @event in product.Events)
+            {
+                Assert.Equal((dynamic)@event.GetType().Name, nameof(ProductUpdatedEvent));
+            }
+
         }
 
 
@@ -215,13 +227,20 @@ namespace Mshop.Test.Business.Entity.Product
             var product = GetProductValid(validate);
 
             product.AddQuantityStock(newStoque);
-            product.UpdateThumb(faker.Image.LoremFlickrUrl());
-            product.Activate();
             product.IsValid(_notifications);
+            product.ProductUpdatedEvent();
 
             Assert.True(product.IsActive);
             Assert.False(_notifications.HasErrors());
             Assert.Equal(product.Stock, (newStoque+ validate.Stock));
+            Assert.NotEmpty(product.Events);
+            Assert.Equal(1, product.Events.Count);
+
+            foreach (DomainEvent @event in product.Events)
+            {
+                Assert.Equal((dynamic)@event.GetType().Name, nameof(ProductUpdatedEvent));
+            }
+
 
         }
 
@@ -236,9 +255,18 @@ namespace Mshop.Test.Business.Entity.Product
 
             product.RemoveQuantityStock(newStoque);
             product.IsValid(_notifications);
+            product.ProductUpdatedEvent();
 
             Assert.Equal(product.Stock, (validate.Stock- newStoque));
             Assert.False(_notifications.HasErrors());
+            Assert.NotEmpty(product.Events);
+            Assert.Equal(1, product.Events.Count);
+
+            foreach (DomainEvent @event in product.Events)
+            {
+                Assert.Equal((dynamic)@event.GetType().Name, nameof(ProductUpdatedEvent));
+            }
+
         }
 
 
@@ -251,9 +279,18 @@ namespace Mshop.Test.Business.Entity.Product
 
             product.UpdateQuantityStock(newStoque);
             product.IsValid(_notifications);
+            product.ProductUpdatedEvent();
 
             Assert.Equal(product.Stock, (newStoque));
             Assert.False(_notifications.HasErrors());
+            Assert.NotEmpty(product.Events);
+            Assert.Equal(1, product.Events.Count);
+
+            foreach(DomainEvent @event in product.Events)
+            {
+                Assert.Equal((dynamic)@event.GetType().Name, nameof(ProductUpdatedEvent));
+            }
+           
 
         }
 
@@ -268,11 +305,20 @@ namespace Mshop.Test.Business.Entity.Product
 
             product.UpdateThumb(newImagem);
             product.IsValid(_notifications);
+            product.ProductUpdatedEvent();
 
             Assert.Equal(product.Thumb.Path, newImagem);
-            Assert.False(_notifications.HasErrors());
-            Assert.True(true);
-    
+            Assert.False(_notifications.HasErrors());            
+            Assert.NotEmpty(product.Events);
+            Assert.Equal(1, product.Events.Count);
+
+            foreach (DomainEvent @event in product.Events)
+            {
+                Assert.Equal((dynamic)@event.GetType().Name, nameof(ProductUpdatedEvent));
+            }
+
+
+
         }
 
         public void Dispose()

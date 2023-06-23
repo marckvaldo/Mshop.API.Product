@@ -18,7 +18,6 @@ namespace Mshop.Tests.Application.UseCases.Product.CreateProduct
         public async void CreateProduct()
         {
             var repository = new Mock<IProductRepository>();
-            //var notification = new Mock<INotification>();
             var notification = new Notifications();
             var storageService = new Mock<IStorageService>();
             var repositoryCategoria = new Mock<ICategoryRepository>();
@@ -33,7 +32,6 @@ namespace Mshop.Tests.Application.UseCases.Product.CreateProduct
             repositoryCategoria.Setup(c => c.GetById(It.IsAny<Guid>())).ReturnsAsync(categoryFake);
             unitOfWork.Setup(u=>u.CommitAsync(It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
 
-
             var productUseCase = new ApplicationUseCase.CreateProduct(
                 repository.Object, 
                 notification, 
@@ -41,26 +39,21 @@ namespace Mshop.Tests.Application.UseCases.Product.CreateProduct
                 storageService.Object,
                 unitOfWork.Object);
             
-           
-
             var outPut =  await productUseCase.Handler(request, CancellationToken.None);
 
             repository.Verify(
                 repository => repository.Create(It.IsAny<BusinessEntity.Product>(),CancellationToken.None),
                 Times.Once);
 
-            //notification.Verify(n=>n.AddNotifications(It.IsAny<string>()),Times.Never);
-
+           
             Assert.NotNull(outPut);
             Assert.Equal(outPut.Name, request.Name);
             Assert.Equal(outPut.Description, request.Description);
             Assert.Equal(outPut.Price, request.Price);
-            //Assert.Equal(outPut.Thumb, nameImage);
             Assert.Equal(outPut.CategoryId, request.CategoryId);
             Assert.Equal(outPut.Stock, request.Stock);
             Assert.Equal(outPut.IsActive, request.IsActive);
             Assert.False(notification.HasErrors());
-
 
         }
 

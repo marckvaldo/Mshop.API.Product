@@ -39,7 +39,8 @@ namespace MShop.Application.UseCases.Product.UpdateProduct
             NotFoundException.ThrowIfnull(product, "Não foi possivel localizar a produto da base de dados!");
 
             product!.Update(request.Description, request.Name, request.Price, request.CategoryId);
-            
+            NotifyExceptionIfNull(product.Events.Count == 0 ? null : product.Events, $" Não foi possivel registrar o event ProductUpdatedEvent");
+
             if (request.IsActive)
                 product.Activate();
             else
@@ -51,6 +52,7 @@ namespace MShop.Application.UseCases.Product.UpdateProduct
                 product.DeactiveSale();
             
             product.IsValid(Notifications);
+            product.ProductUpdatedEvent();
 
             var hasCategory = await _categoryRepository.GetById(product.CategoryId);
             NotFoundException.ThrowIfnull(hasCategory, $"Categoria {product.CategoryId} não encontrada");

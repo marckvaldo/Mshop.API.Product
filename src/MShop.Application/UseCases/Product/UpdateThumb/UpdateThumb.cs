@@ -36,6 +36,8 @@ namespace MShop.Application.UseCases.Product.UpdateThumb
             NotifyExceptionIfNull(product, "Não foi possivel localizar o produto!");
 
             product!.IsValid(Notifications);
+            product.ProductUpdatedEvent();
+            NotifyExceptionIfNull(product.Events.Count == 0 ? null : product.Events, $" Não foi possivel registrar o event ProductUpdatedEvent");
 
             await UploadImage(request, product);
             await _productRepository.Update(product, cancellationToken);

@@ -7,8 +7,7 @@
 
     <IsPackable>false</IsPackable>
   </PropertyGroup>
-
-  <ItemGroup>
+	<ItemGroup>
     <PackageReference Include="Bogus" Version="34.0.2" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="7.0.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />

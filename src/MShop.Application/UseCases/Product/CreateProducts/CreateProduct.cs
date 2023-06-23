@@ -1,6 +1,7 @@
 ﻿using MShop.Application.Common;
 using MShop.Application.UseCases.Product.Common;
 using MShop.Business.Entity;
+using MShop.Business.Events.Products;
 using MShop.Business.Exception;
 using MShop.Business.Exceptions;
 using MShop.Business.Interface;
@@ -45,6 +46,9 @@ namespace MShop.Application.UseCases.Product.CreateProducts
 
             var hasCategory = await _categoryRepository.GetById(product.CategoryId);
             NotifyExceptionIfNull(hasCategory, $"Categoria {product.CategoryId} não encontrada");
+
+            product.ProductCreatedEvent();
+            NotifyExceptionIfNull(product.Events.Count == 0 ? null : product.Events, $" Não foi possivel registrar o event ProductCreatedEvent");
 
             try
             {

@@ -36,8 +36,6 @@ namespace MShop.Business.Entity
             Stock = stock;
             IsActive = isActive;
             CategoryId = categoryId;
-
-            ProductCreatedEvent();
         }
 
         public void IsValid(INotification notification)
@@ -54,13 +52,11 @@ namespace MShop.Business.Entity
         public void Activate()
         {
             IsActive = true;
-            ProductCreatedEvent();
         }
 
         public void Deactive()
         {
             IsActive = false;
-            ProductRemovedEvent();
         }
 
         public void Update(string description, string name, decimal price, Guid categoryId)
@@ -69,7 +65,6 @@ namespace MShop.Business.Entity
             Description = description;
             Price = price;
             CategoryId = categoryId;
-            ProductUpdatedEvent();
         }
 
         public void AddQuantityStock(decimal stock)
@@ -90,42 +85,37 @@ namespace MShop.Business.Entity
         public void UpdateThumb(string thumb)
         {
             Thumb = new FileImage(thumb);
-            ProductUpdatedEvent();
         }
 
         public void ActivateSale()
         {
             IsSale = true;
-            ProductUpdatedEvent();
         }
 
         public void DeactiveSale()
         {
             IsSale = false;
-            ProductUpdatedEvent();
         }
 
         public void UpdateCategory(Category category)
         {
             Category = category;
             CategoryId = category.Id;
-            ProductUpdatedEvent();
         }
 
 
 
-
-        private void ProductUpdatedEvent()
+        public void ProductUpdatedEvent()
         {
             RegisterEvent(new ProductUpdatedEvent(Id));
         }
 
-        private void ProductRemovedEvent()
+        public void ProductRemovedEvent()
         {
             RegisterEvent(new ProductRemovedEvent(Id));
         }
 
-        private void ProductCreatedEvent()
+        public void ProductCreatedEvent()
         {
             RegisterEvent(new ProductCreatedEvent(Id));
         }
