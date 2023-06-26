@@ -44,7 +44,8 @@ namespace MShop.UnitTests.Application.UseCases.Image.CreateImage
             Assert.NotNull(outPut);
             Assert.Equal(outPut.ProductId, id);
             Assert.NotNull(outPut.Images);
-            
+            unitOfWork.Verify(r => r.CommitAsync(It.IsAny<CancellationToken>()), Times.Once);
+
         }
 
 

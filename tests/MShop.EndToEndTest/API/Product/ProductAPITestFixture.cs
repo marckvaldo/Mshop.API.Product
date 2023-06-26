@@ -1,15 +1,10 @@
-﻿using BusinessEntity = MShop.Business.Entity;
-using UseCase = MShop.Application.UseCases.Product;
-using MShop.EndToEndTest.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MShop.Application.Common;
 using MShop.Application.UseCases.Product.CreateProducts;
-using MShop.Business.ValueObject;
-using MShop.Application.Common;
 using MShop.EndToEndTest.API.Categoria;
+using MShop.EndToEndTest.Common;
+using System.Text;
+using BusinessEntity = MShop.Business.Entity;
+using UseCase = MShop.Application.UseCases.Product;
 
 namespace MShop.EndToEndTest.API.Product
 {

@@ -22,6 +22,7 @@ namespace Mshop.Test.Business.Entity.Product
             var valid = GetProductValid();
             var product = GetProductValid(Fake(valid.Description,valid.Name,valid.Price, valid.CategoryId, valid.Stock,valid.IsActive));
             product.IsValid(_notifications);
+            product.ProductCreatedEvent();
 
             Assert.NotNull(product);
             Assert.False(_notifications.HasErrors());
@@ -34,7 +35,13 @@ namespace Mshop.Test.Business.Entity.Product
             Assert.Equal(product.IsActive, valid.IsActive);
             Assert.Null(product.Thumb);
 
-            _notifications.Errors().Clear();
+            Assert.Equal(1, product.Events.Count);
+
+            foreach (DomainEvent @event in product.Events)
+            {
+                Assert.Equal((dynamic)@event.GetType().Name, nameof(ProductCreatedEvent));
+            }
+
         }
         
         [Theory(DisplayName = nameof(SholdReturnErrorWhenDescriptionInvalid))]
@@ -68,6 +75,7 @@ namespace Mshop.Test.Business.Entity.Product
             Assert.Equal(product.Stock, validade.Stock);
             Assert.Equal(product.IsActive, validade.IsActive);
             Assert.Null(product.Thumb);
+            Assert.Equal(0, product.Events.Count);
         }
 
 
@@ -100,6 +108,7 @@ namespace Mshop.Test.Business.Entity.Product
             Assert.Equal(product.Stock, validade.Stock);
             Assert.Equal(product.IsActive, validade.IsActive);
             Assert.Null(product.Thumb);
+            Assert.Equal(0, product.Events.Count);
         }
 
         [Theory(DisplayName = nameof(SholdReturnErrorWhenPriceInvalid))]
@@ -134,6 +143,7 @@ namespace Mshop.Test.Business.Entity.Product
             Assert.Equal(product.Stock, validade.Stock);
             Assert.Equal(product.IsActive, validade.IsActive);
             Assert.Null(product.Thumb);
+            Assert.Equal(0, product.Events.Count);
 
         }
 
@@ -172,7 +182,8 @@ namespace Mshop.Test.Business.Entity.Product
             Assert.Equal(product.CategoryId, validade.CategoryId);
             Assert.Equal(product.Stock, validade.Stock);
             Assert.Null(product.Thumb);
-            
+            Assert.Equal(0, product.Events.Count);
+
 
         }
 

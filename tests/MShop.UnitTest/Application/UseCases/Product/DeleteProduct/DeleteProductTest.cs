@@ -39,7 +39,7 @@ namespace Mshop.Tests.Application.UseCases.Product.DeleteProduct
             repository.Verify(r => r.DeleteById(It.IsAny<BusinessEntity.Product>(), CancellationToken.None),Times.Once);
             repository.Verify(r => r.GetById(It.IsAny<Guid>()), Times.Once);
             notification.Verify(n => n.AddNotifications(It.IsAny<string>()), Times.Never);
-            //repositoryImage.Verify(r => r.DeleteByIdProduct(It.IsAny<Guid>()), Times.Once);
+            unitOfWork.Verify(r => r.CommitAsync(It.IsAny<CancellationToken>()), Times.Once);
 
             Assert.Equal(outPut.Id, guid);
             Assert.NotNull(outPut);            
@@ -74,6 +74,7 @@ namespace Mshop.Tests.Application.UseCases.Product.DeleteProduct
             repository.Verify(r => r.GetById(It.IsAny<Guid>()), Times.Once);
             notification.Verify(a => a.AddNotifications(It.IsAny<string>()), Times.Never);
             repositoryImage.Verify(a => a.DeleteByIdProduct(It.IsAny<Guid>()), Times.Never);
+            unitOfWork.Verify(r => r.CommitAsync(It.IsAny<CancellationToken>()), Times.Never);
         }
     }
 }

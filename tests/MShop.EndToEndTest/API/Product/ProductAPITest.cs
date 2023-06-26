@@ -1,14 +1,9 @@
-﻿using UseCase = MShop.Application.UseCases.Product.Common;
-using MShop.EndToEndTest.Common;
-using System;
-using MShop.Application.UseCases.Product.Common;
+﻿using MShop.Application.UseCases.Product.Common;
 using MShop.Application.UseCases.Product.ListProducts;
-using MShop.EndToEndTest.API.Product.Common;
-using MShop.Repository.Context;
 using MShop.Business.Enum.Paginated;
-//using MShop.EndToEndTest.API.Category;
-using MShop.Application.UseCases.Category.CreateCategory;
 using MShop.EndToEndTest.API.Common;
+using MShop.EndToEndTest.API.Product.Common;
+using MShop.EndToEndTest.Common;
 
 namespace MShop.EndToEndTest.API.Product
 {
@@ -35,7 +30,6 @@ namespace MShop.EndToEndTest.API.Product
             Assert.NotNull(outPut);
             Assert.True(outPut.Success);
             Assert.Equal(outPut.Data.Name, request.Name);
-            //Assert.Equal(outPut.Data.Thumb, request.Thumb);   
             Assert.Equal(outPut.Data.Description, request.Description);  
             Assert.Equal(outPut.Data.Price,request.Price);   
             Assert.Equal(outPut.Data.IsActive,request.IsActive);
@@ -43,8 +37,7 @@ namespace MShop.EndToEndTest.API.Product
             var dbProduct = await Persistence.GetById(outPut.Data.Id);
 
             Assert.NotNull(dbProduct);
-            Assert.Equal(dbProduct.Name, request.Name);
-            //Assert.Equal(dbProduct.Thumb.Path, request.Imagem);
+            Assert.Equal(dbProduct.Name, request.Name);            
             Assert.Equal(dbProduct.Description, request.Description);
             Assert.Equal(dbProduct.Price, request.Price);
             Assert.Equal(dbProduct.IsActive, request.IsActive);  

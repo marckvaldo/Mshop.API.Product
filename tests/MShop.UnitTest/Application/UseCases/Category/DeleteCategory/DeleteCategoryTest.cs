@@ -40,6 +40,7 @@ namespace MShop.UnitTests.Application.UseCases.Category.DeleteCategory
 
             repository.Verify(r => r.GetById(It.IsAny<Guid>()), Times.Once);
             notification.Verify(n => n.AddNotifications(It.IsAny<string>()), Times.Never);
+            unitOfWork.Verify(r => r.CommitAsync(It.IsAny<CancellationToken>()), Times.Once);
 
             Assert.NotNull(outPut);
             Assert.Equal(outPut.Name, category.Name);
@@ -73,6 +74,7 @@ namespace MShop.UnitTests.Application.UseCases.Category.DeleteCategory
             repository.Verify(n => n.DeleteById(It.IsAny<BusinessEntity.Category>(), CancellationToken.None), Times.Never);          
             notification.Verify(n => n.AddNotifications(It.IsAny<string>()), Times.Once);
             repositoryProduct.Verify(n => n.GetProductsByCategoryId(It.IsAny<Guid>()), Times.Never);
+            unitOfWork.Verify(r => r.CommitAsync(It.IsAny<CancellationToken>()), Times.Never);
 
         }
 
@@ -107,6 +109,7 @@ namespace MShop.UnitTests.Application.UseCases.Category.DeleteCategory
             repository.Verify(n => n.GetById(It.IsAny<Guid>()), Times.Once);
             repository.Verify(n => n.DeleteById(It.IsAny<BusinessEntity.Category>(), CancellationToken.None), Times.Never);
             notification.Verify(n => n.AddNotifications(It.IsAny<string>()), Times.Once);
+            unitOfWork.Verify(r => r.CommitAsync(It.IsAny<CancellationToken>()), Times.Never);
 
         }
     }

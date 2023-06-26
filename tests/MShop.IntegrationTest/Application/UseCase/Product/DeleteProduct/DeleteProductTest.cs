@@ -35,9 +35,13 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.DeleteProduct
             _storageService = new StorageService();
             _notification = new Notifications();
 
-            var serviceColletion = new ServiceCollection();
-            serviceColletion.AddLogging();
-            var serviceProvider = serviceColletion.BuildServiceProvider();
+            //aqui estou criar um provedor de serviço em tempo de execução
+            //criar uma colleção de serviço
+            var serviceCollection = new ServiceCollection();
+            //adiciona o servico nativo de log
+            serviceCollection.AddLogging();
+            //constroe um provedor de serviço
+            var serviceProvider = serviceCollection.BuildServiceProvider();
 
             _domainEventPublisher = new DomainEventPublisher(serviceProvider);
             _unitOfWork = new UnitOfWork(_DbContext, _domainEventPublisher, serviceProvider.GetRequiredService<ILogger<UnitOfWork>>());
@@ -48,13 +52,8 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.DeleteProduct
 
         public async Task DeleteProduct()
         {
-          
-            //var notification = new Notifications();
-
             var product = Faker();
 
-            //await _DbContext.AddAsync(product);
-            //await _DbContext.SaveChangesAsync();
             await _productPersistence.Create(product);
 
             var useCase = new ApplicationUseCase.DeleteProduct(
@@ -65,8 +64,6 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.DeleteProduct
                 _unitOfWork);
 
             await useCase.Handler(product.Id, CancellationToken.None);
-
-            //var productDbDelete = await CreateDBContext(true).Products.FindAsync(product.Id);
             var productDbDelete = await _productPersistence.GetProduct(product.Id);
 
             Assert.Null(productDbDelete);

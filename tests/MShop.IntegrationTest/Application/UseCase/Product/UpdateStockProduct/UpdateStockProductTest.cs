@@ -38,8 +38,12 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.UpdateStockProduct
             _productPersistence = new ProductPersistence(_DbContext);
             _notification = new Notifications();
 
+            //aqui estou criar um provedor de serviço em tempo de execução
+            //criar uma colleção de serviço
             var serviceCollection = new ServiceCollection();
+            //adiciona o servico nativo de log
             serviceCollection.AddLogging();
+            //constroe um provedor de serviço
             var serviceProvider = serviceCollection.BuildServiceProvider();
 
             _domainEventPublisher = new DomainEventPublisher(serviceProvider);
@@ -47,27 +51,22 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.UpdateStockProduct
         }
 
         [Fact(DisplayName = nameof(UpdateStockProduct))]
-        [Trait("Integration-Infra.Data", "Product Use Case")]
+        [Trait("Integration-Application", "Product Use Case")]
 
         public async Task UpdateStockProduct()
         {
-            //var notification = new Notifications();
-
             var product = Faker();
             var request = RequestFake();
 
-             await _productPersistence.Create(product);
-            //await _DbContext.AddAsync(product);
-            //await _DbContext.SaveChangesAsync();
+            await _productPersistence.Create(product);
 
             var useCase = new ApplicationUseCase.UpdateStockProducts(_repository, _notification, _unitOfWork);
             var outPut = await useCase.Handler(request, CancellationToken.None);
-
-            //var productDb = await CreateDBContext(true).Products.AsNoTracking().Where(x => x.Id == product.Id).FirstAsync();
-            var productDb = await _productPersistence.GetProduct(product.Id);
+            var outPutDb = await _productPersistence.GetProduct(request.Id);
 
             Assert.NotNull(outPut);
             Assert.Equal(request.Stock, outPut.Stock);
+            Assert.Equal(request.Stock, outPutDb.Stock);
 
         }
 

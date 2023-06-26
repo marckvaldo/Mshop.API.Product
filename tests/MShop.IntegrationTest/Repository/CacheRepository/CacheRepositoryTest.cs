@@ -28,7 +28,7 @@ namespace MShop.IntegrationTests.Repository.CacheRepository
         }
 
         [Fact(DisplayName = nameof(GetKey))]
-        [Trait("integration-infra.Cache", "Chace")]
+        [Trait("Integration-infra.Cache", "Chace")]
 
         public void GetKey()
         {
@@ -48,7 +48,7 @@ namespace MShop.IntegrationTests.Repository.CacheRepository
 
 
         [Fact(DisplayName = nameof(SetKey))]
-        [Trait("integration-infra.Cache", "Chace")]
+        [Trait("Integration-infra.Cache", "Chace")]
         public async void SetKey()
         {
             var product = Faker();
@@ -66,7 +66,7 @@ namespace MShop.IntegrationTests.Repository.CacheRepository
 
 
         [Fact(DisplayName = nameof(GetCollection))]
-        [Trait("integration-infra.Cache", "Chace")]
+        [Trait("Integration-infra.Cache", "Chace")]
         public async void GetCollection()
         {
             var products = FakerList();
@@ -94,7 +94,7 @@ namespace MShop.IntegrationTests.Repository.CacheRepository
 
 
         [Fact(DisplayName = nameof(SetKeyCollection))]
-        [Trait("integration-infra.Cache", "Chace")]
+        [Trait("Integration-infra.Cache", "Chace")]
         public async void SetKeyCollection()
         {
             var products = FakerList();
@@ -122,7 +122,7 @@ namespace MShop.IntegrationTests.Repository.CacheRepository
 
 
         [Fact(DisplayName = nameof(DeleteCollection))]
-        [Trait("integration-infra.Cache", "Chace")]
+        [Trait("Integration-infra.Cache", "Chace")]
         public async void DeleteCollection()
         {
             var products = FakerList();
@@ -137,7 +137,7 @@ namespace MShop.IntegrationTests.Repository.CacheRepository
 
 
         [Fact(DisplayName = nameof(DeleteKey))]
-        [Trait("integration-infra.Cache", "Chace")]
+        [Trait("Integration-infra.Cache", "Chace")]
         public async void DeleteKey()
         {
             var product = Faker();
@@ -152,7 +152,7 @@ namespace MShop.IntegrationTests.Repository.CacheRepository
 
 
         [Fact(DisplayName = nameof(GetKeyEmpty))]
-        [Trait("integration-infra.Cache", "Chace")]
+        [Trait("Integration-infra.Cache", "Chace")]
         public async void GetKeyEmpty()
         {
  
@@ -165,7 +165,7 @@ namespace MShop.IntegrationTests.Repository.CacheRepository
 
 
         [Fact(DisplayName = nameof(SetKeyExpiration))]
-        [Trait("integration-infra.Cache", "Chace")]
+        [Trait("Integration-infra.Cache", "Chace")]
         public async void SetKeyExpiration()
         {
             var product = Faker();
@@ -179,7 +179,7 @@ namespace MShop.IntegrationTests.Repository.CacheRepository
 
 
         [Fact(DisplayName = nameof(SetKeyColletionExpiration))]
-        [Trait("integration-infra.Cache", "Chace")]
+        [Trait("Integration-infra.Cache", "Chace")]
         public async void SetKeyColletionExpiration()
         {
             var products = FakerList();

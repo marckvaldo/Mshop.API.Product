@@ -42,16 +42,20 @@ namespace MShop.IntegrationTests.Application.UseCase.Category.DeleteCategory
             _categoryPersistence = new CategoryPersistence(_context);
             _productPersistence = new ProductPersistence(_context);
 
-            var serviceColletion = new ServiceCollection();
-            serviceColletion.AddLogging();
-            var serviceProvider = serviceColletion.BuildServiceProvider();
+            //aqui estou criar um provedor de serviço em tempo de execução
+            //criar uma colleção de serviço
+            var serviceCollection = new ServiceCollection();
+            //adiciona o servico nativo de log
+            serviceCollection.AddLogging();
+            //constroe um provedor de serviço
+            var serviceProvider = serviceCollection.BuildServiceProvider();
 
             _domainEventPublisher = new DomainEventPublisher(serviceProvider);
             _unitOfWork = new UnitOfWork(_context, _domainEventPublisher, serviceProvider.GetRequiredService<ILogger<UnitOfWork>>());
         }
 
         [Fact(DisplayName = nameof(DeleteCategory))]
-        [Trait("Integration-Application", "Delete Use Case")]
+        [Trait("Integration-Application", "Category Use Case")]
 
         public async void DeleteCategory()
         {
@@ -75,10 +79,10 @@ namespace MShop.IntegrationTests.Application.UseCase.Category.DeleteCategory
         }
 
 
-        [Fact(DisplayName = nameof(ShoutRetunrErrorWhenCategoryWhereThereAreProdutcs))]
-        [Trait("Integration-Application", "Delete Use Case")]
+        [Fact(DisplayName = nameof(ShoudRetunrErrorWhenDeleteCategoryThatThereAreProdutcs))]
+        [Trait("Integration-Application", "Category Use Case")]
 
-        public async void ShoutRetunrErrorWhenCategoryWhereThereAreProdutcs()
+        public async void ShoudRetunrErrorWhenDeleteCategoryThatThereAreProdutcs()
         {
             var categorys = FakerList(10);
             await _categoryPersistence.CreateList(categorys);
@@ -87,7 +91,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Category.DeleteCategory
             Assert.NotNull(category);
 
             var products = FakerProducts(category.Id,10);
-            _productPersistence.CreateList(products);
+            await _productPersistence.CreateList(products);
            
 
             var useCase = new ApplicationUseCase.DeleteCategory(

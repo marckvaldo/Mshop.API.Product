@@ -34,17 +34,11 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.ListProduct
 
         public async Task ListProducts()
         {
-
-            //var notification = new Notifications();
-
             var category = FakeCategory();
             await _categoryPersistence.Create(category);
 
             var productsFake = ListFake(category,20);
             await _productPersistence.CreateList(productsFake);
-            //await _DbContext.Products.AddRangeAsync(productsFake);
-            //await _DbContext.SaveChangesAsync();
-           
 
             var useCase = new ListProducts(_repository, _notification);
             var request = new ListProductInPut(

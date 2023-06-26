@@ -31,6 +31,7 @@ namespace MShop.UnitTests.Application.UseCases.Image.DelteImage
             var request = FakerRequest();
 
             repository.Setup(r => r.GetById(It.IsAny<Guid>())).ReturnsAsync(images);
+            storageService.Setup(s => s.Delete(It.IsAny<string>())).ReturnsAsync(true);
 
             var useCase = new ApplicationUseCase.DeleteImage(
                 repository.Object, 
@@ -43,7 +44,7 @@ namespace MShop.UnitTests.Application.UseCases.Image.DelteImage
             Assert.NotNull(outPut);
             Assert.Equal(outPut.ProductId, id);
             Assert.NotNull(outPut.Image);
-
+            unitOfWork.Verify(r => r.CommitAsync(It.IsAny<CancellationToken>()), Times.Once);
         }
 
 
@@ -77,6 +78,7 @@ namespace MShop.UnitTests.Application.UseCases.Image.DelteImage
             notification.Verify(n => n.AddNotifications(It.IsAny<string>()), Times.Once);
             storageService.Verify(s => s.Delete(It.IsAny<string>()), Times.Never);
             repository.Verify(r => r.DeleteById(It.IsAny<BusinessEntity.Image>(),CancellationToken.None), Times.Never);
+            unitOfWork.Verify(r => r.CommitAsync(It.IsAny<CancellationToken>()), Times.Never);
 
 
         }

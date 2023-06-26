@@ -34,6 +34,7 @@ namespace MShop.UnitTests.Application.UseCases.Category.CreateCategory
 
             repository.Verify(r => r.Create(It.IsAny<BusinessEntity.Category>(), CancellationToken.None), Times.Once);
             notification.Verify(n => n.AddNotifications(It.IsAny<string>()), Times.Never);
+            unitOfWork.Verify(r => r.CommitAsync(It.IsAny<CancellationToken>()), Times.Once);
 
             Assert.NotNull(outPut);
             Assert.Equal(outPut.Name, request.Name);
@@ -59,6 +60,7 @@ namespace MShop.UnitTests.Application.UseCases.Category.CreateCategory
 
             var exception = Assert.ThrowsAsync<EntityValidationException>(action);
             repository.Verify(n => n.Create(It.IsAny<BusinessEntity.Category>(), CancellationToken.None), Times.Never);
+            unitOfWork.Verify(r => r.CommitAsync(It.IsAny<CancellationToken>()), Times.Never);
         }
 
     }

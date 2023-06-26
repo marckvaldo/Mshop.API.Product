@@ -51,9 +51,13 @@ namespace MShop.IntegrationTests.Application.UseCase.Images.CreateImages
             _categoryPersistence = new CategoryPersistence(_repositoryContext); 
             _productPersistence = new ProductPersistence(_repositoryContext);
 
+            //aqui estou criar um provedor de serviço em tempo de execução
+            //criar uma colleção de serviço
             var serviceCollection = new ServiceCollection();
+            //adiciona o servico nativo de log
             serviceCollection.AddLogging();
-            var serviceProvider = serviceCollection.BuildServiceProvider();            
+            //constroe um provedor de serviço
+            var serviceProvider = serviceCollection.BuildServiceProvider();
 
             _domainEventPublisher = new DomainEventPublisher(serviceProvider);
             _unitOfWork = new UnitOfWork(_repositoryContext, _domainEventPublisher, serviceProvider.GetRequiredService<ILogger<UnitOfWork>>());

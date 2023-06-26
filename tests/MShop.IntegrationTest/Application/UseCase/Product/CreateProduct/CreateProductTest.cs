@@ -45,9 +45,13 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.CreateProduct
             _categoryPersistence = new CategoryPersistence(_DbContext);
             _notification = new Notifications();
 
-            var serviceColletion = new ServiceCollection();
-            serviceColletion.AddLogging();
-            var serviceProvider = serviceColletion.BuildServiceProvider();
+            //aqui estou criar um provedor de serviço em tempo de execução
+            //criar uma colleção de serviço
+            var serviceCollection = new ServiceCollection();
+            //adiciona o servico nativo de log
+            serviceCollection.AddLogging();
+            //constroe um provedor de serviço
+            var serviceProvider = serviceCollection.BuildServiceProvider();
 
             _domainEventPublisher = new DomainEventPublisher(serviceProvider);  
             _unitOfWork = new UnitOfWork(_DbContext, _domainEventPublisher, serviceProvider.GetRequiredService<ILogger<UnitOfWork>>());
@@ -57,18 +61,9 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.CreateProduct
         [Fact(DisplayName = nameof(CreateProduct))]
         [Trait("Integration-Application", "Product Use Case")]
         public async Task CreateProduct()
-        {
-
-           // var notification = new Notifications();
+        {         
             var request = Faker();
             var categoryFake = FakeCategory();
-
-            /*_DbContext.Categories.Add(categoryFake);
-            await _DbContext.SaveChangesAsync();
-            var categoryDb = _DbContext.Categories.FirstOrDefault();
-
-            Assert.NotNull(categoryDb);           
-            request.CategoryId = categoryDb.Id;*/
 
             await _categoryPersistence.Create(categoryFake);
             var categoryDb = await _categoryPersistence.GetCategory(categoryFake.Id);
@@ -83,8 +78,6 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.CreateProduct
                 _unitOfWork);
 
             var outPut = await productUseCase.Handler(request, CancellationToken.None);
-
-            //var newProduct = await CreateDBContext(true).Products.FindAsync(outPut.Id);
             var newProduct = await _productPersistence.GetProduct(outPut.Id);
             
             Assert.False(_notification.HasErrors());
@@ -96,7 +89,6 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.CreateProduct
             Assert.Equal(outPut.CategoryId, newProduct.CategoryId);
             Assert.Equal(outPut.Stock, newProduct.Stock);
             Assert.Equal(outPut.IsActive, newProduct.IsActive);
-
 
             Assert.Equal(request.Name, outPut.Name);
             Assert.Equal(request.Description, outPut.Description);
@@ -112,8 +104,6 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.CreateProduct
         [Trait("Integration-Application", "Product Use Case")]
         public async Task SholdReturnErrorWhenCreateProductWithOutCategory()
         {
-
-            //var notification = new Notifications();
             var request = Faker();
 
             request.CategoryId = Guid.NewGuid();
@@ -130,7 +120,6 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.CreateProduct
             var exception = await Assert.ThrowsAsync<ApplicationValidationException>(outPut);
             Assert.Equal("Error", exception.Message);
             Assert.True(_notification.HasErrors());
-
 
         }
 

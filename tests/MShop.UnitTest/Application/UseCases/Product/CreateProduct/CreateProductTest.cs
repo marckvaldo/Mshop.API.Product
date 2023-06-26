@@ -45,7 +45,8 @@ namespace Mshop.Tests.Application.UseCases.Product.CreateProduct
                 repository => repository.Create(It.IsAny<BusinessEntity.Product>(),CancellationToken.None),
                 Times.Once);
 
-           
+            unitOfWork.Verify(r => r.CommitAsync(It.IsAny<CancellationToken>()), Times.Once);
+
             Assert.NotNull(outPut);
             Assert.Equal(outPut.Name, request.Name);
             Assert.Equal(outPut.Description, request.Description);
@@ -95,6 +96,8 @@ namespace Mshop.Tests.Application.UseCases.Product.CreateProduct
                 repository => repository.Create(It.IsAny<BusinessEntity.Product>(), CancellationToken.None),
                 Times.Never);
 
+            unitOfWork.Verify(r => r.CommitAsync(It.IsAny<CancellationToken>()), Times.Never);
+
             Assert.True(notification.HasErrors());
         }
 
@@ -131,6 +134,8 @@ namespace Mshop.Tests.Application.UseCases.Product.CreateProduct
             repository.Verify(
                 repository => repository.Create(It.IsAny<BusinessEntity.Product>(), CancellationToken.None),
                 Times.Never);
+
+            unitOfWork.Verify(r => r.CommitAsync(It.IsAny<CancellationToken>()), Times.Never);
 
             //Assert.True(notification.HasErrors());
 

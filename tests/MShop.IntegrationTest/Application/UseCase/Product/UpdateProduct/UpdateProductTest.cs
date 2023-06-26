@@ -3,9 +3,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Moq;
 using MShop.Application.Event;
+using MShop.Business.Interface.Repository;
 using MShop.Business.Interface.Service;
 using MShop.Business.Service;
 using MShop.Business.Validation;
+using MShop.IntegrationTests.Application.UseCase.Category;
 using MShop.Repository.Context;
 using MShop.Repository.Repository;
 using MShop.Repository.UnitOfWork;
@@ -26,6 +28,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.UpdateProduct
         private readonly StorageService _storageService;
         private readonly UnitOfWork _unitOfWork;
         private readonly DomainEventPublisher _domainEventPublisher;
+        private readonly ProductPersistence _productPersistence;
 
         public UpdateProductTest()
         {
@@ -35,10 +38,16 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.UpdateProduct
             _categoryRepository = new CategoryRepository(_DbContext);
             _imageRepository = new ImagesRepository(_DbContext);
             _storageService = new StorageService();
+            _productPersistence = new ProductPersistence(_DbContext);
 
-            var serviceColletion = new ServiceCollection();
-            serviceColletion.AddLogging();
-            var serviceProvider = serviceColletion.BuildServiceProvider();
+
+            //aqui estou criar um provedor de serviço em tempo de execução
+            //criar uma colleção de serviço
+            var serviceCollection = new ServiceCollection();
+            //adiciona o servico nativo de log
+            serviceCollection.AddLogging();
+            //constroe um provedor de serviço
+            var serviceProvider = serviceCollection.BuildServiceProvider();
 
             _domainEventPublisher = new DomainEventPublisher(serviceProvider);
             _unitOfWork = new UnitOfWork(_DbContext, _domainEventPublisher, serviceProvider.GetRequiredService<ILogger<UnitOfWork>>());
@@ -52,16 +61,12 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.UpdateProduct
            
             var notificacao = new Notifications();
 
-            Guid id = Guid.NewGuid();
-            var category = FakeCategory(id);
+            var category = FakeCategory(Guid.NewGuid());
             var product = Faker(category);
             
             var request = RequestFake(product.Id,category);
-            
 
-            await _DbContext.AddAsync(product);
-            await _DbContext.AddAsync(category);
-            await _DbContext.SaveChangesAsync();
+            await _productPersistence.Create(product);
 
             var useCase = new ApplicationUseCase.UpdateProduct(
                 _repository, 
@@ -78,7 +83,6 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.UpdateProduct
             Assert.NotNull(productDb);
             Assert.Equal(outPut.Name, productDb.Name);  
             Assert.Equal(outPut.Description, productDb.Description);  
-            //Assert.Equal(outPut.Imagem, productDb.Thumb?.Path);
             Assert.Equal(outPut.Price, productDb.Price);  
             Assert.Equal(outPut.CategoryId, productDb.CategoryId);
             Assert.NotEmpty(outPut.Name);

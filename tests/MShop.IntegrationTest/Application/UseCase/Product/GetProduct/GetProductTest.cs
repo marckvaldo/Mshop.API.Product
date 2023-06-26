@@ -63,8 +63,6 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.GetProduct
         [Trait("Integration-Application", "Product Use Case")]
         public async Task SholdReturnErrorWhenCantGetProduct()
         {
-
-            //var notification = new Notifications();
             var category = FakeCategory();
             await _categoryPersistence.Create(category);
 
