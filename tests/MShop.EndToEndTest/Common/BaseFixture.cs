@@ -32,7 +32,7 @@ namespace MShop.EndToEndTest.Common
 
             apiClient = new APIClient(httpClient);
 
-            //pegando o services alterado do CustomWebApplicationFactory e recuperando a connectString
+            //pegando o services alterado do CustomWebApplicationFactory e recuperando a connectString e grando um 
             var configurationServer = webApp.Services.GetService(typeof(IConfiguration));
             ArgumentNullException.ThrowIfNull(configurationServer);
             _configuration = ((IConfiguration)configurationServer);
@@ -60,9 +60,6 @@ namespace MShop.EndToEndTest.Common
                    new DbContextOptionsBuilder<RepositoryDbContext>()
                    .UseMySql(_connectionString, ServerVersion.AutoDetect(_connectionString))
                    .Options);
-
-                //if (!preserveData)
-                    //context.Database.EnsureDeleted();
 
                 return context;
             }

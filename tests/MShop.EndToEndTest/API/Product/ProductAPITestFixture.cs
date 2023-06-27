@@ -30,7 +30,6 @@ namespace MShop.EndToEndTest.API.Product
                 CreateDBContext()
             );
 
-
             ProductPersistenceCache = new ProductPersistenceCache(
                 CreateCache()
             );
@@ -38,7 +37,7 @@ namespace MShop.EndToEndTest.API.Product
 
         protected async Task<BusinessEntity.Product> Faker()
         {
-            await BuildCategory();
+           await BuildCategory();
            var product = (new BusinessEntity.Product
             (
                 faker.Commerce.ProductDescription(),

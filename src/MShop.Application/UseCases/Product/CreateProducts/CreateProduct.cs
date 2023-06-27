@@ -1,14 +1,8 @@
 ﻿using MShop.Application.Common;
 using MShop.Application.UseCases.Product.Common;
-using MShop.Business.Entity;
-using MShop.Business.Events.Products;
-using MShop.Business.Exception;
-using MShop.Business.Exceptions;
 using MShop.Business.Interface;
 using MShop.Business.Interface.Repository;
 using MShop.Business.Interface.Service;
-using MShop.Business.ValueObject;
-using Business = MShop.Business.Entity;
 
 namespace MShop.Application.UseCases.Product.CreateProducts
 {

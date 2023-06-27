@@ -1,16 +1,6 @@
-﻿using Microsoft.VisualStudio.TestPlatform.Utilities;
-using MShop.Application.UseCases.images.Common;
-using MShop.Application.UseCases.images.CreateImage;
-using MShop.Application.UseCases.images.ListImage;
+﻿using MShop.Application.UseCases.images.Common;
 using MShop.EndToEndTest.API.Common;
 using MShop.EndToEndTest.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using BusinessEntity = MShop.Business.Entity;
 
 namespace MShop.EndToEndTest.API.Images
 {
@@ -101,11 +91,6 @@ namespace MShop.EndToEndTest.API.Images
             Assert.Equal(outPut.Data.Images.Count(), images.Count());
             Assert.Equal(outPut.Data.ProductId, request.ProductId);
 
-            /*foreach (var item in images)
-            {
-                var image = outPut.Data.Images.Where(x => x.Image == item.FileName).FirstOrDefault();
-                Assert.NotNull(image);
-            }*/
         }
     }
 }

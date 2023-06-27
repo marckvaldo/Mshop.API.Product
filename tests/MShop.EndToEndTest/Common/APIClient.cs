@@ -1,15 +1,6 @@
-﻿using Bogus;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Microsoft.VisualStudio.TestPlatform.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Microsoft.AspNetCore.WebUtilities;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace MShop.EndToEndTest.Common
 {
@@ -102,7 +93,7 @@ namespace MShop.EndToEndTest.Common
             var response = await _httpCliente.GetAsync(url);
             var outPutString = await response.Content.ReadAsStringAsync();
             if (string.IsNullOrWhiteSpace(outPutString))
-            {
+             {
                 return (response, null);
             }
 
