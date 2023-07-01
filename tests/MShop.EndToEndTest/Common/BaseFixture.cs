@@ -29,7 +29,6 @@ namespace MShop.EndToEndTest.Common
 
             webApp = new CustomWebApplicationFactory<Program>();
             httpClient = webApp.CreateClient();
-
             apiClient = new APIClient(httpClient);
 
             //pegando o services alterado do CustomWebApplicationFactory e recuperando a connectString e grando um 

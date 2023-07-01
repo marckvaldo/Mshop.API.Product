@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
 using MShop.EndToEndTest.API.Product;
 using BusinessEntity = MShop.Business.Entity;
+using MShop.EndToEndTest.API.Categoria;
 
 namespace MShop.EndToEndTest.API.Images
 {
@@ -18,11 +19,13 @@ namespace MShop.EndToEndTest.API.Images
         private readonly Guid _productId;
         protected readonly ImagePersistence _imagePersistence;
         protected readonly ProductPersistence _productPersistence;
+        protected readonly CategoryPersistence _categoryPersistence;
         public ImageAPITestFixture() 
         { 
             _productId = Guid.NewGuid();
             _imagePersistence = new ImagePersistence(CreateDBContext());
-            _productPersistence = new ProductPersistence(CreateDBContext());    
+            _productPersistence = new ProductPersistence(CreateDBContext());  
+            _categoryPersistence = new CategoryPersistence(CreateDBContext());
         }
         public async Task<CreateImageInPut> FakeRequest(int quantidade = 3)
         {
@@ -60,6 +63,7 @@ namespace MShop.EndToEndTest.API.Images
         public async Task<BusinessEntity.Product> PersistirProduct()
         {
             var category = new BusinessEntity.Category(faker.Commerce.Categories(1)[0]);
+            await _categoryPersistence.Create(category);  
             var product = new BusinessEntity.Product(faker.Commerce.ProductDescription(),faker.Commerce.ProductName(),10,category.Id,0,true);
             _productPersistence.Create(product);
             return product;

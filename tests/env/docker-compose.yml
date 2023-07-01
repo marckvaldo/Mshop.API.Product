@@ -6,7 +6,7 @@ services:
     hostname: catalagoDb-e2e
     image: mariadb:10.6.3
     ports:
-      - 3306:3306
+      - 3307:3306
     environment:
       MYSQL_ROOT_PASSWORD: "mshop"
       MYSQL_USER: "mshop"
@@ -14,12 +14,25 @@ services:
       MYSQL_DATABASE: "mshop"
     networks:
       - app-catalago
-  MShop.Redis.e2e:
-    container_name: redis-e2e
-    hostname: redis-e2e
-    image: redis
+  #MShop.Redis.e2e:
+    #container_name: redis-e2e
+    #hostname: redis-e2e
+    #image: redis
+    #ports:
+    #  - "8378:6379" 
+    #networks:
+    #  - app-catalago
+  Mshop.Rabbitmq.e2e:
+    container_name: rabbitmq-e2e
+    image: rabbitmq:3-management
+    hostname: rabbitmq-e2e
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=123456
+      - RABBITMQ_DEFAULT_VHOST="catalago"
     ports:
-      - "8378:6379" 
+      - 15672:15672 #potaHost : Porta Container
+      - 5672:5672
     networks:
       - app-catalago
 

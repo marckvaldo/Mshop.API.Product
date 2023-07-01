@@ -1,21 +1,14 @@
 ﻿using MShop.Application.UseCases.Category.Common;
-using MShop.Application.UseCases.Category.DeleteCategory;
 using MShop.Application.UseCases.Category.ListCategorys;
-using MShop.Application.UseCases.Category.UpdateCategory;
 using MShop.Business.Enum.Paginated;
 using MShop.EndToEndTest.API.Common;
 using MShop.EndToEndTest.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MShop.EndToEndTest.API.Categoria
 {
     [Collection("Crud Category Collection")]
     [CollectionDefinition("Crud Category Collection", DisableParallelization = true)]
-    public class CategoryAPITest : CategoryAPITestFixture
+    public class CategoryAPITest : CategoryAPITestFixture, IDisposable
     {
 
         [Fact(DisplayName = nameof(CreateCategory))]
@@ -129,9 +122,7 @@ namespace MShop.EndToEndTest.API.Categoria
             await Persistence.CreateList(request);
 
             var query = new ListCategoryInPut(page, perPager, "", "", SearchOrder.Desc);
-
             var (response, outPut) = await apiClient.Get<CustomResponse<ListCategoryOutPut>>($"{Configuration.URL_API_CATEGORY}list-category", query);
-
 
             var categoryDb = await Persistence.List();
 
@@ -154,6 +145,11 @@ namespace MShop.EndToEndTest.API.Categoria
                 Assert.Equal(category.IsActive, item.IsActive);
             }
 
+        }
+
+        public void Dispose()
+        {
+            //throw new NotImplementedException();
         }
     }
 }

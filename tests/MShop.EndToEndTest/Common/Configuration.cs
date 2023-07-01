@@ -12,7 +12,7 @@ namespace MShop.EndToEndTest.Common
         public static string URL_API_PRODUCT = "/api/products/";
         public static string URL_API_CATEGORY = "/api/category/";
         public static string URL_API_IMAGE = "/api/image/";
-        public static bool DATABASE_MEMORY = true;
+        public static bool DATABASE_MEMORY = false;
     }
 }
 

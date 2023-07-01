@@ -28,9 +28,10 @@ namespace MShop.EndToEndTest.API.Categoria
 
         protected BusinessEntity.Category Faker()
         {
+            string name = faker.Commerce.ProductName();
             var product = new BusinessEntity.Category
             (
-                faker.Commerce.ProductName(),
+                (name.Length > 30 ? name[..29] : name),
                 true
             );
             return product;

@@ -48,6 +48,7 @@ namespace MShop.EndToEndTest.Common
                     
                     using (var scope = servicesProvides.CreateScope())
                     {
+                        //colocar aqui o rabittMQ
                         var context = scope.ServiceProvider.GetService<RepositoryDbContext>();
                         ArgumentNullException.ThrowIfNull(context);
                         context.Database.EnsureDeleted();

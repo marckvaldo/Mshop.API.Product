@@ -16,7 +16,6 @@ namespace MShop.Application.Event
         {
             var handlers = _serviceProvider.GetServices<IDomainEventHandler<TDomainEvent>>(); //isso e a mesma coisa que var handles new ProductCreatedEventHandler(); exemplo
             if (handlers is null || !handlers.Any()) return;
-
             foreach (var handler in handlers)
                 await handler.HandlerAsync(domainEvent);
         }

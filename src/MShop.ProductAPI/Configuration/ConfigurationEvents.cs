@@ -19,11 +19,14 @@ namespace MShop.ProductAPI.Configuration
             services.AddTransient<IDomainEventHandler<ProductUpdatedEvent>, ProductUpdatedEventHandler>();
             services.AddTransient<IDomainEventHandler<ProductRemovedEvent>, ProductRemovedEventHandler>();
 
-            //coloca as configurações RabbitMQ nas conficurações da minha applicação
-            services.Configure<RabbitMQConfiguration>(configuration.GetSection(RabbitMQConfiguration.ConfigurationSection));
+            //coloca as configurações RabbitMQ nos serviços da minha applicação para recuperar posteriomente
+            services.Configure<RabbitMQConfiguration>(
+                configuration.GetSection(RabbitMQConfiguration.ConfigurationSection)
+                );
 
             //faz a connection com rabbitmq
-            services.AddSingleton(options =>
+            //toda fez vez que alguem chamar o IConnetion eu vou retornar essa conexão
+            services.AddSingleton<IConnection>(options =>
             {
                 RabbitMQConfiguration config = options.GetRequiredService<IOptions<RabbitMQConfiguration>>().Value;
 
@@ -32,6 +35,7 @@ namespace MShop.ProductAPI.Configuration
                     HostName = config.HostName,
                     UserName = config.UserName,
                     Password = config.Password,
+                    Port     = config.Port
                 };
 
                 return factory.CreateConnection();
