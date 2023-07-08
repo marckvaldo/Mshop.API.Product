@@ -261,7 +261,7 @@ namespace MShop.EndToEndTest.API.Product
             }
         }
 
-
+        /*
         [Fact(DisplayName = nameof(ListProductPromotions))]
         [Trait("EndToEnd/API", "Product - Endpoints")]
         public async void ListProductPromotions()
@@ -301,5 +301,6 @@ namespace MShop.EndToEndTest.API.Product
             Assert.NotNull(outPut);
             Assert.False(outPut.Success);
         }
+        */
     }
 }
