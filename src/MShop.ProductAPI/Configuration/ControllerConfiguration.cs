@@ -1,4 +1,5 @@
 ﻿using MShop.ProductAPI.Filter;
+using System.Text.Json.Serialization;
 
 namespace MShop.ProductAPI.Configuration
 {
@@ -9,7 +10,9 @@ namespace MShop.ProductAPI.Configuration
             services.AddControllers(
                 //aqui eu forço toda exception passar por aqui 
                 options => options.Filters.Add(typeof(ApiGlobalExceptionFilter))
-                );
+                )
+                .AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+
             services.AddDocumentation();
             return services;
         }

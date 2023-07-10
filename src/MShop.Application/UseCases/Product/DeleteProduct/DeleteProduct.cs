@@ -39,7 +39,7 @@ namespace MShop.Application.UseCases.Product.DeleteProduct
             product!.ProductRemovedEvent();
             NotifyExceptionIfNull(product.Events.Count == 0 ? null : product.Events, $" Não foi possivel registrar o event ProductDeletedEvent");
 
-            await _productRespository.DeleteById(product!, cancellationToken);
+            await _productRespository.DeleteById(product, cancellationToken);
             await _unitOfWork.CommitAsync(cancellationToken);   
 
             if (product?.Thumb?.Path is not null) await _storageService.Delete(product.Thumb.Path);

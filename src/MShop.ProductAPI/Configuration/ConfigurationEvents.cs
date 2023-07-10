@@ -35,7 +35,9 @@ namespace MShop.ProductAPI.Configuration
                     HostName = config.HostName,
                     UserName = config.UserName,
                     Password = config.Password,
-                    Port     = config.Port
+                    Port     = config.Port,
+                    VirtualHost = config.Vhost
+
                 };
 
                 return factory.CreateConnection();

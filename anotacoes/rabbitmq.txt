@@ -6,5 +6,3 @@ product.#
 
 criar um queres
 histore.event.product
-
-rebbitmq

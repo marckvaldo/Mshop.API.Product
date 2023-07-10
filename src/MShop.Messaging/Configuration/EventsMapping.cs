@@ -11,9 +11,9 @@ namespace MShop.Messaging.Configuration
     {
         private static Dictionary<string, string> _routingKey => new()
         {
-            {typeof(ProductCreatedEvent).Name, "video.Event" },
-            {typeof(ProductUpdatedEvent).Name, "video.Event" },
-            {typeof(ProductRemovedEvent).Name, "video.Event" }
+            {typeof(ProductCreatedEvent).Name, "product.v1.Created" },
+            {typeof(ProductUpdatedEvent).Name, "product.v1.Updated" },
+            {typeof(ProductRemovedEvent).Name, "product.v1.Removed" }
         };
 
         public static string GetRoutingKey<T>() => _routingKey[typeof(T).Name];

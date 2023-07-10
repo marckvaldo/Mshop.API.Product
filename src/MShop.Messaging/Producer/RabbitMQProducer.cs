@@ -3,6 +3,7 @@ using MShop.Business.Interface.Event;
 using MShop.Messaging.Configuration;
 using RabbitMQ.Client;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace MShop.Messaging.Producer
 {
@@ -21,7 +22,10 @@ namespace MShop.Messaging.Producer
         public Task SendMessageAsync<T>(T message)
         {
             var routingKey = EventsMapping.GetRoutingKey<T>();
-            var messageBytes = JsonSerializer.SerializeToUtf8Bytes(message);
+            var messageBytes = JsonSerializer.SerializeToUtf8Bytes(message, 
+                new JsonSerializerOptions { 
+                    ReferenceHandler = ReferenceHandler.IgnoreCycles
+                });
 
             //informar que deseja uma confirmacao
             _channel.ConfirmSelect();

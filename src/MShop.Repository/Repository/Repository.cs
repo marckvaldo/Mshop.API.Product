@@ -55,7 +55,7 @@ namespace MShop.Repository.Repository
 
         public virtual async Task DeleteById(TEntity entity,CancellationToken cancellationToken)
         {
-            await Task.FromResult(_dbSet.Remove(entity));
+             await Task.FromResult(_dbSet.Remove(entity));
             //await SaveChanges();
         }
 
