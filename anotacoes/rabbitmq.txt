@@ -1,0 +1,10 @@
+Criar um exchanges
+product.Events tipo topic
+
+route key
+product.#
+
+criar um queres
+histore.event.product
+
+rebbitmq
