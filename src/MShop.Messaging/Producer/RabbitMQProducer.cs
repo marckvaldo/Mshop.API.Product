@@ -16,6 +16,8 @@ namespace MShop.Messaging.Producer
         {
             _channel = channel;
             _exchenge = options.Value.Exchange;
+
+            //_channel.QueueDeclare("");
             
         }
 
