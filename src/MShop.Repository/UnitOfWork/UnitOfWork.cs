@@ -17,7 +17,9 @@ namespace MShop.Repository.UnitOfWork
         private readonly IDomainEventPublisher _publisher;
         private readonly ILogger<UnitOfWork> _logger;
 
-        public UnitOfWork(RepositoryDbContext repositoryDbContext, IDomainEventPublisher publisher, ILogger<UnitOfWork> logger)
+        public UnitOfWork(RepositoryDbContext repositoryDbContext, 
+            IDomainEventPublisher publisher, 
+            ILogger<UnitOfWork> logger)
         {
             _repositoryDbContext = repositoryDbContext;
             _publisher = publisher;
@@ -31,21 +33,19 @@ namespace MShop.Repository.UnitOfWork
             var aggregateRoot = _repositoryDbContext.ChangeTracker
                 .Entries<AggregateRoot>()
                 .Where(x => x.Entity.Events.Any())
-                .Select(x => x.Entity).ToList();
+                .Select(x => x.Entity)
+                .ToList();
                 
             var events = aggregateRoot
-                .SelectMany(a => a.Events).ToList();
+                .SelectMany(a => a.Events)
+                .ToList();
 
             await _repositoryDbContext.SaveChangesAsync(cancellationToken);
 
-            events.ForEach(async x => {
-                await _publisher.PublishAsync((dynamic)x); 
-            });
+            foreach (var @event in events)
+                await _publisher.PublishAsync((dynamic)@event);
 
             aggregateRoot.ForEach(x=> x.ClearEvents());
-
-            
-
 
         }
 

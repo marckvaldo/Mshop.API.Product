@@ -13,11 +13,11 @@ namespace MShop.ProductAPI.Configuration
     {
         public static IServiceCollection AddConfigurationEvents(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddTransient<IDomainEventPublisher, DomainEventPublisher>();
+            services.AddScoped<IDomainEventPublisher, DomainEventPublisher>();
 
-            services.AddTransient<IDomainEventHandler<ProductCreatedEvent>, ProductCreatedEventHandler>();
-            services.AddTransient<IDomainEventHandler<ProductUpdatedEvent>, ProductUpdatedEventHandler>();
-            services.AddTransient<IDomainEventHandler<ProductRemovedEvent>, ProductRemovedEventHandler>();
+            services.AddScoped<IDomainEventHandler<ProductCreatedEvent>, ProductCreatedEventHandler>();
+            services.AddScoped<IDomainEventHandler<ProductUpdatedEvent>, ProductUpdatedEventHandler>();
+            services.AddScoped<IDomainEventHandler<ProductRemovedEvent>, ProductRemovedEventHandler>();
 
             //coloca as configurações RabbitMQ nos serviços da minha applicação para recuperar posteriomente
             services.Configure<RabbitMQConfiguration>(
@@ -45,7 +45,7 @@ namespace MShop.ProductAPI.Configuration
 
             services.AddSingleton<ChannelManager>();
 
-            services.AddTransient<IMessageProducer>(options =>
+            services.AddScoped<IMessageProducer>(options =>
             {
                 //aqui eu chamo a manager channel
                 var channelManager = options.GetRequiredService<ChannelManager>();

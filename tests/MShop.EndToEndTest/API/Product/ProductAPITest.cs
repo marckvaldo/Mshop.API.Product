@@ -1,6 +1,8 @@
 ﻿using MShop.Application.UseCases.Product.Common;
 using MShop.Application.UseCases.Product.ListProducts;
+using MShop.Business.Entity;
 using MShop.Business.Enum.Paginated;
+using MShop.Business.Events.Products;
 using MShop.EndToEndTest.API.Common;
 using MShop.EndToEndTest.API.Product.Common;
 using MShop.EndToEndTest.Common;
@@ -10,7 +12,7 @@ namespace MShop.EndToEndTest.API.Product
     [Collection("Crud Products Collection")]
     [CollectionDefinition("Crud Products Collection", DisableParallelization = true)]
 
-    public class ProductAPITest : ProductAPITestFixture
+    public class ProductAPITest : ProductAPITestFixture, IDisposable
     {
         public ProductAPITest()
         {
@@ -22,7 +24,7 @@ namespace MShop.EndToEndTest.API.Product
         public async Task CreateProductAPI()
         {
             var request = await RequestCreate();
-
+            SetupRabbitMQ(); 
             var (response, outPut) = await apiClient.Post<CustomResponse<ProductModelOutPut>>(Configuration.URL_API_PRODUCT, request);
 
             Assert.NotNull(response);
@@ -40,7 +42,25 @@ namespace MShop.EndToEndTest.API.Product
             Assert.Equal(dbProduct.Name, request.Name);            
             Assert.Equal(dbProduct.Description, request.Description);
             Assert.Equal(dbProduct.Price, request.Price);
-            Assert.Equal(dbProduct.IsActive, request.IsActive);  
+            Assert.Equal(dbProduct.IsActive, request.IsActive);
+
+
+            Thread.Sleep(1000);
+            var (@event, reamainingMessages) = ReadMessageFromRabbitMQ<ProductCreatedEvent>();
+            Assert.Equal(0, ((int)reamainingMessages));
+            Assert.NotNull(@event);
+            Assert.Equal(@event.ProductId, dbProduct.Id);
+            Assert.Equal(@event.Name, dbProduct.Name);
+            Assert.Equal(@event.Price, dbProduct.Price);
+            Assert.Equal(@event.Thumb.Path, dbProduct.Thumb.Path);
+            Assert.Equal(@event.CategoryId, dbProduct.CategoryId);
+            Assert.Equal(@event.Description, dbProduct.Description);
+            Assert.Equal(@event.IsActive, dbProduct.IsActive);  
+            Assert.Equal(@event.IsSale, dbProduct.IsSale);
+            Assert.Equal(@event.Stock, dbProduct.Stock);
+            Assert.NotEqual(@event.OccuredOn, default);
+
+            
         }
 
 
@@ -48,10 +68,11 @@ namespace MShop.EndToEndTest.API.Product
         [Trait("EndToEnd/API", "Product - Endpoints")]
         public async Task UpdateProduct()
         {
+            SetupRabbitMQ();
             var request = await RequestUpdate();
             var product = await Faker();
             request.Id = product.Id;
-
+            
             
             Persistence.Create(product);
 
@@ -71,6 +92,21 @@ namespace MShop.EndToEndTest.API.Product
             Assert.Equal(persistence.Id, output.Data.Id);
             //Assert.Equal(persistence.Thumb.Path, output.Data.Imagem);
             Assert.Equal(persistence.Price, output.Data.Price);
+
+            var (@event, reamainingMessages)  = ReadMessageFromRabbitMQ<ProductUpdatedEvent>();
+            Assert.Equal(0, ((int)reamainingMessages));
+            Assert.NotNull(@event);
+            Assert.Equal(@event.ProductId, persistence.Id);
+            Assert.Equal(@event.Name, persistence.Name);
+            Assert.Equal(@event.Price, persistence.Price);
+            Assert.Equal(@event.Thumb.Path, persistence.Thumb.Path);
+            Assert.Equal(@event.CategoryId, persistence.CategoryId);
+            Assert.Equal(@event.Description, persistence.Description);
+            Assert.Equal(@event.IsActive, persistence.IsActive);
+            Assert.Equal(@event.IsSale, persistence.IsSale);
+            Assert.Equal(@event.Stock, persistence.Stock);
+            Assert.NotEqual(@event.OccuredOn, default);
+
         }
 
         
@@ -80,6 +116,7 @@ namespace MShop.EndToEndTest.API.Product
         {
             var product = await Faker();
             Persistence.Create(product);
+            SetupRabbitMQ();
 
             var (response, output) = await apiClient.Delete<CustomResponse<ProductModelOutPut>>($"{Configuration.URL_API_PRODUCT}{product.Id}");
 
@@ -94,8 +131,13 @@ namespace MShop.EndToEndTest.API.Product
             Assert.Equal(product.Price, output.Data.Price); 
             Assert.Equal(product.Description, output.Data.Description);
             Assert.Null(dbProduct);
+
+            var (@event, reamainingMessages) = ReadMessageFromRabbitMQ<ProductRemovedEvent>();
+            Assert.Equal(0,(int)reamainingMessages);
+            Assert.Equal(@event.ProductId, output.Data.Id);
+
             
-           
+
         }
 
 
@@ -107,6 +149,7 @@ namespace MShop.EndToEndTest.API.Product
             Persistence.Create(product);
             var productStock = await FakerImage();
             var stock = productStock.Stock;
+            SetupRabbitMQ();
 
             var (response, outPut) = await apiClient.Post<CustomResponse<ProductModelOutPut>>($"{Configuration.URL_API_PRODUCT}update-stock/{product.Id}",new {product.Id, stock });
 
@@ -119,9 +162,24 @@ namespace MShop.EndToEndTest.API.Product
             Assert.Equal(product.Name, outPut.Data.Name);
             Assert.Equal(product.Description, outPut.Data.Description);
             Assert.Equal(product.Price, outPut.Data.Price);
-            //Assert.Equal(product.Thumb.Path, outPut.Data.Imagem);
             Assert.Equal(productDb.Stock, stock);
 
+            Thread.Sleep(1000);
+            var (@event, reamainingMessages) = ReadMessageFromRabbitMQ<ProductUpdatedEvent>();
+            Assert.Equal(0, ((int)reamainingMessages));
+            Assert.NotNull(@event);
+            Assert.Equal(@event.ProductId, productDb.Id);
+            Assert.Equal(@event.Name, productDb.Name);
+            Assert.Equal(@event.Price, productDb.Price);
+            Assert.Equal(@event.Thumb.Path, productDb.Thumb.Path);
+            Assert.Equal(@event.CategoryId, productDb.CategoryId);
+            Assert.Equal(@event.Description, productDb.Description);
+            Assert.Equal(@event.IsActive, productDb.IsActive);
+            Assert.Equal(@event.IsSale, productDb.IsSale);
+            Assert.Equal(@event.Stock, productDb.Stock);
+            Assert.NotEqual(@event.OccuredOn, default);
+
+            
         }
 
 
@@ -133,6 +191,7 @@ namespace MShop.EndToEndTest.API.Product
         {
             var request = await RequestCreate();
             request.Price = price;
+            SetupRabbitMQ();
 
             var (response, outPut) = await apiClient.Post<CustomResponseErro> (Configuration.URL_API_PRODUCT, request);
 
@@ -140,6 +199,9 @@ namespace MShop.EndToEndTest.API.Product
             Assert.Equal(System.Net.HttpStatusCode.BadRequest, response!.StatusCode);
             Assert.NotNull(outPut);
             Assert.True(outPut.Errors.Count > 0);
+
+            var (@event, reamainingMessages) = ReadMessageFromRabbitMQ<ProductCreatedEvent>();
+            Assert.Null(@event);
         }
 
 
@@ -151,6 +213,7 @@ namespace MShop.EndToEndTest.API.Product
         {
             var request =  await RequestUpdate();
             request.Price = price;
+            SetupRabbitMQ();
 
             var (response, outPut) = await apiClient.Post<CustomResponseErro>(Configuration.URL_API_PRODUCT, request);
 
@@ -158,17 +221,22 @@ namespace MShop.EndToEndTest.API.Product
             Assert.Equal(System.Net.HttpStatusCode.BadRequest, response!.StatusCode);
             Assert.NotNull(outPut);
             Assert.True(outPut.Errors.Count > 0);
+
+            var (@event, reamainingMessages) = ReadMessageFromRabbitMQ<ProductCreatedEvent>();
+            Assert.Null(@event);
+
+           
         }
 
 
         [Fact(DisplayName = nameof(GetProductById))]
         [Trait("EndToEnd/API", "Product - Endpoints")]
-        public async void GetProductById()
+        public async Task GetProductById()
         {
             var products = await GetProducts(20);
             await Persistence.CreateList(products);
             var product = products[3];
-
+           
             var (response, outPut) = await apiClient.Get<CustomResponse<ProductModelOutPut>>($"{Configuration.URL_API_PRODUCT}{product.Id}");
 
             Assert.NotNull(response);
@@ -181,7 +249,7 @@ namespace MShop.EndToEndTest.API.Product
 
         [Fact(DisplayName = nameof(ListProduct))]
         [Trait("EndToEnd/API", "Product - Endpoints")]
-        public async void ListProduct()
+        public async Task ListProduct()
         {
             var products = await GetProducts(20);
             await Persistence.CreateList(products);
@@ -213,7 +281,7 @@ namespace MShop.EndToEndTest.API.Product
 
         [Fact(DisplayName = nameof(ListProductWhenItemsEmptyDefault))]
         [Trait("EndToEnd/API", "Product - Endpoints")]
-        public async void ListProductWhenItemsEmptyDefault()
+        public async Task ListProductWhenItemsEmptyDefault()
         {
             var (response, outPut) = await apiClient.Get<CustomResponsePaginated<ProductModelOutPut>>($"{Configuration.URL_API_PRODUCT}list-products/");
 
@@ -232,7 +300,7 @@ namespace MShop.EndToEndTest.API.Product
         [InlineData(10, 1, 10, 10)]
         [InlineData(17, 2, 10, 7)]
         [InlineData(17, 3, 10, 0)]
-        public async void ListProductWithPaginated(int quantityProduct, int page, int perPage, int expectedQuantityItems)
+        public async Task ListProductWithPaginated(int quantityProduct, int page, int perPage, int expectedQuantityItems)
         {
             await BuildCategory();
             var products = await GetProducts(quantityProduct);
@@ -259,6 +327,11 @@ namespace MShop.EndToEndTest.API.Product
                 Assert.Equal(expectItem.Price, item.Price);
                 //Assert.Equal(expectItem.Thumb.Path, item.Imagem);
             }
+        }
+
+        public void Dispose()
+        {
+            TearDownRabbitMQ();
         }
 
         /*

@@ -19,7 +19,7 @@ namespace MShop.Application.Event.Handler.Products
         {
             if (domainEvent.ProductId == Guid.Empty) return; 
             var product = await _productRepository.GetProductWithCategory(domainEvent.ProductId);
-            if(product == null) return; 
+            if(product == null) return;
             domainEvent.SetProduct(product);
             await _messageProducer.SendMessageAsync(domainEvent);
         }

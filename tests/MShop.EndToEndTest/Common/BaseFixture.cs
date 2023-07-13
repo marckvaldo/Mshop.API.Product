@@ -20,7 +20,7 @@ namespace MShop.EndToEndTest.Common
         protected HttpClient httpClient;
         private readonly string _connectionString;
         private readonly IConfiguration _configuration;
-        private string _nameFila = "history.v1.product";
+        private string _nameQueue = "history.v1.product";
         private  string _routeKey = "product.#";
 
         protected BaseFixture()
@@ -111,8 +111,8 @@ namespace MShop.EndToEndTest.Common
             var exchager = webApp.RabbitMQConfiguration.Exchange;
 
             channel.ExchangeDeclare(exchager, "topic",true,true,null);
-            channel.QueueDeclare(_nameFila,true,true,true,null);
-            channel.QueueBind(_nameFila, exchager, _routeKey, null);
+            channel.QueueDeclare(_nameQueue, true,true,true,null);
+            channel.QueueBind(_nameQueue, exchager, _routeKey, null);
         }
 
         protected void TearDownRabbitMQ()
@@ -120,18 +120,20 @@ namespace MShop.EndToEndTest.Common
             var channel = webApp.RabbitMQChannel!;
             var exchager = webApp.RabbitMQConfiguration.Exchange;
 
-            channel.QueueUnbind(_nameFila, exchager, _routeKey, null);
-            channel.QueueDelete(_nameFila, false, false);
+            channel.QueueUnbind(_nameQueue, exchager, _routeKey, null);
+            channel.QueueDelete(_nameQueue, false, false);
             channel.ExchangeDelete(exchager, false);
         }
 
         public (TEvent?, uint) ReadMessageFromRabbitMQ<TEvent>() where TEvent : DomainEvent
         {
             //isso apenas para teste por que ele ler apenas um messagem por vez.
-            var consumingResult = webApp.RabbitMQChannel!.BasicGet(_nameFila, true);
+            var consumingResult = webApp.RabbitMQChannel!.BasicGet(_nameQueue, true);
+            
+            if (consumingResult is null) return (null,0);
+
             var rawMessage = consumingResult.Body.ToArray();
             var stringMessage = Encoding.UTF8.GetString(rawMessage);
-            
             var @event = JsonSerializer.Deserialize<TEvent>(stringMessage);
 
             return (@event, consumingResult.MessageCount);
