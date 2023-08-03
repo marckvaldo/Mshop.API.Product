@@ -3,8 +3,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using MShop.Business.Events.Products;
 using MShop.Business.SeedWork;
+using MShop.Messaging.Configuration;
 using MShop.Repository.Context;
 using System.Text;
 using System.Text.Json;
@@ -21,7 +23,8 @@ namespace MShop.EndToEndTest.Common
         private readonly string _connectionString;
         private readonly IConfiguration _configuration;
         private string _nameQueue = "history.v1.product";
-        private  string _routeKey = "product.#";
+        //private  string _routeKey = "product.#";
+        private ServiceRabbitMQ _setupRabbitMQ;
 
         protected BaseFixture()
         {
@@ -108,27 +111,36 @@ namespace MShop.EndToEndTest.Common
         protected void SetupRabbitMQ()
         {
             var channel = webApp.RabbitMQChannel!;
-            var exchager = webApp.RabbitMQConfiguration.Exchange;
+            var options = webApp.RabbitMQConfiguration;
 
-            channel.ExchangeDeclare(exchager, "topic",true,true,null);
-            channel.QueueDeclare(_nameQueue, true,true,true,null);
-            channel.QueueBind(_nameQueue, exchager, _routeKey, null);
+            _setupRabbitMQ = new ServiceRabbitMQ(options, channel);
+            _setupRabbitMQ.SetUp();
+
+            //channel.ExchangeDeclare(exchager, "topic",true,false,null);
+            //channel.QueueDeclare(_nameQueue, false,true,true,null);
+            //channel.QueueBind(_nameQueue, exchager, _routeKey, null);
         }
 
         protected void TearDownRabbitMQ()
         {
-            var channel = webApp.RabbitMQChannel!;
-            var exchager = webApp.RabbitMQConfiguration.Exchange;
+            //var channel = webApp.RabbitMQChannel!;
+            //var options = webApp.RabbitMQConfiguration;
 
-            channel.QueueUnbind(_nameQueue, exchager, _routeKey, null);
+            _setupRabbitMQ.Down();
+
+            //_setupRabbitMQ = new SetupRabbitMQ(options, channel);
+
+            /*channel.QueueUnbind(_nameQueue, exchager, _routeKey, null);
             channel.QueueDelete(_nameQueue, false, false);
-            channel.ExchangeDelete(exchager, false);
+            channel.ExchangeDelete(exchager, false);*/
         }
 
         public (TEvent?, uint) ReadMessageFromRabbitMQ<TEvent>() where TEvent : DomainEvent
         {
+            var options = webApp.RabbitMQConfiguration;
+
             //isso apenas para teste por que ele ler apenas um messagem por vez.
-            var consumingResult = webApp.RabbitMQChannel!.BasicGet(_nameQueue, true);
+            var consumingResult = webApp.RabbitMQChannel!.BasicGet(options.Value.QueueProducts, true);
             
             if (consumingResult is null) return (null,0);
 

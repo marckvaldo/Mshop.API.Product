@@ -37,13 +37,19 @@ namespace MShop.ProductAPI.Configuration
                     Password = config.Password,
                     Port     = config.Port,
                     VirtualHost = config.Vhost
-
                 };
 
                 return factory.CreateConnection();
             });
 
             services.AddSingleton<ChannelManager>();
+
+            services.AddSingleton<ServiceRabbitMQ>(options =>
+            {
+                var channelManager = options.GetRequiredService<ChannelManager>();
+                var config = options.GetRequiredService<IOptions<RabbitMQConfiguration>>();
+                return new ServiceRabbitMQ(config, channelManager.GetChannel());
+            });
 
             services.AddScoped<IMessageProducer>(options =>
             {

@@ -15,5 +15,6 @@ namespace MShop.Messaging.Configuration
         public string Exchange { get; set; }   
         public int Port { get; set; }
         public string Vhost { get; set; }
+        public string QueueProducts { get; set; }   
     }
 }

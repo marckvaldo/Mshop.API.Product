@@ -70,7 +70,7 @@ namespace MShop.Repository.Repository
         }
         public void Dispose()
         {
-            _db?.Dispose();
+            //_db?.Dispose();
         }
 
 

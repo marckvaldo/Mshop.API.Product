@@ -13,7 +13,7 @@ namespace MShop.EndToEndTest.Common
     public class CustomWebApplicationFactory<TStartup> : WebApplicationFactory<TStartup> where TStartup : class
     {
         public IModel RabbitMQChannel { get; private set; }
-        public RabbitMQConfiguration RabbitMQConfiguration { get; private set; }
+        public IOptions<RabbitMQConfiguration> RabbitMQConfiguration { get; private set; }
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
 
@@ -60,8 +60,7 @@ namespace MShop.EndToEndTest.Common
 
                         RabbitMQConfiguration = scope
                         .ServiceProvider
-                        .GetService<IOptions<RabbitMQConfiguration>>()!
-                        .Value;   
+                        .GetService<IOptions<RabbitMQConfiguration>>()!;   
 
 
                         var context = scope.ServiceProvider.GetService<RepositoryDbContext>();

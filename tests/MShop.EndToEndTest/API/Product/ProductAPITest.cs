@@ -68,7 +68,7 @@ namespace MShop.EndToEndTest.API.Product
         [Trait("EndToEnd/API", "Product - Endpoints")]
         public async Task UpdateProduct()
         {
-            SetupRabbitMQ();
+            //SetupRabbitMQ();
             var request = await RequestUpdate();
             var product = await Faker();
             request.Id = product.Id;
@@ -116,7 +116,7 @@ namespace MShop.EndToEndTest.API.Product
         {
             var product = await Faker();
             Persistence.Create(product);
-            SetupRabbitMQ();
+            //SetupRabbitMQ();
 
             var (response, output) = await apiClient.Delete<CustomResponse<ProductModelOutPut>>($"{Configuration.URL_API_PRODUCT}{product.Id}");
 
@@ -149,7 +149,7 @@ namespace MShop.EndToEndTest.API.Product
             Persistence.Create(product);
             var productStock = await FakerImage();
             var stock = productStock.Stock;
-            SetupRabbitMQ();
+            //SetupRabbitMQ();
 
             var (response, outPut) = await apiClient.Post<CustomResponse<ProductModelOutPut>>($"{Configuration.URL_API_PRODUCT}update-stock/{product.Id}",new {product.Id, stock });
 
@@ -331,7 +331,7 @@ namespace MShop.EndToEndTest.API.Product
 
         public void Dispose()
         {
-            TearDownRabbitMQ();
+            //TearDownRabbitMQ();
         }
 
         /*

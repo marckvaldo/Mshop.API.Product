@@ -11,20 +11,21 @@ namespace MShop.Messaging.Producer
     {
         private readonly IModel _channel;
         private readonly string _exchenge;
-        private readonly string _nameQueue = "history.V1.product";
-        private readonly string _routeKey = "product.#";
+        //private readonly string _nameQueue;
+        //private readonly string _routeKey = "product.#";
 
         public RabbitMQProducer(IModel channel, IOptions<RabbitMQConfiguration> options)
         {
             _channel = channel;
             _exchenge = options.Value.Exchange;
+            //_nameQueue = options.Value.QueueProducts;
 
             //informar que deseja uma confirmacao
             _channel.ConfirmSelect();
 
-            _channel.ExchangeDeclare(_exchenge, "topic", true, false, null);
-            _channel.QueueDeclare(_nameQueue, true, false, false);
-            _channel.QueueBind(_nameQueue, _exchenge, _routeKey, null);
+            //_channel.ExchangeDeclare(_exchenge, "topic", true, false, null);
+            //_channel.QueueDeclare(_nameQueue, true, false, false);
+            //_channel.QueueBind(_nameQueue, _exchenge, _routeKey, null);
         }
 
         public Task SendMessageAsync<T>(T message)
@@ -35,12 +36,11 @@ namespace MShop.Messaging.Producer
                     ReferenceHandler = ReferenceHandler.IgnoreCycles
                 });
 
-            
-
             _channel.BasicPublish(
                 exchange: _exchenge,
                 routingKey: routingKey,
                 body: messageBytes);
+
             //informa que o sistema espera uma confirmação.
             _channel.WaitForConfirmsOrDie();
             return Task.CompletedTask;
