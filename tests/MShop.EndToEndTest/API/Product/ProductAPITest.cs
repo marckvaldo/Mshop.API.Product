@@ -68,7 +68,7 @@ namespace MShop.EndToEndTest.API.Product
         [Trait("EndToEnd/API", "Product - Endpoints")]
         public async Task UpdateProduct()
         {
-            //SetupRabbitMQ();
+            SetupRabbitMQ();
             var request = await RequestUpdate();
             var product = await Faker();
             request.Id = product.Id;
