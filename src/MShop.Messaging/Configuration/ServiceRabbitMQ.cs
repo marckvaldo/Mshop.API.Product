@@ -16,7 +16,7 @@ namespace MShop.Messaging.Configuration
 
         private readonly string _exchenge;
         private readonly string _nameQueue;
-        private readonly string _routeKey = "";
+        private readonly string _routeKey = "product.#";
 
         public ServiceRabbitMQ(IOptions<RabbitMQConfiguration> rabbitmqConfiguration, IModel channel)
         {
@@ -24,6 +24,7 @@ namespace MShop.Messaging.Configuration
             _channel = channel;
             _exchenge = _rabbitmqConfiguration.Value.Exchange;
             _nameQueue = _rabbitmqConfiguration.Value.QueueProducts;
+            //_routeKey = "";
         }
 
         public void SetUp()
