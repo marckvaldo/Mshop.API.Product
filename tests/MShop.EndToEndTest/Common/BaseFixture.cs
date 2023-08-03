@@ -115,24 +115,11 @@ namespace MShop.EndToEndTest.Common
 
             _setupRabbitMQ = new ServiceRabbitMQ(options, channel);
             _setupRabbitMQ.SetUp();
-
-            //channel.ExchangeDeclare(exchager, "topic",true,false,null);
-            //channel.QueueDeclare(_nameQueue, false,true,true,null);
-            //channel.QueueBind(_nameQueue, exchager, _routeKey, null);
         }
 
         protected void TearDownRabbitMQ()
         {
-            //var channel = webApp.RabbitMQChannel!;
-            //var options = webApp.RabbitMQConfiguration;
-
             _setupRabbitMQ.Down();
-
-            //_setupRabbitMQ = new SetupRabbitMQ(options, channel);
-
-            /*channel.QueueUnbind(_nameQueue, exchager, _routeKey, null);
-            channel.QueueDelete(_nameQueue, false, false);
-            channel.ExchangeDelete(exchager, false);*/
         }
 
         public (TEvent?, uint) ReadMessageFromRabbitMQ<TEvent>() where TEvent : DomainEvent
