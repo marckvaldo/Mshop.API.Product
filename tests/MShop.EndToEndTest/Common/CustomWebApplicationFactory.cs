@@ -52,17 +52,18 @@ namespace MShop.EndToEndTest.Common
                     
                     using (var scope = servicesProvides.CreateScope())
                     {
-                        //colocar aqui o rabittMQ
+                        //aqui eu recupero as configurações o canal de conexão do RabbitMQ
                         RabbitMQChannel = scope
                         .ServiceProvider
                         .GetService<ChannelManager>()!
                         .GetChannel();
 
+                        //aqui eu recupero as configurações do RabbitMQ
                         RabbitMQConfiguration = scope
                         .ServiceProvider
-                        .GetService<IOptions<RabbitMQConfiguration>>()!;   
+                        .GetService<IOptions<RabbitMQConfiguration>>()!;
 
-
+                        //aqui eu recupero o context "Conexao" da classe injerada no na interface TStartup
                         var context = scope.ServiceProvider.GetService<RepositoryDbContext>();
                         ArgumentNullException.ThrowIfNull(context);
                         context.Database.EnsureDeleted();

@@ -44,11 +44,14 @@ namespace MShop.ProductAPI.Configuration
 
             services.AddSingleton<ChannelManager>();
 
+            //criar as queues 
             services.AddSingleton<ServiceRabbitMQ>(options =>
             {
                 var channelManager = options.GetRequiredService<ChannelManager>();
                 var config = options.GetRequiredService<IOptions<RabbitMQConfiguration>>();
-                return new ServiceRabbitMQ(config, channelManager.GetChannel());
+                var serviceRabbitMQ = new ServiceRabbitMQ(config, channelManager.GetChannel());
+                serviceRabbitMQ.SetUpWithDeadLetter();
+                return serviceRabbitMQ;
             });
 
             services.AddScoped<IMessageProducer>(options =>

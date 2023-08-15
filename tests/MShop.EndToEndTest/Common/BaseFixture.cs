@@ -114,7 +114,7 @@ namespace MShop.EndToEndTest.Common
             var options = webApp.RabbitMQConfiguration;
 
             _setupRabbitMQ = new ServiceRabbitMQ(options, channel);
-            _setupRabbitMQ.SetUp();
+            _setupRabbitMQ.SetUpWithDeadLetter();
         }
 
         protected void TearDownRabbitMQ()

@@ -45,7 +45,8 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.CreateProduct
             _categoryPersistence = new CategoryPersistence(_DbContext);
             _notification = new Notifications();
 
-            //aqui estou criar um provedor de serviço em tempo de execução
+            //dados faker
+            //aqui estou criando um provedor de serviço em tempo de execução
             //criar uma colleção de serviço
             var serviceCollection = new ServiceCollection();
             //adiciona o servico nativo de log

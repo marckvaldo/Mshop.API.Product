@@ -1,11 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Channels;
-using System.Threading.Tasks;
 
 namespace MShop.Messaging.Configuration
 {
@@ -27,10 +21,36 @@ namespace MShop.Messaging.Configuration
             //_routeKey = "";
         }
 
+
+        private Dictionary<string, object> DeadLertterQueue()
+        {
+            var exchengeDead = $"{_exchenge}.DeadLetter";
+            var queueDead = $"{_nameQueue}.DeadLetter";
+
+            _channel.ExchangeDeclare(exchengeDead!, "direct", true, false, null);
+            _channel.QueueDeclare(queueDead!, true, false, false);
+            _channel.QueueBind(queueDead!, exchengeDead!, "*", null);
+
+            return new Dictionary<string, object>
+            {
+                {"x-dead-letter-exchange",exchengeDead}
+            };
+
+        }
+
         public void SetUp()
         {
             _channel.ExchangeDeclare(_exchenge, "topic", true, false, null);
             _channel.QueueDeclare(_nameQueue, true, false, false);
+            _channel.QueueBind(_nameQueue, _exchenge, _routeKey, null);
+        }
+
+        public void SetUpWithDeadLetter()
+        {
+            var arguments = DeadLertterQueue();
+
+            _channel.ExchangeDeclare(_exchenge, "topic", true, false, null);
+            _channel.QueueDeclare(_nameQueue, true, false, false, arguments);
             _channel.QueueBind(_nameQueue, _exchenge, _routeKey, null);
         }
 
