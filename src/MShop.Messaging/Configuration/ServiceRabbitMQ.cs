@@ -27,9 +27,9 @@ namespace MShop.Messaging.Configuration
             var exchengeDead = $"{_exchenge}.DeadLetter";
             var queueDead = $"{_nameQueue}.DeadLetter";
 
-            _channel.ExchangeDeclare(exchengeDead!, "direct", true, false, null);
+            _channel.ExchangeDeclare(exchengeDead!, "topic", true, false, null);
             _channel.QueueDeclare(queueDead!, true, false, false);
-            _channel.QueueBind(queueDead!, exchengeDead!, "*", null);
+            _channel.QueueBind(queueDead!, exchengeDead!, _routeKey, null);
 
             return new Dictionary<string, object>
             {

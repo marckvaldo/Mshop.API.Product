@@ -122,7 +122,7 @@ namespace MShop.EndToEndTest.Common
             _setupRabbitMQ.Down();
         }
 
-        public (TEvent?, uint) ReadMessageFromRabbitMQ<TEvent>() where TEvent : DomainEvent
+        public (TEvent?, uint) ReadMessageFromRabbitMQAck<TEvent>() where TEvent : DomainEvent
         {
             var options = webApp.RabbitMQConfiguration;
 
@@ -136,7 +136,35 @@ namespace MShop.EndToEndTest.Common
             var @event = JsonSerializer.Deserialize<TEvent>(stringMessage);
 
             return (@event, consumingResult.MessageCount);
+        }
 
+        public void ReadMessageFromRabbitMQNack<TEvent>() where TEvent : DomainEvent
+        {
+            var options = webApp.RabbitMQConfiguration;
+
+            //isso apenas para teste por que ele ler apenas um messagem por vez.
+            var consumingResult = webApp.RabbitMQChannel!.BasicGet(options.Value.QueueProducts, false);
+
+            webApp.RabbitMQChannel!.BasicNack(consumingResult.DeliveryTag, false, false);
+                       
+        }
+
+        public (TEvent?, uint) ReadMessageFromRabbitMQDeadLetterQueue<TEvent>() where TEvent : DomainEvent
+        {
+            var options = webApp.RabbitMQConfiguration;
+
+            var QueueDeadLetter = $"{options.Value.QueueProducts}.DeadLetter";
+
+            //isso apenas para teste por que ele ler apenas um messagem por vez.
+            var consumingResult = webApp.RabbitMQChannel!.BasicGet(QueueDeadLetter, true);
+
+            if (consumingResult is null) return (null, 0);
+
+            var rawMessage = consumingResult.Body.ToArray();
+            var stringMessage = Encoding.UTF8.GetString(rawMessage);
+            var @event = JsonSerializer.Deserialize<TEvent>(stringMessage);
+
+            return (@event, consumingResult.MessageCount);
         }
     }
 }

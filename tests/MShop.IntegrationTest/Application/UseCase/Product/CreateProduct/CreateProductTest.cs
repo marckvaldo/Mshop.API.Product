@@ -1,19 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Moq;
 using MShop.Application.Event;
-using MShop.Business.Exception;
 using MShop.Business.Exceptions;
 using MShop.Business.Interface;
-using MShop.Business.Interface.Service;
 using MShop.Business.Service;
 using MShop.Business.Validation;
 using MShop.IntegrationTests.Application.UseCase.Category;
 using MShop.Repository.Context;
 using MShop.Repository.Repository;
 using MShop.Repository.UnitOfWork;
-using System.Data.SqlTypes;
 using ApplicationUseCase = MShop.Application.UseCases.Product.CreateProducts;
 
 namespace MShop.IntegrationTests.Application.UseCase.Product.CreateProduct
@@ -58,6 +53,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.CreateProduct
             _unitOfWork = new UnitOfWork(_DbContext, _domainEventPublisher, serviceProvider.GetRequiredService<ILogger<UnitOfWork>>());
 
         }
+
 
         [Fact(DisplayName = nameof(CreateProduct))]
         [Trait("Integration-Application", "Product Use Case")]
