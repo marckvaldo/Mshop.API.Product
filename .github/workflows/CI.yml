@@ -88,5 +88,5 @@ jobs:
         file: ./src/MShop.ProductAPI/Dockerfile
         push: true
         tags: |
-            ${{secrets.DOCKER_HUB_USER}}/${{env.IMAGE_NAME_DOCKER}}:${{env.BUILD_TAG}},
-            ${{secrets.DOCKER_HUB_USER}}/${{env.IMAGE_NAME_DOCKER}}:latest
+            marckvaldo/${{env.IMAGE_NAME_DOCKER}}:V-${{env.BUILD_TAG}},
+            marckvaldo/${{env.IMAGE_NAME_DOCKER}}:latest
