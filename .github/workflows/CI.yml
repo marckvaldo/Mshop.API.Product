@@ -15,7 +15,7 @@ env:
 
 jobs:
   tests:
-    name: Tests
+    name: run teste application
     runs-on: ubuntu-latest
 
     permissions:
@@ -66,7 +66,8 @@ jobs:
 
     - name: Set BUILD_TAG
       run: |
-        echo BUILD_TAG=$( echo ${{ github.head_ref || github.ref_name  }} | sed "s,/,_,g")-${{ github.run_number }} >> $GITHUB_ENV
+         eecho BUILD_TAG=${{ github.run_number }} >> $GITHUB_ENV
+#        echo BUILD_TAG=$( echo ${{ github.head_ref || github.ref_name  }} | sed "s,/,_,g")-${{ github.run_number }} >> $GITHUB_ENV
     
     - name: Print BUILD_TAG defined
       run: |
