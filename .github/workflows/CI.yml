@@ -84,7 +84,7 @@ jobs:
     - name: Build and Pusblish Docker Images
       uses: docker/build-push-action@v4.1.1
       with:
-        context: ./scr
+        context: .
         file: ./src/MShop.ProductAPI/Dockerfile
         push: true
         tags: |
