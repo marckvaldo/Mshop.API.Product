@@ -59,8 +59,8 @@ namespace MShop.EndToEndTest.API.Product
             Assert.Equal(@event.IsSale, dbProduct.IsSale);
             Assert.Equal(@event.Stock, dbProduct.Stock);
             Assert.NotEqual(@event.OccuredOn, default);
+            TearDownRabbitMQ();
 
-            
         }
 
 
@@ -106,7 +106,7 @@ namespace MShop.EndToEndTest.API.Product
             Assert.Equal(@event.IsSale, dbProduct.IsSale);
             Assert.Equal(@event.Stock, dbProduct.Stock);
             Assert.NotEqual(@event.OccuredOn, default);
-
+            TearDownRabbitMQ();
 
         }
 
@@ -153,7 +153,7 @@ namespace MShop.EndToEndTest.API.Product
             Assert.Equal(@event.IsSale, persistence.IsSale);
             Assert.Equal(@event.Stock, persistence.Stock);
             Assert.NotEqual(@event.OccuredOn, default);
-
+            TearDownRabbitMQ();
         }
 
 
@@ -204,7 +204,7 @@ namespace MShop.EndToEndTest.API.Product
             Assert.Equal(@event.IsSale, persistence.IsSale);
             Assert.Equal(@event.Stock, persistence.Stock);
             Assert.NotEqual(@event.OccuredOn, default);
-
+            TearDownRabbitMQ();
         }
 
 
@@ -233,7 +233,7 @@ namespace MShop.EndToEndTest.API.Product
             var (@event, reamainingMessages) = ReadMessageFromRabbitMQAck<ProductRemovedEvent>();
             Assert.Equal(0,(int)reamainingMessages);
             Assert.Equal(@event.ProductId, output.Data.Id);
-
+            TearDownRabbitMQ();
         }
 
 
@@ -266,6 +266,7 @@ namespace MShop.EndToEndTest.API.Product
             Thread.Sleep(1000);
             Assert.Equal(0, (int)reamainingMessages);
             Assert.Equal(@event.ProductId, output.Data.Id);
+            TearDownRabbitMQ();
         }
 
 
@@ -277,7 +278,7 @@ namespace MShop.EndToEndTest.API.Product
             Persistence.Create(product);
             var productStock = await FakerImage();
             var stock = productStock.Stock;
-            //SetupRabbitMQ();
+            SetupRabbitMQ();
 
             var (response, outPut) = await apiClient.Post<CustomResponse<ProductModelOutPut>>($"{Configuration.URL_API_PRODUCT}update-stock/{product.Id}",new {product.Id, stock });
 
@@ -306,8 +307,8 @@ namespace MShop.EndToEndTest.API.Product
             Assert.Equal(@event.IsSale, productDb.IsSale);
             Assert.Equal(@event.Stock, productDb.Stock);
             Assert.NotEqual(@event.OccuredOn, default);
+            TearDownRabbitMQ();
 
-            
         }
 
 
@@ -330,6 +331,7 @@ namespace MShop.EndToEndTest.API.Product
 
             var (@event, reamainingMessages) = ReadMessageFromRabbitMQAck<ProductCreatedEvent>();
             Assert.Null(@event);
+            TearDownRabbitMQ();
         }
 
 
@@ -352,8 +354,7 @@ namespace MShop.EndToEndTest.API.Product
 
             var (@event, reamainingMessages) = ReadMessageFromRabbitMQAck<ProductCreatedEvent>();
             Assert.Null(@event);
-
-           
+            TearDownRabbitMQ();
         }
 
 

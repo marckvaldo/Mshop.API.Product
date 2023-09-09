@@ -62,5 +62,14 @@ namespace MShop.Messaging.Configuration
             _channel.ExchangeDelete(_exchenge, false);
         }
 
+        public void DownDeadLetter()
+        {
+            var exchengeDead = $"{_exchenge}.DeadLetter";
+            var queueDead = $"{_nameQueue}.DeadLetter";
+
+            _channel.QueueUnbind(queueDead, exchengeDead, _routeKey, null);
+            _channel.QueueDelete(queueDead, false, false);
+            _channel.ExchangeDelete(exchengeDead, false);
+        }
     }
 }

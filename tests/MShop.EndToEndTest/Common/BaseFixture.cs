@@ -120,6 +120,7 @@ namespace MShop.EndToEndTest.Common
         protected void TearDownRabbitMQ()
         {
             _setupRabbitMQ.Down();
+            _setupRabbitMQ.DownDeadLetter();
         }
 
         public (TEvent?, uint) ReadMessageFromRabbitMQAck<TEvent>() where TEvent : DomainEvent
