@@ -16,5 +16,6 @@ namespace MShop.Messaging.Configuration
         public int Port { get; set; }
         public string Vhost { get; set; }
         public string QueueProducts { get; set; }   
+        public bool Durable { get; set; }
     }
 }
