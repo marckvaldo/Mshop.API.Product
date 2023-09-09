@@ -63,11 +63,8 @@ app.UseDocumentation();
 }*/
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();
 
 //isso foi implementado para que o projeto de teste end2end possa enchergar essa classe

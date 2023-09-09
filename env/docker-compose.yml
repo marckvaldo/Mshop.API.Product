@@ -1,6 +1,18 @@
 version: "3.4"
 
 services:
+  app:
+    container_name: adm_videos_app
+    image: marckvaldo/mshop.api.product:latest
+    ports:
+      - 5000:80
+    environment:
+      - ASPNETCORE_URLS=http://+:80
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - MShop.catalago.dev
+      - Mshop.Rabbitmq.dev
+
   MShop.catalago.dev:
     container_name: catalagoDb-dev
     hostname: catalagoDb-dev
