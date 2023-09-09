@@ -14,79 +14,79 @@ env:
   IMAGE_NAME_DOCKER: mshop.api.product
 
 jobs:
-#  tests:
-#    name: run teste application
-#    runs-on: ubuntu-latest
+  tests:
+    name: run teste application
+    runs-on: ubuntu-latest
 
-#    permissions:
-#       id-token: write
-#       contents: read
-#       checks: write
+    permissions:
+       id-token: write
+       contents: read
+       checks: write
 
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: setup .net
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+
+    - name: Start containers
+      run: docker-compose -f "tests/env/docker-compose.yml" up -d --build
+        
+    - name: Restore dependencies
+      run: dotnet restore
+      
+    - name: Build
+      run: dotnet build --no-restore
+      
+    - name: Test
+      run: dotnet test --no-build --verbosity normal --logger "trx;LogFileName=test-results.trx"
+
+    - name: Test Report
+      uses: dorny/test-reporter@v1
+      if: always()
+      with:
+        name: Report Tests
+        path: "**/test-results.trx"
+        reporter: dotnet-trx
+        fail-on-error: true
+
+#  build:
+#    name: Build and Publish Docker images
+#    runs-on: ubuntu-latest 
+    #needs: tests
 #    steps:
 #    - uses: actions/checkout@v3
-    
+  
 #    - name: Setup .NET
 #      uses: actions/setup-dotnet@v3
 #      with:
 #        dotnet-version: 6.0.x
 
-#    - name: Start containers
-#      run: docker-compose -f "tests/env/docker-compose.yml" up -d --build
-        
-#    - name: Restore dependencies
-#      run: dotnet restore
-      
-#    - name: Build
-#      run: dotnet build --no-restore
-      
-#    - name: Test
-#      run: dotnet test --no-build --verbosity normal --logger "trx;LogFileName=test-results.trx"
-
-#    - name: Test Report
-#      uses: dorny/test-reporter@v1
-#      if: always()
-#      with:
-#        name: Report Tests
-#        path: "**/test-results.trx"
-#        reporter: dotnet-trx
-#        fail-on-error: true
-
-  build:
-    name: Build and Publish Docker images
-    runs-on: ubuntu-latest 
-    #needs: tests
-    steps:
-    - uses: actions/checkout@v3
-  
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: 6.0.x
-
-    - name: Set BUILD_TAG
-      run: |
-         echo BUILD_TAG=${{ github.run_number }} >> $GITHUB_ENV
+#    - name: Set BUILD_TAG
+#      run: |
+#         echo BUILD_TAG=${{ github.run_number }} >> $GITHUB_ENV
 #        echo BUILD_TAG=$( echo ${{ github.head_ref || github.ref_name  }} | sed "s,/,_,g")-${{ github.run_number }} >> $GITHUB_ENV
     
-    - name: Print BUILD_TAG defined
-      run: |
-        echo "Branch -----> ${{ github.head_ref || github.ref_name }}"
-        echo "Run number -> ${{ github.run_number }}"
-        echo "Tag --------> ${{ env.BUILD_TAG }}"
+#    - name: Print BUILD_TAG defined
+#      run: |
+#        echo "Branch -----> ${{ github.head_ref || github.ref_name }}"
+#        echo "Run number -> ${{ github.run_number }}"
+#        echo "Tag --------> ${{ env.BUILD_TAG }}"
 
-    - name: Log in to DockerHub
-      uses: docker/login-action@v2
-      with:
-        username: ${{ secrets.DOCKER_HUB_USER }}
-        password: ${{ secrets.DOCKER_HUB_TOKEN }}
+#    - name: Log in to DockerHub
+#      uses: docker/login-action@v2
+#      with:
+#        username: ${{ secrets.DOCKER_HUB_USER }}
+#        password: ${{ secrets.DOCKER_HUB_TOKEN }}
 
-    - name: Build and Pusblish Docker Images
-      uses: docker/build-push-action@v4.1.1
-      with:
-        context: .
-        file: ./src/MShop.ProductAPI/Dockerfile
-        push: true
-        tags: |
-            marckvaldo/${{env.IMAGE_NAME_DOCKER}}:V-${{env.BUILD_TAG}},
-            marckvaldo/${{env.IMAGE_NAME_DOCKER}}:latest
+#    - name: Build and Pusblish Docker Images
+#      uses: docker/build-push-action@v4.1.1
+#      with:
+#        context: .
+#        file: ./src/MShop.ProductAPI/Dockerfile
+#        push: true
+#        tags: |
+#            marckvaldo/${{env.IMAGE_NAME_DOCKER}}:V-${{env.BUILD_TAG}},
+#            marckvaldo/${{env.IMAGE_NAME_DOCKER}}:latest
