@@ -25,8 +25,7 @@ namespace MShop.Business.Entity
 
         public FileImage? Thumb { get; private set; }
 
-        public bool IsSale { get; private set; }
-
+        public bool IsSale { get; private set; }       
 
         public Product(string description, string name, decimal price, Guid categoryId, decimal stock = 0, bool isActive = false) : base()
         {

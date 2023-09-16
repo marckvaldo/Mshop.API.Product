@@ -18,8 +18,10 @@ namespace MShop.EndToEndTest.Common
         {
 
             //aqui vai ler os dados de appsettings.EndToEndTest.json
-
-            builder.UseEnvironment("EndToEndTest");
+            var enviroment = "EndToEndTest";
+            //aqui estou setando a veriavel de ambiente ASPNETCORE_ENVIRONMENT para EndToEndTest isso reflete no ConfigurationMysql
+            Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", enviroment);
+            builder.UseEnvironment(enviroment);
             builder.ConfigureServices(Services =>
             {
 

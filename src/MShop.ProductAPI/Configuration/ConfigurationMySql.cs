@@ -14,5 +14,19 @@ namespace MShop.ProductAPI.Configuration
 
             return services;
         }
+
+
+        //aqui analisa as migrations no projeto repository e executa as mesmas no banco de dados apenas isso.
+        //aqui não cria migrations isso fica a cargo do desenvolvedor.
+        public static WebApplication AddMigrateDatabase(this WebApplication app)
+        {
+            var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+            if (environment == "EndToEndTest") return app;
+
+            using var scope = app.Services.CreateScope();
+            var dbContext = scope.ServiceProvider.GetRequiredService<RepositoryDbContext>();
+            dbContext.Database.Migrate();
+            return app;
+        }
     }
 }

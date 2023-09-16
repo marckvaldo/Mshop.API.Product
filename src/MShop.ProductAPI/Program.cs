@@ -53,6 +53,7 @@ builder.Services.AddAndConfigureController()
 
 
 var app = builder.Build();
+app.AddMigrateDatabase();
 app.UseDocumentation();
 
 // Configure the HTTP request pipeline.
