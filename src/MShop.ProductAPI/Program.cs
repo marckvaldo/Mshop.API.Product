@@ -51,7 +51,6 @@ builder.Services.AddAndConfigureController()
     .AddConfigurationStorage()
     .AddConfigurationRedis(builder.Configuration);
 
-
 var app = builder.Build();
 //app.AddMigrateDatabase();
 app.UseDocumentation();

@@ -15,7 +15,6 @@ namespace MShop.ProductAPI.Configuration
             return services;
         }
 
-
         //aqui analisa as migrations no projeto repository e executa as mesmas no banco de dados apenas isso.
         //aqui não cria migrations isso fica a cargo do desenvolvedor.
         public static WebApplication AddMigrateDatabase(this WebApplication app)
