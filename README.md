@@ -32,7 +32,7 @@ Antes de começar, você vai precisar ter instalado em sua máquina as seguintes
 [Git](https://git-scm.com)<br/>
 [Dot.net (6.0)](https://dotnet.microsoft.com/en-us/download/dotnet/6.0). <br/>
 [Mysql](https://www.mysql.com/downloads/).<br/>
-[Redis](https://redis.io/download/). (Recomendo fortmento caso você esteja no windows executar no docker)<br/>
+[RabbitMQ](https://www.rabbitmq.com/download.html). (Recomendo fortmento caso você esteja no windows executar no docker)<br/>
 
 Além disso é bom ter um editor de código para trabalhar como [VSCode](https://code.visualstudio.com/)
 ou se prefeir uma IDE, o velhor e bom [Visual Estudio 2022](https://visualstudio.microsoft.com/pt-br/downloads/).
@@ -66,7 +66,7 @@ As seguintes ferramentas foram usadas na construção do projeto:
 
 - [ASP.net](https://dotnet.microsoft.com/en-us/apps/aspnet)
 - [Mysql](https://www.mysql.com/)
-- [Redis](https://redis.io/)
+- [RabbitMQ](https://www.rabbitmq.com/)
 - [Docker](https://www.docker.com/)
 
 
