@@ -90,8 +90,9 @@ namespace MShop.EndToEndTest.API.Product
             Assert.Equal(dbProduct.IsActive, request.IsActive);
 
 
-            Thread.Sleep(1000);
+            Thread.Sleep(2000);
             ReadMessageFromRabbitMQNack<ProductCreatedEvent>();
+            Thread.Sleep(2000);
             var (@event, reamainingMessages) = ReadMessageFromRabbitMQDeadLetterQueue<ProductCreatedEvent>();
 
             Assert.Equal(0, ((int)reamainingMessages));
@@ -107,7 +108,7 @@ namespace MShop.EndToEndTest.API.Product
             Assert.Equal(@event.Stock, dbProduct.Stock);
             Assert.NotEqual(@event.OccuredOn, default);
             TearDownRabbitMQ();
-
+            Thread.Sleep(2000);
         }
 
 
