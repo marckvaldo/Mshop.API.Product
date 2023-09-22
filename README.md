@@ -41,25 +41,21 @@ ou se prefeir uma IDE, o velhor e bom [Visual Estudio 2022](https://visualstudio
 
 ```bash
 # Clone este repositório
-$ git clone <https://github.com/marckvaldo/Mshop.API.Product>
+$ git clone https://github.com/marckvaldo/Mshop.API.Product MShop
 
 # Acesse a pasta do projeto no terminal/cmd
-$ cd Mshop.API.Product/env
+$ cd MShop/env
 
 # levante os docker 
 $ docker-compose up -d
 
-# executar as migrations 
-$ cd Mshop.API.Product/src/MShop.Repository
-dotnet ef --startup-project ../MShop.ProductAPI/ database update
-
-# O serviço inciará na porta:5000 - acesse <http://localhost:5000>
-# pronto tempos a API funcionando.
+# O serviço inciará na porta:5000 - acesse <http://localhost:5000/swagger/index.html>
+# pronto temos a API funcionando.
 ```
 ### 🚀 Algumas imagens
 
 #### API
-<img src="https://github.com/marckvaldo/Mshop.API.Product/blob/main/blob/Images.jpg">
+<img src="https://github.com/marckvaldo/Mshop.API.Product/images/Images.jpg">
 
 ### 🛠 Configuração
 Todas as configurações do projeto estão em Mshop.API.Product\src\MShop.ProductAPI\appsettings.Development.json
