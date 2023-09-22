@@ -3,7 +3,7 @@ version: "3.4"
 services:
   app:
     container_name: adm_videos_app
-    image: marckvaldo/mshop.api.product:latest
+    image: marckvaldo/mshop.api.product:V-30
     #image: ""
     #restart: unless-stopped
     ports:
@@ -14,6 +14,8 @@ services:
     depends_on:
       - MShop.catalago.dev
       - Mshop.Rabbitmq.dev
+    networks:
+      - app-catalago
 
   MShop.catalago.dev:
     container_name: catalagoDb-dev

@@ -52,7 +52,7 @@ builder.Services.AddAndConfigureController()
     .AddConfigurationRedis(builder.Configuration);
 
 var app = builder.Build();
-//app.AddMigrateDatabase();
+app.AddMigrateDatabase();
 app.UseDocumentation();
 
 // Configure the HTTP request pipeline.
