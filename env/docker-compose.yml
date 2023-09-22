@@ -4,6 +4,7 @@ services:
   app:
     container_name: adm_videos_app
     image: marckvaldo/mshop.api.product:latest
+    #image: ""
     restart: unless-stopped
     ports:
       - 5000:80
