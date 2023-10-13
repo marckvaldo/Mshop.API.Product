@@ -23,7 +23,7 @@ namespace MShop.Application.UseCases.Category.ListCategorys
             _listCategory = new List<CategoryModelOutPut>();
         }
 
-        public async Task<ListCategoryOutPut> Handler(ListCategoryInPut request)
+        public async Task<ListCategoryOutPut> Handle(ListCategoryInPut request, CancellationToken cancellation)
         {
             var paginate = new PaginatedInPut(
                 request.Page, 

@@ -8,8 +8,15 @@ using System.Threading.Tasks;
 
 namespace MShop.Application.UseCases.Category.DeleteCategory
 {
-    public interface IDeleteCategory : IRequestHandler<DeleteCategoryInPut, CategoryModelOutPut>
+    public class DeleteCategoryInPut : IRequest<CategoryModelOutPut>
     {
-        Task<CategoryModelOutPut> Handle(DeleteCategoryInPut request, CancellationToken cancellationToken);
+        public DeleteCategoryInPut(Guid id)
+        {
+            Id = id;
+        }
+
+        public Guid Id { get; set; } 
+
+
     }
 }

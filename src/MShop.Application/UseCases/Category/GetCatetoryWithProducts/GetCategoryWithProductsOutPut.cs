@@ -1,5 +1,7 @@
-﻿using MShop.Application.UseCases.Category.GetCatetory;
+﻿using MediatR;
+using MShop.Application.UseCases.Category.GetCategory;
 using MShop.Application.UseCases.Product.Common;
+using MShop.Application.UseCases.Product.ListProducts;
 using MShop.Business.Exceptions;
 using MShop.Business.Interface;
 using MShop.Business.Interface.Repository;
@@ -10,6 +12,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Entity = MShop.Business.Entity;
 
 namespace MShop.Application.UseCases.GetCatetoryWithProducts.GetCatetory
 {
@@ -32,6 +35,15 @@ namespace MShop.Application.UseCases.GetCatetoryWithProducts.GetCatetory
         public bool IsActive { get; private set; }
 
         public List<ProductModelOutPut> Products { get; private set; }
+
+        public static GetCategoryWithProductsOutPut FromCategory(Entity.Category category, List<ProductModelOutPut> products)
+        {
+            return new GetCategoryWithProductsOutPut(
+                    category.Id,
+                    category.Name,
+                    category.IsActive,
+                    products);
+        }
 
 
     }

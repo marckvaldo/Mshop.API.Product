@@ -10,7 +10,7 @@ using MShop.Business.Validation;
 using MShop.Repository.Repository;
 using MShop.IntegrationTests.Application.UseCase.Category.Common;
 using Microsoft.EntityFrameworkCore;
-using ApplicationUseCase = MShop.Application.UseCases.Category.GetCatetory;
+using ApplicationUseCase = MShop.Application.UseCases.Category.GetCategory;
 using MShop.Business.Exception;
 using MShop.Business.Exceptions;
 
@@ -44,7 +44,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Category.GetCategory
 
             var guid = categoryFake.Id;
             var useCase = new ApplicationUseCase.GetCategory(_notification, _categoryRepository);
-            var outPut = await useCase.Handler(guid);
+            var outPut = await useCase.Handle(new ApplicationUseCase.GetCategoryInPut(guid), CancellationToken.None);
 
 
             Assert.False(_notification.HasErrors());
@@ -64,7 +64,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Category.GetCategory
 
 
             var useCase = new ApplicationUseCase.GetCategory(_notification,_categoryRepository);
-            var outPut = async () => await useCase.Handler(Guid.NewGuid());
+            var outPut = async () => await useCase.Handle(new ApplicationUseCase.GetCategoryInPut(Guid.NewGuid()), CancellationToken.None);
 
             var exception = await Assert.ThrowsAsync<ApplicationValidationException>(outPut);
             Assert.Equal("Error", exception.Message);

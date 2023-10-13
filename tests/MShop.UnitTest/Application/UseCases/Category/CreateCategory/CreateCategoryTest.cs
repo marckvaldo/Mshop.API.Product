@@ -30,7 +30,7 @@ namespace MShop.UnitTests.Application.UseCases.Category.CreateCategory
             var request = FakerRequest();
 
             var useCase = new useCase.CreateCategory(notification.Object, repository.Object,unitOfWork.Object);
-            var outPut = await useCase.Handler(request, CancellationToken.None);
+            var outPut = await useCase.Handle(request, CancellationToken.None);
 
             repository.Verify(r => r.Create(It.IsAny<BusinessEntity.Category>(), CancellationToken.None), Times.Once);
             notification.Verify(n => n.AddNotifications(It.IsAny<string>()), Times.Never);
@@ -56,7 +56,7 @@ namespace MShop.UnitTests.Application.UseCases.Category.CreateCategory
             var request = FakerRequest(name,true);
 
             var useCase = new useCase.CreateCategory(notification, repository.Object, unitOfWork.Object);
-            var action = async () => await useCase.Handler(request, CancellationToken.None);
+            var action = async () => await useCase.Handle(request, CancellationToken.None);
 
             var exception = Assert.ThrowsAsync<EntityValidationException>(action);
             repository.Verify(n => n.Create(It.IsAny<BusinessEntity.Category>(), CancellationToken.None), Times.Never);

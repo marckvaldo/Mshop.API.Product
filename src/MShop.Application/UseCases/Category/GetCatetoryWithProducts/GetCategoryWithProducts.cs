@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Conventions;
-using MShop.Application.UseCases.Category.GetCatetory;
+using MShop.Application.UseCases.Category.GetCategory;
+using MShop.Application.UseCases.Category.GetCatetoryWithProducts;
 using MShop.Application.UseCases.Product.Common;
 using MShop.Business.Exception;
 using MShop.Business.Exceptions;
@@ -19,9 +20,9 @@ namespace MShop.Application.UseCases.GetCatetoryWithProducts.GetCatetory
         private readonly ICategoryRepository _categoryRepository;
         public GetCategoryWithProducts(INotification notification, ICategoryRepository categoryRepository) : base(notification)
           => _categoryRepository = categoryRepository;
-        public async Task<GetCategoryWithProductsOutPut> Handler(Guid id)
+        public async Task<GetCategoryWithProductsOutPut> Handle(GetCategoryWithProductsInPut request, CancellationToken cancellationToken)
         {
-            var category = await  _categoryRepository.GetCategoryProducts(id);
+            var category = await  _categoryRepository.GetCategoryProducts(request.Id);
             NotifyExceptionIfNull(category, "não foi possivel localizar a categoria da base de dados!");
             category.IsValid(Notifications);
 
@@ -40,11 +41,13 @@ namespace MShop.Application.UseCases.GetCatetoryWithProducts.GetCatetory
                     ));
             }
 
-            return new GetCategoryWithProductsOutPut(
-                id, 
+            /*return new GetCategoryWithProductsOutPut(
+                request.Id, 
                 category.Name, 
                 category.IsActive,
-                listProdutos);
+                listProdutos);*/
+
+            return GetCategoryWithProductsOutPut.FromCategory(category, listProdutos);
         }
     }
 }

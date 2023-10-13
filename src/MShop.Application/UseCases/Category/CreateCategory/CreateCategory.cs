@@ -24,7 +24,7 @@ namespace MShop.Application.UseCases.Category.CreateCategory
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<CategoryModelOutPut> Handler(CreateCategoryInPut request, CancellationToken cancellationToken)
+        public async Task<CategoryModelOutPut> Handle(CreateCategoryInPut request, CancellationToken cancellationToken)
         {
             var category = new Business.Entity.Category(request.Name, request.IsActive);
 
@@ -32,7 +32,8 @@ namespace MShop.Application.UseCases.Category.CreateCategory
             await _categoryRepository.Create(category,cancellationToken);
             await _unitOfWork.CommitAsync(cancellationToken);
            
-            return new CategoryModelOutPut(category.Id, category.Name, category.IsActive);
+            //return new CategoryModelOutPut(category.Id, category.Name, category.IsActive);
+            return CategoryModelOutPut.FromCategory(category);
 
         }
     }

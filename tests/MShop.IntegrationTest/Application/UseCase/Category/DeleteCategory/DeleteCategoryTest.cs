@@ -71,7 +71,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Category.DeleteCategory
                 _notification,
                 _unitOfWork);
 
-            await useCase.Handler(category.Id, CancellationToken.None);
+            await useCase.Handle(new ApplicationUseCase.DeleteCategoryInPut(category.Id), CancellationToken.None);
 
             var categoryDB = await _categoryPersistence.GetCategory(category.Id);
 
@@ -100,7 +100,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Category.DeleteCategory
                 _notification, 
                 _unitOfWork);
 
-            var action = async () => await useCase.Handler(category.Id, CancellationToken.None);
+            var action = async () => await useCase.Handle(new ApplicationUseCase.DeleteCategoryInPut(category.Id), CancellationToken.None);
 
             var exception = Assert.ThrowsAsync<ApplicationValidationException>(action);
 

@@ -56,7 +56,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Category.ListCategory
                             dir: SearchOrder.Asc
                             );
 
-            var outPut = await useCase.Handler(request);
+            var outPut = await useCase.Handle(request, CancellationToken.None);
 
             Assert.NotNull(outPut);
             Assert.Equal(categoryFake.Count, outPut.Total);

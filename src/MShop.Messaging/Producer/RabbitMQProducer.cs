@@ -39,7 +39,11 @@ namespace MShop.Messaging.Producer
             _channel.BasicPublish(
                 exchange: _exchenge,
                 routingKey: routingKey,
-                body: messageBytes);
+                body: messageBytes,
+                mandatory: true); // aqui ele fica olhando se a messagem chegou na fila não apenas na exchenger
+
+            //aqui ele fica esperando por 5 segundos a respostas
+            //_channel.WaitForConfirms(new TimeSpan(0, 0, 5));
 
             //informa que o sistema espera uma confirmação.
             _channel.WaitForConfirmsOrDie();

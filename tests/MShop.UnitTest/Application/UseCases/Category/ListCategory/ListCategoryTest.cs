@@ -35,7 +35,7 @@ namespace MShop.UnitTests.Application.UseCases.Category.ListCategory
             repository.Setup(r => r.FilterPaginated(It.IsAny<PaginatedInPut>())).ReturnsAsync(result);
 
             var useCase = new ApplicationUseCases.ListCategory(repository.Object, notification.Object);
-            var outPut = await useCase.Handler(request);
+            var outPut = await useCase.Handle(request, CancellationToken.None);
 
             Assert.NotNull(outPut);
             Assert.NotNull(outPut.Itens);

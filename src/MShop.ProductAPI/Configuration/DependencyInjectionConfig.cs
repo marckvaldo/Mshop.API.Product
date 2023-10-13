@@ -1,9 +1,9 @@
-﻿using Mshop.Cache.RepositoryRedis;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Mshop.Cache.RepositoryRedis;
 using MShop.Application.Event;
-using MShop.Application.Event.Handler.Products;
 using MShop.Application.UseCases.Category.CreateCategory;
 using MShop.Application.UseCases.Category.DeleteCategory;
-using MShop.Application.UseCases.Category.GetCatetory;
+using MShop.Application.UseCases.Category.GetCategory;
 using MShop.Application.UseCases.Category.ListCategorys;
 using MShop.Application.UseCases.Category.UpdateCategory;
 using MShop.Application.UseCases.GetCatetoryWithProducts.GetCatetory;
@@ -20,7 +20,6 @@ using MShop.Application.UseCases.Product.ProductsPromotions;
 using MShop.Application.UseCases.Product.UpdateProduct;
 using MShop.Application.UseCases.Product.UpdateStockProduct;
 using MShop.Application.UseCases.Product.UpdateThumb;
-using MShop.Business.Events.Products;
 using MShop.Business.Interface;
 using MShop.Business.Interface.Cache;
 using MShop.Business.Interface.Event;
@@ -31,6 +30,7 @@ using MShop.Business.Validation;
 using MShop.Repository.Context;
 using MShop.Repository.Repository;
 using MShop.Repository.UnitOfWork;
+using System.Reflection;
 
 namespace MShop.ProductAPI.Configuration
 {
@@ -44,6 +44,7 @@ namespace MShop.ProductAPI.Configuration
             services.AddScoped<IDomainEventPublisher,DomainEventPublisher>();            
             services.AddScoped<IUnitOfWork,UnitOfWork>();
 
+
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IGetProduct, GetProduct>();
             services.AddScoped<ICreateProduct, CreateProduct>();
@@ -56,12 +57,21 @@ namespace MShop.ProductAPI.Configuration
 
 
             services.AddScoped<ICategoryRepository, CategoryRepository>();
-            services.AddScoped<IGetCategory, GetCategory>();
+
+            //services.AddMediatR(cfg=>cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+            //services.AddMediatR(Assembly.GetExecutingAssembly(), ServiceLifetime.Scoped);
+            //services.AddMediatR(Assembly.GetAssembly(typeof(MShop.Application.UseCases.Category.CreateCategory.CreateCategory)));
+            services.AddMediatR(x =>
+            {
+                x.RegisterServicesFromAssemblies(typeof(MShop.Application.UseCases.Category.CreateCategory.CreateCategory).Assembly);
+            });
+
+            /*services.AddScoped<IGetCategory, GetCategory>();
             services.AddScoped<ICreateCategory, CreateCategory>();
             services.AddScoped<IUpdateCategory, UpdateCategory>();
             services.AddScoped<IDeleteCategory, DeleteCategory>();
             services.AddScoped<IListCategory, ListCategory>();
-            services.AddScoped<IGetCategoryWithProducts, GetCategoryWithProducts>();
+            services.AddScoped<IGetCategoryWithProducts, GetCategoryWithProducts>();*/
 
             services.AddScoped<IImageRepository, ImagesRepository>();
             services.AddScoped<IListImage, ListImage>();
@@ -70,9 +80,12 @@ namespace MShop.ProductAPI.Configuration
             services.AddScoped<ICreateImage, CreateImage>();
 
 
+
             services.AddScoped<IStorageService, StorageService>();
             services.AddScoped<INotification, Notifications>();
             services.AddScoped<ICacheRepository, RedisRepository>();
+
+            //services.AddMediatR()
 
             return services;
         }

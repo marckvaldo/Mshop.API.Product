@@ -36,7 +36,7 @@ namespace MShop.UnitTests.Application.UseCases.Category.DeleteCategory
                 notification.Object,
                 unitOfWork.Object);
 
-            var outPut = await useCase.Handler(category.Id, CancellationToken.None);
+            var outPut = await useCase.Handle(new useCase.DeleteCategoryInPut(category.Id), CancellationToken.None);
 
             repository.Verify(r => r.GetById(It.IsAny<Guid>()), Times.Once);
             notification.Verify(n => n.AddNotifications(It.IsAny<string>()), Times.Never);
@@ -68,7 +68,7 @@ namespace MShop.UnitTests.Application.UseCases.Category.DeleteCategory
                 notification.Object,
                 unitOfWork.Object);
 
-            var action = async () => await useCase.Handler(category.Id, CancellationToken.None);
+            var action = async () => await useCase.Handle(new useCase.DeleteCategoryInPut(category.Id), CancellationToken.None);
 
             var exception = Assert.ThrowsAsync<ApplicationValidationException>(action);
             repository.Verify(n => n.DeleteById(It.IsAny<BusinessEntity.Category>(), CancellationToken.None), Times.Never);          
@@ -103,7 +103,7 @@ namespace MShop.UnitTests.Application.UseCases.Category.DeleteCategory
                 notification.Object, 
                 unitOfWork.Object);
 
-            var action = async () => await useCase.Handler(category.Id, CancellationToken.None);
+            var action = async () => await useCase.Handle(new useCase.DeleteCategoryInPut(category.Id), CancellationToken.None);
 
             var exception = Assert.ThrowsAsync<ApplicationValidationException>(action);
             repository.Verify(n => n.GetById(It.IsAny<Guid>()), Times.Once);

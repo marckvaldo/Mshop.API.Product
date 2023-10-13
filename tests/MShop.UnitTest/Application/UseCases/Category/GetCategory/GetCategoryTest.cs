@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ApplicationUseCase = MShop.Application.UseCases.Category.GetCatetory;
+using ApplicationUseCase = MShop.Application.UseCases.Category.GetCategory;
 using BusinessEntity = MShop.Business.Entity;
 using Bogus;
 using MShop.Business.Exception;
@@ -28,7 +28,7 @@ namespace MShop.UnitTests.Application.UseCases.Category.GetCategory
             repository.Setup(r => r.GetById(It.IsAny<Guid>())).ReturnsAsync(request);
 
             var useCase = new ApplicationUseCase.GetCategory(notification.Object,repository.Object);
-            var outPut =  await useCase.Handler(request.Id);
+            var outPut =  await useCase.Handle(new ApplicationUseCase.GetCategoryInPut(request.Id), CancellationToken.None);
 
             Assert.NotNull(outPut);
             Assert.Equal(outPut.Name, request.Name);
@@ -48,7 +48,7 @@ namespace MShop.UnitTests.Application.UseCases.Category.GetCategory
             repository.Setup(r => r.GetById(It.IsAny<Guid>())).ThrowsAsync(new NotFoundException(""));
 
             var useCase = new ApplicationUseCase.GetCategory(notification.Object, repository.Object);
-            var outPut = async () => await useCase.Handler(Guid.NewGuid());
+            var outPut = async () => await useCase.Handle(new ApplicationUseCase.GetCategoryInPut(Guid.NewGuid()), CancellationToken.None);
 
             var exception = Assert.ThrowsAsync<NotFoundException>(outPut);
 

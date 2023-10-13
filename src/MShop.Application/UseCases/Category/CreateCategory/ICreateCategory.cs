@@ -1,4 +1,5 @@
-﻿using MShop.Application.UseCases.Category.Common;
+﻿using MediatR;
+using MShop.Application.UseCases.Category.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace MShop.Application.UseCases.Category.CreateCategory
 {
-    public interface ICreateCategory
+    public interface ICreateCategory : IRequestHandler<CreateCategoryInPut, CategoryModelOutPut>
     {
-        Task<CategoryModelOutPut> Handler(CreateCategoryInPut request, CancellationToken cancellation);
+        Task<CategoryModelOutPut> Handle(CreateCategoryInPut request, CancellationToken cancellation);
     }
 }

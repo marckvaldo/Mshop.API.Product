@@ -66,7 +66,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Category.UpdateCategory
                 _categoryRepository, 
                 _notification,
                 _unitOfWork);
-            var outPut = await useCase.Handler(request, CancellationToken.None);
+            var outPut = await useCase.Handle(request, CancellationToken.None);
 
             var categoryDb = await _categoryPersistence.GetCategory(category.Id);
 

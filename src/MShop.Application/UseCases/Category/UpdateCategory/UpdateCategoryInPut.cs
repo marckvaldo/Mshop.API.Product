@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MediatR;
+using MShop.Application.UseCases.Category.Common;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -7,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MShop.Application.UseCases.Category.UpdateCategory
 {
-    public class UpdateCategoryInPut
+    public class UpdateCategoryInPut: IRequest<CategoryModelOutPut>
     {
         public Guid Id { get; set; } 
 

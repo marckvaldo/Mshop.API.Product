@@ -1,4 +1,5 @@
-﻿using MShop.Application.Common;
+﻿using MediatR;
+using MShop.Application.Common;
 using MShop.Application.UseCases.Category.Common;
 using MShop.Business.Paginated;
 using System;
@@ -10,8 +11,8 @@ using BussinesEntity = MShop.Business.Entity;
 
 namespace MShop.Application.UseCases.Category.ListCategorys
 {
-    public interface IListCategory
+    public interface IListCategory : IRequestHandler<ListCategoryInPut, ListCategoryOutPut>
     {
-        Task<ListCategoryOutPut> Handler(ListCategoryInPut request);
+        Task<ListCategoryOutPut> Handle(ListCategoryInPut request, CancellationToken cancellation);
     }
 }

@@ -27,7 +27,7 @@ namespace MShop.Application.UseCases.Category.UpdateCategory
         }
             
 
-        public async Task<CategoryModelOutPut> Handler(UpdateCategoryInPut request, CancellationToken cancellationToken)
+        public async Task<CategoryModelOutPut> Handle(UpdateCategoryInPut request, CancellationToken cancellationToken)
         {
             var category = await _categoryRepository.GetById(request.Id);
             NotifyExceptionIfNull(category, "não foi possivel localizar a categoria da base de dados!");
@@ -43,7 +43,8 @@ namespace MShop.Application.UseCases.Category.UpdateCategory
             await _categoryRepository.Update(category,cancellationToken);
             await _unitOfWork.CommitAsync(cancellationToken);
 
-            return new CategoryModelOutPut(category.Id, category.Name, category.IsActive);
+            //return new CategoryModelOutPut(category.Id, category.Name, category.IsActive);
+            return CategoryModelOutPut.FromCategory(category);
         }
     }
 }

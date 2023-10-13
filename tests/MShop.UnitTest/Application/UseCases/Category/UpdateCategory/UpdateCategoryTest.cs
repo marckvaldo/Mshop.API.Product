@@ -43,7 +43,7 @@ namespace MShop.UnitTests.Application.UseCases.Category.UpdateCategory
                 _notifications.Object,
                 _unitOfWork.Object);
 
-            var outPut = await useCase.Handler(request, CancellationToken.None);
+            var outPut = await useCase.Handle(request, CancellationToken.None);
 
 
             _repositoryCategory.Verify(r => r.Update(It.IsAny<BusinessEntity.Category>(), CancellationToken.None), Times.Once);
@@ -70,7 +70,7 @@ namespace MShop.UnitTests.Application.UseCases.Category.UpdateCategory
                 _notifications.Object,
                 _unitOfWork.Object);
 
-            var action = async () => await useCase.Handler(request, CancellationToken.None);
+            var action = async () => await useCase.Handle(request, CancellationToken.None);
 
             var exception = Assert.ThrowsAsync<NotFoundException>(action);
 

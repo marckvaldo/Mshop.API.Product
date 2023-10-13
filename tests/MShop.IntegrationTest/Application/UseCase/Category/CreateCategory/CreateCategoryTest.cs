@@ -60,7 +60,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Category.CreateCategory
                 _categoryRepository,
                 _unitOfWork);
 
-            var outPut = await useCase.Handler(request, CancellationToken.None);
+            var outPut = await useCase.Handle(request, CancellationToken.None);
 
             var categoryDB = await _categoryPersistence.GetCategory(outPut.Id);
 
@@ -86,7 +86,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Category.CreateCategory
                 _categoryRepository,
                 _unitOfWork);
 
-            var action = async () => await useCase.Handler(request, CancellationToken.None);
+            var action = async () => await useCase.Handle(request, CancellationToken.None);
 
             var exception = Assert.ThrowsAsync<EntityValidationException>(action);
 
