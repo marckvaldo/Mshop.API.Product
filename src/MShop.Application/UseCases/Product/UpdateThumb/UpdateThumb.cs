@@ -30,7 +30,7 @@ namespace MShop.Application.UseCases.Product.UpdateThumb
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<ProductModelOutPut> Handler(UpdateThumbInput request, CancellationToken cancellationToken)
+        public async Task<ProductModelOutPut> Handle(UpdateThumbInPut request, CancellationToken cancellationToken)
         {
             var product = await _productRepository.GetById(request.Id);
             NotifyExceptionIfNull(product, "Não foi possivel localizar o produto!");
@@ -58,7 +58,7 @@ namespace MShop.Application.UseCases.Product.UpdateThumb
 
         }
 
-        private async Task UploadImage(UpdateThumbInput request, Business.Entity.Product product)
+        private async Task UploadImage(UpdateThumbInPut request, Business.Entity.Product product)
         {
             if (string.IsNullOrEmpty(request.Thumb?.FileStremBase64.Trim()))
                 return;

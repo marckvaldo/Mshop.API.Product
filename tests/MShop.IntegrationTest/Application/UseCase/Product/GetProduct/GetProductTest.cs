@@ -44,7 +44,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.GetProduct
            
             var guid = productFake.Id;
             var useCase = new ApplicationUseCase.GetProduct(_repository,  _imagesRepository ,_notification);
-            var outPut = await useCase.Handler(guid);
+            var outPut = await useCase.Handle(new ApplicationUseCase.GetProductInPut(guid), CancellationToken.None);
 
 
             Assert.False(_notification.HasErrors());
@@ -71,7 +71,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.GetProduct
             await _DbContext.SaveChangesAsync();
 
             var useCase = new ApplicationUseCase.GetProduct(_repository, _imagesRepository, _notification);
-            var outPut = async () => await useCase.Handler(Guid.NewGuid());
+            var outPut = async () => await useCase.Handle(new ApplicationUseCase.GetProductInPut(Guid.NewGuid()), CancellationToken.None);
 
             var exception = await Assert.ThrowsAsync<ApplicationValidationException>(outPut);
             Assert.Equal("Error", exception.Message);

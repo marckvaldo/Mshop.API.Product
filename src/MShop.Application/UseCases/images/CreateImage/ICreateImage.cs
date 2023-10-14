@@ -1,14 +1,10 @@
-﻿using MShop.Application.UseCases.images.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MediatR;
+using MShop.Application.UseCases.Images.Common;
 
-namespace MShop.Application.UseCases.images.CreateImage
+namespace MShop.Application.UseCases.Images.CreateImage
 {
-    public interface ICreateImage
+    public interface ICreateImage : IRequestHandler<CreateImageInPut, ListImageOutPut>
     {
-        Task<ListImageOutPut> Handler(CreateImageInPut request, CancellationToken cancellation);
+        Task<ListImageOutPut> Handle(CreateImageInPut request, CancellationToken cancellation);
     }
 }

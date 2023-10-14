@@ -1,14 +1,10 @@
-﻿using MShop.Application.UseCases.Product.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MediatR;
+using MShop.Application.UseCases.Product.Common;
 
 namespace MShop.Application.UseCases.Product.DeleteProduct
 {
-    public interface IDeleteProduct
+    public interface IDeleteProduct : IRequestHandler<DeleteProductInPut, ProductModelOutPut>
     {
-        public Task<ProductModelOutPut> Handler(Guid request, CancellationToken cancellationToken);
+        public Task<ProductModelOutPut> Handle(DeleteProductInPut request, CancellationToken cancellationToken);
     }
 }

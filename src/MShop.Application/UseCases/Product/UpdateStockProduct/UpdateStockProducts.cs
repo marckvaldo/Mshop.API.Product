@@ -25,7 +25,7 @@ namespace MShop.Application.UseCases.Product.UpdateStockProduct
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<ProductModelOutPut> Handler(UpdateStockProductInPut request, CancellationToken cancellationToken)
+        public async Task<ProductModelOutPut> Handle(UpdateStockProductInPut request, CancellationToken cancellationToken)
         {
             var product = await _productRepository.GetById(request.Id);
             NotifyExceptionIfNull(product, "Não foi possivel localizar a produto da base de dados!");

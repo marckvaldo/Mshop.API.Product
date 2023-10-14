@@ -37,7 +37,7 @@ namespace Mshop.Tests.Application.UseCases.Product.UpdateStockProduct
                 _notifications.Object,
                 _unitOfWork.Object);
 
-            var outPut = await useCase.Handler(request, CancellationToken.None);
+            var outPut = await useCase.Handle(request, CancellationToken.None);
 
             _productRepository.Verify(r => r.Update(It.IsAny<BusinessEntity.Product>(), CancellationToken.None), Times.Once);
             _notifications.Verify(n=>n.AddNotifications(It.IsAny<string>()),Times.Never);
@@ -63,7 +63,7 @@ namespace Mshop.Tests.Application.UseCases.Product.UpdateStockProduct
                 _notifications.Object,
                 _unitOfWork.Object);
 
-            var outPut = async () => await useCase.Handler(request, CancellationToken.None);
+            var outPut = async () => await useCase.Handle(request, CancellationToken.None);
 
             var excption = Assert.ThrowsAsync<NotFoundException>(outPut);
 

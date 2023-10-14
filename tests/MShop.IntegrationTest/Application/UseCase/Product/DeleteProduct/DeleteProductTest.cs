@@ -63,7 +63,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.DeleteProduct
                 _storageService,
                 _unitOfWork);
 
-            await useCase.Handler(product.Id, CancellationToken.None);
+            await useCase.Handle(new ApplicationUseCase.DeleteProductInPut(product.Id), CancellationToken.None);
             var productDbDelete = await _productPersistence.GetProduct(product.Id);
 
             Assert.Null(productDbDelete);

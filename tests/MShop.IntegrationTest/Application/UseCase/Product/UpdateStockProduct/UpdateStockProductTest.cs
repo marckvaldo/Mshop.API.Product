@@ -61,7 +61,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.UpdateStockProduct
             await _productPersistence.Create(product);
 
             var useCase = new ApplicationUseCase.UpdateStockProducts(_repository, _notification, _unitOfWork);
-            var outPut = await useCase.Handler(request, CancellationToken.None);
+            var outPut = await useCase.Handle(request, CancellationToken.None);
             var outPutDb = await _productPersistence.GetProduct(request.Id);
 
             Assert.NotNull(outPut);

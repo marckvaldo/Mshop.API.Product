@@ -39,7 +39,7 @@ namespace Mshop.Tests.Application.UseCases.Product.CreateProduct
                 storageService.Object,
                 unitOfWork.Object);
             
-            var outPut =  await productUseCase.Handler(request, CancellationToken.None);
+            var outPut =  await productUseCase.Handle(request, CancellationToken.None);
 
             repository.Verify(
                 repository => repository.Create(It.IsAny<BusinessEntity.Product>(),CancellationToken.None),
@@ -88,7 +88,7 @@ namespace Mshop.Tests.Application.UseCases.Product.CreateProduct
                 storageService.Object, 
                 unitOfWork.Object);
 
-            var action = async () => await productUseCase.Handler(request,CancellationToken.None);
+            var action = async () => await productUseCase.Handle(request,CancellationToken.None);
 
             var exception =  Assert.ThrowsAsync<EntityValidationException>(action);
 
@@ -127,7 +127,7 @@ namespace Mshop.Tests.Application.UseCases.Product.CreateProduct
                 storageService.Object,
                 unitOfWork.Object);
 
-            var action = async () => await productUseCase.Handler(request, CancellationToken.None);
+            var action = async () => await productUseCase.Handle(request, CancellationToken.None);
 
             var exception = Assert.ThrowsAsync<ApplicationException>(action);
 

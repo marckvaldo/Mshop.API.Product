@@ -1,5 +1,5 @@
 ﻿using MShop.Application.Common;
-using MShop.Application.UseCases.images.Common;
+using MShop.Application.UseCases.Images.Common;
 using MShop.Business.Entity;
 using MShop.Business.Exception;
 using MShop.Business.Interface;
@@ -8,7 +8,7 @@ using MShop.Business.Interface.Service;
 using MShop.Repository.Repository;
 
 
-namespace MShop.Application.UseCases.images.CreateImage
+namespace MShop.Application.UseCases.Images.CreateImage
 {
     public class CreateImage : BaseUseCase,  ICreateImage
     {
@@ -28,7 +28,7 @@ namespace MShop.Application.UseCases.images.CreateImage
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<ListImageOutPut> Handler(CreateImageInPut request, CancellationToken cancellationToken)
+        public async Task<ListImageOutPut> Handle(CreateImageInPut request, CancellationToken cancellationToken)
         {
             var hasProduct = await _productRepository.GetById(request.ProductId);            
             NotifyExceptionIfNull(hasProduct, "Não foi possivel localizar produtos informado");
@@ -54,12 +54,14 @@ namespace MShop.Application.UseCases.images.CreateImage
             }
 
             if (Images.Count == 0)
-                NotifyException("Não foi possível salvar as images");
+                NotifyException("Não foi possível salvar as Images");
            
             await _imageRepository.CreateRange(Images, cancellationToken);
             await _unitOfWork.CommitAsync(cancellationToken);
 
             return new ListImageOutPut(request.ProductId, Images.Select(x=> new ImageModelOutPut(x.FileName)).ToList());
         }
+
+        
     }
 }

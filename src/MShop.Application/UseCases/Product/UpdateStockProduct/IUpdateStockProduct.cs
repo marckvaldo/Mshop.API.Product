@@ -1,9 +1,10 @@
-﻿using MShop.Application.UseCases.Product.Common;
+﻿using MediatR;
+using MShop.Application.UseCases.Product.Common;
 
 namespace MShop.Application.UseCases.Product.UpdateStockProduct
 {
-    public interface IUpdateStockProduct
+    public interface IUpdateStockProduct : IRequestHandler<UpdateStockProductInPut, ProductModelOutPut>
     {
-        public Task<ProductModelOutPut> Handler(UpdateStockProductInPut request, CancellationToken cancellationToken);
+        public Task<ProductModelOutPut> Handle(UpdateStockProductInPut request, CancellationToken cancellationToken);
     }
 }

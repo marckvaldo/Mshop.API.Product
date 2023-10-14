@@ -57,7 +57,7 @@ namespace Mshop.Tests.Application.UseCases.Product.UpdateProduct
                 _storageService.Object,
                 _unitOfWork.Object);
 
-            var outPut = await useCase.Handler(request, CancellationToken.None);
+            var outPut = await useCase.Handle(request, CancellationToken.None);
 
 
             _productRepository.Verify(r => r.Update(It.IsAny<BusinessEntity.Product>(), CancellationToken.None),Times.Once);
@@ -91,7 +91,7 @@ namespace Mshop.Tests.Application.UseCases.Product.UpdateProduct
                 _storageService.Object,
                 _unitOfWork.Object);
 
-            var outPut = async () => await useCase.Handler(request, CancellationToken.None);
+            var outPut = async () => await useCase.Handle(request, CancellationToken.None);
 
             var exception = Assert.ThrowsAsync<NotFoundException>(outPut);
 
@@ -120,7 +120,7 @@ namespace Mshop.Tests.Application.UseCases.Product.UpdateProduct
                 _storageService.Object,
                 _unitOfWork.Object);
 
-            var outPut = async () => await useCase.Handler(request, CancellationToken.None);
+            var outPut = async () => await useCase.Handle(request, CancellationToken.None);
 
             var exception = Assert.ThrowsAsync<NotFoundException>(outPut);
 

@@ -1,4 +1,4 @@
-﻿using MShop.Application.UseCases.images.Common;
+﻿using MShop.Application.UseCases.Images.Common;
 using MShop.EndToEndTest.API.Common;
 using MShop.EndToEndTest.Common;
 
@@ -81,7 +81,7 @@ namespace MShop.EndToEndTest.API.Images
             await _imagePersistence.CreateList(images);
             var request = images.First();
 
-            var (response, outPut) = await apiClient.Get<CustomResponse<ListImageOutPut>>($"{Configuration.URL_API_IMAGE}list-images-by-id-production/{request.ProductId}");
+            var (response, outPut) = await apiClient.Get<CustomResponse<ListImageOutPut>>($"{Configuration.URL_API_IMAGE}list-Images-by-id-production/{request.ProductId}");
 
             Assert.NotNull(request);
             Assert.NotNull(images);

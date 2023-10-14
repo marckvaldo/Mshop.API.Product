@@ -51,7 +51,7 @@ namespace Mshop.Tests.Application.UseCases.Product.ListProducts
                 )).ReturnsAsync(outPutRepository);
 
 
-            var outPut = await useCase.Handler(request);
+            var outPut = await useCase.Handle(request, CancellationToken.None);
 
             Assert.NotNull(outPut);
             Assert.Equal(productsFake.Count, outPut.Total);

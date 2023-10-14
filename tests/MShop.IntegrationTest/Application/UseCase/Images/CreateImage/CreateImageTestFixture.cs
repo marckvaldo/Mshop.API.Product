@@ -1,5 +1,5 @@
 ﻿using MShop.Application.Common;
-using MShop.Application.UseCases.images.CreateImage;
+using MShop.Application.UseCases.Images.CreateImage;
 using MShop.IntegrationTests.Application.UseCase.Images.Commom;
 using MShop.IntegrationTests.Common;
 using System;

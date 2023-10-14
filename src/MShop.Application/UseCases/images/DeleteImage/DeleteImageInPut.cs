@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using MShop.Application.UseCases.Images.Common;
-using MShop.Application.UseCases.Images.DeleteImage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +8,13 @@ using System.Threading.Tasks;
 
 namespace MShop.Application.UseCases.Images.DeleteImage
 {
-    public interface IDeleteImage : IRequestHandler<DeleteImageInPut, ImageOutPut>
+    public class DeleteImageInPut : IRequest<ImageOutPut>
     {
-        Task<ImageOutPut> Handle(DeleteImageInPut request, CancellationToken cancellationToken);
+        public DeleteImageInPut(Guid id)
+        {
+            Id = id;
+        }
+
+        public Guid Id { get; set; }
     }
 }

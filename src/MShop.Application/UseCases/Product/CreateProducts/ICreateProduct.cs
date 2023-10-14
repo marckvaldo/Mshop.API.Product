@@ -1,9 +1,10 @@
-﻿using MShop.Application.UseCases.Product.Common;
+﻿using MediatR;
+using MShop.Application.UseCases.Product.Common;
 
 namespace MShop.Application.UseCases.Product.CreateProducts
 {
-    public interface ICreateProduct
+    public interface ICreateProduct : IRequestHandler<CreateProductInPut, ProductModelOutPut>
     {
-        public Task<ProductModelOutPut> Handler(CreateProductInPut categoryInput, CancellationToken cancellationToken);
+        public Task<ProductModelOutPut> Handle(CreateProductInPut categoryInput, CancellationToken cancellationToken);
     }
 }

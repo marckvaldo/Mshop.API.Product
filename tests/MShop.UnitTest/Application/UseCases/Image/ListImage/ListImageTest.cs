@@ -1,5 +1,5 @@
 ﻿using Moq;
-using MShop.Application.UseCases.images.GetImage;
+using MShop.Application.UseCases.Images.GetImage;
 using MShop.Business.Interface.Repository;
 using MShop.Business.Interface.Service;
 using MShop.Business.Interface;
@@ -10,12 +10,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using ApplicationUseCase = MShop.Application.UseCases.images.ListImage;
+using ApplicationUseCase = MShop.Application.UseCases.Images.ListImage;
 using BusinessEntity = MShop.Business.Entity;
-using MShop.Application.UseCases.images.ListImage;
+using MShop.Application.UseCases.Images.ListImage;
 using System.Linq.Expressions;
 using MShop.Business.Entity;
 using MShop.Business.Exception;
+using MShop.Application.UseCases.Images.ListImage;
 
 namespace MShop.UnitTests.Application.UseCases.Image.ListImage
 {
@@ -35,7 +36,7 @@ namespace MShop.UnitTests.Application.UseCases.Image.ListImage
             repository.Setup(r => r.Filter(It.IsAny<Expression<Func<BusinessEntity.Image, bool>>>())).ReturnsAsync(imagens);
 
             var useCase = new ApplicationUseCase.ListImage(notification.Object, repository.Object);
-            var outPut = await useCase.Handler(productId);
+            var outPut = await useCase.Handle( new ListImageInPut(productId), CancellationToken.None);
 
             repository.Verify(r => r.Filter(It.IsAny<Expression<Func<BusinessEntity.Image, bool>>>()), Times.Once);
             Assert.NotNull(outPut);
@@ -61,7 +62,7 @@ namespace MShop.UnitTests.Application.UseCases.Image.ListImage
             repository.Setup(r => r.Filter(It.IsAny<Expression<Func<BusinessEntity.Image, bool>>>())).ThrowsAsync(new NotFoundException(""));
 
             var useCase = new ApplicationUseCase.ListImage(notification.Object, repository.Object);
-            var outPut = async () => await useCase.Handler(Guid.NewGuid());
+            var outPut = async () => await useCase.Handle(new ListImageInPut(Guid.NewGuid()), CancellationToken.None);
 
             var exception = Assert.ThrowsAsync<NotFoundException>(outPut);
 

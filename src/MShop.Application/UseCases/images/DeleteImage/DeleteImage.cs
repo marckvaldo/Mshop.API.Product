@@ -1,5 +1,6 @@
-﻿using MShop.Application.UseCases.images.Common;
-using MShop.Application.UseCases.images.CreateImage;
+﻿using MShop.Application.UseCases.Images.Common;
+using MShop.Application.UseCases.Images.CreateImage;
+using MShop.Application.UseCases.Images.DeleteImage;
 using MShop.Business.Entity;
 using MShop.Business.Exception;
 using MShop.Business.Interface;
@@ -8,7 +9,7 @@ using MShop.Business.Interface.Service;
 using static System.Net.Mime.MediaTypeNames;
 
 
-namespace MShop.Application.UseCases.images.DeleteImage
+namespace MShop.Application.UseCases.Images.DeleteImage
 {
     public class DeleteImage : BaseUseCase, IDeleteImage
     {
@@ -25,9 +26,9 @@ namespace MShop.Application.UseCases.images.DeleteImage
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<ImageOutPut> Handler(Guid id, CancellationToken cancellationToken)
+        public async Task<ImageOutPut> Handle(DeleteImageInPut request, CancellationToken cancellationToken)
         {
-            var image = await _imageRepository.GetById(id);
+            var image = await _imageRepository.GetById(request.Id);
             NotifyExceptionIfNull(image, "Não foi possivel encontrar a Image");
 
             if(await _storageService.Delete(image!.FileName))
@@ -39,5 +40,6 @@ namespace MShop.Application.UseCases.images.DeleteImage
             return new ImageOutPut(image.ProductId, new ImageModelOutPut(image.FileName));
             
         }
+
     }
 }

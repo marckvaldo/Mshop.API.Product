@@ -12,6 +12,7 @@ using MShop.Business.Exception;
 using System.Linq.Expressions;
 using MShop.Business.Entity;
 using MShop.Business.Exceptions;
+using MShop.Application.UseCases.Category.GetCategory;
 
 namespace Mshop.Tests.Application.UseCases.Product.GetProduts
 {
@@ -33,7 +34,7 @@ namespace Mshop.Tests.Application.UseCases.Product.GetProduts
             repositoryImage.Setup(r => r.Filter(It.IsAny<Expression<Func<Image, bool>>>())).ReturnsAsync(imagesFaker);
 
             var useCase = new ApplicationUseCase.GetProduct(repository.Object, repositoryImage.Object, notification.Object) ;
-            var outPut = await useCase.Handler(guid);
+            var outPut = await useCase.Handle(new ApplicationUseCase.GetProductInPut(guid), CancellationToken.None);
 
             repository.Verify(r => r.GetProductWithCategory(It.IsAny<Guid>()), Times.Once);
             notification.Verify(r => r.AddNotifications(It.IsAny<string>()), Times.Never);
@@ -74,7 +75,7 @@ namespace Mshop.Tests.Application.UseCases.Product.GetProduts
             repositoryImage.Setup(r => r.Filter(It.IsAny<Expression<Func<Image, bool>>>())).ReturnsAsync(new List<Image>());
 
             var useCase = new ApplicationUseCase.GetProduct(repository.Object, repositoryImage.Object, notification.Object);
-            var outPut = await useCase.Handler(guid);
+            var outPut = await useCase.Handle(new ApplicationUseCase.GetProductInPut(guid), CancellationToken.None);
 
             repository.Verify(r => r.GetProductWithCategory(It.IsAny<Guid>()), Times.Once);
             notification.Verify(r => r.AddNotifications(It.IsAny<string>()), Times.Never);
@@ -102,7 +103,7 @@ namespace Mshop.Tests.Application.UseCases.Product.GetProduts
             repository.Setup(r => r.GetProductWithCategory(It.IsAny<Guid>()));//.ThrowsAsync(new NotFoundException(""));
 
             var caseUse = new ApplicationUseCase.GetProduct(repository.Object, repositoryImage.Object, notification.Object);
-            var outPut = async () => await caseUse.Handler(Guid.NewGuid());
+            var outPut = async () => await caseUse.Handle(new ApplicationUseCase.GetProductInPut(Guid.NewGuid()), CancellationToken.None);
 
             var exception = Assert.ThrowsAsync<ApplicationValidationException>(outPut);
 

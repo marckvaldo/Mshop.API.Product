@@ -28,9 +28,9 @@ namespace MShop.Application.UseCases.Product.GetProduct
             _imageRepository = imageRepository;
         }
 
-        public async Task<GetProductOutPut> Handler(Guid Id)
+        public async Task<GetProductOutPut> Handle(GetProductInPut request, CancellationToken cancellation)
         {
-            var product = await _productRepository.GetProductWithCategory(Id);            
+            var product = await _productRepository.GetProductWithCategory(request.Id);            
             NotifyExceptionIfNull(product, "Não foi possivel localizar a produto da base de dados!");
 
             var images = await _imageRepository.Filter(x => x.ProductId == product.Id);

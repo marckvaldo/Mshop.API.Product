@@ -75,7 +75,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.UpdateProduct
                 _storageService,
                 _unitOfWork);
 
-            var outPut = await useCase.Handler(request, CancellationToken.None);
+            var outPut = await useCase.Handle(request, CancellationToken.None);
 
             var productDb = await CreateDBContext(true).Products.Where(x=>x.Id == product.Id).FirstAsync();
 

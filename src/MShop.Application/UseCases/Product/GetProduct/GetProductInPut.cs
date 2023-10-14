@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using MShop.Application.UseCases.Product.Common;
-using MShop.Application.UseCases.Product.CreateProducts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +8,13 @@ using System.Threading.Tasks;
 
 namespace MShop.Application.UseCases.Product.GetProduct
 {
-    public interface IGetProduct : IRequestHandler<GetProductInPut, GetProductOutPut>
+    public class GetProductInPut : IRequest<GetProductOutPut>
     {
-        public Task<GetProductOutPut> Handle(GetProductInPut request, CancellationToken cancellation);
+        public GetProductInPut(Guid id)
+        {
+            Id = id;
+        }
+
+        public Guid Id { get; set; }
     }
 }

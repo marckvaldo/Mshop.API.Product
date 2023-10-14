@@ -11,12 +11,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ApplicationUseCase = MShop.Application.UseCases.images.DeleteImage;
+using ApplicationUseCase = MShop.Application.UseCases.Images.DeleteImage;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using MShop.Application.Event;
 using MShop.Repository.UnitOfWork;
+using MShop.Application.UseCases.Images.DeleteImage;
 
 namespace MShop.IntegrationTests.Application.UseCase.Images.DeleteImage
 {
@@ -67,7 +68,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Images.DeleteImage
                 _notification,
                 _unitOfWork);
 
-            await useCase.Handler(image.Id, CancellationToken.None);
+            await useCase.Handle(new DeleteImageInPut(image.Id), CancellationToken.None);
 
             var imageDbDelete = await _imagePersistense.GetImage(image.Id);
 

@@ -7,9 +7,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ApplicationUseCase = MShop.Application.UseCases.images.DeleteImage;
+using ApplicationUseCase = MShop.Application.UseCases.Images.DeleteImage;
 using BusinessEntity = MShop.Business.Entity;
 using MShop.Business.Entity;
+using MShop.Application.UseCases.Images.DeleteImage;
 
 namespace MShop.UnitTests.Application.UseCases.Image.DelteImage
 {
@@ -39,7 +40,7 @@ namespace MShop.UnitTests.Application.UseCases.Image.DelteImage
                 notification.Object,
                 unitOfWork.Object);
 
-            var outPut = await useCase.Handler(request, CancellationToken.None);
+            var outPut = await useCase.Handle(new DeleteImageInPut(request), CancellationToken.None);
 
             Assert.NotNull(outPut);
             Assert.Equal(outPut.ProductId, id);
@@ -70,7 +71,7 @@ namespace MShop.UnitTests.Application.UseCases.Image.DelteImage
                 notification.Object,
                 unitOfWork.Object);
 
-            var action = async () => await useCase.Handler(request, CancellationToken.None);
+            var action = async () => await useCase.Handle(new DeleteImageInPut(request), CancellationToken.None);
 
             var exception = Assert.ThrowsAsync<ApplicationException>(action);
 

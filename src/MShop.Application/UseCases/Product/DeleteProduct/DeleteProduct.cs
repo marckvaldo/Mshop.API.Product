@@ -27,9 +27,9 @@ namespace MShop.Application.UseCases.Product.DeleteProduct
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<ProductModelOutPut> Handler(Guid request, CancellationToken cancellationToken)
+        public async Task<ProductModelOutPut> Handle(DeleteProductInPut request, CancellationToken cancellationToken)
         {
-            var product = await _productRespository.GetById(request);
+            var product = await _productRespository.GetById(request.Id);
             NotifyExceptionIfNull(product, "Não foi possivel localizar a produto da base de dados!");
 
             var hasImages = await _imageRepository.Filter(x => x.ProductId == product!.Id);
@@ -44,7 +44,7 @@ namespace MShop.Application.UseCases.Product.DeleteProduct
 
             if (product?.Thumb?.Path is not null) await _storageService.Delete(product.Thumb.Path);
 
-            return new ProductModelOutPut(
+            /*return new ProductModelOutPut(
                 product!.Id, 
                 product.Description,
                 product.Name, 
@@ -52,7 +52,9 @@ namespace MShop.Application.UseCases.Product.DeleteProduct
                 product.Thumb?.Path, 
                 product.Stock, 
                 product.IsActive, 
-                product.CategoryId);
+                product.CategoryId);*/
+
+            return ProductModelOutPut.FromProduct(product); 
         }
     }
 }

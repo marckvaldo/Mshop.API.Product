@@ -1,4 +1,6 @@
-﻿using MShop.Application.UseCases.images.Common;
+﻿using MShop.Application.UseCases.Category.GetCategory;
+using MShop.Application.UseCases.Images.Common;
+using MShop.Application.UseCases.Images.GetImage;
 using MShop.Business.Exception;
 using MShop.Business.Interface;
 using MShop.Business.Interface.Repository;
@@ -10,7 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MShop.Application.UseCases.images.GetImage
+namespace MShop.Application.UseCases.Images.GetImage
 {
     public class GetImage : BaseUseCase, IGetImage
     {
@@ -24,9 +26,9 @@ namespace MShop.Application.UseCases.images.GetImage
             _imageRepository = imageRepository; 
         }
 
-        public async Task<ImageOutPut> Handler(Guid id)
+        public async Task<ImageOutPut> Handle(GetImageInPut request, CancellationToken cancellation)
         {
-            var image = await _imageRepository.GetById(id);            
+            var image = await _imageRepository.GetById(request.Id);            
             NotifyExceptionIfNull(image, "Não foi possivel localizar image na base de dados!");
 
             return new ImageOutPut(image!.ProductId, new ImageModelOutPut(image.FileName));

@@ -1,25 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Mshop.Cache.RepositoryRedis;
+﻿using Mshop.Cache.RepositoryRedis;
 using MShop.Application.Event;
-using MShop.Application.UseCases.Category.CreateCategory;
-using MShop.Application.UseCases.Category.DeleteCategory;
-using MShop.Application.UseCases.Category.GetCategory;
-using MShop.Application.UseCases.Category.ListCategorys;
-using MShop.Application.UseCases.Category.UpdateCategory;
-using MShop.Application.UseCases.GetCatetoryWithProducts.GetCatetory;
-using MShop.Application.UseCases.images.CreateImage;
-using MShop.Application.UseCases.images.DeleteImage;
-using MShop.Application.UseCases.images.GetImage;
-using MShop.Application.UseCases.images.ListImage;
-using MShop.Application.UseCases.Product.CreateProducts;
-using MShop.Application.UseCases.Product.DeleteProduct;
-using MShop.Application.UseCases.Product.GetProduct;
-using MShop.Application.UseCases.Product.ListProducts;
-using MShop.Application.UseCases.Product.Productspromotions;
-using MShop.Application.UseCases.Product.ProductsPromotions;
-using MShop.Application.UseCases.Product.UpdateProduct;
-using MShop.Application.UseCases.Product.UpdateStockProduct;
-using MShop.Application.UseCases.Product.UpdateThumb;
 using MShop.Business.Interface;
 using MShop.Business.Interface.Cache;
 using MShop.Business.Interface.Event;
@@ -30,7 +10,6 @@ using MShop.Business.Validation;
 using MShop.Repository.Context;
 using MShop.Repository.Repository;
 using MShop.Repository.UnitOfWork;
-using System.Reflection;
 
 namespace MShop.ProductAPI.Configuration
 {
@@ -39,14 +18,11 @@ namespace MShop.ProductAPI.Configuration
         public static IServiceCollection AddDependencyInjection(this IServiceCollection services) 
         {
             services.AddScoped<RepositoryDbContext>();
-
-            
             services.AddScoped<IDomainEventPublisher,DomainEventPublisher>();            
             services.AddScoped<IUnitOfWork,UnitOfWork>();
 
 
-            services.AddScoped<IProductRepository, ProductRepository>();
-            services.AddScoped<IGetProduct, GetProduct>();
+            /*services.AddScoped<IGetProduct, GetProduct>();
             services.AddScoped<ICreateProduct, CreateProduct>();
             services.AddScoped<IUpdateProduct, UpdateProduct>();
             services.AddScoped<IDeleteProduct, DeleteProduct>();
@@ -54,38 +30,34 @@ namespace MShop.ProductAPI.Configuration
             services.AddScoped<IListProducts, ListProducts>();
             services.AddScoped<IProductsPromotions, ProductsPromotions>();
             services.AddScoped<IUpdateThumb, UpdateThumb>();
-
-
-            services.AddScoped<ICategoryRepository, CategoryRepository>();
-
-            //services.AddMediatR(cfg=>cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
-            //services.AddMediatR(Assembly.GetExecutingAssembly(), ServiceLifetime.Scoped);
-            //services.AddMediatR(Assembly.GetAssembly(typeof(MShop.Application.UseCases.Category.CreateCategory.CreateCategory)));
-            services.AddMediatR(x =>
-            {
-                x.RegisterServicesFromAssemblies(typeof(MShop.Application.UseCases.Category.CreateCategory.CreateCategory).Assembly);
-            });
-
-            /*services.AddScoped<IGetCategory, GetCategory>();
+            services.AddScoped<IGetCategory, GetCategory>();
             services.AddScoped<ICreateCategory, CreateCategory>();
             services.AddScoped<IUpdateCategory, UpdateCategory>();
             services.AddScoped<IDeleteCategory, DeleteCategory>();
             services.AddScoped<IListCategory, ListCategory>();
-            services.AddScoped<IGetCategoryWithProducts, GetCategoryWithProducts>();*/
-
-            services.AddScoped<IImageRepository, ImagesRepository>();
+            services.AddScoped<IGetCategoryWithProducts, GetCategoryWithProducts>();
             services.AddScoped<IListImage, ListImage>();
             services.AddScoped<IGetImage, GetImage>();
             services.AddScoped<IDeleteImage, DeleteImage>();
-            services.AddScoped<ICreateImage, CreateImage>();
+            services.AddScoped<ICreateImage, CreateImage>();*/
 
 
+            services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IImageRepository, ImagesRepository>();
+
+           
+            services.AddMediatR(x =>
+            {
+                x.RegisterServicesFromAssemblies(typeof(MShop.Application.UseCases.Category.CreateCategory.CreateCategory).Assembly);
+                x.RegisterServicesFromAssemblies(typeof(MShop.Application.UseCases.Images.CreateImage.CreateImage).Assembly);
+                x.RegisterServicesFromAssemblies(typeof(MShop.Application.UseCases.Product.CreateProducts.CreateProduct).Assembly);
+            });
 
             services.AddScoped<IStorageService, StorageService>();
             services.AddScoped<INotification, Notifications>();
             services.AddScoped<ICacheRepository, RedisRepository>();
 
-            //services.AddMediatR()
 
             return services;
         }

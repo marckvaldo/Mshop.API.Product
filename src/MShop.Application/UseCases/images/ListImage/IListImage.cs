@@ -1,14 +1,11 @@
-﻿using MShop.Application.UseCases.images.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MediatR;
+using MShop.Application.UseCases.Images.Common;
+using MShop.Application.UseCases.Images.ListImage;
 
-namespace MShop.Application.UseCases.images.ListImage
+namespace MShop.Application.UseCases.Images.ListImage
 {
-    public interface IListImage
+    public interface IListImage : IRequestHandler<ListImageInPut, ListImageOutPut>
     {
-        Task<ListImageOutPut> Handler (Guid productId);
+        Task<ListImageOutPut> Handle (ListImageInPut request, CancellationToken cancellation);
     }
 }

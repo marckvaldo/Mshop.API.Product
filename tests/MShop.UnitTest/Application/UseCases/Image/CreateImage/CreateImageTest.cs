@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ApplicationUseCase = MShop.Application.UseCases.images.CreateImage;
+using ApplicationUseCase = MShop.Application.UseCases.Images.CreateImage;
 using BusinessEntity = MShop.Business.Entity;
 
 namespace MShop.UnitTests.Application.UseCases.Image.CreateImage
@@ -39,7 +39,7 @@ namespace MShop.UnitTests.Application.UseCases.Image.CreateImage
                 notification.Object,
                 unitOfWork.Object);
 
-            var outPut = await useCase.Handler(request, CancellationToken.None);
+            var outPut = await useCase.Handle(request, CancellationToken.None);
 
             Assert.NotNull(outPut);
             Assert.Equal(outPut.ProductId, id);
@@ -73,7 +73,7 @@ namespace MShop.UnitTests.Application.UseCases.Image.CreateImage
                 notification.Object, 
                 unitOfWork.Object);
 
-            var action = async () => await useCase.Handler(request, CancellationToken.None);
+            var action = async () => await useCase.Handle(request, CancellationToken.None);
 
             var exception = Assert.ThrowsAnyAsync<ApplicationException>(action);
 

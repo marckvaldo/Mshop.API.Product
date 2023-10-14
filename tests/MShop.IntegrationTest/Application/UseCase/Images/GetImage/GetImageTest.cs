@@ -11,7 +11,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ApplicationUseCase = MShop.Application.UseCases.images.GetImage;
+using ApplicationUseCase = MShop.Application.UseCases.Images.GetImage;
+using MShop.Application.UseCases.Images.GetImage;
 
 namespace MShop.IntegrationTests.Application.UseCase.Images.GetImage
 {
@@ -44,7 +45,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Images.GetImage
 
             var guid = imageFake.Id;
             var useCase = new ApplicationUseCase.GetImage(_notification,_imageRepository,_storageService);
-            var outPut = await useCase.Handler(guid);
+            var outPut = await useCase.Handle(new GetImageInPut(guid) ,CancellationToken.None);
 
 
             Assert.False(_notification.HasErrors());

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using MShop.Application.Common;
-using MShop.Application.UseCases.images.CreateImage;
+using MShop.Application.UseCases.Images.CreateImage;
 using MShop.EndToEndTest.Common;
 using System;
 using System.Collections.Generic;

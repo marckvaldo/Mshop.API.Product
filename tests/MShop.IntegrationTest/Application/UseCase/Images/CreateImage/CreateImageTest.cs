@@ -21,7 +21,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ApplicationUseCase = MShop.Application.UseCases.images.CreateImage;
+using ApplicationUseCase = MShop.Application.UseCases.Images.CreateImage;
 
 namespace MShop.IntegrationTests.Application.UseCase.Images.CreateImages
 {
@@ -81,7 +81,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Images.CreateImages
                 _notification,
                 _unitOfWork);
 
-            var outPut = await useCase.Handler(request,CancellationToken.None);
+            var outPut = await useCase.Handle(request,CancellationToken.None);
 
             Assert.NotNull(outPut);
             Assert.True(outPut.Images.Count == 3);

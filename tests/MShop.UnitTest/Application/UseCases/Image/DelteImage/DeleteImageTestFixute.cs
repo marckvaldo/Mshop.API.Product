@@ -1,5 +1,5 @@
-﻿using MShop.Application.UseCases.images.Common;
-using MShop.Application.UseCases.images.DeleteImage;
+﻿using MShop.Application.UseCases.Images.Common;
+using MShop.Application.UseCases.Images.DeleteImage;
 using MShop.UnitTests.Application.UseCases.Image.Common;
 using System;
 using System.Collections.Generic;

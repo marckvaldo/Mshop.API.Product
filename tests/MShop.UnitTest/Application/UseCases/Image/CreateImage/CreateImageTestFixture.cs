@@ -1,6 +1,6 @@
 ﻿using Mshop.Test.Common;
 using MShop.Application.Common;
-using MShop.Application.UseCases.images.CreateImage;
+using MShop.Application.UseCases.Images.CreateImage;
 using MShop.UnitTests.Application.UseCases.Image.Common;
 using System;
 using System.Collections.Generic;

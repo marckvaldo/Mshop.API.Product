@@ -74,7 +74,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.CreateProduct
                 _storageService, 
                 _unitOfWork);
 
-            var outPut = await productUseCase.Handler(request, CancellationToken.None);
+            var outPut = await productUseCase.Handle(request, CancellationToken.None);
             var newProduct = await _productPersistence.GetProduct(outPut.Id);
             
             Assert.False(_notification.HasErrors());
@@ -112,7 +112,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.CreateProduct
                 _storageService, 
                 _unitOfWork);
 
-            var outPut = async () => await productUseCase.Handler(request, CancellationToken.None);
+            var outPut = async () => await productUseCase.Handle(request, CancellationToken.None);
 
             var exception = await Assert.ThrowsAsync<ApplicationValidationException>(outPut);
             Assert.Equal("Error", exception.Message);

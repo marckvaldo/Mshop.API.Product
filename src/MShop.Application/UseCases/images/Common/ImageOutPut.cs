@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MShop.Application.UseCases.images.Common
+namespace MShop.Application.UseCases.Images.Common
 {
     public class ImageOutPut
     {
@@ -17,5 +17,6 @@ namespace MShop.Application.UseCases.images.Common
         public Guid ProductId { get; set; }
 
         public ImageModelOutPut Image { get; set; }
+
     }
 }

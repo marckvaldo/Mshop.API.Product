@@ -1,11 +1,5 @@
 ﻿using MShop.Application.UseCases.Category.Common;
-using MShop.Business.Entity;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Busines = MShop.Business.Entity;
 
 namespace MShop.Application.UseCases.Product.Common
 {
@@ -52,5 +46,18 @@ namespace MShop.Application.UseCases.Product.Common
         public CategoryModelOutPut Category { get; set; }   
 
         public bool IsPromotion { get; set; }
+
+        public static ProductModelOutPut FromProduct(Busines.Product product)
+        {
+            return new ProductModelOutPut(
+                product!.Id,
+                product.Description,
+                product.Name,
+                product.Price,
+                product.Thumb?.Path,
+                product.Stock,
+                product.IsActive,
+                product.CategoryId);
+        }
     }
 }

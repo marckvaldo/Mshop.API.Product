@@ -8,11 +8,12 @@ using System.Text;
 using System.Threading.Tasks;
 
 using MShop.UnitTests.Application.UseCases.Image.Common;
-using ApplicationUseCase = MShop.Application.UseCases.images.GetImage;
+using ApplicationUseCase = MShop.Application.UseCases.Images.GetImage;
 using BusinessEntity = MShop.Business.Entity;
 using MShop.Business.Interface.Service;
-using MShop.Application.UseCases.images.GetImage;
+using MShop.Application.UseCases.Images.GetImage;
 using MShop.Business.Exceptions;
+using MShop.Application.UseCases.Images.GetImage;
 
 namespace MShop.UnitTests.Application.UseCases.Image.GetImage
 {
@@ -30,7 +31,7 @@ namespace MShop.UnitTests.Application.UseCases.Image.GetImage
             repository.Setup(r => r.GetById(It.IsAny<Guid>())).ReturnsAsync(request);
 
             var useCase = new ApplicationUseCase.GetImage(notification.Object, repository.Object, storageService.Object);
-            var outPut = await useCase.Handler(Guid.NewGuid());
+            var outPut = await useCase.Handle(new GetImageInPut(Guid.NewGuid()), CancellationToken.None);
 
             Assert.NotNull(outPut);
             repository.Verify(r=>r.GetById(It.IsAny<Guid>()),Times.Once);
@@ -49,7 +50,7 @@ namespace MShop.UnitTests.Application.UseCases.Image.GetImage
             var request = Faker(Guid.NewGuid());
 
             var useCase = new ApplicationUseCase.GetImage(notification.Object, repository.Object, storageService.Object);
-            var action = async () => await useCase.Handler(Guid.NewGuid());
+            var action = async () => await useCase.Handle( new GetImageInPut(Guid.NewGuid()), CancellationToken.None);
 
             var exception = Assert.ThrowsAsync<ApplicationValidationException>(action);
 

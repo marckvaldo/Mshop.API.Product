@@ -12,7 +12,7 @@ namespace MShop.Application.UseCases.Product.ListProducts
 
         public ListProducts(IProductRepository productRepostory, INotification notification) : base(notification)
             => _productRepostory = productRepostory;   
-        public async Task<ListProductsOutPut> Handler(ListProductInPut request)
+        public async Task<ListProductsOutPut> Handle(ListProductInPut request, CancellationToken cancellation)
         {
             var paginatedInPut = new PaginatedInPut(
                 request.Page,

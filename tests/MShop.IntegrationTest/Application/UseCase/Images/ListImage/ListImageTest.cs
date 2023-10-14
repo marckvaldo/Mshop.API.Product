@@ -12,7 +12,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MShop.Business.Enum.Paginated;
-using ApplicationUseCase = MShop.Application.UseCases.images.ListImage;
+using ApplicationUseCase = MShop.Application.UseCases.Images.ListImage;
+using MShop.Application.UseCases.Images.ListImage;
 
 namespace MShop.IntegrationTests.Application.UseCase.Images.ListImage
 {
@@ -45,7 +46,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Images.ListImage
             await _imagePersistense.CreateList(imagesFake);
          
             var useCase = new ApplicationUseCase.ListImage(_notification, _imageRepository);
-            var outPut = await useCase.Handler(productId);
+            var outPut = await useCase.Handle(new ListImageInPut(productId), CancellationToken.None);
 
             Assert.NotNull(outPut);
             Assert.Equal(imagesFake.Count, quantity);

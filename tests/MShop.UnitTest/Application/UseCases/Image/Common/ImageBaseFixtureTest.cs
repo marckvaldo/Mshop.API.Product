@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BusinessEntity = MShop.Business.Entity;
-using ApplicationUseCase = MShop.Application.UseCases.images;
+using ApplicationUseCase = MShop.Application.UseCases.Images;
 using MShop.Application.Common;
 using MShop.UnitTests.Common;
 using MShop.Business.Entity;

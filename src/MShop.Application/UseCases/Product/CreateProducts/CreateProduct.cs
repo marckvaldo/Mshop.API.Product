@@ -25,7 +25,7 @@ namespace MShop.Application.UseCases.Product.CreateProducts
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<ProductModelOutPut> Handler(CreateProductInPut request, CancellationToken cancellationToken)
+        public async Task<ProductModelOutPut> Handle(CreateProductInPut request, CancellationToken cancellationToken)
         {
             var product = new Business.Entity.Product(
                     request.Description,

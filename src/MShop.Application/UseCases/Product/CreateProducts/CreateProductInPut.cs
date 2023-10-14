@@ -1,9 +1,11 @@
-﻿using MShop.Application.Common;
+﻿using MediatR;
+using MShop.Application.Common;
+using MShop.Application.UseCases.Product.Common;
 using System.ComponentModel.DataAnnotations;
 
 namespace MShop.Application.UseCases.Product.CreateProducts
 {
-    public class CreateProductInPut
+    public class CreateProductInPut : IRequest<ProductModelOutPut>
     {
         //[Required(ErrorMessage = "O Campo {0} Obrigatório")]
         //[StringLength(1000, ErrorMessage = "O Campo {0} precisa ter no minimo {2} caracter e no maximo {1}", MinimumLength = 2)]
