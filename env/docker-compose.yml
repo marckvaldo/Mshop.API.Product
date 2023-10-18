@@ -1,21 +1,21 @@
 version: "3.4"
 
 services:
-  app:
-    container_name: adm_videos_app
-    image: marckvaldo/mshop.api.product:V-31
-    #image: ""
-    restart: unless-stopped
-    ports:
-      - 5000:80
-    environment:
-      - ASPNETCORE_URLS=http://+:80
-      - ASPNETCORE_ENVIRONMENT=Development
-    depends_on:
-      - MShop.catalago.dev
-      - Mshop.Rabbitmq.dev
-    networks:
-      - app-catalago
+ # app:
+ #   container_name: adm_videos_app
+ #   image: marckvaldo/mshop.api.product:V-31
+ #   #image: ""
+ #   restart: unless-stopped
+ #   ports:
+ #     - 5000:80
+ #   environment:
+ #     - ASPNETCORE_URLS=http://+:80
+ #     - ASPNETCORE_ENVIRONMENT=Production
+ #   depends_on:
+ #     - MShop.catalago.dev
+ #     - Mshop.Rabbitmq.dev
+ #   networks:
+ #     - app-catalago
 
   MShop.catalago.dev:
     container_name: catalagoDb-dev

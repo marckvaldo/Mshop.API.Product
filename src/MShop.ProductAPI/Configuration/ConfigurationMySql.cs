@@ -8,10 +8,12 @@ namespace MShop.ProductAPI.Configuration
         public static IServiceCollection AddConfigurationMySql(this IServiceCollection services, IConfiguration configuration)
         {
             //configurando a conexao Mysql
+            
             var ConnectionString = configuration.GetConnectionString("RepositoryMysql");
             services.AddDbContext<RepositoryDbContext>(options =>
                 options.UseMySql(ConnectionString, ServerVersion.AutoDetect(ConnectionString)));
 
+    
             return services;
         }
 

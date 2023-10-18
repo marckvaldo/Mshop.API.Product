@@ -49,11 +49,16 @@ builder.Services.AddAndConfigureController()
     .AddDependencyInjection()
     .AddConfigurationMySql(builder.Configuration)
     .AddConfigurationStorage()
-    .AddConfigurationRedis(builder.Configuration);
+    .AddConfigurationRedis(builder.Configuration)
+    .AddConfigurationHealthChecks();
+    
 
 var app = builder.Build();
 app.AddMigrateDatabase();
+app.AddSetUpRabbiMQ();
 app.UseDocumentation();
+app.AddMapHealthCheck();
+
 
 // Configure the HTTP request pipeline.
 /*if (app.Environment.IsDevelopment())

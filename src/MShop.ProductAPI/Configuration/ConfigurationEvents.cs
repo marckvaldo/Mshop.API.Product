@@ -5,6 +5,7 @@ using MShop.Business.Events.Products;
 using MShop.Business.Interface.Event;
 using MShop.Messaging.Configuration;
 using MShop.Messaging.Producer;
+using MShop.Repository.Context;
 using RabbitMQ.Client;
 
 namespace MShop.ProductAPI.Configuration
@@ -64,6 +65,18 @@ namespace MShop.ProductAPI.Configuration
             });
 
             return services;
+        }
+
+        public static WebApplication AddSetUpRabbiMQ(this WebApplication app)
+        {
+            var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+            if (environment == "EndToEndTest") return app;
+
+            using var scope = app.Services.CreateScope();
+            var SetUpRabbiMQ = scope.ServiceProvider.GetRequiredService<ServiceRabbitMQ>();
+            SetUpRabbiMQ.SetUpWithDeadLetter();
+
+            return app;
         }
     }
 }
