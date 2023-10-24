@@ -1,0 +1,33 @@
+filebeat.inputs:
+  - type: docker
+    containers.ids:
+      - <container_id>  # Substitua pelo ID do contêiner da sua aplicação Web API
+    processors:
+      - add_docker_metadata: ~
+
+output.elasticsearch:
+  hosts: ["<elasticsearch_host>:<elasticsearch_port>"]  # Substitua pelo endereço e porta do Elasticsearch
+  username: "<elasticsearch_username>"  # Se necessário
+  password: "<elasticsearch_password>"  # Se necessário
+
+setup.kibana:
+  host: "<kibana_host>:<kibana_port>"  # Substitua pelo endereço e porta do Kibana (opcional)
+
+setup.template.name: "filebeat"
+setup.template.pattern: "filebeat-*"
+
+setup.ilm.enabled: false
+
+filebeat.autodiscover:
+  providers:
+    - type: docker
+      templates:
+        - condition:
+            contains:
+              docker.container.image: "sua-imagem-webapi"  # Substitua pelo nome da imagem do seu contêiner
+          config:
+            - type: container
+              paths:
+                - /var/log/webapi/*.log  # Substitua pelo caminho do log da sua aplicação no contêiner
+
+logging.level: info

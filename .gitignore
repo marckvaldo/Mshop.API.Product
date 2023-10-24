@@ -22,3 +22,7 @@ src/Mshop.Chache/bin/
 tests/MShop.UnitTest/bin/
 tests/MShop.IntegrationTest/bin/
 tests/MShop.EndToEndTest/bin/
+
+
+ElasticSearch/elasticsearch_data/
+ElasticSearch/kibana_data/
