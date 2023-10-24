@@ -1,21 +1,25 @@
 version: "3.4"
 
 services:
- # app:
- #   container_name: adm_videos_app
- #   image: marckvaldo/mshop.api.product:V-31
- #   #image: ""
- #   restart: unless-stopped
- #   ports:
- #     - 5000:80
- #   environment:
- #     - ASPNETCORE_URLS=http://+:80
- #     - ASPNETCORE_ENVIRONMENT=Production
- #   depends_on:
- #     - MShop.catalago.dev
- #     - Mshop.Rabbitmq.dev
- #   networks:
- #     - app-catalago
+  app:
+    container_name: adm_videos_app
+    image: marckvaldo/mshop.api.product:V-31
+    #image: ""
+    restart: unless-stopped
+    ports:
+      - 5000:80
+    environment:
+      - ASPNETCORE_URLS=http://+:80
+      - ASPNETCORE_ENVIRONMENT=Production
+    depends_on:
+      - MShop.catalago.dev
+      - Mshop.Rabbitmq.dev
+      - Mshop.Filebeat.dev
+    labels:
+      filebeat_collector: true
+      decode_log_event_to_json_object: true
+    networks:
+      - app-catalago
 
   MShop.catalago.dev:
     container_name: catalagoDb-dev
@@ -51,6 +55,18 @@ services:
       - 5672:5672
     networks:
       - app-catalago
+
+  Mshop.Filebeat.dev:
+    container_name: adm_videos_filebeat
+    image: docker.elastic.co/beats/filebeat:8.10.2
+    command: filebeat -e -strict.perms=false
+    volumes:
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro                    # Docker logs
+      - /var/run/docker.sock:/var/run/docker.sock:ro                                # Additional information about containers
+      - .docker/filebeat/filebeat.docker.yml:/usr/share/filebeat/filebeat.yml:ro    # Configuration file
+      - .docker/filebeat:/usr/share/filebeat/data:rw                                # Persistence data
+    user: root                                                                      # Allow access to log files and docker.sock
+    restart: on-failure
 
 networks:
   app-catalago:
