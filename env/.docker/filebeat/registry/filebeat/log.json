@@ -1,4 +1,0 @@
-{"op":"set","id":1}
-{"k":"filebeat::logs::native::594109-2112","v":{"id":"native::594109-2112","prev_id":"","FileStateOS":{"inode":594109,"device":2112},"identifier_name":"native","source":"/var/lib/docker/containers/36203d9437d47697c9e767aa0a9cfa0dc0476bcd42ce109ee8e8bdf1459cc430/36203d9437d47697c9e767aa0a9cfa0dc0476bcd42ce109ee8e8bdf1459cc430-json.log","offset":0,"timestamp":[66485511,1698178830],"ttl":-1,"type":"container"}}
-{"op":"set","id":2}
-{"k":"filebeat::logs::native::594109-2112","v":{"ttl":-1,"FileStateOS":{"inode":594109,"device":2112},"identifier_name":"native","prev_id":"","timestamp":[66485511,1698178830],"offset":0,"type":"container","id":"native::594109-2112","source":"/var/lib/docker/containers/36203d9437d47697c9e767aa0a9cfa0dc0476bcd42ce109ee8e8bdf1459cc430/36203d9437d47697c9e767aa0a9cfa0dc0476bcd42ce109ee8e8bdf1459cc430-json.log"}}
