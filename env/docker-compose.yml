@@ -10,7 +10,7 @@ services:
       - 5000:80
     environment:
       - ASPNETCORE_URLS=http://+:80
-      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_ENVIRONMENT=Development
     depends_on:
       - MShop.catalago.dev
       - Mshop.Rabbitmq.dev
@@ -57,7 +57,7 @@ services:
       - app-catalago
 
   Mshop.Filebeat.dev:
-    container_name: adm_videos_filebeat
+    container_name: filebeat-dev
     image: docker.elastic.co/beats/filebeat:8.10.2
     command: filebeat -e -strict.perms=false
     volumes:
@@ -67,6 +67,8 @@ services:
       - .docker/filebeat:/usr/share/filebeat/data:rw                                # Persistence data
     user: root                                                                      # Allow access to log files and docker.sock
     restart: on-failure
+    networks:
+      - app-catalago
 
 networks:
   app-catalago:

@@ -26,3 +26,7 @@ tests/MShop.EndToEndTest/bin/
 
 ElasticSearch/elasticsearch_data/
 ElasticSearch/kibana_data/
+
+env/.docker/filebeat/registry/
+
+env/.docker/filebeat/filebeat.lock
