@@ -3,14 +3,14 @@ version: "3.4"
 services:
   app:
     container_name: adm_videos_app
-    image: marckvaldo/mshop.api.product:V-31
+    image: marckvaldo/mshop.api.product:V-32
     #image: ""
     restart: unless-stopped
     ports:
       - 5000:80
     environment:
       - ASPNETCORE_URLS=http://+:80
-      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_ENVIRONMENT=Production
     depends_on:
       - MShop.catalago.dev
       - Mshop.Rabbitmq.dev
@@ -49,7 +49,7 @@ services:
     environment:
       - RABBITMQ_DEFAULT_USER=admin
       - RABBITMQ_DEFAULT_PASS=123456
-      - RABBITMQ_DEFAULT_VHOST="catalago"
+      - RABBITMQ_DEFAULT_VHOST=catalago
     ports:
       - 15672:15672 #potaHost : Porta Container
       - 5672:5672

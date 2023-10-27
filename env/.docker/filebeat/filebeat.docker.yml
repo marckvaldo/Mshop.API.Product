@@ -22,8 +22,11 @@ filebeat:
 
 output:
   elasticsearch:
-    hosts: ["http://172.28.176.1:9200"]
-    username: "elastic"
-    password : "marckvaldo"
+    hosts: ["elasticsearch:9200"]
+    username: elastic
+    password : marckvaldo
+
+setup.template.name: "file-beat"
+setup.template.pattern: "file-beat-*"
 
 logging.metrics.enabled: false

@@ -54,6 +54,7 @@ builder.Services.AddAndConfigureController()
     
 
 var app = builder.Build();
+app.UseHttpLogging(); //aqui para ativar logs de acesso
 app.AddMigrateDatabase();
 app.AddSetUpRabbiMQ();
 app.UseDocumentation();
