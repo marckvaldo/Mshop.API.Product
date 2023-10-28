@@ -3,7 +3,7 @@ version: "3.4"
 services:
   app:
     container_name: adm_videos_app
-    image: marckvaldo/mshop.api.product:V-32
+    image: marckvaldo/mshop.api.product:V-33
     #image: ""
     restart: unless-stopped
     ports:
