@@ -1,0 +1,11 @@
+heartbeat.monitors:
+- type: http
+  schedule: '@every 5s'
+  urls: ["http://localhost:5000/_metrics"]
+
+output:
+  elasticsearch:
+    hosts: [192.168.1.48:9200]
+    username: elastic
+    password : marckvaldo
+    index: "heart-beat"

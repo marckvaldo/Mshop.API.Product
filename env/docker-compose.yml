@@ -70,6 +70,17 @@ services:
     networks:
       - app-catalago
 
+  Mshop.heartbeat.dev:
+    container_name: heartbeat.dev
+    image: docker.elastic.co/beats/heartbeat:8.10.2
+    command: heartbeat -e -strict.perms=false
+    user: heartbeat 
+    volumes:
+      - .docker/heartbeat/heartbeat.docker.yml:/usr/share/heartbeat/heartbeat.yml:ro
+    restart: on-failure
+    networks:
+      - app-catalago
+
 networks:
   app-catalago:
     driver: bridge
