@@ -1,13 +1,13 @@
 ﻿using Moq;
 using MShop.Application.UseCases.Product.CreateProducts;
-using MShop.Business.Interface;
+using MShop.Business.Entity;
+using MShop.Business.Interface.Service;
+using MShop.Core.Exception;
+using MShop.Core.Message;
+using MShop.Repository.Interface;
 using ApplicationUseCase = MShop.Application.UseCases.Product.CreateProducts;
 using BusinessEntity = MShop.Business.Entity;
-using MShop.Business.Interface.Service;
-using MShop.Business.Interface.Repository;
-using MShop.Business.Entity;
-using MShop.Business.Exceptions;
-using MShop.Business.Validation;
+using MShop.Core.Data;
 
 namespace Mshop.Tests.Application.UseCases.Product.CreateProduct
 {

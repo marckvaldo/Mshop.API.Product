@@ -1,14 +1,10 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
-using MShop.Application.UseCases.Product.ListProducts;
-using useCaseProducts =  MShop.Application.UseCases.Product.Productspromotions;
-using MShop.Business.Validation;
-using MShop.Repository.Context;
-using Cache = Mshop.Cache.RepositoryRedis;
-using MShop.Repository.Repository;
 using Mshop.Cache.RepositoryRedis;
-using MShop.Business.Entity;
-using MShop.Business.Exception;
-using MShop.Business.Interface;
+using MShop.Repository.Context;
+using MShop.Repository.Repository;
+using useCaseProducts = MShop.Application.UseCases.Product.Productspromotions;
+using MShop.Core.Message;
+using MShop.Core.Exception;
 
 namespace MShop.IntegrationTests.Application.UseCase.Product.ProductsPromotions
 {

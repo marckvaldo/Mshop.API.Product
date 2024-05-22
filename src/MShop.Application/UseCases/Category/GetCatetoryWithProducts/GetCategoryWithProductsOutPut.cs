@@ -1,17 +1,5 @@
-﻿using MediatR;
-using MShop.Application.UseCases.Category.GetCategory;
-using MShop.Application.UseCases.Product.Common;
-using MShop.Application.UseCases.Product.ListProducts;
-using MShop.Business.Exceptions;
-using MShop.Business.Interface;
-using MShop.Business.Interface.Repository;
-using MShop.Repository.Repository;
-using System;
-using System.Collections.Generic;
+﻿using MShop.Application.UseCases.Product.Common;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Entity = MShop.Business.Entity;
 
 namespace MShop.Application.UseCases.GetCatetoryWithProducts.GetCatetory

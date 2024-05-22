@@ -1,16 +1,7 @@
 ﻿using MShop.Application.UseCases.Category.Common;
-using MShop.Application.UseCases.Product.Common;
-using MShop.Application.UseCases.Product.CreateProducts;
-using MShop.Business.Entity;
-using MShop.Business.Exception;
-using MShop.Business.Exceptions;
-using MShop.Business.Interface;
-using MShop.Business.Interface.Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MShop.Core.Base;
+using MShop.Core.Message;
+using MShop.Repository.Interface;
 
 namespace MShop.Application.UseCases.Product.GetProduct
 {

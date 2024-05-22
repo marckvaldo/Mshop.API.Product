@@ -1,12 +1,14 @@
 ﻿using MShop.Application.Common;
 using MShop.Application.UseCases.Product.Common;
-using MShop.Business.Interface;
-using MShop.Business.Interface.Repository;
+using MShop.Business.Events.Products;
 using MShop.Business.Interface.Service;
+using MShop.Core.Data;
+using MShop.Core.Message;
+using MShop.Repository.Interface;
 
 namespace MShop.Application.UseCases.Product.CreateProducts
 {
-    public class CreateProduct : BaseUseCase, ICreateProduct
+    public class CreateProduct : Core.Base.BaseUseCase, ICreateProduct
     {
         private readonly IProductRepository _productRepository;
         private readonly ICategoryRepository _categoryRepository;
@@ -38,15 +40,27 @@ namespace MShop.Application.UseCases.Product.CreateProducts
 
             product.IsValid(Notifications);
 
-            var hasCategory = await _categoryRepository.GetById(product.CategoryId);
-            NotifyExceptionIfNull(hasCategory, $"Categoria {product.CategoryId} não encontrada");
-
-            product.ProductCreatedEvent();
-            NotifyExceptionIfNull(product.Events.Count == 0 ? null : product.Events, $" Não foi possivel registrar o event ProductCreatedEvent");
+            var category = await _categoryRepository.GetById(product.CategoryId);
+            NotifyExceptionIfNull(category, $"Categoria {product.CategoryId} não encontrada");
 
             try
             {
                 await UploadImage(request, product);
+
+                product.ProductCreatedEvent(new ProductCreatedEvent(
+                product.Id,
+                product.Description,
+                product.Name,
+                product.Price,
+                product.Stock,
+                product.IsActive,
+                product.CategoryId,
+                category.Name,
+                product.Thumb?.Path,
+                product.IsSale));
+
+                NotifyExceptionIfNull(product.Events.Count == 0 ? null : product.Events, $" Não foi possivel registrar o event ProductCreatedEvent");
+
                 await _productRepository.Create(product,cancellationToken);
                 await _unitOfWork.CommitAsync(cancellationToken);
 

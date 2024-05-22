@@ -1,9 +1,7 @@
 ﻿using MShop.Business.Events.Products;
-using MShop.Business.Exceptions;
-using MShop.Business.SeedWork;
-using MShop.Business.Validation;
-using MShop.Business.ValueObject;
-using MShop.UnitTests.Common;
+using MShop.Core.DomainObject;
+using MShop.Core.Exception;
+using MShop.Core.Message;
 
 namespace Mshop.Test.Business.Entity.Product
 {
@@ -22,7 +20,18 @@ namespace Mshop.Test.Business.Entity.Product
             var valid = GetProductValid();
             var product = GetProductValid(Fake(valid.Description,valid.Name,valid.Price, valid.CategoryId, valid.Stock,valid.IsActive));
             product.IsValid(_notifications);
-            product.ProductCreatedEvent();
+
+            product.ProductCreatedEvent(new ProductCreatedEvent(
+                product.Id,
+                product.Description,
+                product.Name,
+                product.Price,
+                product.Stock,
+                product.IsActive,
+                product.CategoryId,
+                product?.Category?.Name,
+                product.Thumb?.Path,
+                product.IsSale)); ;
 
             Assert.NotNull(product);
             Assert.False(_notifications.HasErrors());
@@ -209,7 +218,16 @@ namespace Mshop.Test.Business.Entity.Product
             product.Update(newValidade.Description, newValidade.Name, newValidade.Price, newValidade.CategoryId);
 
             product.IsValid(_notifications);
-            product.ProductUpdatedEvent();
+            product.ProductUpdatedEvent(new ProductUpdatedEvent(product.Id,
+                product.Description,
+                product.Name,
+                product.Price,
+                product.Stock,
+                product.IsActive,
+                product.CategoryId,
+                "Categoria",
+                product.Thumb?.Path,
+                product.IsSale)) ;
 
             Assert.True(product.IsActive);
             Assert.False(_notifications.HasErrors());
@@ -239,7 +257,17 @@ namespace Mshop.Test.Business.Entity.Product
 
             product.AddQuantityStock(newStoque);
             product.IsValid(_notifications);
-            product.ProductUpdatedEvent();
+
+            product.ProductUpdatedEvent(new ProductUpdatedEvent(product.Id,
+                product.Description,
+                product.Name,
+                product.Price,
+                product.Stock,
+                product.IsActive,
+                product.CategoryId,
+                "Cantegoria",
+                product.Thumb?.Path,
+                product.IsSale));
 
             Assert.True(product.IsActive);
             Assert.False(_notifications.HasErrors());
@@ -266,7 +294,17 @@ namespace Mshop.Test.Business.Entity.Product
 
             product.RemoveQuantityStock(newStoque);
             product.IsValid(_notifications);
-            product.ProductUpdatedEvent();
+
+            product.ProductUpdatedEvent(new ProductUpdatedEvent(product.Id,
+                product.Description,
+                product.Name,
+                product.Price,
+                product.Stock,
+                product.IsActive,
+                product.CategoryId,
+                "Categoria",
+                product.Thumb?.Path,
+                product.IsSale));
 
             Assert.Equal(product.Stock, (validate.Stock- newStoque));
             Assert.False(_notifications.HasErrors());
@@ -290,7 +328,17 @@ namespace Mshop.Test.Business.Entity.Product
 
             product.UpdateQuantityStock(newStoque);
             product.IsValid(_notifications);
-            product.ProductUpdatedEvent();
+
+            product.ProductUpdatedEvent(new ProductUpdatedEvent(product.Id,
+                product.Description,
+                product.Name,
+                product.Price,
+                product.Stock,
+                product.IsActive,
+                product.CategoryId,
+                "Categoria",
+                product.Thumb?.Path,
+                product.IsSale));
 
             Assert.Equal(product.Stock, (newStoque));
             Assert.False(_notifications.HasErrors());
@@ -316,7 +364,17 @@ namespace Mshop.Test.Business.Entity.Product
 
             product.UpdateThumb(newImagem);
             product.IsValid(_notifications);
-            product.ProductUpdatedEvent();
+
+            product.ProductUpdatedEvent(new ProductUpdatedEvent(product.Id,
+                product.Description,
+                product.Name,
+                product.Price,
+                product.Stock,
+                product.IsActive,
+                product.CategoryId,
+                "Categoria",
+                product.Thumb?.Path,
+                product.IsSale));
 
             Assert.Equal(product.Thumb.Path, newImagem);
             Assert.False(_notifications.HasErrors());            

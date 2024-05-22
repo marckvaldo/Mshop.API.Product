@@ -1,10 +1,9 @@
 ﻿using MShop.Application.UseCases.Product.Common;
-using MShop.Business.Entity;
-using MShop.Business.Exception;
-using MShop.Business.Exceptions;
-using MShop.Business.Interface;
-using MShop.Business.Interface.Repository;
 using MShop.Business.Interface.Service;
+using MShop.Core.Base;
+using MShop.Core.Message;
+using MShop.Repository.Interface;
+using MShop.Core.Data;
 
 namespace MShop.Application.UseCases.Product.DeleteProduct
 {

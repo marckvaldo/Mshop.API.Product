@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using MShop.Business.Interface;
-using MShop.Business.Validation;
+using MShop.Core.Message;
 using MShop.ProductAPI.Extension;
 
 namespace MShop.ProductAPI.Controllers

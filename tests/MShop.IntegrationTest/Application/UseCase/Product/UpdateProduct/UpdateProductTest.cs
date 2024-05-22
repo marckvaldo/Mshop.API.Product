@@ -1,13 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Moq;
 using MShop.Application.Event;
-using MShop.Business.Interface.Repository;
-using MShop.Business.Interface.Service;
 using MShop.Business.Service;
-using MShop.Business.Validation;
-using MShop.IntegrationTests.Application.UseCase.Category;
+using MShop.Core.Message;
 using MShop.Repository.Context;
 using MShop.Repository.Repository;
 using MShop.Repository.UnitOfWork;

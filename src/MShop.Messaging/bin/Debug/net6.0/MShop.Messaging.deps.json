@@ -70,8 +70,16 @@
         }
       },
       "MShop.Business/1.0.0": {
+        "dependencies": {
+          "MShop.Core": "1.0.0"
+        },
         "runtime": {
           "MShop.Business.dll": {}
+        }
+      },
+      "MShop.Core/1.0.0": {
+        "runtime": {
+          "MShop.Core.dll": {}
         }
       }
     }
@@ -132,6 +140,11 @@
       "hashPath": "system.threading.channels.7.0.0.nupkg.sha512"
     },
     "MShop.Business/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "MShop.Core/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

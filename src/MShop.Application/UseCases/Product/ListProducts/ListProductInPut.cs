@@ -1,11 +1,7 @@
 ﻿using MediatR;
 using MShop.Application.Common;
-using MShop.Business.Enum.Paginated;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MShop.Core.Enum.Paginated;
+
 
 namespace MShop.Application.UseCases.Product.ListProducts
 {

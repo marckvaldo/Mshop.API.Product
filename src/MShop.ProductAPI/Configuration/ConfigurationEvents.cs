@@ -2,10 +2,9 @@
 using MShop.Application.Event;
 using MShop.Application.Event.Handler.Products;
 using MShop.Business.Events.Products;
-using MShop.Business.Interface.Event;
+using MShop.Core.Message.DomainEvent;
 using MShop.Messaging.Configuration;
 using MShop.Messaging.Producer;
-using MShop.Repository.Context;
 using RabbitMQ.Client;
 
 namespace MShop.ProductAPI.Configuration

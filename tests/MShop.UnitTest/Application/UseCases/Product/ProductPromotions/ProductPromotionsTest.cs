@@ -1,11 +1,11 @@
 ﻿using Moq;
+using MShop.Core.Cache;
+using MShop.Core.Data;
+using MShop.Core.Exception;
+using MShop.Core.Message;
+using MShop.Repository.Interface;
 using UseCase = MShop.Application.UseCases.Product.Productspromotions;
 using UseCaseCommon = MShop.Application.UseCases.Product.Common;
-using MShop.Business.Interface;
-using MShop.Business.Interface.Cache;
-using MShop.Business.Interface.Repository;
-using Mshop.Test.Business.Entity.Product;
-using MShop.Business.Exception;
 
 namespace MShop.UnitTests.Application.UseCases.Product.ProductPromotions
 {

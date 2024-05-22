@@ -1,18 +1,11 @@
 ﻿using Moq;
 using Mshop.Tests.Application.UseCases.Product.GetProduct;
-using ApplicationUseCase = MShop.Application.UseCases.Product.GetProduct;
-using MShop.Business.Interface;
-using MShop.Business.Interface.Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MShop.Business.Exception;
-using System.Linq.Expressions;
 using MShop.Business.Entity;
-using MShop.Business.Exceptions;
-using MShop.Application.UseCases.Category.GetCategory;
+using MShop.Core.Exception;
+using MShop.Core.Message;
+using MShop.Repository.Interface;
+using System.Linq.Expressions;
+using ApplicationUseCase = MShop.Application.UseCases.Product.GetProduct;
 
 namespace Mshop.Tests.Application.UseCases.Product.GetProduts
 {

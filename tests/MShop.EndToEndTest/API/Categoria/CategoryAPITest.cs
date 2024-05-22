@@ -1,6 +1,6 @@
 ﻿using MShop.Application.UseCases.Category.Common;
 using MShop.Application.UseCases.Category.ListCategorys;
-using MShop.Business.Enum.Paginated;
+using MShop.Core.Enum.Paginated;
 using MShop.EndToEndTest.API.Common;
 using MShop.EndToEndTest.Common;
 

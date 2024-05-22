@@ -1,21 +1,14 @@
-﻿using MShop.Business.Interface.Repository;
-using MShop.Business.Interface;
-using MShop.Repository.Context;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MShop.Business.Validation;
-using MShop.Repository.Repository;
-using ApplicationUseCase = MShop.Application.UseCases.Category.DeleteCategory;
-using MShop.IntegrationTests.Application.UseCase.Product;
-using MShop.Business.Entity;
-using MShop.Business.Exceptions;
-using MShop.Application.Event;
-using MShop.Repository.UnitOfWork;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using MShop.Application.Event;
+using MShop.Core.Exception;
+using MShop.Core.Message;
+using MShop.IntegrationTests.Application.UseCase.Product;
+using MShop.Repository.Context;
+using MShop.Repository.Interface;
+using MShop.Repository.Repository;
+using MShop.Repository.UnitOfWork;
+using ApplicationUseCase = MShop.Application.UseCases.Category.DeleteCategory;
 
 namespace MShop.IntegrationTests.Application.UseCase.Category.DeleteCategory
 {

@@ -1,20 +1,11 @@
-﻿using MShop.Business.Interface.Repository;
-using MShop.Business.Interface;
-using MShop.Repository.Context;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MShop.Business.Validation;
-using MShop.Repository.Repository;
-using MShop.IntegrationTests.Application.UseCase.Product.Common;
-using Microsoft.EntityFrameworkCore;
-using MShop.Application.UseCases.Product.ListProducts;
-using MShop.Business.Enum.Paginated;
+﻿using MShop.Application.UseCases.Category.ListCategorys;
+using MShop.Core.Enum.Paginated;
+using MShop.Core.Message;
 using MShop.IntegrationTests.Application.UseCase.Category.Common;
+using MShop.Repository.Context;
+using MShop.Repository.Interface;
+using MShop.Repository.Repository;
 using ApplicationUseCase = MShop.Application.UseCases.Category.ListCategorys;
-using MShop.Application.UseCases.Category.ListCategorys;
 
 namespace MShop.IntegrationTests.Application.UseCase.Category.ListCategory
 {

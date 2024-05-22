@@ -13,3 +13,6 @@ C:\Users\IQ SISTEMAS\Documents\mShopping\Mshop.API.Product\src\MShop.Messaging\o
 C:\Users\IQ SISTEMAS\Documents\mShopping\Mshop.API.Product\src\MShop.Messaging\obj\Debug\net6.0\refint\MShop.Messaging.dll
 C:\Users\IQ SISTEMAS\Documents\mShopping\Mshop.API.Product\src\MShop.Messaging\obj\Debug\net6.0\MShop.Messaging.pdb
 C:\Users\IQ SISTEMAS\Documents\mShopping\Mshop.API.Product\src\MShop.Messaging\obj\Debug\net6.0\ref\MShop.Messaging.dll
+C:\Users\IQ SISTEMAS\Documents\mShopping\Mshop.API.Product\src\MShop.Messaging\obj\Debug\net6.0\MShop.Messaging.sourcelink.json
+C:\Users\IQ SISTEMAS\Documents\mShopping\Mshop.API.Product\src\MShop.Messaging\bin\Debug\net6.0\MShop.Core.dll
+C:\Users\IQ SISTEMAS\Documents\mShopping\Mshop.API.Product\src\MShop.Messaging\bin\Debug\net6.0\MShop.Core.pdb

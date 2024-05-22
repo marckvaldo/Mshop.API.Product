@@ -1,19 +1,12 @@
-﻿using MShop.Business.Interface.Repository;
+﻿using MShop.Application.UseCases.Images.ListImage;
 using MShop.Business.Interface.Service;
-using MShop.Business.Interface;
 using MShop.Business.Service;
-using MShop.Business.Validation;
+using MShop.Core.Message;
 using MShop.IntegrationTests.Application.UseCase.Images.Commom;
 using MShop.Repository.Context;
+using MShop.Repository.Interface;
 using MShop.Repository.Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MShop.Business.Enum.Paginated;
 using ApplicationUseCase = MShop.Application.UseCases.Images.ListImage;
-using MShop.Application.UseCases.Images.ListImage;
 
 namespace MShop.IntegrationTests.Application.UseCase.Images.ListImage
 {

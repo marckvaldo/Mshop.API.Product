@@ -1,9 +1,4 @@
-﻿using MShop.Business.Interface.Event;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MShop.Core.Message.DomainEvent;
 
 namespace MShop.IntegrationTests.Repository.UnitOfOwork
 {

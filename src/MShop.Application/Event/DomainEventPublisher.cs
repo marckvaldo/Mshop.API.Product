@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using MShop.Business.Interface.Event;
-using MShop.Business.SeedWork;
+using MShop.Core.DomainObject;
+using MShop.Core.Message.DomainEvent;
 
 namespace MShop.Application.Event
 {
@@ -18,6 +18,6 @@ namespace MShop.Application.Event
             if (handlers is null || !handlers.Any()) return;
             foreach (var handler in handlers)
                 await handler.HandlerAsync(domainEvent);
-        }
+        }        
     }
 }

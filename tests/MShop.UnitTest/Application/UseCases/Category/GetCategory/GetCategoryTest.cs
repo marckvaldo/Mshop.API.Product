@@ -1,16 +1,9 @@
 ﻿using Moq;
-using MShop.Business.Interface.Repository;
-using MShop.Business.Interface;
+using MShop.Core.Exception;
+using MShop.Core.Message;
+using MShop.Repository.Interface;
 using MShop.UnitTests.Application.UseCases.Category.common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ApplicationUseCase = MShop.Application.UseCases.Category.GetCategory;
-using BusinessEntity = MShop.Business.Entity;
-using Bogus;
-using MShop.Business.Exception;
 
 namespace MShop.UnitTests.Application.UseCases.Category.GetCategory
 {

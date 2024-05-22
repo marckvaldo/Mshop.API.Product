@@ -1,18 +1,10 @@
-﻿using MShop.Business.Interface.Repository;
-using MShop.Business.Interface;
-using MShop.Repository.Context;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MShop.Business.Validation;
-using MShop.Repository.Repository;
+﻿using MShop.Core.Exception;
+using MShop.Core.Message;
 using MShop.IntegrationTests.Application.UseCase.Category.Common;
-using Microsoft.EntityFrameworkCore;
+using MShop.Repository.Context;
+using MShop.Repository.Interface;
+using MShop.Repository.Repository;
 using ApplicationUseCase = MShop.Application.UseCases.Category.GetCategory;
-using MShop.Business.Exception;
-using MShop.Business.Exceptions;
 
 namespace MShop.IntegrationTests.Application.UseCase.Category.GetCategory
 {

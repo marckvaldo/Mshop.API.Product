@@ -1,7 +1,22 @@
 heartbeat.monitors:
 - type: http
   schedule: '@every 5s'
-  urls: ["http://192.168.1.48:5000/_metrics"]
+  id: ping-app
+  urls: 
+    - http://192.168.1.48:5000/_metrics
+    - http://192.168.1.48:5000
+
+- type: icmp
+  schedule: '@every 5s'
+  id: ping-myhost
+  name: My Host Ping
+  hosts:
+    - adm_videos_app
+    - catalagoDb-dev
+    - rabbitmq-dev
+
+setup.kibana:
+  host: kibana:5601
 
 output:
   elasticsearch:
@@ -9,6 +24,8 @@ output:
     username: elastic
     password : marckvaldo
     index: "heart-beat"
+
+
 
 setup.template.name: "heart-beat"
 setup.template.pattern: "heart-beat-*"

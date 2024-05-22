@@ -1,21 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Conventions;
-using MShop.Application.UseCases.Category.GetCategory;
-using MShop.Application.UseCases.Category.GetCatetoryWithProducts;
+﻿using MShop.Application.UseCases.Category.GetCatetoryWithProducts;
 using MShop.Application.UseCases.Product.Common;
-using MShop.Business.Exception;
-using MShop.Business.Exceptions;
-using MShop.Business.Interface;
-using MShop.Business.Interface.Repository;
-using MShop.Repository.Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MShop.Core.Message;
+using MShop.Repository.Interface;
 
 namespace MShop.Application.UseCases.GetCatetoryWithProducts.GetCatetory
 {
-    public class GetCategoryWithProducts : BaseUseCase, IGetCategoryWithProducts
+    public class GetCategoryWithProducts : Core.Base.BaseUseCase, IGetCategoryWithProducts
     {
         private readonly ICategoryRepository _categoryRepository;
         public GetCategoryWithProducts(INotification notification, ICategoryRepository categoryRepository) : base(notification)

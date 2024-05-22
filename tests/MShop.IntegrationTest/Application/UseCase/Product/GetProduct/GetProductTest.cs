@@ -1,11 +1,9 @@
-﻿using MShop.Repository.Repository;
-using MShop.Repository.Context;
-using ApplicationUseCase = MShop.Application.UseCases.Product.GetProduct;
-using MShop.Business.Validation;
-using MShop.Business.Exception;
-using MShop.Business.Interface;
-using MShop.Business.Exceptions;
+﻿using MShop.Core.Exception;
+using MShop.Core.Message;
 using MShop.IntegrationTests.Application.UseCase.Category;
+using MShop.Repository.Context;
+using MShop.Repository.Repository;
+using ApplicationUseCase = MShop.Application.UseCases.Product.GetProduct;
 
 namespace MShop.IntegrationTests.Application.UseCase.Product.GetProduct
 {

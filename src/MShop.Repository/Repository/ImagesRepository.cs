@@ -1,14 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MShop.Business.Entity;
-using MShop.Business.Interface.Repository;
+﻿using MShop.Business.Entity;
 using MShop.Repository.Context;
-using System;
-using System.Collections.Generic;
-using System.Data.SqlTypes;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
+using MShop.Repository.Interface;
 
 namespace MShop.Repository.Repository
 {

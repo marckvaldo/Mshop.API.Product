@@ -47,6 +47,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "filebeat", "filebeat", "{55
 		env\.docker\filebeat\filebeat.docker.yml = env\.docker\filebeat\filebeat.docker.yml
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MShop.Core", "src\MShop.Core\MShop.Core\MShop.Core.csproj", "{17E6CA11-277C-4B18-93DD-1FD4DE6CADA9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -89,6 +91,10 @@ Global
 		{A2AC551C-BCA1-4E7C-BA85-04D8806E3B9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A2AC551C-BCA1-4E7C-BA85-04D8806E3B9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A2AC551C-BCA1-4E7C-BA85-04D8806E3B9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17E6CA11-277C-4B18-93DD-1FD4DE6CADA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17E6CA11-277C-4B18-93DD-1FD4DE6CADA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17E6CA11-277C-4B18-93DD-1FD4DE6CADA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17E6CA11-277C-4B18-93DD-1FD4DE6CADA9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -106,6 +112,7 @@ Global
 		{A2AC551C-BCA1-4E7C-BA85-04D8806E3B9A} = {7EEC5625-36A0-4147-90A0-77F9396FAB11}
 		{677DDB28-9129-4B37-B390-4FD20B574C04} = {17F3E92E-0C73-4C1D-9C1D-F4B065377FEE}
 		{557C8518-B745-41D4-AF9B-5BF01263C3AF} = {677DDB28-9129-4B37-B390-4FD20B574C04}
+		{17E6CA11-277C-4B18-93DD-1FD4DE6CADA9} = {7EEC5625-36A0-4147-90A0-77F9396FAB11}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FCD02D27-5334-4D3E-9D23-761CB4C50D74}

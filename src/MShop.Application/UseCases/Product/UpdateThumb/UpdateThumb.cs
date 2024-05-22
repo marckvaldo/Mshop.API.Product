@@ -1,16 +1,11 @@
 ﻿using MShop.Application.Common;
-using MShop.Application.UseCases.Category.Common;
 using MShop.Application.UseCases.Product.Common;
-using MShop.Application.UseCases.Product.UpdateProduct;
-using MShop.Business.Exception;
-using MShop.Business.Interface;
-using MShop.Business.Interface.Repository;
+using MShop.Business.Events.Products;
 using MShop.Business.Interface.Service;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MShop.Core.Base;
+using MShop.Core.Data;
+using MShop.Core.Message;
+using MShop.Repository.Interface;
 
 namespace MShop.Application.UseCases.Product.UpdateThumb
 {
@@ -36,10 +31,24 @@ namespace MShop.Application.UseCases.Product.UpdateThumb
             NotifyExceptionIfNull(product, "Não foi possivel localizar o produto!");
 
             product!.IsValid(Notifications);
-            product.ProductUpdatedEvent();
-            NotifyExceptionIfNull(product.Events.Count == 0 ? null : product.Events, $" Não foi possivel registrar o event ProductUpdatedEvent");
+           
 
             await UploadImage(request, product);
+
+            product.ProductUpdatedEvent(new ProductUpdatedEvent(
+                   product.Id,
+                   product.Description,
+                   product.Name,
+                   product.Price,
+                   product.Stock,
+                   product.IsActive,
+                   product.CategoryId,
+                   product.Category.Name,
+                   product.Thumb?.Path,
+                   product.IsSale));
+
+            NotifyExceptionIfNull(product.Events.Count == 0 ? null : product.Events, $" Não foi possivel registrar o event ProductUpdatedEvent");
+
             await _productRepository.Update(product, cancellationToken);
             await _unitOfWork.CommitAsync(cancellationToken);
 

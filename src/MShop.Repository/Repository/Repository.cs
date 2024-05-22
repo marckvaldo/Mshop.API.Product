@@ -1,15 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MShop.Business.Exception;
-using MShop.Business.Interface;
-using MShop.Business.Interface.Repository;
-using MShop.Business.SeedWork;
+using MShop.Core.Data;
+using MShop.Core.DomainObject;
 using MShop.Repository.Context;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MShop.Repository.Repository
 {

@@ -8,7 +8,6 @@ using MShop.Application.UseCases.Product.ListProducts;
 using MShop.Application.UseCases.Product.UpdateProduct;
 using MShop.Application.UseCases.Product.UpdateStockProduct;
 using MShop.Application.UseCases.Product.UpdateThumb;
-using InterfaceBusiness = MShop.Business.Interface;
 
 namespace MShop.ProductAPI.Controllers
 {
@@ -37,7 +36,7 @@ namespace MShop.ProductAPI.Controllers
             INotification notification,
             IProductsPromotions productPromotions,
             IUpdateThumb updateThumb*/
-            InterfaceBusiness.INotification notification,
+            Core.Message.INotification notification,
             IMediator mediator
             ) : base(notification)
         {

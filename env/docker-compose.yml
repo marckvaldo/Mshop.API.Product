@@ -1,25 +1,25 @@
 version: "3.4"
 
 services:
-  app:
-    container_name: adm_videos_app
-    image: marckvaldo/mshop.api.product:V-33
-    #image: ""
-    restart: unless-stopped
-    ports:
-      - 5000:80
-    environment:
-      - ASPNETCORE_URLS=http://+:80
-      - ASPNETCORE_ENVIRONMENT=Production
-    depends_on:
-      - MShop.catalago.dev
-      - Mshop.Rabbitmq.dev
-      - Mshop.Filebeat.dev
-    labels:
-      filebeat_collector: true
-      decode_log_event_to_json_object: true
-    networks:
-      - app-catalago
+  # app:
+  #   container_name: adm_videos_app
+  #   image: marckvaldo/mshop.api.product:v-33
+  #   #image: ""
+  #   restart: unless-stopped
+  #   ports:
+  #     - 5000:80
+  #   environment:
+  #     - aspnetcore_urls=http://+:80
+  #     - aspnetcore_environment=production
+  #   depends_on:
+  #     - mshop.catalago.dev
+  #     - mshop.rabbitmq.dev
+  #     - mshop.filebeat.dev
+  #   labels:
+  #     filebeat_collector: true
+  #     decode_log_event_to_json_object: true
+  #   networks:
+  #     - app-catalago
 
   MShop.catalago.dev:
     container_name: catalagoDb-dev
@@ -56,30 +56,35 @@ services:
     networks:
       - app-catalago
 
-  Mshop.Filebeat.dev:
-    container_name: filebeat-dev
-    image: docker.elastic.co/beats/filebeat:8.10.2
-    command: filebeat -e -strict.perms=false
-    volumes:
-      - /var/lib/docker/containers:/var/lib/docker/containers:ro                    # Docker logs
-      - /var/run/docker.sock:/var/run/docker.sock:ro                                # Additional information about containers
-      - .docker/filebeat/filebeat.docker.yml:/usr/share/filebeat/filebeat.yml:ro    # Configuration file
-      - .docker/filebeat:/usr/share/filebeat/data:rw                                # Persistence data
-    user: root                                                                      # Allow access to log files and docker.sock
-    restart: on-failure
-    networks:
-      - app-catalago
+#  Mshop.Filebeat.dev:
+#    container_name: filebeat-dev
+#    image: docker.elastic.co/beats/filebeat:8.10.2
+#    command: filebeat -e -strict.perms=false
+#    volumes:
+#      - /var/lib/docker/containers:/var/lib/docker/containers:ro                    # Docker logs
+#      - /var/run/docker.sock:/var/run/docker.sock:ro                                # Additional information about containers
+#      - .docker/filebeat/filebeat.docker.yml:/usr/share/filebeat/filebeat.yml:ro    # Configuration file
+#      - .docker/filebeat:/usr/share/filebeat/data:rw                                # Persistence data
+#    user: root                                                                      # Allow access to log files and docker.sock
+#    restart: on-failure
+#    networks:
+#      - app-catalago
 
-  Mshop.heartbeat.dev:
-    container_name: heartbeat.dev
-    image: docker.elastic.co/beats/heartbeat:8.10.2
-    command: heartbeat -e -strict.perms=false
-    user: heartbeat 
-    volumes:
-      - .docker/heartbeat/heartbeat.docker.yml:/usr/share/heartbeat/heartbeat.yml:ro
-    restart: on-failure
-    networks:
-      - app-catalago
+#  Mshop.heartbeat.dev:
+#    container_name: heartbeat.dev
+#    image: docker.elastic.co/beats/heartbeat:8.10.2
+#    cap_add:
+#      - NET_RAW
+#    environment:
+#      - setup.kibana.host=kibana:5601
+#      - cap-add=NET_RAW
+#    command: heartbeat -e -strict.perms=false
+#    user: heartbeat 
+#    volumes:
+#      - .docker/heartbeat/heartbeat.docker.yml:/usr/share/heartbeat/heartbeat.yml:ro
+#    restart: on-failure
+#    networks:
+#      - app-catalago
 
 networks:
   app-catalago:

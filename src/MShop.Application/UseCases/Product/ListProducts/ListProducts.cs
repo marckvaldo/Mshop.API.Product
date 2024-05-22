@@ -1,12 +1,13 @@
 ﻿using MShop.Application.UseCases.Category.Common;
 using MShop.Application.UseCases.Product.Common;
-using MShop.Business.Interface;
-using MShop.Business.Interface.Repository;
-using MShop.Business.Paginated;
+using MShop.Core.Message;
+using MShop.Core.Paginated;
+using MShop.Repository.Interface;
+
 
 namespace MShop.Application.UseCases.Product.ListProducts
 {
-    public class ListProducts : BaseUseCase, IListProducts
+    public class ListProducts : Core.Base.BaseUseCase, IListProducts
     {
         private readonly IProductRepository _productRepostory;
 

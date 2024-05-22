@@ -1,16 +1,11 @@
 ﻿using Moq;
-using MShop.Business.Interface.Repository;
+using MShop.Application.UseCases.Images.DeleteImage;
 using MShop.Business.Interface.Service;
-using MShop.Business.Interface;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MShop.Core.Message;
+using MShop.Repository.Interface;
 using ApplicationUseCase = MShop.Application.UseCases.Images.DeleteImage;
 using BusinessEntity = MShop.Business.Entity;
-using MShop.Business.Entity;
-using MShop.Application.UseCases.Images.DeleteImage;
+using MShop.Core.Data;
 
 namespace MShop.UnitTests.Application.UseCases.Image.DelteImage
 {

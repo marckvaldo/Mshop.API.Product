@@ -1,9 +1,9 @@
-﻿using MShop.Application.UseCases.Category.Common;
-using MShop.Application.UseCases.Product.Common;
+﻿using MShop.Application.UseCases.Product.Common;
 using MShop.Application.UseCases.Product.ProductsPromotions;
-using MShop.Business.Interface;
-using MShop.Business.Interface.Cache;
-using MShop.Business.Interface.Repository;
+using MShop.Core.Base;
+using MShop.Core.Message;
+using MShop.Repository.Interface;
+using MShop.Core.Cache;
 
 
 namespace MShop.Application.UseCases.Product.Productspromotions

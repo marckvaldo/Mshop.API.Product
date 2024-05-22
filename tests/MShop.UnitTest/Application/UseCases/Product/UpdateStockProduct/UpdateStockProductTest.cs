@@ -1,12 +1,10 @@
 ﻿using Moq;
-using MShop.Business.Interface.Repository;
-using MShop.Business.Interface;
+using MShop.Core.Data;
+using MShop.Core.Exception;
+using MShop.Core.Message;
+using MShop.Repository.Interface;
 using ApplicationUseCase = MShop.Application.UseCases.Product.UpdateStockProduct;
 using BusinessEntity = MShop.Business.Entity;
-using MShop.Application.UseCases.Product.UpdateStockProduct;
-using MShop.Business.Exception;
-using System.Net.Http.Headers;
-using MShop.Repository.Repository;
 
 namespace Mshop.Tests.Application.UseCases.Product.UpdateStockProduct
 {

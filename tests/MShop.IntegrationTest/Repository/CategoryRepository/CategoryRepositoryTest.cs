@@ -1,21 +1,10 @@
-﻿using Bogus;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using MShop.Application.Event;
-using MShop.Business.Entity;
-using MShop.Business.Enum.Paginated;
-using MShop.Business.Interface.Repository;
-using MShop.Business.Paginated;
+using MShop.Core.Enum.Paginated;
+using MShop.Core.Paginated;
 using MShop.Repository.Context;
-using MShop.Repository.Repository;
 using MShop.Repository.UnitOfWork;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xunit;
 using InfraRepository = MShop.Repository.Repository;
 
 namespace MShop.IntegrationTests.Repository.CategoryRepository

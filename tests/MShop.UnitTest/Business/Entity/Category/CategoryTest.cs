@@ -1,6 +1,5 @@
-﻿using BusinessExceptions = MShop.Business.Exceptions;
-using MShop.Business.Validation;
-using MShop.UnitTests.Common;
+﻿using MShop.Core.Exception;
+using MShop.Core.Message;
 
 namespace Mshop.Test.Business.Entity.Category
 {
@@ -39,7 +38,7 @@ namespace Mshop.Test.Business.Entity.Category
             Action action =
                 () => category.IsValid(_notifications);
 
-            var exception = Assert.Throws<BusinessExceptions.EntityValidationException>(action);
+            var exception = Assert.Throws<EntityValidationException>(action);
 
             Assert.Equal("Validation errors", exception.Message);
             Assert.True(_notifications.HasErrors());

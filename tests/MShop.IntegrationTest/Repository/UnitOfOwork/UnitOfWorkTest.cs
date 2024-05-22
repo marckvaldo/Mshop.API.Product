@@ -3,18 +3,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Moq;
 using MShop.Application.Event;
-using MShop.Application.Event.Handler.Products;
-using MShop.Business.Events.Products;
-using MShop.Business.Interface.Event;
-using MShop.Business.Interface.Repository;
+using MShop.Core.Message.DomainEvent;
 using MShop.Repository.Context;
-using MShop.Repository.Repository;
 using MShop.Repository.UnitOfWork;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MShop.IntegrationTests.Repository.UnitOfOwork
 {

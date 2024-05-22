@@ -1,6 +1,6 @@
 ﻿using MShop.Business.Events.Products;
-using MShop.Business.Interface.Event;
-using MShop.Business.Interface.Repository;
+using MShop.Core.Message.DomainEvent;
+using MShop.Repository.Interface;
 
 namespace MShop.Application.Event.Handler.Products
 {
@@ -11,16 +11,16 @@ namespace MShop.Application.Event.Handler.Products
         public ProductCreatedEventHandler(IMessageProducer messageProducer, IProductRepository productRepository)
         {
             _messageProducer = messageProducer;
-            _productRepository = productRepository;
+            //_productRepository = productRepository;
         }
 
 
         public async Task HandlerAsync(ProductCreatedEvent domainEvent)
         {
             if (domainEvent.ProductId == Guid.Empty) return; 
-            var product = await _productRepository.GetProductWithCategory(domainEvent.ProductId);
-            if(product == null) return;
-            domainEvent.SetProduct(product);
+            //var product = await _productRepository.GetProductWithCategory(domainEvent.ProductId);
+            //if(product == null) return;
+            //domainEvent.SetProduct(product);
             await _messageProducer.SendMessageAsync(domainEvent);
         }
 

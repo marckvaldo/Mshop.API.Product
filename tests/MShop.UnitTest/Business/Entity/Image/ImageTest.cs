@@ -1,13 +1,7 @@
-﻿using Bogus;
-using MShop.Business.Entity;
-using MShop.Business.Exceptions;
-using MShop.Business.Interface;
-using MShop.Business.Validation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+
+using MShop.Core.Exception;
+using MShop.Core.Message;
 
 namespace MShop.UnitTests.Business.Entity.Image
 {

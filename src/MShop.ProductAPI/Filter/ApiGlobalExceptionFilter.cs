@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using MShop.Business.Interface;
+using MShop.Core.Message;
 using MShop.ProductAPI.Extension;
 
 namespace MShop.ProductAPI.Filter

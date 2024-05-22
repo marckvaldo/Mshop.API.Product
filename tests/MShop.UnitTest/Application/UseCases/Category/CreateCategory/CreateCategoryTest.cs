@@ -1,18 +1,10 @@
 ﻿using Moq;
+using MShop.Core.Data;
+using MShop.Core.Exception;
+using MShop.Core.Message;
+using MShop.Repository.Interface;
 using BusinessEntity = MShop.Business.Entity;
-using MShop.Business.Interface;
-using MShop.Business.Interface.Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using useCase = MShop.Application.UseCases.Category.CreateCategory;
-using MShop.Business.Exceptions;
-using MShop.Business.Validation;
-using MShop.Business.Entity;
-using MShop.Business.Exception;
-using MShop.UnitTests.Application.UseCases.Category.common;
 
 namespace MShop.UnitTests.Application.UseCases.Category.CreateCategory
 {
@@ -47,7 +39,7 @@ namespace MShop.UnitTests.Application.UseCases.Category.CreateCategory
         [Trait("Application-UseCase", "Create Category")]
         [MemberData(nameof(ListNamesCategoryInvalid))]
 
-        public async void CreateCategoryInvalid(string name)
+        public void CreateCategoryInvalid(string name)
         {
             var repository = new Mock<ICategoryRepository>();       
             var notification = new Notifications();

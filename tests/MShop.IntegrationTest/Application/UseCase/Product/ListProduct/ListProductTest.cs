@@ -1,7 +1,6 @@
 ﻿using MShop.Application.UseCases.Product.ListProducts;
-using MShop.Business.Enum.Paginated;
-using MShop.Business.Interface;
-using MShop.Business.Validation;
+using MShop.Core.Enum.Paginated;
+using MShop.Core.Message;
 using MShop.IntegrationTests.Application.UseCase.Category;
 using MShop.Repository.Context;
 using MShop.Repository.Repository;

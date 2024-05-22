@@ -1,18 +1,12 @@
 ﻿using Moq;
-using MShop.Business.Interface;
-using MShop.Business.Interface.Repository;
+using MShop.Application.UseCases.Product.UpdateProduct;
+using MShop.Business.Interface.Service;
+using MShop.Core.Data;
+using MShop.Core.Exception;
+using MShop.Core.Message;
+using MShop.Repository.Interface;
 using ApplicationUseCase = MShop.Application.UseCases.Product.UpdateProduct;
 using BusinessEntity = MShop.Business.Entity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MShop.Business.Entity;
-using MShop.Application.UseCases.Product.UpdateProduct;
-using MShop.Business.Exception;
-using MShop.Business.Exceptions;
-using MShop.Business.Interface.Service;
 
 namespace Mshop.Tests.Application.UseCases.Product.UpdateProduct
 {

@@ -1,8 +1,9 @@
 ﻿using Moq;
-using MShop.Business.Exception;
-using MShop.Business.Interface;
-using MShop.Business.Interface.Repository;
 using MShop.Business.Interface.Service;
+using MShop.Core.Data;
+using MShop.Core.Exception;
+using MShop.Core.Message;
+using MShop.Repository.Interface;
 using ApplicationUseCase = MShop.Application.UseCases.Product.DeleteProduct;
 using BusinessEntity = MShop.Business.Entity;
 

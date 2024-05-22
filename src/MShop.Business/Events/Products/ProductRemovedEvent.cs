@@ -1,4 +1,5 @@
-﻿using MShop.Business.SeedWork;
+﻿
+using MShop.Core.DomainObject;
 
 namespace MShop.Business.Events.Products
 {

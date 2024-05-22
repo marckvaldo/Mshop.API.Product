@@ -1,13 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
-using MShop.Business.Interface.Event;
-using MShop.Business.Interface.Repository;
-using MShop.Business.SeedWork;
+using MShop.Core.Data;
+using MShop.Core.DomainObject;
+using MShop.Core.Message.DomainEvent;
 using MShop.Repository.Context;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MShop.Repository.UnitOfWork
 {
@@ -31,7 +26,7 @@ namespace MShop.Repository.UnitOfWork
         {
             
             var aggregateRoot = _repositoryDbContext.ChangeTracker
-                .Entries<AggregateRoot>()
+                .Entries<Entity>()
                 .Where(x => x.Entity.Events.Any())
                 .Select(x => x.Entity)
                 .ToList();
@@ -39,6 +34,17 @@ namespace MShop.Repository.UnitOfWork
             var events = aggregateRoot
                 .SelectMany(a => a.Events)
                 .ToList();
+
+            
+            /*foreach(var entity in _repositoryDbContext.ChangeTracker.Entries<AggregateRoot>().Where(e => e.Entity.GetType().GetProperty("DataCadastro") != null))
+            {
+
+                if (entity.State == EntityState.Added)
+                    entity.Property("DataCadastro").CurrentValue = DateTime.Now;
+
+                if (entity.State == EntityState.Modified)
+                    entity.Property("DataCadastro").IsModified = false;
+            }*/
 
             await _repositoryDbContext.SaveChangesAsync(cancellationToken);
 

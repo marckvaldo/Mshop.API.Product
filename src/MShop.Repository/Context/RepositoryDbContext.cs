@@ -1,10 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MShop.Business.Entity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MShop.Repository.Context
 {
@@ -32,6 +27,8 @@ namespace MShop.Repository.Context
             {
                 property.SetColumnType("Varchar(100)");
             }
+            
+            //modelBuilder.Ignore<DomainEvent>();
 
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(RepositoryDbContext).Assembly);
 

@@ -5,7 +5,6 @@ using MShop.Application.UseCases.Images.CreateImage;
 using MShop.Application.UseCases.Images.DeleteImage;
 using MShop.Application.UseCases.Images.GetImage;
 using MShop.Application.UseCases.Images.ListImage;
-using InterfaceBusiness = MShop.Business.Interface;
 
 namespace MShop.ProductAPI.Controllers
 {
@@ -25,7 +24,7 @@ namespace MShop.ProductAPI.Controllers
             ICreateImage createImage,
             IListImage listImage,*/
             IMediator mediator,
-            InterfaceBusiness.INotification notification
+            Core.Message.INotification notification
             ) : base(notification)
         {
             /*_getImage = getImage;

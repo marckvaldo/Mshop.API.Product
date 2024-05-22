@@ -1,21 +1,13 @@
-﻿using ApplicationUseCase = MShop.Application.UseCases.Category.CreateCategory;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Moq;
-using MShop.Business.Interface.Repository;
-using MShop.Business.Interface;
-using MShop.Repository.Repository;
-using MShop.Business.Validation;
-using MShop.Repository.Context;
-using Microsoft.EntityFrameworkCore;
-using MShop.Business.Exceptions;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using MShop.Application.Event;
+using MShop.Core.Exception;
+using MShop.Core.Message;
+using MShop.Repository.Context;
+using MShop.Repository.Interface;
+using MShop.Repository.Repository;
 using MShop.Repository.UnitOfWork;
+using ApplicationUseCase = MShop.Application.UseCases.Category.CreateCategory;
 
 namespace MShop.IntegrationTests.Application.UseCase.Category.CreateCategory
 {

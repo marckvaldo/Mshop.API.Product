@@ -2,9 +2,9 @@
 using Microsoft.Extensions.Logging;
 using MShop.Application.Event;
 using MShop.Business.Entity;
-using MShop.Business.Enum.Paginated;
-using MShop.Business.Paginated;
-using MShop.Business.Validation;
+using MShop.Core.Enum.Paginated;
+using MShop.Core.Message;
+using MShop.Core.Paginated;
 using MShop.IntegrationTests.Repository.CategoryRepository;
 using MShop.Repository.Context;
 using MShop.Repository.UnitOfWork;

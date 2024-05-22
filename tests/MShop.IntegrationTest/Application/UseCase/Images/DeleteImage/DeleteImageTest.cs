@@ -1,23 +1,16 @@
-﻿using MShop.Business.Interface.Repository;
-using MShop.Business.Interface.Service;
-using MShop.Business.Interface;
-using MShop.Business.Service;
-using MShop.Business.Validation;
-using MShop.IntegrationTests.Application.UseCase.Images.Commom;
-using MShop.Repository.Context;
-using MShop.Repository.Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ApplicationUseCase = MShop.Application.UseCases.Images.DeleteImage;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using MShop.Application.Event;
-using MShop.Repository.UnitOfWork;
 using MShop.Application.UseCases.Images.DeleteImage;
+using MShop.Business.Interface.Service;
+using MShop.Business.Service;
+using MShop.Core.Message;
+using MShop.IntegrationTests.Application.UseCase.Images.Commom;
+using MShop.Repository.Context;
+using MShop.Repository.Interface;
+using MShop.Repository.Repository;
+using MShop.Repository.UnitOfWork;
+using ApplicationUseCase = MShop.Application.UseCases.Images.DeleteImage;
 
 namespace MShop.IntegrationTests.Application.UseCase.Images.DeleteImage
 {

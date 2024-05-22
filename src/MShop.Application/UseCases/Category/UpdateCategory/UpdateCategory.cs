@@ -1,18 +1,11 @@
 ﻿using MShop.Application.UseCases.Category.Common;
-using MShop.Business.Entity;
-using MShop.Business.Exception;
-using MShop.Business.Exceptions;
-using MShop.Business.Interface;
-using MShop.Business.Interface.Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MShop.Core.Data;
+using MShop.Core.Message;
+using MShop.Repository.Interface;
 
 namespace MShop.Application.UseCases.Category.UpdateCategory
 {
-    public class UpdateCategory : BaseUseCase, IUpdateCategory
+    public class UpdateCategory : Core.Base.BaseUseCase, IUpdateCategory
     {
         private readonly ICategoryRepository _categoryRepository;
         private readonly IUnitOfWork _unitOfWork;

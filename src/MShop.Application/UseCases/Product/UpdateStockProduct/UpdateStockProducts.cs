@@ -1,13 +1,10 @@
 ﻿using MShop.Application.UseCases.Product.Common;
-using MShop.Business.Exception;
-using MShop.Business.Exceptions;
-using MShop.Business.Interface;
-using MShop.Business.Interface.Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MShop.Business.Entity;
+using MShop.Business.Events.Products;
+using MShop.Core.Base;
+using MShop.Core.Data;
+using MShop.Core.Message;
+using MShop.Repository.Interface;
 
 namespace MShop.Application.UseCases.Product.UpdateStockProduct
 {
@@ -32,10 +29,24 @@ namespace MShop.Application.UseCases.Product.UpdateStockProduct
 
             product!.UpdateQuantityStock(request.Stock);
             product.IsValid(Notifications);
-            product.ProductUpdatedEvent();
+
+           
+            await _productRepository.Update(product, cancellationToken);
+
+            product.ProductUpdatedEvent(new ProductUpdatedEvent(
+                    product.Id,
+                    product.Description,
+                    product.Name,
+                    product.Price,
+                    product.Stock,
+                    product.IsActive,
+                    product.CategoryId,
+                    "Cantegoria",
+                    product.Thumb?.Path,
+                    product.IsSale));
+
             NotifyExceptionIfNull(product.Events.Count == 0 ? null : product.Events, $" Não foi possivel registrar o event ProductUpdatedEvent");
 
-            await _productRepository.Update(product, cancellationToken);
             await _unitOfWork.CommitAsync(cancellationToken);
 
             return new ProductModelOutPut(

@@ -1,16 +1,15 @@
 ﻿using MShop.Application.Common;
 using MShop.Application.UseCases.Images.Common;
 using MShop.Business.Entity;
-using MShop.Business.Exception;
-using MShop.Business.Interface;
-using MShop.Business.Interface.Repository;
 using MShop.Business.Interface.Service;
-using MShop.Repository.Repository;
+using MShop.Core.Data;
+using MShop.Core.Message;
+using MShop.Repository.Interface;
 
 
 namespace MShop.Application.UseCases.Images.CreateImage
 {
-    public class CreateImage : BaseUseCase,  ICreateImage
+    public class CreateImage : Core.Base.BaseUseCase,  ICreateImage
     {
         private readonly IImageRepository _imageRepository;
         private readonly IProductRepository _productRepository;

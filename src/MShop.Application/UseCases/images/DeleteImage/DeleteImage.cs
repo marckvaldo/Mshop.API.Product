@@ -1,12 +1,9 @@
 ﻿using MShop.Application.UseCases.Images.Common;
-using MShop.Application.UseCases.Images.CreateImage;
-using MShop.Application.UseCases.Images.DeleteImage;
-using MShop.Business.Entity;
-using MShop.Business.Exception;
-using MShop.Business.Interface;
-using MShop.Business.Interface.Repository;
 using MShop.Business.Interface.Service;
-using static System.Net.Mime.MediaTypeNames;
+using MShop.Core.Base;
+using MShop.Core.Data;
+using MShop.Core.Message;
+using MShop.Repository.Interface;
 
 
 namespace MShop.Application.UseCases.Images.DeleteImage

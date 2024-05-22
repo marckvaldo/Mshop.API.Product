@@ -1,15 +1,13 @@
-﻿using MShop.Application.UseCases.Product.Common;
+﻿using MShop.Application.Common;
+using MShop.Application.UseCases.Product.Common;
 using MShop.Business.Entity;
-using MShop.Business.Exceptions;
-using MShop.Business.Interface;
-using MShop.Business.Interface.Repository;
-using System.ComponentModel.DataAnnotations;
-using MShop.Business.ValueObject;
-using MShop.Application.UseCases.Product.CreateProducts;
+using MShop.Business.Events.Products;
 using MShop.Business.Interface.Service;
-using MShop.Application.Common;
-using MShop.Business.Exception;
-using MShop.Repository.Repository;
+using MShop.Core.Base;
+using MShop.Core.Data;
+using MShop.Core.Exception;
+using MShop.Core.Message;
+using MShop.Repository.Interface;
 
 namespace MShop.Application.UseCases.Product.UpdateProduct
 {
@@ -51,15 +49,27 @@ namespace MShop.Application.UseCases.Product.UpdateProduct
                 product.DeactiveSale();
             
             product.IsValid(Notifications);
-            product.ProductUpdatedEvent();
-            NotifyExceptionIfNull(product.Events.Count == 0 ? null : product.Events, $" Não foi possivel registrar o event ProductUpdatedEvent");
-
-            var hasCategory = await _categoryRepository.GetById(product.CategoryId);
-            NotFoundException.ThrowIfnull(hasCategory, $"Categoria {product.CategoryId} não encontrada");
+      
+            var category = await _categoryRepository.GetById(product.CategoryId);
+            NotFoundException.ThrowIfnull(category, $"Categoria {product.CategoryId} não encontrada");
 
             try
             {
                 await UploadImage(request, product);
+
+                product.ProductUpdatedEvent(new ProductUpdatedEvent(
+                    product.Id,
+                    product.Description,
+                    product.Name,
+                    product.Price,
+                    product.Stock,
+                    product.IsActive,
+                    product.CategoryId,
+                    category.Name,
+                    product.Thumb?.Path,
+                    product.IsSale));
+
+                NotifyExceptionIfNull(product.Events.Count == 0 ? null : product.Events, $" Não foi possivel registrar o event ProductUpdatedEvent");
 
                 await _productRepository.Update(product, cancellationToken);
                 await _unitOfWork.CommitAsync(cancellationToken);   

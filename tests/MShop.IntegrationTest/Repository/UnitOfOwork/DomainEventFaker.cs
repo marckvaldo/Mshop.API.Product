@@ -1,9 +1,4 @@
-﻿using MShop.Business.SeedWork;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MShop.Core.DomainObject;
 
 namespace MShop.IntegrationTests.Repository.UnitOfOwork
 {

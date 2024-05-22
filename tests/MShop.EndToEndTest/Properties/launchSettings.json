@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "MShop.EndToEndTest": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:65017;http://localhost:65023"
+    }
+  }
+}

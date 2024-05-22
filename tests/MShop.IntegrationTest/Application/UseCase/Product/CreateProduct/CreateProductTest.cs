@@ -1,10 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using MShop.Application.Event;
-using MShop.Business.Exceptions;
-using MShop.Business.Interface;
 using MShop.Business.Service;
-using MShop.Business.Validation;
+using MShop.Core.Exception;
+using MShop.Core.Message;
 using MShop.IntegrationTests.Application.UseCase.Category;
 using MShop.Repository.Context;
 using MShop.Repository.Repository;

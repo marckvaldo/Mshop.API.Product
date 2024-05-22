@@ -1,16 +1,8 @@
-﻿using MShop.Application.UseCases.Category.GetCategory;
-using MShop.Application.UseCases.Images.Common;
-using MShop.Application.UseCases.Images.GetImage;
-using MShop.Business.Exception;
-using MShop.Business.Interface;
-using MShop.Business.Interface.Repository;
+﻿using MShop.Application.UseCases.Images.Common;
 using MShop.Business.Interface.Service;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MShop.Core.Base;
+using MShop.Core.Message;
+using MShop.Repository.Interface;
 
 namespace MShop.Application.UseCases.Images.GetImage
 {

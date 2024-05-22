@@ -1,5 +1,5 @@
-﻿using MShop.Business.Interface;
-using MShop.Business.Validation;
+﻿using MShop.Core.DomainObject;
+using MShop.Core.Message;
 
 namespace MShop.Business.Validator
 {

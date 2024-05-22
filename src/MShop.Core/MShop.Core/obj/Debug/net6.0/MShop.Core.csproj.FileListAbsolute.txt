@@ -1,0 +1,12 @@
+C:\Users\IQ SISTEMAS\Documents\mShopping\Mshop.API.Product\src\MShop.Core\MShop.Core\obj\Debug\net6.0\MShop.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\IQ SISTEMAS\Documents\mShopping\Mshop.API.Product\src\MShop.Core\MShop.Core\obj\Debug\net6.0\MShop.Core.AssemblyInfoInputs.cache
+C:\Users\IQ SISTEMAS\Documents\mShopping\Mshop.API.Product\src\MShop.Core\MShop.Core\obj\Debug\net6.0\MShop.Core.AssemblyInfo.cs
+C:\Users\IQ SISTEMAS\Documents\mShopping\Mshop.API.Product\src\MShop.Core\MShop.Core\obj\Debug\net6.0\MShop.Core.csproj.CoreCompileInputs.cache
+C:\Users\IQ SISTEMAS\Documents\mShopping\Mshop.API.Product\src\MShop.Core\MShop.Core\obj\Debug\net6.0\MShop.Core.sourcelink.json
+C:\Users\IQ SISTEMAS\Documents\mShopping\Mshop.API.Product\src\MShop.Core\MShop.Core\bin\Debug\net6.0\MShop.Core.deps.json
+C:\Users\IQ SISTEMAS\Documents\mShopping\Mshop.API.Product\src\MShop.Core\MShop.Core\bin\Debug\net6.0\MShop.Core.dll
+C:\Users\IQ SISTEMAS\Documents\mShopping\Mshop.API.Product\src\MShop.Core\MShop.Core\bin\Debug\net6.0\MShop.Core.pdb
+C:\Users\IQ SISTEMAS\Documents\mShopping\Mshop.API.Product\src\MShop.Core\MShop.Core\obj\Debug\net6.0\MShop.Core.dll
+C:\Users\IQ SISTEMAS\Documents\mShopping\Mshop.API.Product\src\MShop.Core\MShop.Core\obj\Debug\net6.0\refint\MShop.Core.dll
+C:\Users\IQ SISTEMAS\Documents\mShopping\Mshop.API.Product\src\MShop.Core\MShop.Core\obj\Debug\net6.0\MShop.Core.pdb
+C:\Users\IQ SISTEMAS\Documents\mShopping\Mshop.API.Product\src\MShop.Core\MShop.Core\obj\Debug\net6.0\ref\MShop.Core.dll

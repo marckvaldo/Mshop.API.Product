@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MShop.Core\MShop.Core\MShop.Core.csproj" />
+  </ItemGroup>
+
 </Project>

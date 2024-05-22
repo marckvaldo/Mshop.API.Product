@@ -1,12 +1,11 @@
 ﻿using Moq;
-using MShop.Business.Interface.Repository;
-using MShop.Business.Interface;
+using MShop.Application.UseCases.Product.ListProducts;
+using MShop.Core.Enum.Paginated;
+using MShop.Core.Message;
+using MShop.Core.Paginated;
+using MShop.Repository.Interface;
 using ApplicationUseCase = MShop.Application.UseCases.Product.ListProducts;
 using BusinessEntity = MShop.Business.Entity;
-using BusinessInterface = MShop.Business.Interface;
-using MShop.Application.UseCases.Product.ListProducts;
-using MShop.Business.Enum.Paginated;
-using MShop.Business.Paginated;
 
 namespace Mshop.Tests.Application.UseCases.Product.ListProducts
 {

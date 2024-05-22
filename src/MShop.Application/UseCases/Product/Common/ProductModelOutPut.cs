@@ -5,6 +5,25 @@ namespace MShop.Application.UseCases.Product.Common
 {
     public class ProductModelOutPut
     {
+        public Guid Id { get; set; }
+
+        public string Description { get; set; }
+
+        public string Name { get; set; }
+
+        public decimal Price { get; set; }
+
+        public decimal Stock { get;  set; }
+
+        public bool IsActive { get; set; }
+
+        public Guid CategoryId { get; set; }
+
+        public string? Thumb { get; set; }
+
+        public CategoryModelOutPut Category { get; set; }   
+
+        public bool IsPromotion { get; set; }
         public ProductModelOutPut(Guid id, 
             string description,
             string name, 
@@ -27,25 +46,6 @@ namespace MShop.Application.UseCases.Product.Common
             Category = category;
             IsPromotion = isPromotion;
         }
-        public Guid Id { get; set; }
-
-        public string Description { get; set; }
-
-        public string Name { get; set; }
-
-        public decimal Price { get; set; }
-
-        public decimal Stock { get;  set; }
-
-        public bool IsActive { get; set; }
-
-        public Guid CategoryId { get; set; }
-
-        public string? Thumb { get; set; }
-
-        public CategoryModelOutPut Category { get; set; }   
-
-        public bool IsPromotion { get; set; }
 
         public static ProductModelOutPut FromProduct(Busines.Product product)
         {

@@ -1,27 +1,20 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Moq;
 using MShop.Application.Event;
-using MShop.Business.Exceptions;
-using MShop.Business.Interface;
-using MShop.Business.Interface.Event;
-using MShop.Business.Interface.Repository;
 using MShop.Business.Interface.Service;
 using MShop.Business.Service;
-using MShop.Business.Validation;
+using MShop.Core.Message;
+using MShop.Core.Message.DomainEvent;
 using MShop.IntegrationTests.Application.UseCase.Category;
 using MShop.IntegrationTests.Application.UseCase.Images.Commom;
 using MShop.IntegrationTests.Application.UseCase.Images.CreateImage;
 using MShop.IntegrationTests.Application.UseCase.Product;
 using MShop.Repository.Context;
+using MShop.Repository.Interface;
 using MShop.Repository.Repository;
 using MShop.Repository.UnitOfWork;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ApplicationUseCase = MShop.Application.UseCases.Images.CreateImage;
+using MShop.Core.Data;
 
 namespace MShop.IntegrationTests.Application.UseCase.Images.CreateImages
 {

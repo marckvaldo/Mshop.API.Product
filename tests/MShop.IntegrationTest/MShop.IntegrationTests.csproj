@@ -29,6 +29,7 @@
     <ProjectReference Include="..\..\src\MShop.Application\MShop.Application.csproj" />
     <ProjectReference Include="..\..\src\MShop.Business\MShop.Business.csproj" />
     <ProjectReference Include="..\..\src\Mshop.Chache\MShop.Cache.csproj" />
+    <ProjectReference Include="..\..\src\MShop.Core\MShop.Core\MShop.Core.csproj" />
     <ProjectReference Include="..\..\src\MShop.Repository\MShop.Repository.csproj" />
   </ItemGroup>
 

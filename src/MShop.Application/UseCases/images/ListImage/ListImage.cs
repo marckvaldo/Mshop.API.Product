@@ -1,12 +1,7 @@
 ﻿using MShop.Application.UseCases.Images.Common;
-using MShop.Application.UseCases.Images.ListImage;
-using MShop.Business.Interface;
-using MShop.Business.Interface.Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MShop.Core.Base;
+using MShop.Core.Message;
+using MShop.Repository.Interface;
 
 namespace MShop.Application.UseCases.Images.ListImage
 {

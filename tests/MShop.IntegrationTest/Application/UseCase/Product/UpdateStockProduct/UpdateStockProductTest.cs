@@ -1,15 +1,13 @@
-﻿using MShop.Repository.Repository;
-using MShop.Business.Validation;
-using MShop.Repository.Context;
-using Microsoft.EntityFrameworkCore;
-using ApplicationUseCase = MShop.Application.UseCases.Product.UpdateStockProduct;
-using MShop.Business.Interface.Service;
-using Moq;
-using MShop.Business.Interface;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Moq;
 using MShop.Application.Event;
+using MShop.Business.Interface.Service;
+using MShop.Core.Message;
+using MShop.Repository.Context;
+using MShop.Repository.Repository;
 using MShop.Repository.UnitOfWork;
+using ApplicationUseCase = MShop.Application.UseCases.Product.UpdateStockProduct;
 
 namespace MShop.IntegrationTests.Application.UseCase.Product.UpdateStockProduct
 {

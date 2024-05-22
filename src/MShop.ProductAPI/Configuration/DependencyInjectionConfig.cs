@@ -1,13 +1,13 @@
 ﻿using Mshop.Cache.RepositoryRedis;
 using MShop.Application.Event;
-using MShop.Business.Interface;
-using MShop.Business.Interface.Cache;
-using MShop.Business.Interface.Event;
-using MShop.Business.Interface.Repository;
 using MShop.Business.Interface.Service;
 using MShop.Business.Service;
-using MShop.Business.Validation;
+using MShop.Core.Cache;
+using MShop.Core.Data;
+using MShop.Core.Message;
+using MShop.Core.Message.DomainEvent;
 using MShop.Repository.Context;
+using MShop.Repository.Interface;
 using MShop.Repository.Repository;
 using MShop.Repository.UnitOfWork;
 

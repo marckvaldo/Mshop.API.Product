@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
-using MShop.Business.Interface.Event;
+using MShop.Core.Message.DomainEvent;
 using MShop.Messaging.Configuration;
 using RabbitMQ.Client;
 using System.Text.Json;

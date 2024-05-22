@@ -1,6 +1,6 @@
 ﻿using MShop.Business.Events.Products;
-using MShop.Business.Interface.Event;
-using MShop.Business.Interface.Repository;
+using MShop.Core.Message.DomainEvent;
+using MShop.Repository.Interface;
 
 namespace MShop.Application.Event.Handler.Products
 {

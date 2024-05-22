@@ -1,11 +1,10 @@
-﻿using MShop.Business.Exceptions;
-using MShop.Business.Interface;
-using MShop.Business.SeedWork;
-using MShop.Business.Validator;
+﻿using MShop.Business.Validator;
+using CoreException = MShop.Core.Exception;
+using Core =MShop.Core.Message;
 
 namespace MShop.Business.Entity
 {
-    public class Image : AggregateRoot
+    public class Image : Core.DomainObject.Entity
     {
         public Image(string fileName, Guid productId)
         {
@@ -16,13 +15,13 @@ namespace MShop.Business.Entity
         public string FileName { get; set; }
         public Guid ProductId { get; set; }
 
-        public void IsValid(INotification notification)
+        public override void IsValid(Core.Message.INotification notification)
         {
             var imageValidate = new ImageValidador(this, notification);
             imageValidate.Validate();
             if (notification.HasErrors())
             {
-                throw new EntityValidationException("Validation errors");
+                throw new CoreException.EntityValidationException("Validation errors");
             }
         }
 

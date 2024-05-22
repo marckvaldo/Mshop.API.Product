@@ -1,13 +1,8 @@
 ﻿using Moq;
-using MShop.Business.Interface;
-using MShop.Business.Interface.Repository;
 using MShop.Business.Interface.Service;
-using MShop.UnitTests.Application.UseCases.Image.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MShop.Core.Data;
+using MShop.Core.Message;
+using MShop.Repository.Interface;
 using ApplicationUseCase = MShop.Application.UseCases.Images.CreateImage;
 using BusinessEntity = MShop.Business.Entity;
 

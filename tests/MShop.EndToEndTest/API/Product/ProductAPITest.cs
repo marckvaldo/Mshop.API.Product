@@ -1,8 +1,7 @@
 ﻿using MShop.Application.UseCases.Product.Common;
 using MShop.Application.UseCases.Product.ListProducts;
-using MShop.Business.Entity;
-using MShop.Business.Enum.Paginated;
 using MShop.Business.Events.Products;
+using MShop.Core.Enum.Paginated;
 using MShop.EndToEndTest.API.Common;
 using MShop.EndToEndTest.API.Product.Common;
 using MShop.EndToEndTest.Common;
@@ -52,7 +51,7 @@ namespace MShop.EndToEndTest.API.Product
             Assert.Equal(@event.ProductId, dbProduct.Id);
             Assert.Equal(@event.Name, dbProduct.Name);
             Assert.Equal(@event.Price, dbProduct.Price);
-            Assert.Equal(@event.Thumb.Path, dbProduct.Thumb.Path);
+            Assert.Equal(@event.Thumb, dbProduct.Thumb?.Path);
             Assert.Equal(@event.CategoryId, dbProduct.CategoryId);
             Assert.Equal(@event.Description, dbProduct.Description);
             Assert.Equal(@event.IsActive, dbProduct.IsActive);  
@@ -100,7 +99,7 @@ namespace MShop.EndToEndTest.API.Product
             Assert.Equal(@event.ProductId, dbProduct.Id);
             Assert.Equal(@event.Name, dbProduct.Name);
             Assert.Equal(@event.Price, dbProduct.Price);
-            Assert.Equal(@event.Thumb.Path, dbProduct.Thumb.Path);
+            Assert.Equal(@event.Thumb, dbProduct.Thumb.Path);
             Assert.Equal(@event.CategoryId, dbProduct.CategoryId);
             Assert.Equal(@event.Description, dbProduct.Description);
             Assert.Equal(@event.IsActive, dbProduct.IsActive);
@@ -147,7 +146,7 @@ namespace MShop.EndToEndTest.API.Product
             Assert.Equal(@event.ProductId, persistence.Id);
             Assert.Equal(@event.Name, persistence.Name);
             Assert.Equal(@event.Price, persistence.Price);
-            Assert.Equal(@event.Thumb.Path, persistence.Thumb.Path);
+            Assert.Equal(@event.Thumb, persistence.Thumb.Path);
             Assert.Equal(@event.CategoryId, persistence.CategoryId);
             Assert.Equal(@event.Description, persistence.Description);
             Assert.Equal(@event.IsActive, persistence.IsActive);
@@ -198,7 +197,7 @@ namespace MShop.EndToEndTest.API.Product
             Assert.Equal(@event.ProductId, persistence.Id);
             Assert.Equal(@event.Name, persistence.Name);
             Assert.Equal(@event.Price, persistence.Price);
-            Assert.Equal(@event.Thumb.Path, persistence.Thumb.Path);
+            Assert.Equal(@event.Thumb, persistence.Thumb.Path);
             Assert.Equal(@event.CategoryId, persistence.CategoryId);
             Assert.Equal(@event.Description, persistence.Description);
             Assert.Equal(@event.IsActive, persistence.IsActive);
@@ -301,7 +300,7 @@ namespace MShop.EndToEndTest.API.Product
             Assert.Equal(@event.ProductId, productDb.Id);
             Assert.Equal(@event.Name, productDb.Name);
             Assert.Equal(@event.Price, productDb.Price);
-            Assert.Equal(@event.Thumb.Path, productDb.Thumb.Path);
+            Assert.Equal(@event.Thumb, productDb.Thumb.Path);
             Assert.Equal(@event.CategoryId, productDb.CategoryId);
             Assert.Equal(@event.Description, productDb.Description);
             Assert.Equal(@event.IsActive, productDb.IsActive);

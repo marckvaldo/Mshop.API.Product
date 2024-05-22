@@ -4,13 +4,11 @@ using MShop.Application.UseCases.Category.Common;
 using MShop.Application.UseCases.Category.CreateCategory;
 using MShop.Application.UseCases.Category.DeleteCategory;
 using MShop.Application.UseCases.Category.GetCategory;
-using MShop.Application.UseCases.Category.GetCategory;
 using MShop.Application.UseCases.Category.GetCatetoryWithProducts;
 using MShop.Application.UseCases.Category.ListCategorys;
 using MShop.Application.UseCases.Category.UpdateCategory;
 using MShop.Application.UseCases.GetCatetoryWithProducts.GetCatetory;
-using MShop.Business.Exceptions;
-using InterfaceBusiness = MShop.Business.Interface;
+using Core = MShop.Core.Message;
 
 
 namespace MShop.ProductAPI.Controllers
@@ -35,7 +33,7 @@ namespace MShop.ProductAPI.Controllers
             IDeleteCategory deleteCategory,
             IGetCategoryWithProducts getCatetoryWithProducts,*/
             IMediator mediator,
-            InterfaceBusiness.INotification notification) : base(notification)
+            Core.Message.INotification notification) : base(notification)
         {
             /*_getCategory = getCategory;
             _listCategory = listCategory;

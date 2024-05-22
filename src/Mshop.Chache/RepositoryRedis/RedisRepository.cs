@@ -1,6 +1,6 @@
-﻿using System.Text.Json;
-using Microsoft.Extensions.Caching.Distributed;
-using MShop.Business.Interface.Cache;
+﻿using Microsoft.Extensions.Caching.Distributed;
+using MShop.Core.Cache;
+using System.Text.Json;
 
 namespace Mshop.Cache.RepositoryRedis
 {

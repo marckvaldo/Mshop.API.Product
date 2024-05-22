@@ -1,17 +1,18 @@
-﻿using MShop.Business.Exceptions;
-using MShop.Business.Interface;
-using MShop.Business.SeedWork;
-using MShop.Business.Validator;
+﻿using MShop.Business.Validator;
+using MShop.Core.Exception;
+using Core = MShop.Core.Message;
+
 
 namespace MShop.Business.Entity
 {
-    public class Category : AggregateRoot
+    public class Category : Core.DomainObject.Entity
     {
 
         public string Name { get; private set; }
 
         public bool IsActive { get; private set; }
 
+        //Entity
         public List<Product> Products { get; private set; }
 
         public Category(string name, bool isActive = true)
@@ -21,11 +22,11 @@ namespace MShop.Business.Entity
 
         }
 
-        public void IsValid(INotification _notification)
+        public override void IsValid(Core.Message.INotification notification)
         {
-            var categoryValidador = new CategoryValidador(this, _notification);
+            var categoryValidador = new CategoryValidador(this, notification);
             categoryValidador.Validate();
-            if (_notification.HasErrors())
+            if (notification.HasErrors())
             {
                 throw new EntityValidationException("Validation errors");
             }

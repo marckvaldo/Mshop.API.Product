@@ -1,37 +1,48 @@
 ﻿using MShop.Business.Entity;
-using MShop.Business.SeedWork;
 using MShop.Business.ValueObject;
+using MShop.Core.DomainObject;
 
 namespace MShop.Business.Events.Products
 {
     public class ProductCreatedEvent : DomainEvent
     {
-        public ProductCreatedEvent(Guid productId)
+        public ProductCreatedEvent(Guid productId, string description, string name, 
+            decimal price, decimal stock, bool isActive, Guid categoryId, string category, string? thumb, bool isSale)
         {
             ProductId = productId;
+            Description = description;
+            Name = name;
+            Price = price;
+            Stock = stock;
+            IsActive = isActive;
+            CategoryId = categoryId;
+            Category = category;
+            Thumb = thumb;
+            IsSale = isSale;
         }
 
-        public Guid ProductId { get; set; }
+        public Guid ProductId { get; private set; }
 
-        public string Description { get; set; }
+        public string Description { get; private set; }
 
-        public string Name { get; set; }
+        public string Name { get; private set; }
 
-        public decimal Price { get; set; }
+        public decimal Price { get; private set; }
 
-        public decimal Stock { get; set; }
+        public decimal Stock { get; private set; }
 
-        public bool IsActive { get; set; }
+        public bool IsActive { get; private set; }
 
-        public Guid CategoryId { get; set; }
+        public Guid CategoryId { get; private set; }
 
-        public Category Category { get; set; }
+        public string Category { get; private set; }
 
-        public FileImage? Thumb { get; set; }
+        public string? Thumb { get; private set; }
 
-        public bool IsSale { get; set; }
+        public bool IsSale { get; private set; }
 
-        public void SetProduct(Product product)
+
+        /*public void SetProduct(Product product)
         {
             Description = product.Description;
             Name = product.Name;    
@@ -43,7 +54,7 @@ namespace MShop.Business.Events.Products
             IsActive = product.IsActive;
             IsSale = product.IsSale;
             Category = product.Category;
-        }
+        }*/
 
     }
 }

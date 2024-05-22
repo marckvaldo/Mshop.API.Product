@@ -1,16 +1,11 @@
-﻿using Business = MShop.Business.Entity;
-using MShop.Business.Interface;
-using MShop.Business.Interface.Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MShop.Application.UseCases.Category.Common;
+﻿using MShop.Application.UseCases.Category.Common;
+using MShop.Core.Data;
+using MShop.Core.Message;
+using MShop.Repository.Interface;
 
 namespace MShop.Application.UseCases.Category.CreateCategory
 {
-    public class CreateCategory : BaseUseCase, ICreateCategory
+    public class CreateCategory : Core.Base.BaseUseCase, ICreateCategory
     {
         private readonly ICategoryRepository _categoryRepository;
         private readonly IUnitOfWork _unitOfWork;

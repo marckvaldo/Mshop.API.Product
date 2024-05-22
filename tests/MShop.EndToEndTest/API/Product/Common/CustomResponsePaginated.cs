@@ -1,12 +1,4 @@
-﻿using MShop.Application.UseCases.Product.Common;
-using MShop.Business.Interface.Paginated;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MShop.EndToEndTest.API.Product.Common
+﻿namespace MShop.EndToEndTest.API.Product.Common
 {
     public class CustomResponsePaginated<TResult>
     {

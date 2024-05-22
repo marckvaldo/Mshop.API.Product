@@ -118,11 +118,24 @@
       "MShop.Business/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "MShop.Core": "1.0.0"
+        },
         "compile": {
           "bin/placeholder/MShop.Business.dll": {}
         },
         "runtime": {
           "bin/placeholder/MShop.Business.dll": {}
+        }
+      },
+      "MShop.Core/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/MShop.Core.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MShop.Core.dll": {}
         }
       }
     }
@@ -310,6 +323,11 @@
       "type": "project",
       "path": "../MShop.Business/MShop.Business.csproj",
       "msbuildProject": "../MShop.Business/MShop.Business.csproj"
+    },
+    "MShop.Core/1.0.0": {
+      "type": "project",
+      "path": "../MShop.Core/MShop.Core/MShop.Core.csproj",
+      "msbuildProject": "../MShop.Core/MShop.Core/MShop.Core.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -393,7 +411,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
       }
     }
   }

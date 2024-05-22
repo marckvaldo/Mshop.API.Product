@@ -1,16 +1,9 @@
 ﻿using Moq;
 using MShop.Application.UseCases.Category.ListCategorys;
-using MShop.Business.Entity;
-using MShop.Business.Enum.Paginated;
-using MShop.Business.Interface;
-using MShop.Business.Interface.Repository;
-using MShop.Business.Paginated;
-using MShop.UnitTests.Application.UseCases.Category.common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MShop.Core.Enum.Paginated;
+using MShop.Core.Message;
+using MShop.Core.Paginated;
+using MShop.Repository.Interface;
 using ApplicationUseCases = MShop.Application.UseCases.Category.ListCategorys;
 using BusinessEntity = MShop.Business.Entity;
 
