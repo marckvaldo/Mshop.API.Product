@@ -31,4 +31,8 @@
     <ProjectReference Include="..\MShop.Application\MShop.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Settings\" />
+  </ItemGroup>
+
 </Project>

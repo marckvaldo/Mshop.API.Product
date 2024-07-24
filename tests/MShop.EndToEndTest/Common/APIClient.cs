@@ -15,10 +15,15 @@ namespace MShop.EndToEndTest.Common
 
         public async Task<(HttpResponseMessage?, TOutPut?)> Post<TOutPut>(string route, object payload) where TOutPut : class // aqui estou falando que TOutPut é do tipo class sendo asim é perminido retornar null 
         {
+            var options = new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            };
+
             var response = await _httpCliente.PostAsync(
                 route,
                 new StringContent(
-                    JsonSerializer.Serialize(payload),
+                    JsonSerializer.Serialize(payload, options),
                     Encoding.UTF8,
                     "application/json"
                     )

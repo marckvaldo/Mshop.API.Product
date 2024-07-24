@@ -1,12 +1,6 @@
 ﻿using Mshop.Test.Common;
-using MShop.Application.UseCases.Category.CreateCategory;
 using MShop.UnitTests.Common;
 using BusinessEntity = MShop.Business.Entity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MShop.UnitTests.Application.UseCases.Category.common
 {

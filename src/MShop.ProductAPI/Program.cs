@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using MShop.ProductAPI.Configuration;
+using MShop.ProductAPI.Extension;
+using Serilog;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -49,12 +51,15 @@ builder.Services.AddAndConfigureController()
     .AddDependencyInjection()
     .AddConfigurationMySql(builder.Configuration)
     .AddConfigurationStorage()
-    .AddConfigurationRedis(builder.Configuration)
+    //.AddConfigurationRedis(builder.Configuration)
+    .AddConfigurationSeriLog(builder.Configuration)
     .AddConfigurationHealthChecks();
-    
+
+    builder.Host.UseSerilog();//ativar o log do serilog
 
 var app = builder.Build();
-app.UseHttpLogging(); //aqui para ativar logs de acesso
+
+//app.UseHttpLogging(); //aqui para ativar logs de acesso
 app.AddMigrateDatabase();
 app.AddSetUpRabbiMQ();
 app.UseDocumentation();

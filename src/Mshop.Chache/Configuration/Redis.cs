@@ -1,4 +1,4 @@
-﻿namespace MShop.ProductAPI.Settings
+﻿namespace Mshop.Cache.Configuration
 {
     public class Redis
     {
