@@ -1,4 +1,4 @@
-# API de catalago de produtos 
+# API Administrativa onde é possivel cadastrar os produtos do E-commerce. 
 
 <div style="background-color: #f0f0f0; height:20vh; display: flex; flex-direction: row; justify-content: center;">
 <img src="https://github.com/marckvaldo/Mshop.API.Product/blob/main/images/eshoponcontainers-reference-application-architecture.png">
