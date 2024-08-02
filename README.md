@@ -33,6 +33,8 @@ Antes de começar, você vai precisar ter instalado em sua máquina as seguintes
 [Dot.net (6.0)](https://dotnet.microsoft.com/en-us/download/dotnet/6.0). <br/>
 [Mysql](https://www.mysql.com/downloads/).<br/>
 [RabbitMQ](https://www.rabbitmq.com/download.html). (Recomendo fortmento caso você esteja no windows executar no docker)<br/>
+[Elasticsearch](https://www.elastic.co/pt/elasticsearch). <br/>
+[Kibana](https://www.elastic.co/pt/kibana). <br/>
 
 Além disso é bom ter um editor de código para trabalhar como [VSCode](https://code.visualstudio.com/)
 ou se prefeir uma IDE, o velhor e bom [Visual Estudio 2022](https://visualstudio.microsoft.com/pt-br/downloads/).
