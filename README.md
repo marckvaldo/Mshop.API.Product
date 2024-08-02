@@ -5,9 +5,8 @@
 </div>
 
 ## Descrição do Projeto
-Esse projeto tem o intuito de aplicar conceitos importantes como;
+Esse projeto é um módulo Administrativo para um E-commerce (Mshopping) tem o intuito de aplicar conceitos importantes como;
 - Teste automatizado (TDD)
-- Cacheamento com Redis
 - Arquitetura hexagonal
 - Clean code
 - SOLID.
@@ -20,9 +19,10 @@ Pretendo aplicar essa API em uma arquitetura de microserviço em um futuro próx
 - Autenticação com keycloak
 - monitoramento
 - kubernet
+- Cacheamento com Redis
 
 <h4> 
-	🚧  API produtos 🚀 Em construção...  🚧
+	🚧  API Admin 🚀 Em construção...  🚧
 </h4>
 
 ### Pré-requisitos
