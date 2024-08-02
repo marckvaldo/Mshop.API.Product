@@ -34,7 +34,6 @@ Antes de começar, você vai precisar ter instalado em sua máquina as seguintes
 [Mysql](https://www.mysql.com/downloads/).<br/>
 [RabbitMQ](https://www.rabbitmq.com/download.html). (Recomendo fortmento caso você esteja no windows executar no docker)<br/>
 [Elasticsearch](https://www.elastic.co/pt/elasticsearch). <br/>
-[Kibana](https://www.elastic.co/pt/kibana). <br/>
 
 Além disso é bom ter um editor de código para trabalhar como [VSCode](https://code.visualstudio.com/)
 ou se prefeir uma IDE, o velhor e bom [Visual Estudio 2022](https://visualstudio.microsoft.com/pt-br/downloads/).
@@ -70,6 +69,8 @@ As seguintes ferramentas foram usadas na construção do projeto:
 - [Mysql](https://www.mysql.com/)
 - [RabbitMQ](https://www.rabbitmq.com/)
 - [Docker](https://www.docker.com/)
+- [Kibana](https://www.elastic.co/pt/kibana).
+- [Elasticsearch](https://www.elastic.co/pt/elasticsearch). <br/>
 
 
 #📝 Licença
