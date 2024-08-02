@@ -9,5 +9,7 @@ namespace MShop.Repository.Interface
         Task<Category> GetCategoryProducts(Guid id);
 
         Task<PaginatedOutPut<Category>> FilterPaginated(PaginatedInPut input);
+
+        Task<Category> GetByName(string name);
     }
 }

@@ -1,9 +1,10 @@
 ﻿using MediatR;
+using MShop.Core.DomainObject;
 
 namespace MShop.Application.UseCases.Category.ListCategorys
 {
-    public interface IListCategory : IRequestHandler<ListCategoryInPut, ListCategoryOutPut>
+    public interface IListCategory : IRequestHandler<ListCategoryInPut, Result<ListCategoryOutPut>>
     {
-        Task<ListCategoryOutPut> Handle(ListCategoryInPut request, CancellationToken cancellation);
+        Task<Result<ListCategoryOutPut>> Handle(ListCategoryInPut request, CancellationToken cancellation);
     }
 }

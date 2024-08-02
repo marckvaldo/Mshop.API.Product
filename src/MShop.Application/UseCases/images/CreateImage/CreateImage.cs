@@ -3,6 +3,7 @@ using MShop.Application.UseCases.Images.Common;
 using MShop.Business.Entity;
 using MShop.Business.Interface.Service;
 using MShop.Core.Data;
+using MShop.Core.DomainObject;
 using MShop.Core.Message;
 using MShop.Repository.Interface;
 
@@ -27,13 +28,20 @@ namespace MShop.Application.UseCases.Images.CreateImage
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<ListImageOutPut> Handle(CreateImageInPut request, CancellationToken cancellationToken)
+        public async Task<Result<ListImageOutPut>> Handle(CreateImageInPut request, CancellationToken cancellationToken)
         {
-            var hasProduct = await _productRepository.GetById(request.ProductId);            
-            NotifyExceptionIfNull(hasProduct, "Não foi possivel localizar produtos informado");
+            var hasProduct = await _productRepository.GetById(request.ProductId);
+            //NotifyExceptionIfNull(hasProduct, "Não foi possivel localizar produtos informado");
+            if (NotifyErrorIfNull(hasProduct, "Não foi possivel localizar produtos informado"))
+                return Result<ListImageOutPut>.Error();
 
             if (request.Images?.Count == 0)
-                NotifyException("Por favor informar ao menos uma image");
+            {
+                //NotifyException("Por favor informar ao menos uma image");
+                Notify("Por favor informar ao menos uma image");
+                return Result<ListImageOutPut>.Error();
+            }
+
 
             List<Image> Images = new();
             foreach (FileInputBase64 item in request.Images)
@@ -53,12 +61,18 @@ namespace MShop.Application.UseCases.Images.CreateImage
             }
 
             if (Images.Count == 0)
-                NotifyException("Não foi possível salvar as Images");
+            {
+                //NotifyException("Não foi possível salvar as Images");
+                Notify("Não foi possível salvar as Images");
+                return Result<ListImageOutPut>.Error();
+            }
+                
            
             await _imageRepository.CreateRange(Images, cancellationToken);
             await _unitOfWork.CommitAsync(cancellationToken);
 
-            return new ListImageOutPut(request.ProductId, Images.Select(x=> new ImageModelOutPut(x.FileName)).ToList());
+            var images =  new ListImageOutPut(request.ProductId, Images.Select(x=> new ImageModelOutPut(x.FileName)).ToList());
+            return Result<ListImageOutPut>.Success(images);
         }
 
         

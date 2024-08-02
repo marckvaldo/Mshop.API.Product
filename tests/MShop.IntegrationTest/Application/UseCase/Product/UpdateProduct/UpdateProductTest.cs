@@ -75,13 +75,15 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.UpdateProduct
 
             var productDb = await CreateDBContext(true).Products.Where(x=>x.Id == product.Id).FirstAsync();
 
+            var result = outPut.Data;
+
             Assert.NotNull(outPut);
             Assert.NotNull(productDb);
-            Assert.Equal(outPut.Name, productDb.Name);  
-            Assert.Equal(outPut.Description, productDb.Description);  
-            Assert.Equal(outPut.Price, productDb.Price);  
-            Assert.Equal(outPut.CategoryId, productDb.CategoryId);
-            Assert.NotEmpty(outPut.Name);
+            Assert.Equal(result.Name, productDb.Name);  
+            Assert.Equal(result.Description, productDb.Description);  
+            Assert.Equal(result.Price, productDb.Price);  
+            Assert.Equal(result.CategoryId, productDb.CategoryId);
+            Assert.NotEmpty(result.Name);
         }
 
         public void Dispose()

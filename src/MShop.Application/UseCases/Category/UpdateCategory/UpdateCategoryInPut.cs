@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using MShop.Application.UseCases.Category.Common;
+using MShop.Core.DomainObject;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace MShop.Application.UseCases.Category.UpdateCategory
 {
-    public class UpdateCategoryInPut: IRequest<CategoryModelOutPut>
+    public class UpdateCategoryInPut: IRequest<Result<CategoryModelOutPut>>
     {
         public Guid Id { get; set; } 
 

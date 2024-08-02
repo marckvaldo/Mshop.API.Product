@@ -28,10 +28,10 @@ namespace MShop.UnitTests.Application.UseCases.Category.CreateCategory
             notification.Verify(n => n.AddNotifications(It.IsAny<string>()), Times.Never);
             unitOfWork.Verify(r => r.CommitAsync(It.IsAny<CancellationToken>()), Times.Once);
 
-            Assert.NotNull(outPut);
-            Assert.Equal(outPut.Name, request.Name);
-            Assert.Equal(outPut.IsActive, request.IsActive);
-            Assert.NotNull(outPut?.Id);
+            Assert.NotNull(outPut.Data);
+            Assert.Equal(outPut?.Data?.Name, request.Name);
+            Assert.Equal(outPut?.Data?.IsActive, request.IsActive);
+            Assert.NotNull(outPut?.Data?.Id);
         }
 
 

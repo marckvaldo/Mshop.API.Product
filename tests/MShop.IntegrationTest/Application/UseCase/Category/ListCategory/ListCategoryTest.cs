@@ -49,12 +49,14 @@ namespace MShop.IntegrationTests.Application.UseCase.Category.ListCategory
 
             var outPut = await useCase.Handle(request, CancellationToken.None);
 
-            Assert.NotNull(outPut);
-            Assert.Equal(categoryFake.Count, outPut.Total);
-            Assert.Equal(request.Page, outPut.Page);
-            Assert.Equal(request.PerPage, outPut.PerPage);
-            Assert.NotNull(outPut.Itens);
-            Assert.True(outPut.Itens.Any());
+            var result = outPut.Data;
+
+            Assert.NotNull(result);
+            Assert.Equal(categoryFake.Count, result.Total);
+            Assert.Equal(request.Page, result.Page);
+            Assert.Equal(request.PerPage, result.PerPage);
+            Assert.NotNull(result.Itens);
+            Assert.True(result.Itens.Any());
 
         }
 

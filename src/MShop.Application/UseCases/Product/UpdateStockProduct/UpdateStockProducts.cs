@@ -3,6 +3,7 @@ using MShop.Business.Entity;
 using MShop.Business.Events.Products;
 using MShop.Core.Base;
 using MShop.Core.Data;
+using MShop.Core.DomainObject;
 using MShop.Core.Message;
 using MShop.Repository.Interface;
 
@@ -22,13 +23,17 @@ namespace MShop.Application.UseCases.Product.UpdateStockProduct
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<ProductModelOutPut> Handle(UpdateStockProductInPut request, CancellationToken cancellationToken)
+        public async Task<Result<ProductModelOutPut>> Handle(UpdateStockProductInPut request, CancellationToken cancellationToken)
         {
             var product = await _productRepository.GetById(request.Id);
-            NotifyExceptionIfNull(product, "Não foi possivel localizar a produto da base de dados!");
+            //NotifyExceptionIfNull(product, "Não foi possivel localizar a produto da base de dados!");
+            if (NotifyErrorIfNull(product, "Não foi possivel localizar a produto da base de dados!"))
+                return Result<ProductModelOutPut>.Error();
 
             product!.UpdateQuantityStock(request.Stock);
-            product.IsValid(Notifications);
+
+            if(!product.IsValid(Notifications))
+                return Result<ProductModelOutPut>.Error();
 
            
             await _productRepository.Update(product, cancellationToken);
@@ -45,11 +50,12 @@ namespace MShop.Application.UseCases.Product.UpdateStockProduct
                     product.Thumb?.Path,
                     product.IsSale));
 
-            NotifyExceptionIfNull(product.Events.Count == 0 ? null : product.Events, $" Não foi possivel registrar o event ProductUpdatedEvent");
+            if(NotifyErrorIfNull(product.Events.Count == 0 ? null : product.Events, $" Não foi possivel registrar o event ProductUpdatedEvent"))
+                return Result<ProductModelOutPut>.Error();
 
             await _unitOfWork.CommitAsync(cancellationToken);
 
-            return new ProductModelOutPut(
+            var produtoOutPut =  new ProductModelOutPut(
                 product.Id,
                 product.Description,
                 product.Name,
@@ -58,6 +64,8 @@ namespace MShop.Application.UseCases.Product.UpdateStockProduct
                 product.Stock,
                 product.IsActive,
                 product.CategoryId);
+
+            return Result<ProductModelOutPut>.Success(produtoOutPut);
         }
     }
 }

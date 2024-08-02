@@ -1,5 +1,6 @@
 ﻿using MShop.Core.Exception;
 using MShop.Core.Message;
+using System;
 
 namespace Mshop.Test.Business.Entity.Category
 {
@@ -35,12 +36,11 @@ namespace Mshop.Test.Business.Entity.Category
         public void SholdReturnErroWhenNameIsInvalid(string? name)
         {
             var category = GetCategoryValid(name);
-            Action action =
-                () => category.IsValid(_notifications);
-
-            var exception = Assert.Throws<EntityValidationException>(action);
-
-            Assert.Equal("Validation errors", exception.Message);
+            //Action action = () => category.IsValid(_notifications);
+            //var exception = Assert.Throws<EntityValidationException>(action);
+            //Assert.Equal("Validation errors", exception.Message);
+            
+            Assert.False(category.IsValid(_notifications));            
             Assert.True(_notifications.HasErrors());
 
         }

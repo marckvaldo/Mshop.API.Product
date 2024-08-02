@@ -40,7 +40,7 @@ namespace MShop.Business.Entity
             CategoryId = categoryId;
         }
 
-        public override void IsValid(INotification notification)
+        /*public override void IsValid(INotification notification)
         {
             var productValidador = new ProductValidador(this, notification);
             productValidador.Validate();
@@ -49,6 +49,14 @@ namespace MShop.Business.Entity
                 throw new CoreException.EntityValidationException("Validation errors");
             }
 
+        }*/
+
+        public override bool IsValid(INotification notification)
+        {
+            var productValidador = new ProductValidador(this, notification);
+            productValidador.Validate();
+            return !notification.HasErrors();
+            
         }
 
         public void Activate()

@@ -44,15 +44,16 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.GetProduct
             var useCase = new ApplicationUseCase.GetProduct(_repository,  _imagesRepository ,_notification);
             var outPut = await useCase.Handle(new ApplicationUseCase.GetProductInPut(guid), CancellationToken.None);
 
+            var result = outPut.Data;
 
             Assert.False(_notification.HasErrors());
-            Assert.NotNull(outPut);
-            Assert.Equal(outPut.Name, productFake.Name);
-            Assert.Equal(outPut.Description, productFake.Description);
-            Assert.Equal(outPut.Price, productFake.Price);
-            Assert.Equal(outPut.CategoryId, productFake.CategoryId);
-            Assert.Equal(outPut.Stock, productFake.Stock);
-            Assert.Equal(outPut.IsActive, productFake.IsActive);
+            Assert.NotNull(result);
+            Assert.Equal(result.Name, productFake.Name);
+            Assert.Equal(result.Description, productFake.Description);
+            Assert.Equal(result.Price, productFake.Price);
+            Assert.Equal(result.CategoryId, productFake.CategoryId);
+            Assert.Equal(result.Stock, productFake.Stock);
+            Assert.Equal(result.IsActive, productFake.IsActive);
 
         }
 
@@ -69,12 +70,14 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.GetProduct
             await _DbContext.SaveChangesAsync();
 
             var useCase = new ApplicationUseCase.GetProduct(_repository, _imagesRepository, _notification);
-            var outPut = async () => await useCase.Handle(new ApplicationUseCase.GetProductInPut(Guid.NewGuid()), CancellationToken.None);
+            //var outPut = async () => await useCase.Handle(new ApplicationUseCase.GetProductInPut(Guid.NewGuid()), CancellationToken.None);
+            //var exception = await Assert.ThrowsAsync<ApplicationValidationException>(outPut);
+            //Assert.Equal("Error", exception.Message);
 
-            var exception = await Assert.ThrowsAsync<ApplicationValidationException>(outPut);
-            Assert.Equal("Error", exception.Message);
+            var outPut = await useCase.Handle(new ApplicationUseCase.GetProductInPut(Guid.NewGuid()), CancellationToken.None);
+
             Assert.True(_notification.HasErrors());
-
+            Assert.False(outPut.IsSuccess);
         }
 
         public void Dispose()

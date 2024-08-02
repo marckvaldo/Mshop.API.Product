@@ -53,5 +53,10 @@ namespace MShop.Repository.Repository
                 _ => query.OrderBy(x => x.Name)
             };
         }
+
+        public async Task<Category> GetByName(string name)
+        {
+            return await _dbSet.Where(c=>c.Name == name).FirstOrDefaultAsync(); 
+        }
     }
 }

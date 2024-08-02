@@ -3,6 +3,7 @@ using MShop.Application.UseCases.Product.Common;
 using MShop.Business.Events.Products;
 using MShop.Business.Interface.Service;
 using MShop.Core.Data;
+using MShop.Core.DomainObject;
 using MShop.Core.Message;
 using MShop.Repository.Interface;
 
@@ -27,7 +28,7 @@ namespace MShop.Application.UseCases.Product.CreateProducts
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<ProductModelOutPut> Handle(CreateProductInPut request, CancellationToken cancellationToken)
+        public async Task<Result<ProductModelOutPut>> Handle(CreateProductInPut request, CancellationToken cancellationToken)
         {
             var product = new Business.Entity.Product(
                     request.Description,
@@ -38,10 +39,13 @@ namespace MShop.Application.UseCases.Product.CreateProducts
                     request.IsActive
                 );
 
-            product.IsValid(Notifications);
+            if (!product.IsValid(Notifications))
+                return Result<ProductModelOutPut>.Error();
 
             var category = await _categoryRepository.GetById(product.CategoryId);
-            NotifyExceptionIfNull(category, $"Categoria {product.CategoryId} não encontrada");
+            //NotifyExceptionIfNull(category, $"Categoria {product.CategoryId} não encontrada");
+            if(NotifyErrorIfNull(category, $"Categoria {product.CategoryId} não encontrada"))
+                return Result<ProductModelOutPut>.Error();
 
             try
             {
@@ -59,13 +63,15 @@ namespace MShop.Application.UseCases.Product.CreateProducts
                 product.Thumb?.Path,
                 product.IsSale));
 
-                NotifyExceptionIfNull(product.Events.Count == 0 ? null : product.Events, $" Não foi possivel registrar o event ProductCreatedEvent");
+                //NotifyExceptionIfNull(product.Events.Count == 0 ? null : product.Events, $" Não foi possivel registrar o event ProductCreatedEvent");
+                if(NotifyErrorIfNull(product.Events.Count == 0 ? null : product.Events, $" Não foi possivel registrar o event ProductCreatedEvent"))
+                    return Result<ProductModelOutPut>.Error();
 
                 await _productRepository.Create(product,cancellationToken);
                 await _unitOfWork.CommitAsync(cancellationToken);
 
 
-                return new ProductModelOutPut(
+                var produtoOutPut =  new ProductModelOutPut(
                         product.Id,
                         product.Description,
                         product.Name,
@@ -75,6 +81,8 @@ namespace MShop.Application.UseCases.Product.CreateProducts
                         product.IsActive,
                         product.CategoryId
                     );
+
+                return Result<ProductModelOutPut>.Success(produtoOutPut);
             }
             catch(Exception)
             {

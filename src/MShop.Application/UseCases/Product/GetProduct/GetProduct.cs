@@ -1,5 +1,6 @@
 ﻿using MShop.Application.UseCases.Category.Common;
 using MShop.Core.Base;
+using MShop.Core.DomainObject;
 using MShop.Core.Message;
 using MShop.Repository.Interface;
 
@@ -19,14 +20,16 @@ namespace MShop.Application.UseCases.Product.GetProduct
             _imageRepository = imageRepository;
         }
 
-        public async Task<GetProductOutPut> Handle(GetProductInPut request, CancellationToken cancellation)
+        public async Task<Result<GetProductOutPut>> Handle(GetProductInPut request, CancellationToken cancellation)
         {
-            var product = await _productRepository.GetProductWithCategory(request.Id);            
-            NotifyExceptionIfNull(product, "Não foi possivel localizar a produto da base de dados!");
+            var product = await _productRepository.GetProductWithCategory(request.Id);
+            //NotifyExceptionIfNull(product, "Não foi possivel localizar a produto da base de dados!");
+            if (NotifyErrorIfNull(product, "Não foi possivel localizar a produto da base de dados!"))
+                return Result<GetProductOutPut>.Error();
 
             var images = await _imageRepository.Filter(x => x.ProductId == product.Id);
 
-            return new GetProductOutPut(
+            var imagesOutPut = new GetProductOutPut(
                 product.Id,
                 product.Description,
                 product.Name,
@@ -38,6 +41,8 @@ namespace MShop.Application.UseCases.Product.GetProduct
                 (new CategoryModelOutPut(product.CategoryId, product.Category.Name, product.Category.IsActive)),
                 images.Select(x => x?.FileName).ToList(),
                 product.IsSale) ;
+
+            return Result<GetProductOutPut>.Success(imagesOutPut);
         }
     }
 }

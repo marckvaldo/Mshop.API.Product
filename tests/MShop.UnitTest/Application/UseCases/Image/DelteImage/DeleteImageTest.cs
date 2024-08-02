@@ -37,9 +37,11 @@ namespace MShop.UnitTests.Application.UseCases.Image.DelteImage
 
             var outPut = await useCase.Handle(new DeleteImageInPut(request), CancellationToken.None);
 
-            Assert.NotNull(outPut);
-            Assert.Equal(outPut.ProductId, id);
-            Assert.NotNull(outPut.Image);
+            var result = outPut.Data;
+
+            Assert.NotNull(result);
+            Assert.Equal(result.ProductId, id);
+            Assert.NotNull(result.Image);
             unitOfWork.Verify(r => r.CommitAsync(It.IsAny<CancellationToken>()), Times.Once);
         }
 

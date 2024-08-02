@@ -22,7 +22,7 @@ namespace MShop.Business.Entity
 
         }
 
-        public override void IsValid(Core.Message.INotification notification)
+        /*public override void IsValid(Core.Message.INotification notification)
         {
             var categoryValidador = new CategoryValidador(this, notification);
             categoryValidador.Validate();
@@ -30,7 +30,13 @@ namespace MShop.Business.Entity
             {
                 throw new EntityValidationException("Validation errors");
             }
+        }*/
 
+        public override bool IsValid(Core.Message.INotification notification)
+        {
+            var categoryValidador = new CategoryValidador(this, notification);
+            categoryValidador.Validate();
+            return !notification.HasErrors();
         }
 
         public void Active()

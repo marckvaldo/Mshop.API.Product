@@ -42,8 +42,10 @@ namespace Mshop.Tests.Application.UseCases.Product.DeleteProduct
             notification.Verify(n => n.AddNotifications(It.IsAny<string>()), Times.Never);
             unitOfWork.Verify(r => r.CommitAsync(It.IsAny<CancellationToken>()), Times.Once);
 
-            Assert.Equal(outPut.Id, guid);
-            Assert.NotNull(outPut);            
+            var result = outPut.Data;
+
+            Assert.Equal(result.Id, guid);
+            Assert.NotNull(result);            
 
         }
 

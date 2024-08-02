@@ -68,7 +68,7 @@ namespace MShop.ProductAPI.Controllers
         public async Task<ActionResult<List<ProductModelOutPut>>> ListProdutcsPromotions()
         {
             //return CustomResponse(await _productPromotions.Handler());
-            return CustomResponse(null);
+            return CustomResponse();
         }
 
         [HttpPost]

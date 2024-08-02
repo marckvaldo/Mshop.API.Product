@@ -1,10 +1,11 @@
 ﻿using MediatR;
 using MShop.Application.Common;
+using MShop.Core.DomainObject;
 using MShop.Core.Enum.Paginated;
 
 namespace MShop.Application.UseCases.Category.ListCategorys
 {
-    public class ListCategoryInPut : PaginatedListInput, IRequest<ListCategoryOutPut>
+    public class ListCategoryInPut : PaginatedListInput, IRequest<Result<ListCategoryOutPut>>
     {
         public ListCategoryInPut(
             int page, 

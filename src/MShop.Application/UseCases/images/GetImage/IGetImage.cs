@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using MShop.Application.UseCases.Images.Common;
 using MShop.Application.UseCases.Images.GetImage;
+using MShop.Core.DomainObject;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,8 @@ using System.Threading.Tasks;
 
 namespace MShop.Application.UseCases.Images.GetImage
 {
-    public interface IGetImage : IRequestHandler<GetImageInPut, ImageOutPut>
+    public interface IGetImage : IRequestHandler<GetImageInPut, Result<ImageOutPut>>
     {
-        Task<ImageOutPut> Handle(GetImageInPut request, CancellationToken cancellation);
+        Task<Result<ImageOutPut>> Handle(GetImageInPut request, CancellationToken cancellation);
     }
 }

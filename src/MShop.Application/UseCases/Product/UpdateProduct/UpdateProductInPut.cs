@@ -1,11 +1,12 @@
 ﻿using MediatR;
 using MShop.Application.Common;
 using MShop.Application.UseCases.Product.Common;
+using MShop.Core.DomainObject;
 using System.ComponentModel.DataAnnotations;
 
 namespace MShop.Application.UseCases.Product.UpdateProduct
 {
-    public class UpdateProductInPut : IRequest<ProductModelOutPut>
+    public class UpdateProductInPut : IRequest<Result<ProductModelOutPut>>
     {
         //[Required(ErrorMessage = "O Campo {0} Obrigatório")]
         public Guid Id { get; set; }

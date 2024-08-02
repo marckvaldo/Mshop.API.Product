@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Domain = MShop.Core.DomainObject;
 using MShop.Core.Message;
 using MShop.ProductAPI.Extension;
+using MShop.Core.DomainObject;
+using MShop.Application.UseCases.Category.Common;
 
 namespace MShop.ProductAPI.Controllers
 {
@@ -27,9 +30,14 @@ namespace MShop.ProductAPI.Controllers
             return CustomResponse();
         }
 
+        protected ActionResult CustomResponse<T>(Domain.Result<T> result) where T : IModelOutPut
+        {
+            return CustomResponse(result.Data);
+        }
+
         protected ActionResult CustomResponse(object result = null)
         {
-            if(OperationIsValid())
+            if (OperationIsValid())
             {
                 return Ok(ExtensionResponse.Success(result));
             }

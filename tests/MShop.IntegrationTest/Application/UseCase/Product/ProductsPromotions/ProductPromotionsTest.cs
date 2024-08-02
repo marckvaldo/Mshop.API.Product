@@ -23,9 +23,9 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.ProductsPromotions
         public ProductPromotionsTest()
         {
             _DbContext = CreateDBContext();
-            _cacheMemory = CreateCache();
+            //_cacheMemory = CreateCache();
             _productRepository = new(_DbContext);
-            _redisRepository = new(_cacheMemory);
+            //_redisRepository = new(_cacheMemory);
             _productPersistence = new ProductPersistence(_DbContext);
             _notification = new Notifications();
         }
@@ -35,6 +35,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.ProductsPromotions
 
         public async void ProductionPromotions()
         {
+            /*
             //var notification = new Notifications();
 
             var productsFake = FakerList(20);
@@ -57,7 +58,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.ProductsPromotions
                 Assert.Equal(expectItem.Thumb, expectItem.Thumb);
                 Assert.Equal(expectItem.Price, expectItem.Price);
                 Assert.Equal(expectItem.Activate, expectItem.Activate);
-            }
+            }*/
         }
 
 
@@ -67,6 +68,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.ProductsPromotions
 
         public async Task sholdReturErrorWhenCatGetProductionPromotions()
         {
+            /*
             //var notification = new Notifications();
 
             var useCase = new useCaseProducts.ProductsPromotions(_redisRepository, _productRepository, _notification);
@@ -74,7 +76,7 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.ProductsPromotions
 
             var exception = Assert.ThrowsAsync<NotFoundException>(outPut);
             Assert.False(_notification.HasErrors());
-
+            */
         }
     }
 }

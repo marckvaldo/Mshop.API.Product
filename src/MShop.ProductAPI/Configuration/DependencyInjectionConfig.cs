@@ -56,7 +56,7 @@ namespace MShop.ProductAPI.Configuration
 
             services.AddScoped<IStorageService, StorageService>();
             services.AddScoped<INotification, Notifications>();
-            services.AddScoped<ICacheRepository, RedisRepository>();
+            //services.AddScoped<ICacheRepository, RedisRepository>();
 
 
             return services;

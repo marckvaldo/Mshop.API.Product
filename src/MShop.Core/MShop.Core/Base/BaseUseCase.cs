@@ -1,5 +1,6 @@
 ﻿using MShop.Core.Exception;
 using MShop.Core.Message;
+using System;
 
 
 namespace MShop.Core.Base
@@ -34,6 +35,14 @@ namespace MShop.Core.Base
                 
         }
 
-        
+        protected bool NotifyErrorIfNull(object? @object, string menssagem)
+        {
+            if (@object == null)
+            {
+                Notifications.AddNotifications(menssagem);
+                return true;
+            }
+            return false;
+        }
     }
 }

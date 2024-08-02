@@ -47,13 +47,15 @@ namespace Mshop.Tests.Application.UseCases.Product.CreateProduct
 
             unitOfWork.Verify(r => r.CommitAsync(It.IsAny<CancellationToken>()), Times.Once);
 
-            Assert.NotNull(outPut);
-            Assert.Equal(outPut.Name, request.Name);
-            Assert.Equal(outPut.Description, request.Description);
-            Assert.Equal(outPut.Price, request.Price);
-            Assert.Equal(outPut.CategoryId, request.CategoryId);
-            Assert.Equal(outPut.Stock, request.Stock);
-            Assert.Equal(outPut.IsActive, request.IsActive);
+            var result = outPut.Data;
+
+            Assert.NotNull(result);
+            Assert.Equal(result.Name, request.Name);
+            Assert.Equal(result.Description, request.Description);
+            Assert.Equal(result.Price, request.Price);
+            Assert.Equal(result.CategoryId, request.CategoryId);
+            Assert.Equal(result.Stock, request.Stock);
+            Assert.Equal(result.IsActive, request.IsActive);
             Assert.False(notification.HasErrors());
 
         }

@@ -30,12 +30,14 @@ namespace MShop.UnitTests.Application.UseCases.Category.ListCategory
             var useCase = new ApplicationUseCases.ListCategory(repository.Object, notification.Object);
             var outPut = await useCase.Handle(request, CancellationToken.None);
 
-            Assert.NotNull(outPut);
-            Assert.NotNull(outPut.Itens);
-            Assert.Equal(outPut.PerPage, request.PerPage);
-            Assert.Equal(10, outPut.Total);
-            Assert.Equal(outPut.Page, request.Page);
-            Assert.Equal(10,outPut.Itens.Count);
+            var resultOutPu = outPut.Data;
+
+            Assert.NotNull(resultOutPu);
+            Assert.NotNull(resultOutPu.Itens);
+            Assert.Equal(resultOutPu.PerPage, request.PerPage);
+            Assert.Equal(10, resultOutPu.Total);
+            Assert.Equal(resultOutPu.Page, request.Page);
+            Assert.Equal(10, resultOutPu.Itens.Count);
 
 
         }

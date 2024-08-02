@@ -37,10 +37,12 @@ namespace MShop.UnitTests.Application.UseCases.Category.DeleteCategory
             notification.Verify(n => n.AddNotifications(It.IsAny<string>()), Times.Never);
             unitOfWork.Verify(r => r.CommitAsync(It.IsAny<CancellationToken>()), Times.Once);
 
-            Assert.NotNull(outPut);
-            Assert.Equal(outPut.Name, category.Name);
-            Assert.Equal(outPut.IsActive, category.IsActive);
-            Assert.NotNull(outPut?.Id);
+            var result = outPut.Data;
+
+            Assert.NotNull(result);
+            Assert.Equal(result.Name, category.Name);
+            Assert.Equal(result.IsActive, category.IsActive);
+            Assert.NotNull(result?.Id);
         }
 
 

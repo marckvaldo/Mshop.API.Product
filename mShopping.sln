@@ -47,7 +47,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "filebeat", "filebeat", "{55
 		env\.docker\filebeat\filebeat.docker.yml = env\.docker\filebeat\filebeat.docker.yml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MShop.Core", "src\MShop.Core\MShop.Core\MShop.Core.csproj", "{17E6CA11-277C-4B18-93DD-1FD4DE6CADA9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MShop.Core", "src\MShop.Core\MShop.Core\MShop.Core.csproj", "{17E6CA11-277C-4B18-93DD-1FD4DE6CADA9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

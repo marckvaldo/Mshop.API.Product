@@ -62,10 +62,12 @@ namespace MShop.IntegrationTests.Application.UseCase.Category.UpdateCategory
 
             var categoryDb = await _categoryPersistence.GetCategory(category.Id);
 
-            Assert.NotNull(outPut);
+            var result = outPut.Data;
+
+            Assert.NotNull(result);
             Assert.NotNull(categoryDb);
-            Assert.Equal(outPut.Name, categoryDb.Name);
-            Assert.NotEmpty(outPut.Name);
+            Assert.Equal(result.Name, categoryDb.Name);
+            Assert.NotEmpty(result.Name);
         }
 
         public void Dispose()

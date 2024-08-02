@@ -1,5 +1,6 @@
 ﻿
 
+using MShop.Business.Entity;
 using MShop.Core.Exception;
 using MShop.Core.Message;
 
@@ -37,11 +38,11 @@ namespace MShop.UnitTests.Business.Entity.Image
         public void ShoudReturErroInstantiate(Guid productId, string fileName)
         {            
             var image = Faker(productId, fileName);
-           
-            Action action =
-                 () => image.IsValid(_notifications);
 
-            var exception = Assert.Throws<EntityValidationException>(action);
+            //Action action = () => image.IsValid(_notifications);
+            //var exception = Assert.Throws<EntityValidationException>(action);   
+
+            Assert.False(image.IsValid(_notifications));
             Assert.True(_notifications.HasErrors());
         }
     }

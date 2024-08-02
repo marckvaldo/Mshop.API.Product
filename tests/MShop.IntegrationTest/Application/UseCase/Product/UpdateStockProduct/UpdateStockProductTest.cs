@@ -62,8 +62,10 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.UpdateStockProduct
             var outPut = await useCase.Handle(request, CancellationToken.None);
             var outPutDb = await _productPersistence.GetProduct(request.Id);
 
-            Assert.NotNull(outPut);
-            Assert.Equal(request.Stock, outPut.Stock);
+            var result = outPut.Data;
+
+            Assert.NotNull(result);
+            Assert.Equal(request.Stock, result.Stock);  
             Assert.Equal(request.Stock, outPutDb.Stock);
 
         }

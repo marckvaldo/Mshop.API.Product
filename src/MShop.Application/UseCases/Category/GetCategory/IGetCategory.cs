@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using MShop.Application.UseCases.Category.Common;
 using MShop.Application.UseCases.Category.GetCategory;
+using MShop.Core.DomainObject;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,8 @@ using System.Threading.Tasks;
 
 namespace MShop.Application.UseCases.Category.GetCategory
 {
-    public interface IGetCategory : IRequestHandler<GetCategoryInPut, CategoryModelOutPut>
+    public interface IGetCategory : IRequestHandler<GetCategoryInPut, Result<CategoryModelOutPut>>
     {
-        Task<CategoryModelOutPut> Handle(GetCategoryInPut id, CancellationToken cancellationToken);
+        Task<Result<CategoryModelOutPut>> Handle(GetCategoryInPut id, CancellationToken cancellationToken);
     }
 }

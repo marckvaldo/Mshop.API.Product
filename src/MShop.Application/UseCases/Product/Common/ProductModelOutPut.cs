@@ -1,9 +1,10 @@
 ﻿using MShop.Application.UseCases.Category.Common;
+using MShop.Core.DomainObject;
 using Busines = MShop.Business.Entity;
 
 namespace MShop.Application.UseCases.Product.Common
 {
-    public class ProductModelOutPut
+    public class ProductModelOutPut : IModelOutPut
     {
         public Guid Id { get; set; }
 

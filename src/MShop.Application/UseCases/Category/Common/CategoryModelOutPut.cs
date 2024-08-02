@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MShop.Core.DomainObject;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -8,7 +9,7 @@ using Entity = MShop.Business.Entity;
 
 namespace MShop.Application.UseCases.Category.Common
 {
-    public class CategoryModelOutPut
+    public class CategoryModelOutPut : IModelOutPut
     {
         public CategoryModelOutPut(Guid id, string name, bool isActive)
         {

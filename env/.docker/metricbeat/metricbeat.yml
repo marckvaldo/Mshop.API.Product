@@ -1,0 +1,22 @@
+metricbeat.config.modules:
+  path: ${path.config}/modules.d/*.yml
+  reload.enabled: false
+
+output.elasticsearch:
+  hosts: ["http://elasticsearch:9200"]
+  username: "elastic"  # substitua pelo seu usuário do Elasticsearch
+  password: "password"  # substitua pela sua senha do Elasticsearch
+
+setup.kibana:
+  host: "kibana:5601"
+  username: "elastic"  # substitua pelo seu usuário do Kibana, se aplicável
+  password: "password"  # substitua pela sua senha do Kibana, se aplicável
+
+
+modules:
+  - module: rabbitmq
+    metricsets: ["node", "queue", "connection", "exchange"]
+    period: 10s
+    hosts: ["http://rabbitmq:15672"]
+    username: "admin"
+    password: "123456"

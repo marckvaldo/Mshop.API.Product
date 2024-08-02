@@ -22,12 +22,17 @@ namespace MShop.Core.DomainObject
         public void ClearEvents()
             => _events?.Clear();
 
-        public virtual void IsValid(INotification notification)
+        public virtual bool IsValid(INotification notification)
         {
             throw new NotImplementedException();
         }
 
-   
+        /*public virtual bool IsValid2(INotification notification)
+        {
+            throw new NotImplementedException();
+        }*/
+
+
 
 
 

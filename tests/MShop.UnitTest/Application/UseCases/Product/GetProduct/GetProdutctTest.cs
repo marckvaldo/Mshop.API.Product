@@ -32,17 +32,19 @@ namespace Mshop.Tests.Application.UseCases.Product.GetProduts
             repository.Verify(r => r.GetProductWithCategory(It.IsAny<Guid>()), Times.Once);
             notification.Verify(r => r.AddNotifications(It.IsAny<string>()), Times.Never);
 
-            Assert.NotNull(outPut);
-            Assert.Equal(outPut.Name, productFake.Name);
-            Assert.Equal(outPut.Description, productFake.Description);
-            Assert.Equal(outPut.Price, productFake.Price);
-            Assert.Equal(outPut.Thumb, productFake.Thumb?.Path);
-            Assert.Equal(outPut.CategoryId, productFake.CategoryId);
-            Assert.Equal(outPut.Stock, productFake.Stock);
-            Assert.Equal(outPut.IsActive, productFake.IsActive);
-            Assert.NotNull(outPut.Images);
+            var result = outPut.Data;
+
+            Assert.NotNull(result);
+            Assert.Equal(result.Name, productFake.Name);
+            Assert.Equal(result.Description, productFake.Description);
+            Assert.Equal(result.Price, productFake.Price);
+            Assert.Equal(result.Thumb, productFake.Thumb?.Path);
+            Assert.Equal(result.CategoryId, productFake.CategoryId);
+            Assert.Equal(result.Stock, productFake.Stock);
+            Assert.Equal(result.IsActive, productFake.IsActive);
+            Assert.NotNull(result.Images);
             
-            foreach(var item in outPut.Images)
+            foreach(var item in result.Images)
             {
                 var image = imagesFaker.Where(i => i.FileName == item).FirstOrDefault();
                 Assert.NotNull(image);
@@ -73,15 +75,17 @@ namespace Mshop.Tests.Application.UseCases.Product.GetProduts
             repository.Verify(r => r.GetProductWithCategory(It.IsAny<Guid>()), Times.Once);
             notification.Verify(r => r.AddNotifications(It.IsAny<string>()), Times.Never);
 
-            Assert.NotNull(outPut);
-            Assert.Equal(outPut.Name, productFake.Name);
-            Assert.Equal(outPut.Description, productFake.Description);
-            Assert.Equal(outPut.Price, productFake.Price);
-            Assert.Equal(outPut.Thumb, productFake.Thumb?.Path);
-            Assert.Equal(outPut.CategoryId, productFake.CategoryId);
-            Assert.Equal(outPut.Stock, productFake.Stock);
-            Assert.Equal(outPut.IsActive, productFake.IsActive);
-            Assert.True(outPut.Images.Count == 0);
+            var result = outPut.Data;
+
+            Assert.NotNull(result);
+            Assert.Equal(result.Name, productFake.Name);
+            Assert.Equal(result.Description, productFake.Description);
+            Assert.Equal(result.Price, productFake.Price);
+            Assert.Equal(result.Thumb, productFake.Thumb?.Path);
+            Assert.Equal(result.CategoryId, productFake.CategoryId);
+            Assert.Equal(result.Stock, productFake.Stock);
+            Assert.Equal(result.IsActive, productFake.IsActive);
+            Assert.True(result.Images.Count == 0);
         }
 
 

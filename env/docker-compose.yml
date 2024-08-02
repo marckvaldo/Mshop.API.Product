@@ -1,4 +1,4 @@
-version: "3.4"
+version: "3.8"
 
 services:
   # app:
@@ -26,7 +26,7 @@ services:
     hostname: catalagoDb-dev
     image: mariadb:10.6.3
     ports:
-      - 3306:3306
+      - 3308:3306
     environment:
       MYSQL_ROOT_PASSWORD: "mshop"
       MYSQL_USER: "mshop"
@@ -34,14 +34,7 @@ services:
       MYSQL_DATABASE: "mshop"
     networks:
       - app-catalago
-  #MShop.Redis.dev:
-    #container_name: redis-dev
-    #hostname: redis-dev
-    #image: redis
-    #ports:
-    #  - "8378:6379" 
-    #networks:
-    #  - app-catalago
+  
   Mshop.Rabbitmq.dev:
     container_name: rabbitmq-dev
     image: rabbitmq:3-management
@@ -55,7 +48,7 @@ services:
       - 5672:5672
     networks:
       - app-catalago
-
+  
 #  Mshop.Filebeat.dev:
 #    container_name: filebeat-dev
 #    image: docker.elastic.co/beats/filebeat:8.10.2
@@ -85,6 +78,15 @@ services:
 #    restart: on-failure
 #    networks:
 #      - app-catalago
+
+  #MShop.Redis.dev:
+    #container_name: redis-dev
+    #hostname: redis-dev
+    #image: redis
+    #ports:
+    #  - "8378:6379" 
+    #networks:
+    #  - app-catalago
 
 networks:
   app-catalago:

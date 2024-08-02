@@ -4,6 +4,7 @@ using MShop.Business.Events.Products;
 using MShop.Business.Interface.Service;
 using MShop.Core.Base;
 using MShop.Core.Data;
+using MShop.Core.DomainObject;
 using MShop.Core.Message;
 using MShop.Repository.Interface;
 
@@ -25,12 +26,15 @@ namespace MShop.Application.UseCases.Product.UpdateThumb
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<ProductModelOutPut> Handle(UpdateThumbInPut request, CancellationToken cancellationToken)
+        public async Task<Result<ProductModelOutPut>> Handle(UpdateThumbInPut request, CancellationToken cancellationToken)
         {
             var product = await _productRepository.GetById(request.Id);
-            NotifyExceptionIfNull(product, "Não foi possivel localizar o produto!");
+            //NotifyExceptionIfNull(product, "Não foi possivel localizar o produto!");
+            if(NotifyErrorIfNull(product, "Não foi possivel localizar o produto!"))
+                return Result<ProductModelOutPut>.Error();
 
-            product!.IsValid(Notifications);
+            if(!product!.IsValid(Notifications))
+                return Result<ProductModelOutPut>.Error();
            
 
             await UploadImage(request, product);
@@ -47,12 +51,13 @@ namespace MShop.Application.UseCases.Product.UpdateThumb
                    product.Thumb?.Path,
                    product.IsSale));
 
-            NotifyExceptionIfNull(product.Events.Count == 0 ? null : product.Events, $" Não foi possivel registrar o event ProductUpdatedEvent");
+            if(NotifyErrorIfNull(product.Events.Count == 0 ? null : product.Events, $" Não foi possivel registrar o event ProductUpdatedEvent"))
+                return Result<ProductModelOutPut>.Error();
 
             await _productRepository.Update(product, cancellationToken);
             await _unitOfWork.CommitAsync(cancellationToken);
 
-            return new ProductModelOutPut(
+            var productOutPut = new ProductModelOutPut(
                 product.Id,
                 product.Description,
                 product.Name,
@@ -65,6 +70,7 @@ namespace MShop.Application.UseCases.Product.UpdateThumb
                 product.IsSale
                 );
 
+            return Result<ProductModelOutPut>.Success(productOutPut);
         }
 
         private async Task UploadImage(UpdateThumbInPut request, Business.Entity.Product product)

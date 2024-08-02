@@ -1,10 +1,12 @@
-﻿using MShop.Application.Common;
+﻿using Microsoft.AspNetCore.Mvc.Filters;
+using MShop.Application.Common;
 using MShop.Application.UseCases.Product.Common;
 using MShop.Business.Entity;
 using MShop.Business.Events.Products;
 using MShop.Business.Interface.Service;
 using MShop.Core.Base;
 using MShop.Core.Data;
+using MShop.Core.DomainObject;
 using MShop.Core.Exception;
 using MShop.Core.Message;
 using MShop.Repository.Interface;
@@ -31,10 +33,12 @@ namespace MShop.Application.UseCases.Product.UpdateProduct
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<ProductModelOutPut> Handle(UpdateProductInPut request, CancellationToken cancellationToken)
+        public async Task<Result<ProductModelOutPut>> Handle(UpdateProductInPut request, CancellationToken cancellationToken)
         {            
             var product = await _productRepository.GetById(request.Id);
-            NotFoundException.ThrowIfnull(product, "Não foi possivel localizar a produto da base de dados!");
+            //NotFoundException.ThrowIfnull(product, "Não foi possivel localizar a produto da base de dados!");
+            if (NotifyErrorIfNull(product, "Não foi possivel localizar a produto da base de dados!"))
+                return Result<ProductModelOutPut>.Error();
 
             product!.Update(request.Description, request.Name, request.Price, request.CategoryId);
 
@@ -47,11 +51,15 @@ namespace MShop.Application.UseCases.Product.UpdateProduct
                 product.ActivateSale();
             else
                 product.DeactiveSale();
-            
-            product.IsValid(Notifications);
+
+            if (!product.IsValid(Notifications))
+                return Result<ProductModelOutPut>.Error();
       
             var category = await _categoryRepository.GetById(product.CategoryId);
-            NotFoundException.ThrowIfnull(category, $"Categoria {product.CategoryId} não encontrada");
+            //NotFoundException.ThrowIfnull(category, $"Categoria {product.CategoryId} não encontrada");
+            if (NotifyErrorIfNull(category, $"Categoria {product.CategoryId} não encontrada"))
+                return Result<ProductModelOutPut>.Error();
+            
 
             try
             {
@@ -69,12 +77,14 @@ namespace MShop.Application.UseCases.Product.UpdateProduct
                     product.Thumb?.Path,
                     product.IsSale));
 
-                NotifyExceptionIfNull(product.Events.Count == 0 ? null : product.Events, $" Não foi possivel registrar o event ProductUpdatedEvent");
+                //NotifyExceptionIfNull(product.Events.Count == 0 ? null : product.Events, $" Não foi possivel registrar o event ProductUpdatedEvent");
+                if (NotifyErrorIfNull(product.Events.Count == 0 ? null : product.Events, $" Não foi possivel registrar o event ProductUpdatedEvent"))
+                    return Result<ProductModelOutPut>.Error();
 
                 await _productRepository.Update(product, cancellationToken);
                 await _unitOfWork.CommitAsync(cancellationToken);   
 
-                return new ProductModelOutPut(
+                var productOutPut = new ProductModelOutPut(
                     product.Id,
                     product.Description,
                     product.Name,
@@ -85,6 +95,8 @@ namespace MShop.Application.UseCases.Product.UpdateProduct
                     product.CategoryId,
                     null,
                     product.IsSale);
+
+                return Result<ProductModelOutPut>.Success(productOutPut);
             }
             catch(Exception)
             {

@@ -1,10 +1,11 @@
 ﻿using MShop.Application.UseCases.Product.Common;
+using MShop.Core.DomainObject;
 using System.ComponentModel.DataAnnotations;
 using Entity = MShop.Business.Entity;
 
 namespace MShop.Application.UseCases.GetCatetoryWithProducts.GetCatetory
 {
-    public class GetCategoryWithProductsOutPut
+    public class GetCategoryWithProductsOutPut : IModelOutPut
     {
         public GetCategoryWithProductsOutPut(Guid id, string name, bool isActive, List<ProductModelOutPut> products)
         {

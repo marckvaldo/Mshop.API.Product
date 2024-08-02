@@ -38,11 +38,12 @@ namespace MShop.IntegrationTests.Application.UseCase.Category.GetCategory
             var useCase = new ApplicationUseCase.GetCategory(_notification, _categoryRepository);
             var outPut = await useCase.Handle(new ApplicationUseCase.GetCategoryInPut(guid), CancellationToken.None);
 
+            var result = outPut.Data;
 
             Assert.False(_notification.HasErrors());
-            Assert.NotNull(outPut);
-            Assert.Equal(outPut.Name, categoryFake.Name);
-            Assert.Equal(outPut.IsActive, categoryFake.IsActive);
+            Assert.NotNull(result);
+            Assert.Equal(result.Name, categoryFake.Name);
+            Assert.Equal(result.IsActive, categoryFake.IsActive);
 
         }
 
@@ -56,11 +57,15 @@ namespace MShop.IntegrationTests.Application.UseCase.Category.GetCategory
 
 
             var useCase = new ApplicationUseCase.GetCategory(_notification,_categoryRepository);
-            var outPut = async () => await useCase.Handle(new ApplicationUseCase.GetCategoryInPut(Guid.NewGuid()), CancellationToken.None);
 
-            var exception = await Assert.ThrowsAsync<ApplicationValidationException>(outPut);
-            Assert.Equal("Error", exception.Message);
+            //var outPut = async () => await useCase.Handle(new ApplicationUseCase.GetCategoryInPut(Guid.NewGuid()), CancellationToken.None);
+            //var exception = await Assert.ThrowsAsync<ApplicationValidationException>(outPut);
+
+            var outPut = await useCase.Handle(new ApplicationUseCase.GetCategoryInPut(Guid.NewGuid()), CancellationToken.None);
+
+            //Assert.Equal("Error", exception.Message);
             Assert.True(_notification.HasErrors());
+            Assert.False(outPut.IsSuccess);
 
         }
 

@@ -74,24 +74,28 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.CreateProduct
                 _unitOfWork);
 
             var outPut = await productUseCase.Handle(request, CancellationToken.None);
-            var newProduct = await _productPersistence.GetProduct(outPut.Id);
+
+            var result = outPut.Data;
+            var newProduct = await _productPersistence.GetProduct(result.Id);
             
+           
+
             Assert.False(_notification.HasErrors());
             Assert.NotNull(outPut);
             Assert.NotNull(newProduct);
-            Assert.Equal(outPut.Name, newProduct.Name);
-            Assert.Equal(outPut.Description, newProduct.Description);
-            Assert.Equal(outPut.Price, newProduct.Price);
-            Assert.Equal(outPut.CategoryId, newProduct.CategoryId);
-            Assert.Equal(outPut.Stock, newProduct.Stock);
-            Assert.Equal(outPut.IsActive, newProduct.IsActive);
+            Assert.Equal(result.Name, newProduct.Name);
+            Assert.Equal(result.Description, newProduct.Description);
+            Assert.Equal(result.Price, newProduct.Price);
+            Assert.Equal(result.CategoryId, newProduct.CategoryId);
+            Assert.Equal(result.Stock, newProduct.Stock);
+            Assert.Equal(result.IsActive, newProduct.IsActive);
 
-            Assert.Equal(request.Name, outPut.Name);
-            Assert.Equal(request.Description, outPut.Description);
-            Assert.Equal(request.Price, outPut.Price);
-            Assert.Equal(request.CategoryId, outPut.CategoryId);
-            Assert.Equal(request.Stock, outPut.Stock);
-            Assert.Equal(request.IsActive, outPut.IsActive);
+            Assert.Equal(request.Name, result.Name);
+            Assert.Equal(request.Description, result.Description);
+            Assert.Equal(request.Price, result.Price);
+            Assert.Equal(request.CategoryId, result.CategoryId);
+            Assert.Equal(request.Stock, result.Stock);
+            Assert.Equal(request.IsActive, result.IsActive);
 
         }
 
@@ -111,11 +115,13 @@ namespace MShop.IntegrationTests.Application.UseCase.Product.CreateProduct
                 _storageService, 
                 _unitOfWork);
 
-            var outPut = async () => await productUseCase.Handle(request, CancellationToken.None);
+            //var outPut = async () => await productUseCase.Handle(request, CancellationToken.None);
+            //var exception = await Assert.ThrowsAsync<ApplicationValidationException>(outPut);
+            //Assert.Equal("Error", exception.Message);
 
-            var exception = await Assert.ThrowsAsync<ApplicationValidationException>(outPut);
-            Assert.Equal("Error", exception.Message);
+            var outPut = await productUseCase.Handle(request, CancellationToken.None);
             Assert.True(_notification.HasErrors());
+            Assert.False(outPut.IsSuccess);
 
         }
 

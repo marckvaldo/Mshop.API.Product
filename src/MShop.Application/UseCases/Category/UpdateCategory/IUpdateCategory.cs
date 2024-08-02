@@ -1,10 +1,11 @@
 ﻿using MediatR;
 using MShop.Application.UseCases.Category.Common;
+using MShop.Core.DomainObject;
 
 namespace MShop.Application.UseCases.Category.UpdateCategory
 {
-    public interface IUpdateCategory : IRequestHandler<UpdateCategoryInPut, CategoryModelOutPut>
+    public interface IUpdateCategory : IRequestHandler<UpdateCategoryInPut, Result<CategoryModelOutPut>>
     {
-        Task<CategoryModelOutPut> Handle(UpdateCategoryInPut request, CancellationToken cancellationToken);
+        Task<Result<CategoryModelOutPut>> Handle(UpdateCategoryInPut request, CancellationToken cancellationToken);
     }
 }

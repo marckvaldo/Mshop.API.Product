@@ -28,10 +28,12 @@ namespace MShop.UnitTests.Application.UseCases.Image.ListImage
             var useCase = new ApplicationUseCase.ListImage(notification.Object, repository.Object);
             var outPut = await useCase.Handle( new ListImageInPut(productId), CancellationToken.None);
 
-            repository.Verify(r => r.Filter(It.IsAny<Expression<Func<BusinessEntity.Image, bool>>>()), Times.Once);
-            Assert.NotNull(outPut);
+            var result = outPut.Data;
 
-            foreach (var item in outPut.Images) 
+            repository.Verify(r => r.Filter(It.IsAny<Expression<Func<BusinessEntity.Image, bool>>>()), Times.Once);
+            Assert.NotNull(result);
+
+            foreach (var item in result.Images) 
             {
                 var image = imagens.Where(x=>x.FileName == item.Image).FirstOrDefault();   
 

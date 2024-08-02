@@ -23,9 +23,11 @@ namespace MShop.UnitTests.Application.UseCases.Category.GetCategory
             var useCase = new ApplicationUseCase.GetCategory(notification.Object,repository.Object);
             var outPut =  await useCase.Handle(new ApplicationUseCase.GetCategoryInPut(request.Id), CancellationToken.None);
 
-            Assert.NotNull(outPut);
-            Assert.Equal(outPut.Name, request.Name);
-            Assert.Equal(outPut.IsActive, request.IsActive);    
+            var result = outPut.Data;
+
+            Assert.NotNull(result);
+            Assert.Equal(result.Name, request.Name);
+            Assert.Equal(result.IsActive, request.IsActive);    
 
         }
 

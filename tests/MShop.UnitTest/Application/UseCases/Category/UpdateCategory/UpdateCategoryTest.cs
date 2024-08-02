@@ -43,9 +43,11 @@ namespace MShop.UnitTests.Application.UseCases.Category.UpdateCategory
             _notifications.Verify(n => n.AddNotifications(It.IsAny<string>()), Times.Never);
             _unitOfWork.Verify(u => u.CommitAsync(It.IsAny<CancellationToken>()),Times.Once);
 
-            Assert.NotNull(outPut);
-            Assert.Equal(outPut.Name, request.Name);
-            Assert.Equal(outPut.IsActive, request.IsActive);
+            var result = outPut.Data;
+
+            Assert.NotNull(result);
+            Assert.Equal(result.Name, request.Name);
+            Assert.Equal(result.IsActive, request.IsActive);
 
         }
 

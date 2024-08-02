@@ -13,7 +13,7 @@ namespace MShop.ProductAPI.Configuration
             var ElasticsearchConfiguration = new Serilog.Sinks.Elasticsearch.ElasticsearchSinkOptions(new Uri($"http://{elasticUsername}:{elasticPassword}@{elasticUri}"))
             {
                 AutoRegisterTemplate = true,
-                IndexFormat = "APIAdmin-{0:yyyy.MM.dd}",
+                IndexFormat = "logaplication-{0:yyyy.MM.dd}",
             };
 
             Log.Logger = new LoggerConfiguration()

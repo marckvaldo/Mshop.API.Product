@@ -76,8 +76,10 @@ namespace MShop.IntegrationTests.Application.UseCase.Images.CreateImages
 
             var outPut = await useCase.Handle(request,CancellationToken.None);
 
-            Assert.NotNull(outPut);
-            Assert.True(outPut.Images.Count == 3);
+            var result = outPut.Data;
+
+            Assert.NotNull(result);
+            Assert.True(result.Images.Count == 3);
         }
 
         public void Dispose()

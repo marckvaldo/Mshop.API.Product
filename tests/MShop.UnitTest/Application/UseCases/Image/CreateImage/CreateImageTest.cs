@@ -36,9 +36,11 @@ namespace MShop.UnitTests.Application.UseCases.Image.CreateImage
 
             var outPut = await useCase.Handle(request, CancellationToken.None);
 
-            Assert.NotNull(outPut);
-            Assert.Equal(outPut.ProductId, id);
-            Assert.NotNull(outPut.Images);
+            var result = outPut.Data;
+
+            Assert.NotNull(result);
+            Assert.Equal(result.ProductId, id);
+            Assert.NotNull(result.Images);
             unitOfWork.Verify(r => r.CommitAsync(It.IsAny<CancellationToken>()), Times.Once);
 
         }

@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using MShop.Application.UseCases.Category.Common;
+using MShop.Core.DomainObject;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace MShop.Application.UseCases.Category.CreateCategory
 {
-    public class CreateCategoryInPut: IRequest<CategoryModelOutPut>
+    public class CreateCategoryInPut: IRequest<Result<CategoryModelOutPut>>
     {
        
         [Required(ErrorMessage = "O Campo {0} Obrigatório")]

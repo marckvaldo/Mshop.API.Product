@@ -1,5 +1,6 @@
 ﻿using Moq;
 using MShop.Application.UseCases.Product.ListProducts;
+using MShop.Core.DomainObject;
 using MShop.Core.Enum.Paginated;
 using MShop.Core.Message;
 using MShop.Core.Paginated;
@@ -52,12 +53,14 @@ namespace Mshop.Tests.Application.UseCases.Product.ListProducts
 
             var outPut = await useCase.Handle(request, CancellationToken.None);
 
-            Assert.NotNull(outPut);
-            Assert.Equal(productsFake.Count, outPut.Total);
-            Assert.Equal(request.Page, outPut.Page);
-            Assert.Equal(request.PerPage, outPut.PerPage);
-            Assert.NotNull(outPut.Itens);
-            Assert.True(outPut.Itens.Any());
+            var result = outPut.Data;
+
+            Assert.NotNull(result);
+            Assert.Equal(productsFake.Count, result.Total);
+            Assert.Equal(request.Page, result.Page);
+            Assert.Equal(request.PerPage, result.PerPage);
+            Assert.NotNull(result.Itens);
+            Assert.True(result.Itens.Any());
         }
 
     }

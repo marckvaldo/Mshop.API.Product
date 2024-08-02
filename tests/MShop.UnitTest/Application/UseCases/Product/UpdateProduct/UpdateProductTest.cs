@@ -56,13 +56,15 @@ namespace Mshop.Tests.Application.UseCases.Product.UpdateProduct
 
             _productRepository.Verify(r => r.Update(It.IsAny<BusinessEntity.Product>(), CancellationToken.None),Times.Once);
             _notifications.Verify(n=>n.AddNotifications(It.IsAny<string>()),Times.Never);
-            _unitOfWork.Verify(n=>n.CommitAsync(It.IsAny<CancellationToken>()),Times.Once); 
+            _unitOfWork.Verify(n=>n.CommitAsync(It.IsAny<CancellationToken>()),Times.Once);
 
-            Assert.NotNull(outPut);
-            Assert.Equal(outPut.Name, request.Name);
-            Assert.Equal(outPut.Description, request.Description);
-            Assert.Equal(outPut.Price, request.Price);
-            Assert.Equal(outPut.CategoryId, request.CategoryId);
+            var result = outPut.Data;
+
+            Assert.NotNull(result);
+            Assert.Equal(result.Name, request.Name);
+            Assert.Equal(result.Description, request.Description);
+            Assert.Equal(result.Price, request.Price);
+            Assert.Equal(result.CategoryId, request.CategoryId);
 
         }
 
@@ -96,10 +98,10 @@ namespace Mshop.Tests.Application.UseCases.Product.UpdateProduct
 
 
 
-        [Theory(DisplayName = nameof(ShoulReturnErroWhenRequestUpdateProduct))]
+        [Theory(DisplayName = nameof(ShoulReturnErroWhenUpdateProduct))]
         [Trait("Application-UseCase", "Update Product")]
         [MemberData(nameof(GetUpdateProductInPutInvalid))]
-        public void ShoulReturnErroWhenRequestUpdateProduct(UpdateProductInPut request)
+        public async void ShoulReturnErroWhenUpdateProduct(UpdateProductInPut request)
         {
             var categoryFake = FakerCategory();
             _repositoryCategory.Setup(c => c.GetById(It.IsAny<Guid>()))
@@ -114,12 +116,13 @@ namespace Mshop.Tests.Application.UseCases.Product.UpdateProduct
                 _storageService.Object,
                 _unitOfWork.Object);
 
-            var outPut = async () => await useCase.Handle(request, CancellationToken.None);
+            //var outPut = async () => await useCase.Handle(request, CancellationToken.None);
+            //var exception = Assert.ThrowsAsync<NotFoundException>(outPut);
 
-            var exception = Assert.ThrowsAsync<NotFoundException>(outPut);
+            var outPut = await useCase.Handle(request, CancellationToken.None);
 
             _productRepository.Verify(r => r.Update(It.IsAny<BusinessEntity.Product>(), CancellationToken.None), Times.Never);
-            _notifications.Verify(n => n.AddNotifications(It.IsAny<string>()), Times.Never);
+            _notifications.Verify(n => n.AddNotifications(It.IsAny<string>()), Times.Once);
             _unitOfWork.Verify(n => n.CommitAsync(It.IsAny<CancellationToken>()), Times.Never);
 
         }

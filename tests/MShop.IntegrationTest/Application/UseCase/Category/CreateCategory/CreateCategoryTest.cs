@@ -54,10 +54,11 @@ namespace MShop.IntegrationTests.Application.UseCase.Category.CreateCategory
 
             var outPut = await useCase.Handle(request, CancellationToken.None);
 
-            var categoryDB = await _categoryPersistence.GetCategory(outPut.Id);
+            var categoryDB = await _categoryPersistence.GetCategory(outPut.Data.Id);
 
-            Assert.Equal(outPut.Name, categoryDB.Name);
-            Assert.Equal(outPut.IsActive, categoryDB.IsActive);
+            Assert.NotNull(outPut?.Data);
+            Assert.Equal(outPut?.Data?.Name, categoryDB.Name);
+            Assert.Equal(outPut?.Data?.IsActive, categoryDB.IsActive);
         }
 
        

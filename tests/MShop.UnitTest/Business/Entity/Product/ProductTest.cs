@@ -71,11 +71,14 @@ namespace Mshop.Test.Business.Entity.Product
             var product = GetProductValid(validade);
             product.Activate();
 
-            Action action = () => product.IsValid(_notifications);
-            var exception = Assert.Throws<EntityValidationException>(action);
+            //Action action = () => product.IsValid(_notifications);
+            //var exception = Assert.Throws<EntityValidationException>(action);
+            //Assert.Equal("Validation errors", exception.Message);
 
+            Assert.False(product.IsValid(_notifications));
             Assert.True(_notifications.HasErrors());
-            Assert.Equal("Validation errors", exception.Message);
+            
+            
 
             Assert.Equal(product.Name, validade.Name);
             Assert.Equal(product.Description, description);
@@ -105,11 +108,13 @@ namespace Mshop.Test.Business.Entity.Product
             var product = GetProductValid(validade);
             product.Activate();
 
-            Action action = () => product.IsValid(_notifications);
-            var exception = Assert.Throws<EntityValidationException>(action);
+            //Action action = () => product.IsValid(_notifications);
+            //var exception = Assert.Throws<EntityValidationException>(action);
+            //Assert.Equal("Validation errors", exception.Message);
 
+            Assert.False(product.IsValid(_notifications));
             Assert.True(_notifications.HasErrors());
-            Assert.Equal("Validation errors", exception.Message);
+            
             Assert.Equal(product.Name, name);
             Assert.Equal(product.Description, validade.Description);
             Assert.Equal(product.Price, validade.Price);
@@ -140,11 +145,13 @@ namespace Mshop.Test.Business.Entity.Product
             var product = GetProductValid(validade);
             product.Activate();
 
-            Action action = () => product.IsValid(_notifications);
-            var exception = Assert.Throws<EntityValidationException>(action);
+            //Action action = () => product.IsValid(_notifications);
+            //var exception = Assert.Throws<EntityValidationException>(action);
+            //Assert.Equal("Validation errors", exception.Message);
 
+            Assert.False(product.IsValid(_notifications));
             Assert.True(_notifications.HasErrors());
-            Assert.Equal("Validation errors", exception.Message);
+            
             Assert.Equal(product.Name, validade.Name);
             Assert.Equal(product.Description, validade.Description);
             Assert.Equal(product.Price, price);

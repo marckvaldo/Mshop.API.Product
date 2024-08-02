@@ -1,5 +1,6 @@
 ﻿using MShop.Application.UseCases.Category.Common;
 using MShop.Application.UseCases.Product.Common;
+using MShop.Core.DomainObject;
 using MShop.Core.Message;
 using MShop.Core.Paginated;
 using MShop.Repository.Interface;
@@ -13,7 +14,7 @@ namespace MShop.Application.UseCases.Product.ListProducts
 
         public ListProducts(IProductRepository productRepostory, INotification notification) : base(notification)
             => _productRepostory = productRepostory;   
-        public async Task<ListProductsOutPut> Handle(ListProductInPut request, CancellationToken cancellation)
+        public async Task<Result<ListProductsOutPut>> Handle(ListProductInPut request, CancellationToken cancellation)
         {
             var paginatedInPut = new PaginatedInPut(
                 request.Page,
@@ -25,7 +26,7 @@ namespace MShop.Application.UseCases.Product.ListProducts
 
             var paginateOutPut = await _productRepostory.FilterPaginated(paginatedInPut);
 
-            return new ListProductsOutPut(
+            var listProdutosOutPut = new ListProductsOutPut(
                 paginateOutPut.CurrentPage,
                 paginateOutPut.PerPage,
                 paginateOutPut.Total,
@@ -40,8 +41,9 @@ namespace MShop.Application.UseCases.Product.ListProducts
                     x.IsActive,
                     x.CategoryId,
                     (new CategoryModelOutPut(x.Category.Id,x.Category.Name,x.Category.IsActive))
-                ))
-                 .ToList());
+                )).ToList());
+
+            return Result<ListProductsOutPut>.Success(listProdutosOutPut);
         }
     }
 }

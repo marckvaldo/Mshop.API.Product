@@ -41,11 +41,12 @@ namespace MShop.IntegrationTests.Application.UseCase.Images.GetImage
             var useCase = new ApplicationUseCase.GetImage(_notification,_imageRepository,_storageService);
             var outPut = await useCase.Handle(new GetImageInPut(guid) ,CancellationToken.None);
 
+            var result = outPut.Data;
 
             Assert.False(_notification.HasErrors());
-            Assert.NotNull(outPut);
-            Assert.Equal(outPut.ProductId, imageFake.ProductId);
-            Assert.NotNull(outPut.Image);
+            Assert.NotNull(result);
+            Assert.Equal(result.ProductId, imageFake.ProductId);
+            Assert.NotNull(result.Image);
 
         }
 

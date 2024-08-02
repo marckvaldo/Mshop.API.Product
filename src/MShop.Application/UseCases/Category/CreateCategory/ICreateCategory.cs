@@ -1,10 +1,11 @@
 ﻿using MediatR;
 using MShop.Application.UseCases.Category.Common;
+using MShop.Core.DomainObject;
 
 namespace MShop.Application.UseCases.Category.CreateCategory
 {
-    public interface ICreateCategory : IRequestHandler<CreateCategoryInPut, CategoryModelOutPut>
+    public interface ICreateCategory : IRequestHandler<CreateCategoryInPut, Result<CategoryModelOutPut>>
     {
-        Task<CategoryModelOutPut> Handle(CreateCategoryInPut request, CancellationToken cancellation);
+        Task<Result<CategoryModelOutPut>> Handle(CreateCategoryInPut request, CancellationToken cancellation);
     }
 }

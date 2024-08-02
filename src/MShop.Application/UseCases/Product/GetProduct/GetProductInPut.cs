@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using MShop.Application.UseCases.Product.Common;
+using MShop.Core.DomainObject;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MShop.Application.UseCases.Product.GetProduct
 {
-    public class GetProductInPut : IRequest<GetProductOutPut>
+    public class GetProductInPut : IRequest<Result<GetProductOutPut>>
     {
         public GetProductInPut(Guid id)
         {

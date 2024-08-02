@@ -41,12 +41,14 @@ namespace MShop.IntegrationTests.Application.UseCase.Images.ListImage
             var useCase = new ApplicationUseCase.ListImage(_notification, _imageRepository);
             var outPut = await useCase.Handle(new ListImageInPut(productId), CancellationToken.None);
 
-            Assert.NotNull(outPut);
+            var result = outPut.Data;
+
+            Assert.NotNull(result);
             Assert.Equal(imagesFake.Count, quantity);
-            Assert.Equal(outPut.Images.Count, quantity);
-            foreach (var item in outPut.Images) 
+            Assert.Equal(result.Images.Count, quantity);
+            foreach (var item in result.Images) 
             {
-                var image = outPut.Images.Where(i => i.Image == item.Image);
+                var image = result.Images.Where(i => i.Image == item.Image);
                 Assert.NotNull(image);
             }
         }

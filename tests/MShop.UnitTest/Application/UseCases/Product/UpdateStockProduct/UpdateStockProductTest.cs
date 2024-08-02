@@ -39,10 +39,12 @@ namespace Mshop.Tests.Application.UseCases.Product.UpdateStockProduct
 
             _productRepository.Verify(r => r.Update(It.IsAny<BusinessEntity.Product>(), CancellationToken.None), Times.Once);
             _notifications.Verify(n=>n.AddNotifications(It.IsAny<string>()),Times.Never);
-            _unitOfWork.Verify(n=>n.CommitAsync(It.IsAny<CancellationToken>()), Times.Once);    
+            _unitOfWork.Verify(n=>n.CommitAsync(It.IsAny<CancellationToken>()), Times.Once);
 
-            Assert.NotNull(outPut);
-            Assert.Equal(request.Stock,outPut.Stock);
+            var result = outPut.Data;
+
+            Assert.NotNull(result);
+            Assert.Equal(request.Stock,result.Stock);
             
         }
 
