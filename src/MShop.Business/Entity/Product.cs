@@ -122,7 +122,7 @@ namespace MShop.Business.Entity
 
         public void ProductRemovedEvent()
         {
-            RegisterEvent(new ProductRemovedEvent(Id));
+            RegisterEvent(new ProductRemovedEvent(Id, CategoryId));
         }
 
         public void ProductCreatedEvent(ProductCreatedEvent ProductCreated)

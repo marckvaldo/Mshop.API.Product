@@ -4,6 +4,7 @@ using MShop.Messaging.Configuration;
 using RabbitMQ.Client;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Threading.Channels;
 
 namespace MShop.Messaging.Producer
 {
@@ -36,10 +37,16 @@ namespace MShop.Messaging.Producer
                     ReferenceHandler = ReferenceHandler.IgnoreCycles
                 });
 
+            var basicProperties = _channel.CreateBasicProperties();
+            basicProperties.Type = typeof(T).Name;  // Definindo o valor do Type
+            basicProperties.ContentType = "application/json";
+
+
             _channel.BasicPublish(
                 exchange: _exchenge,
                 routingKey: routingKey,
                 body: messageBytes,
+                basicProperties: basicProperties,
                 mandatory: true); // aqui ele fica olhando se a messagem chegou na fila não apenas na exchenger
 
             //aqui ele fica esperando por 5 segundos a respostas
