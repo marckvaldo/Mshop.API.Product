@@ -1,3 +1,5 @@
+using Elastic.Apm.DiagnosticSource;
+using Elastic.Apm.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using MShop.ProductAPI.Configuration;
 using MShop.ProductAPI.Extension;
@@ -13,10 +15,14 @@ builder.Services.AddAndConfigureController()
     .AddConfigurationMySql(builder.Configuration)
     .AddConfigurationStorage()
     //.AddConfigurationRedis(builder.Configuration)
-    .AddConfigurationSeriLog(builder.Configuration)
+    //.AddConfigurationSeriLog(builder.Configuration)
     .AddConfigurationHealthChecks();
 
-    builder.Host.UseSerilog();//ativar o log do serilog
+builder.Services.AddElasticApmForAspNetCore(
+    new HttpDiagnosticsSubscriber(),
+    new EfCoreDiagnosticsSubscriber());
+
+//builder.Host.UseSerilog();//ativar o log do serilog
 
 var app = builder.Build();
 

@@ -42,6 +42,7 @@ namespace MShop.ProductAPI.Configuration
                 return factory.CreateConnection();
             });
 
+            //criar um canal no rabbitMQL
             services.AddSingleton<ChannelManager>();
 
             //criar as queues 
