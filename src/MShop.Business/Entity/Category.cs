@@ -1,4 +1,5 @@
-﻿using MShop.Business.Validator;
+﻿using MShop.Business.Events.Category;
+using MShop.Business.Validator;
 using MShop.Core.Exception;
 using Core = MShop.Core.Message;
 
@@ -52,6 +53,11 @@ namespace MShop.Business.Entity
         public void Update(string name)
         {
             Name = name;
+        }
+
+        public void CategoryUpdateEvent(CategoryUpdateEvent categoryEvent) 
+        {
+            RegisterEvent(categoryEvent);
         }
     }
 }

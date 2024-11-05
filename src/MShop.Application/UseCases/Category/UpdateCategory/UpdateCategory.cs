@@ -41,6 +41,12 @@ namespace MShop.Application.UseCases.Category.UpdateCategory
             if(!category.IsValid(Notifications))
                 return Result<CategoryModelOutPut>.Error();
 
+            category.CategoryUpdateEvent(
+                new Business.Events.Category.CategoryUpdateEvent(
+                category.Id,
+                category.Name, 
+                category.IsActive)
+                );
 
             await _categoryRepository.Update(category,cancellationToken);
             await _unitOfWork.CommitAsync(cancellationToken);
