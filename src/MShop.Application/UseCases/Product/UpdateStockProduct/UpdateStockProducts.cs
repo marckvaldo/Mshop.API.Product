@@ -12,21 +12,25 @@ namespace MShop.Application.UseCases.Product.UpdateStockProduct
     public class UpdateStockProducts : BaseUseCase, IUpdateStockProduct
     {
         private readonly IProductRepository _productRepository;
+        private readonly ICategoryRepository _categoryRepository;
         private readonly IUnitOfWork _unitOfWork;
 
         public UpdateStockProducts(
             IProductRepository productRepository, 
             INotification notification,
-            IUnitOfWork unitOfWork):base(notification)
+            IUnitOfWork unitOfWork,
+            ICategoryRepository categoryRepository) : base(notification)
         {
             _productRepository = productRepository;
             _unitOfWork = unitOfWork;
+            _categoryRepository = categoryRepository;
         }
 
         public async Task<Result<ProductModelOutPut>> Handle(UpdateStockProductInPut request, CancellationToken cancellationToken)
         {
             var product = await _productRepository.GetById(request.Id);
-            //NotifyExceptionIfNull(product, "Não foi possivel localizar a produto da base de dados!");
+            var category = await _categoryRepository.GetById(product.CategoryId);
+            
             if (NotifyErrorIfNull(product, "Não foi possivel localizar a produto da base de dados!"))
                 return Result<ProductModelOutPut>.Error();
 
@@ -46,7 +50,7 @@ namespace MShop.Application.UseCases.Product.UpdateStockProduct
                     product.Stock,
                     product.IsActive,
                     product.CategoryId,
-                    "Cantegoria",
+                    category.Name,
                     product.Thumb?.Path,
                     product.IsSale));
 

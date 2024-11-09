@@ -10,7 +10,8 @@ namespace MShop.Messaging.Configuration
 
         private readonly string _exchenge;
         private readonly string _nameQueue;
-        private readonly string _routeKey = "product.#";
+        private readonly string[] _routeKey = { "product.#", "category.#" };
+        //private readonly string _routeKeyCategory = "category.#";
         private readonly bool _durable;
 
         public ServiceRabbitMQ(IOptions<RabbitMQConfiguration> rabbitmqConfiguration, IModel channel)
@@ -31,7 +32,10 @@ namespace MShop.Messaging.Configuration
 
             _channel.ExchangeDeclare(exchengeDead!, "topic", _durable, false, null);
             _channel.QueueDeclare(queueDead!, _durable, false, false);
-            _channel.QueueBind(queueDead!, exchengeDead!, _routeKey, null);
+            foreach (var routeKey in _routeKey)
+            {
+                _channel.QueueBind(queueDead!, exchengeDead!, routeKey, null);
+            }
 
             return new Dictionary<string, object>
             {
@@ -44,7 +48,12 @@ namespace MShop.Messaging.Configuration
         {
             _channel.ExchangeDeclare(_exchenge, "topic", _durable, false, null);
             _channel.QueueDeclare(_nameQueue, _durable, false, false);
-            _channel.QueueBind(_nameQueue, _exchenge, _routeKey, null);
+            foreach(var routeKey in _routeKey)
+            {
+                _channel.QueueBind(_nameQueue, _exchenge, routeKey, null);
+            }
+            
+
         }
 
         public void SetUpWithDeadLetter()
@@ -53,11 +62,20 @@ namespace MShop.Messaging.Configuration
 
             _channel.ExchangeDeclare(_exchenge, "topic", _durable, false, null);
             _channel.QueueDeclare(_nameQueue, _durable, false, false, arguments);
-            _channel.QueueBind(_nameQueue, _exchenge, _routeKey, null);
+
+            foreach (var routeKey in _routeKey)
+            {
+                _channel.QueueBind(_nameQueue, _exchenge, routeKey, null);
+            }
+                
         }
         public void Down()
         {
-            _channel.QueueUnbind(_nameQueue, _exchenge, _routeKey, null);
+            foreach (var routeKey in _routeKey)
+            {
+                _channel.QueueUnbind(_nameQueue, _exchenge, routeKey, null);
+            }
+
             _channel.QueueDelete(_nameQueue, false, false);
             _channel.ExchangeDelete(_exchenge, false);
         }
@@ -67,7 +85,10 @@ namespace MShop.Messaging.Configuration
             var exchengeDead = $"{_exchenge}.DeadLetter";
             var queueDead = $"{_nameQueue}.DeadLetter";
 
-            _channel.QueueUnbind(queueDead, exchengeDead, _routeKey, null);
+            foreach (var routeKey in _routeKey)
+            {
+                _channel.QueueUnbind(queueDead, exchengeDead, routeKey, null);
+            }
             _channel.QueueDelete(queueDead, false, false);
             _channel.ExchangeDelete(exchengeDead, false);
         }

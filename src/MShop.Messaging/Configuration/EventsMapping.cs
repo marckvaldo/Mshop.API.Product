@@ -1,4 +1,5 @@
-﻿using MShop.Business.Events.Products;
+﻿using MShop.Business.Events.Category;
+using MShop.Business.Events.Products;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,8 @@ namespace MShop.Messaging.Configuration
         {
             {typeof(ProductCreatedEvent).Name, "product.v1.Created" },
             {typeof(ProductUpdatedEvent).Name, "product.v1.Updated" },
-            {typeof(ProductRemovedEvent).Name, "product.v1.Removed" }
+            {typeof(ProductRemovedEvent).Name, "product.v1.Removed" },
+            {typeof(CategoryUpdateEvent).Name, "category.v1.Update" }
         };
 
         public static string GetRoutingKey<T>() => _routingKey[typeof(T).Name];

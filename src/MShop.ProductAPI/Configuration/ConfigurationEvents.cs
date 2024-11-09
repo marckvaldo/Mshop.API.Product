@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Options;
 using MShop.Application.Event;
+using MShop.Application.Event.Handler.Category;
 using MShop.Application.Event.Handler.Products;
+using MShop.Business.Events.Category;
 using MShop.Business.Events.Products;
 using MShop.Core.Message.DomainEvent;
 using MShop.Messaging.Configuration;
@@ -18,6 +20,7 @@ namespace MShop.ProductAPI.Configuration
             services.AddScoped<IDomainEventHandler<ProductCreatedEvent>, ProductCreatedEventHandler>();
             services.AddScoped<IDomainEventHandler<ProductUpdatedEvent>, ProductUpdatedEventHandler>();
             services.AddScoped<IDomainEventHandler<ProductRemovedEvent>, ProductRemovedEventHandler>();
+            services.AddScoped<IDomainEventHandler<CategoryUpdateEvent>, CategoryUpdateEventHandler>();
 
             //coloca as configurações RabbitMQ nos serviços da minha applicação para recuperar posteriomente
             services.Configure<RabbitMQConfiguration>(
