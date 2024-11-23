@@ -43,6 +43,8 @@ services:
       - RABBITMQ_DEFAULT_USER=admin
       - RABBITMQ_DEFAULT_PASS=123456
       - RABBITMQ_DEFAULT_VHOST=catalago
+    volumes:
+      - ./dateRabbitMQ:var/lib/rabbitmq/
     ports:
       - 15672:15672 #potaHost : Porta Container
       - 5672:5672

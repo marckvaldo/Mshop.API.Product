@@ -12,21 +12,21 @@ namespace MShop.Messaging.Producer
     {
         private readonly IModel _channel;
         private readonly string _exchenge;
-        //private readonly string _nameQueue;
+        //private readonly string _nameQueueProduct;
         //private readonly string _routeKey = "product.#";
 
         public RabbitMQProducer(IModel channel, IOptions<RabbitMQConfiguration> options)
         {
             _channel = channel;
             _exchenge = options.Value.Exchange;
-            //_nameQueue = options.Value.QueueProducts;
+            //_nameQueueProduct = options.Value.QueueProducts;
 
             //informar que deseja uma confirmacao
             _channel.ConfirmSelect();
 
-            //_channel.ExchangeDeclare(_exchenge, "topic", true, false, null);
-            //_channel.QueueDeclare(_nameQueue, true, false, false);
-            //_channel.QueueBind(_nameQueue, _exchenge, _routeKey, null);
+            //_channel.ExchangeDeclare(_exchengeProduct, "topic", true, false, null);
+            //_channel.QueueDeclare(_nameQueueProduct, true, false, false);
+            //_channel.QueueBind(_nameQueueProduct, _exchengeProduct, _routeKey, null);
         }
 
         public Task SendMessageAsync<T>(T message)

@@ -18,6 +18,8 @@ namespace MShop.Application.Event
             if (handlers is null || !handlers.Any()) return;
             foreach (var handler in handlers)
                 await handler.HandlerAsync(domainEvent);
+
+
         }        
     }
 }
